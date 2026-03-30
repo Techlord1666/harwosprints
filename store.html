@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shop - Harwosprints.ng</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#b02500",
+              "on-primary": "#fff0e7",
+              "surface-dim": "#d3d5d5",
+              "tertiary-fixed": "#ffd33a",
+              "on-secondary-container": "#525151",
+              "inverse-primary": "#fd8b00",
+              "surface-container": "#e7e8e8",
+              "primary-fixed": "#fd8b00",
+              "on-primary-fixed": "#180800",
+              "surface-variant": "#dbdddd",
+              "inverse-surface": "#0c0f0f",
+              "secondary-fixed": "#e5e2e1",
+              "on-primary-fixed-variant": "#512800",
+              "surface-container-high": "#e1e3e3",
+              "on-secondary-fixed-variant": "#5c5b5b",
+              "on-tertiary-container": "#5c4900",
+              "error-container": "#f95630",
+              "on-primary-container": "#442100",
+              "tertiary-dim": "#614d00",
+              "on-surface": "#2d2f2f",
+              "inverse-on-surface": "#9c9d9d",
+              "error-dim": "#b92902",
+              "primary-dim": "#7b4000",
+              "primary-fixed-dim": "#ea8000",
+              "primary": "#8c4a00",
+              "on-secondary-fixed": "#403f3f",
+              "primary-container": "#fd8b00",
+              "surface-bright": "#f6f6f6",
+              "on-tertiary-fixed-variant": "#675200",
+              "on-background": "#2d2f2f",
+              "on-secondary": "#f5f2f1",
+              "surface-container-lowest": "#ffffff",
+              "surface-tint": "#8c4a00",
+              "on-error": "#ffefec",
+              "secondary-fixed-dim": "#d6d4d3",
+              "surface-container-highest": "#dbdddd",
+              "outline": "#767777",
+              "secondary-container": "#e5e2e1",
+              "tertiary-container": "#ffd33a",
+              "secondary-dim": "#504f4f",
+              "secondary": "#5c5b5b",
+              "background": "#f6f6f6",
+              "tertiary": "#6f5900",
+              "on-tertiary": "#fff2d3",
+              "on-error-container": "#520c00",
+              "on-tertiary-fixed": "#453600",
+              "surface-container-low": "#f0f1f1",
+              "tertiary-fixed-dim": "#efc52b",
+              "surface": "#f6f6f6",
+              "on-surface-variant": "#5a5c5c",
+              "outline-variant": "#acadad"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Plus Jakarta Sans', sans-serif; }
+      h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#ffffffcc] dark:bg-[#121212cc] backdrop-blur-md shadow-[0_12px_40px_rgba(45,47,47,0.06)]">
+<div class="flex justify-between items-center w-full px-6 md:px-12 py-4 mx-auto">
+<div class="text-2xl font-black text-orange-600 dark:text-orange-500 uppercase tracking-tighter font-['Space_Grotesk']">
+                Harwosprints.ng
+            </div>
+<div class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] font-bold tracking-tight">
+<a class="text-slate-700 dark:text-slate-300 hover:text-orange-500 transition-colors duration-300" href="#">Home</a>
+<a class="text-orange-600 dark:text-orange-400 border-b-2 border-orange-600 hover:text-orange-500 transition-colors duration-300" href="#">Shop</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-orange-500 transition-colors duration-300" href="#">About</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-orange-500 transition-colors duration-300" href="#">Blog</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-orange-500 transition-colors duration-300" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden lg:flex items-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<a class="px-5 py-2 text-sm font-bold text-slate-700 hover:text-primary transition-all" href="#">Login</a>
+<a class="px-6 py-2 bg-primary-container text-on-primary-container font-bold rounded-lg shadow-sm hover:scale-105 active:scale-95 transition-all" href="#">Sign Up</a>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-20">
+<!-- Hero / Banner Section -->
+<section class="px-6 md:px-12 mb-16">
+<div class="relative overflow-hidden rounded-2xl bg-inverse-surface h-[300px] md:h-[400px] flex items-center">
+<div class="absolute inset-0 opacity-40">
+<img class="w-full h-full object-cover" data-alt="high-end large format printing press in action with vibrant ink patterns and atmospheric studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATndB7iaQe4LSg5THkedTbD45f7nX-yK3E7fOQc0HEFA_QWPqTso2RWVj8pdBR6SAY6r2lVdlokNVNW_ANt599jHFyrsNajMDMbwtid-WpMCJYU-lYFghJLVjZ5DJLQv5zg4ZPmr9O1yjNYcED8IZyRwO4XDjTqKfqeD0r_dxygps-zs7G0iRHAfugRvzzRQVkdHW55asNqVxlncK9LWusXwdDgLydXClr3Z30NEls9h7e6cGB4isdGWJA0g4KEIXtfRVl7I_Gm30"/>
+</div>
+<div class="relative z-10 px-8 md:px-16 max-w-2xl">
+<h1 class="text-4xl md:text-6xl font-black text-surface-container-lowest mb-4 tracking-tighter leading-tight">
+                        Elevate Your <span class="text-primary-container">Brand Presence</span>
+</h1>
+<p class="text-surface-variant text-lg mb-8 font-body max-w-md">
+                        Premium printing solutions from large scale banners to precision branding materials. Engineered for impact.
+                    </p>
+<div class="flex gap-4">
+<button class="bg-primary-container text-on-primary-container px-8 py-3 rounded-xl font-bold hover:shadow-[0_0_20px_rgba(253,139,0,0.3)] transition-all">
+                            View Collections
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Grid & Filter Layout -->
+<section class="px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Filter Sidebar -->
+<aside class="lg:col-span-3 space-y-10">
+<div>
+<h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">filter_list</span>
+                        Categories
+                    </h3>
+<ul class="space-y-3">
+<li>
+<button class="w-full text-left px-4 py-3 rounded-xl bg-primary-container text-on-primary-container font-bold flex justify-between items-center transition-all">
+                                All Products
+                                <span class="text-xs opacity-70">48</span>
+</button>
+</li>
+<li>
+<button class="w-full text-left px-4 py-3 rounded-xl hover:bg-surface-container-low text-on-surface-variant font-medium flex justify-between items-center transition-all">
+                                Large Format Banners
+                                <span class="text-xs opacity-40">12</span>
+</button>
+</li>
+<li>
+<button class="w-full text-left px-4 py-3 rounded-xl hover:bg-surface-container-low text-on-surface-variant font-medium flex justify-between items-center transition-all">
+                                Custom Stickers &amp; Labels
+                                <span class="text-xs opacity-40">18</span>
+</button>
+</li>
+<li>
+<button class="w-full text-left px-4 py-3 rounded-xl hover:bg-surface-container-low text-on-surface-variant font-medium flex justify-between items-center transition-all">
+                                Flex &amp; Vinyl Prints
+                                <span class="text-xs opacity-40">09</span>
+</button>
+</li>
+<li>
+<button class="w-full text-left px-4 py-3 rounded-xl hover:bg-surface-container-low text-on-surface-variant font-medium flex justify-between items-center transition-all">
+                                Business Branding
+                                <span class="text-xs opacity-40">09</span>
+</button>
+</li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-6">Material Quality</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">Matte Finish</span>
+<span class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">Glossy</span>
+<span class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">UV Resistant</span>
+<span class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">Weatherproof</span>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low rounded-2xl">
+<span class="material-symbols-outlined text-primary mb-2">support_agent</span>
+<h4 class="font-bold mb-2">Need Custom Design?</h4>
+<p class="text-sm text-on-surface-variant mb-4">Our expert designers are ready to help bring your vision to life.</p>
+<button class="text-primary font-bold text-sm underline underline-offset-4">Talk to a designer</button>
+</div>
+</aside>
+<!-- Products Grid -->
+<div class="lg:col-span-9">
+<div class="flex justify-between items-center mb-10">
+<p class="text-on-surface-variant font-medium">Showing 12 of 48 products</p>
+<div class="flex items-center gap-4">
+<select class="bg-surface-container-low border-none rounded-lg text-sm font-bold focus:ring-primary">
+<option>Sort by: Popularity</option>
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+</select>
+</div>
+</div>
+<!-- Bento-style Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Product Card 1 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close-up of high-quality vinyl stickers with vibrant colors and sharp details on a clean white surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMYHsTnUfoZqL_NYX4bkdfYq8oVe9f2bhs14KcOUjvrXHZ4MPvvfXX7J833DIQyeIyXWCPXRAub0WKFR3ZcvjG9vNPbetumpwNk2fYXdfs9p-I3h1dpKEsGN8py8t4ldjLZMNAjK7b9tCPbvwNPX6sLSWUOQh5EEFYeikddgT7qphE0rl8S8jsVXijN13jr_9EUPANYOmiD5R5D0KmmN6fhIrgtKTFEgkVB1qISShNcuPm9bj_k9S-FRYhnof3wxrrfRqLnaBaXrY"/>
+<div class="absolute top-4 left-4">
+<span class="bg-primary text-on-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">New Arrival</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Premium Vinyl Stickers</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Weather-resistant, high-gloss stickers perfect for branding and product packaging.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-lg font-black text-primary">From ₦4,500</span>
+<button class="p-3 bg-secondary-container rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Professional large format indoor banner stand showing sharp architectural graphics in a modern office foyer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHcX_PLrnzH_ocU_B5J4BLffLNTytkExcmz1Uhb2XXAtKcuQXXBwu_rIOcoMwqQdmYa5l3jcX85wPXn0AqKYmoDvfwABOKz_l60LhKmaYIhUvTa_1QjuL3640Xh5p8sD8QKrINUi0ReOBv4ZKQKizRqq4LgEEYRxA22AJUCf7G0uf51e6sqJkz7IbnqhRFG_Uzvvu32sCkUHxMewBP27JW30m5dYDFOltVKIvkhDjq1HUsx2Aud9NtiSpMO-ieGfetPo9GD1CZXV0"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Pull-up Banners</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Durable aluminum stand with high-resolution canvas print for trade shows.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-lg font-black text-primary">₦22,000</span>
+<button class="px-5 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-all">
+                                    Request Quote
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Stack of minimalist luxury business cards with gold foil edges and deep texture on dark gray paper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9bqR99XVuJ2tAOq5byGxNBbRBrNMZLulCO8I0HNALsaHrJJ3r91r98lztE1g5uRFnQdNJSJvxyY_ydBuMAZdtreZ8RksQbgfYThSVCkm6duGeLctPyLw9A2pwzE_7p5MkdGaxdn_WRcV7QVVTCQza5uUflwgpuajs4k9ZZNDzOJOX6bOax-L0dhC2LArfFN9_cDr4aO2ixfkpQAd-XyHBHtNYeyaKXpesiaXM18gvNo58sgs2WmAoXCS-Ps3vUcmr7d_1EZXOyH4"/>
+<div class="absolute top-4 left-4">
+<span class="bg-inverse-surface text-surface text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">Bestseller</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Business Cards</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">400gsm premium cardstock with matte lamination and optional spot UV.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-lg font-black text-primary">From ₦8,000</span>
+<button class="p-3 bg-secondary-container rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Outdoor mesh banner fixed to a construction fence showing architectural renderings with bright sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcoExMHFj_G5tRahD5xwxdlZDp_PeMYNdNKXPJyK4-elVxMQNFgD1zCr8nXTrq9GnVq4_eNZYS4crNQBXOVjgn3upKsya6_9ECNPRxQLZKQo136hnhB0y03Ao5fs6dS_ehX_W5-9fSPWfNG-3vxsbWjo-ydzSnlS4hpBBvV0KOdz774_Cj-Knqb__gmQUWoSNX0SZAjerTOCYD3iY5S17p4Cjbb63cib0gewzM45BI1PHGzwEaw2dHkSNmP4FGzVxoMrtHvO_r-rg"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Flex Banners</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Large scale outdoor flex banners with grommets for easy mounting.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-lg font-black text-primary">₦1,200 /sqft</span>
+<button class="px-5 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-all">
+                                    Request Quote
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Collection of branded company stationery including letterheads, envelopes and folders on a light wood desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARBILejZxsnn-8LVYAcmUGrw8lV9WKkvvzCN_PZnnbSOsTYqjdvz6soXL2alEDKkxTywSdAC9ZV5BgZvOG96o0ahDuH3SveJLbBACI05aq785jxSUzUaDndcTWP4-l2_sH__YSyI_iiC0yB9ftKtr83Mxb1CzjMxnmMBTOO84_sBHOxVfYUGiKs1-H5N7A6IXor-7NFUeYOWsQNegMlbjEe7qlylsYQ3Sb67eCRXrCrKjahkwY9Y3eq0XTqerXjYA3687EJJoVNTg"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Corporate Stationery</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Complete branding kit including letterheads, envelopes, and folders.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-lg font-black text-primary">Custom</span>
+<button class="px-5 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-all">
+                                    Request Quote
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Industrial heat press machine transferring a colorful design onto a premium cotton t-shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC98wSF2UhjPIDnY7-KIyIgIZnKktkcnOqEAJKbz-C1bpHdd2Th8zrWxptvmVYoEpPySPzjcvIuZA34xNKJz4jfhArilpRKHhXyxMH46WZc5ZSceegFFKz4mfkIKYe06tXN2VpUoupcyRvxCtmNlkXjdw4IOVLicC4FCbk2QQmocZ2M-fsNXDIAaEopk_hIYzJLF9ln1rWK34iAVDF370g_X8I6w216mQSPif0725ZdC4COCIw_yif3aSPTGxCAwDJFdEIR8lMMsiI"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Apparel Printing</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">DTF and Screen printing for hoodies, t-shirts, and corporate uniforms.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="text-lg font-black text-primary">From ₦3,500</span>
+<button class="p-3 bg-secondary-container rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-all">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-16 flex justify-center gap-2">
+<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center font-bold text-on-surface-variant">1</button>
+<button class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold">2</button>
+<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center font-bold text-on-surface-variant">3</button>
+<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center font-bold text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full pt-16 pb-8 bg-slate-900 dark:bg-black border-t border-slate-800">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="space-y-6">
+<div class="text-orange-500 font-black text-xl font-['Space_Grotesk'] uppercase tracking-tighter">
+                    Harwosprints.ng
+                </div>
+<p class="text-slate-400 font-['Plus_Jakarta_Sans'] text-sm leading-relaxed">
+                    Precision-engineered printing solutions for the modern brand. Based in Lagos, shipping nationwide.
+                </p>
+<div class="flex gap-4">
+<span class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-orange-500 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-sm">public</span>
+</span>
+<span class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-orange-500 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-sm">share</span>
+</span>
+<span class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-orange-500 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-sm">chat_bubble</span>
+</span>
+</div>
+</div>
+<div class="space-y-6">
+<h4 class="text-white font-bold font-['Space_Grotesk'] uppercase tracking-widest text-xs">Navigation</h4>
+<ul class="space-y-3 font-['Plus_Jakarta_Sans'] text-slate-400 text-sm">
+<li><a class="hover:text-orange-400 transition-colors" href="#">Browse Products</a></li>
+<li><a class="hover:text-orange-400 transition-colors" href="#">My Account</a></li>
+<li><a class="hover:text-orange-400 transition-colors" href="#">Order Tracking</a></li>
+<li><a class="hover:text-orange-400 transition-colors" href="#">Bulk Orders</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h4 class="text-white font-bold font-['Space_Grotesk'] uppercase tracking-widest text-xs">Customer Service</h4>
+<ul class="space-y-3 font-['Plus_Jakarta_Sans'] text-slate-400 text-sm">
+<li><a class="hover:text-orange-400 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-orange-400 transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-orange-400 transition-colors" href="#">FAQ</a></li>
+<li><a class="hover:text-orange-400 transition-colors" href="#">Support</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h4 class="text-white font-bold font-['Space_Grotesk'] uppercase tracking-widest text-xs">Newsletter</h4>
+<p class="text-slate-400 font-['Plus_Jakarta_Sans'] text-sm">Get print tips and special offers.</p>
+<div class="relative">
+<input class="w-full bg-slate-800 border-none rounded-lg py-3 px-4 text-sm text-white focus:ring-1 focus:ring-orange-500" placeholder="Email Address" type="email"/>
+<button class="absolute right-2 top-1.5 p-1.5 bg-orange-600 rounded-md text-white">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-400 font-['Plus_Jakarta_Sans'] text-xs">© 2024 Harwosprints.ng. All rights reserved.</p>
+<div class="flex gap-6 text-xs text-slate-400">
+<span>Designed for Impact</span>
+<span>Powered by PrecisePress</span>
+</div>
+</div>
+</footer>
+</body></html>

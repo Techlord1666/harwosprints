@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customer Dashboard | Harwosprints.ng</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#b02500",
+              "on-primary": "#fff0e7",
+              "surface-dim": "#d3d5d5",
+              "tertiary-fixed": "#ffd33a",
+              "on-secondary-container": "#525151",
+              "inverse-primary": "#fd8b00",
+              "surface-container": "#e7e8e8",
+              "primary-fixed": "#fd8b00",
+              "on-primary-fixed": "#180800",
+              "surface-variant": "#dbdddd",
+              "inverse-surface": "#0c0f0f",
+              "secondary-fixed": "#e5e2e1",
+              "on-primary-fixed-variant": "#512800",
+              "surface-container-high": "#e1e3e3",
+              "on-secondary-fixed-variant": "#5c5b5b",
+              "on-tertiary-container": "#5c4900",
+              "error-container": "#f95630",
+              "on-primary-container": "#442100",
+              "tertiary-dim": "#614d00",
+              "on-surface": "#2d2f2f",
+              "inverse-on-surface": "#9c9d9d",
+              "error-dim": "#b92902",
+              "primary-dim": "#7b4000",
+              "primary-fixed-dim": "#ea8000",
+              "primary": "#8c4a00",
+              "on-secondary-fixed": "#403f3f",
+              "primary-container": "#fd8b00",
+              "surface-bright": "#f6f6f6",
+              "on-tertiary-fixed-variant": "#675200",
+              "on-background": "#2d2f2f",
+              "on-secondary": "#f5f2f1",
+              "surface-container-lowest": "#ffffff",
+              "surface-tint": "#8c4a00",
+              "on-error": "#ffefec",
+              "secondary-fixed-dim": "#d6d4d3",
+              "surface-container-highest": "#dbdddd",
+              "outline": "#767777",
+              "secondary-container": "#e5e2e1",
+              "tertiary-container": "#ffd33a",
+              "secondary-dim": "#504f4f",
+              "secondary": "#5c5b5b",
+              "background": "#f6f6f6",
+              "tertiary": "#6f5900",
+              "on-tertiary": "#fff2d3",
+              "on-error-container": "#520c00",
+              "on-tertiary-fixed": "#453600",
+              "surface-container-low": "#f0f1f1",
+              "tertiary-fixed-dim": "#efc52b",
+              "surface": "#f6f6f6",
+              "on-surface-variant": "#5a5c5c",
+              "outline-variant": "#acadad"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="h-full w-64 fixed left-0 top-0 bg-slate-50 dark:bg-slate-900 flex flex-col p-4 border-r border-slate-200 dark:border-slate-800 z-40">
+<div class="mb-10 px-4">
+<h1 class="text-xl font-bold text-slate-900 dark:text-white">Customer Portal</h1>
+<p class="font-['Plus_Jakarta_Sans'] text-xs font-semibold text-slate-500 dark:text-slate-400">Manage your prints</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Active: Dashboard -->
+<a class="flex items-center gap-3 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 rounded-lg px-4 py-2 border-r-4 border-orange-600 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-2 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span>Orders</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-2 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span>Tracking</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-2 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+<span>Uploads</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-2 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full bg-primary-container text-on-primary-container font-bold py-3 px-4 rounded-xl shadow-[0_12px_40px_rgba(253,139,0,0.2)] flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Order
+            </button>
+<div class="mt-6 flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a professional smiling man in a modern office setting with warm sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8aoKJvsoU8JU1ysjbfrJtRONG078wn3SKj7NVitZM_HqaPjzOpsbXLnI6dKU3YnWUPJGN9pmHc-qeH3riRD8EJQqcA9pEoRocNHEtP0I-BZX7ok4Mn1057uOnUhHh5NKYX3ElTsBgSI4H2YK481MYYLcGlbZQOCbLynEdwx5SZiJ1cuoOENEKTTIC-3BCPPCRLyGPRAyhh5VamFNcC4Cys9PrtEv704VP3mTMo0ZgQRNIHg7ezLQhOQVSaolPv7fa62jOSjAEiFk"/>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-sm font-bold truncate">Alex Morgan</p>
+<p class="text-xs text-slate-500 truncate">Pro Member</p>
+</div>
+<button class="text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 p-8 bg-surface">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-4xl font-black tracking-tight mb-2">Welcome back, Alex.</h2>
+<p class="text-on-surface-variant text-lg">You have <span class="text-primary font-bold">3 active print jobs</span> in production.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-lowest px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-semibold shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+<span class="material-symbols-outlined text-primary" data-icon="calendar_today">calendar_today</span>
+                    Oct 24, 2024
+                </div>
+<button class="bg-surface-container-highest p-2 rounded-lg text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Bento Grid Stats & Quick Actions -->
+<section class="grid grid-cols-12 gap-6 mb-12">
+<!-- Main Tracking Card -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl shadow-[0_12px_40px_rgba(45,47,47,0.06)] flex flex-col md:flex-row gap-8 items-center overflow-hidden relative">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="flex-1 z-10">
+<span class="bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded mb-4 inline-block">Current Status</span>
+<h3 class="text-2xl font-bold mb-4">Branding Package #4492</h3>
+<div class="flex items-center gap-12 mb-6">
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">Est. Delivery</span>
+<span class="text-xl font-bold">Oct 28</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">Progress</span>
+<span class="text-xl font-bold">75%</span>
+</div>
+</div>
+<!-- Custom Progress Stepper -->
+<div class="relative w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-primary-container rounded-full" style="width: 75%"></div>
+</div>
+<div class="flex justify-between mt-3 text-[10px] font-bold text-on-surface-variant uppercase">
+<span>Ordered</span>
+<span>Design</span>
+<span class="text-primary">Printing</span>
+<span>Shipping</span>
+</div>
+</div>
+<div class="w-full md:w-48 h-48 rounded-lg overflow-hidden flex-shrink-0 shadow-lg border-4 border-white">
+<img alt="Print Preview" class="w-full h-full object-cover" data-alt="macro shot of high-quality business card prints with vibrant orange colors and textured premium cardstock" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWT-WzHsYYgVpYQraxT6up4oHQTCQs-SirQ9FlAE5Vsx0f8W6R7oP7V8K5LwE0TKaRHaCrfzNbuLOf4E24m-nxXp6vrvYRifdc_MEDzyeTL-my-u3ANs1r2HvtCpVqkUsFYGTCoSmLcd1mYeWvADa7o4Ed2vCIyPChoeUo4WFzMYLc0OL8F2g9JYzsvG5HjEJNIyQNuuxY3PxX_V0iPu2MEBkHGpx7mcA0cTE6pY1jaf-s2HSJHooHeyHdfVed5688xa-po2wzYb4"/>
+</div>
+</div>
+<!-- Quick Stats Column -->
+<div class="col-span-12 lg:col-span-4 grid grid-rows-2 gap-6">
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center justify-between">
+<div>
+<p class="text-sm font-bold text-on-surface-variant">Total Spent</p>
+<p class="text-2xl font-black text-on-surface">₦452,000</p>
+</div>
+<div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+</div>
+<div class="bg-on-surface p-6 rounded-xl flex items-center justify-between">
+<div>
+<p class="text-sm font-bold text-slate-400">Reward Points</p>
+<p class="text-2xl font-black text-white">2,450 <span class="text-primary-container text-xs">pts</span></p>
+</div>
+<div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-primary-container shadow-sm">
+<span class="material-symbols-outlined" data-icon="stars" data-weight="fill">stars</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Workspace Section -->
+<section class="grid grid-cols-12 gap-8">
+<!-- Order History Table -->
+<div class="col-span-12 xl:col-span-8">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-2xl font-bold">Recent Orders</h3>
+<button class="text-sm font-bold text-primary flex items-center gap-1 hover:underline">
+                        View All History <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_12px_40px_rgba(45,47,47,0.06)] overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Order ID</th>
+<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Project</th>
+<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Status</th>
+<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Amount</th>
+<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-6 py-5 font-bold text-sm">#ORD-9921</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="menu_book">menu_book</span>
+</div>
+<span class="font-semibold text-sm">Menu Printing (A4)</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-green-100 text-green-700">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        Completed
+                                    </span>
+</td>
+<td class="px-6 py-5 font-bold text-sm">₦12,500</td>
+<td class="px-6 py-5">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-6 py-5 font-bold text-sm">#ORD-9840</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="layers">layers</span>
+</div>
+<span class="font-semibold text-sm">PVC ID Cards</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-orange-100 text-orange-700">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                        Printing
+                                    </span>
+</td>
+<td class="px-6 py-5 font-bold text-sm">₦85,000</td>
+<td class="px-6 py-5">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-6 py-5 font-bold text-sm">#ORD-9712</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="width_full">width_full</span>
+</div>
+<span class="font-semibold text-sm">Rollup Banner</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-slate-100 text-slate-700">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                        Draft
+                                    </span>
+</td>
+<td class="px-6 py-5 font-bold text-sm">₦45,000</td>
+<td class="px-6 py-5">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Upload & Design Area -->
+<div class="col-span-12 xl:col-span-4">
+<h3 class="text-2xl font-bold mb-6">File Center</h3>
+<div class="bg-surface-container-low border-2 border-dashed border-outline-variant/30 rounded-xl p-8 flex flex-col items-center text-center group hover:border-primary/50 transition-all cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl text-primary" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<h4 class="font-bold mb-1">Upload New Assets</h4>
+<p class="text-xs text-on-surface-variant mb-6 px-4">PDF, AI, or high-res JPG preferred. Max 100MB.</p>
+<button class="px-6 py-2 bg-on-surface text-white text-xs font-bold rounded-lg hover:bg-black transition-colors">
+                        Select Files
+                    </button>
+</div>
+<div class="mt-8 space-y-4">
+<h4 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2">Saved Textures</h4>
+<div class="flex flex-wrap gap-2">
+<!-- Texture Preview Chips -->
+<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 rounded-full">
+<div class="w-4 h-4 rounded-full bg-gradient-to-tr from-slate-400 to-slate-100 shadow-inner"></div>
+<span class="text-[10px] font-bold">Matte Finish</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 rounded-full">
+<div class="w-4 h-4 rounded-full bg-gradient-to-tr from-yellow-400 to-yellow-600 shadow-inner"></div>
+<span class="text-[10px] font-bold">Gold Foil</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 rounded-full">
+<div class="w-4 h-4 rounded-full bg-gradient-to-tr from-orange-400 to-orange-100 shadow-inner"></div>
+<span class="text-[10px] font-bold">Spot UV</span>
+</div>
+</div>
+</div>
+<!-- Ad/CTA card -->
+<div class="mt-8 bg-gradient-to-br from-primary to-primary-dim p-6 rounded-xl text-on-primary relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="text-lg font-bold mb-1">Upgrade to Enterprise</h4>
+<p class="text-xs opacity-90 mb-4">Bulk printing discounts and dedicated project managers.</p>
+<button class="text-xs font-black uppercase tracking-tighter border-b-2 border-on-primary pb-1">Learn More</button>
+</div>
+<span class="material-symbols-outlined absolute -bottom-6 -right-6 text-9xl opacity-10 rotate-12" data-icon="business_center">business_center</span>
+</div>
+</div>
+</section>
+</main>
+</body></html>

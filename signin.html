@@ -226,7 +226,7 @@
     };
 
     // =========================
-    // LOGIN FUNCTION
+    // LOGIN FUNCTION (FIXED)
     // =========================
     document.getElementById('loginForm').onsubmit = async (e) => {
         e.preventDefault();
@@ -235,17 +235,43 @@
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        const { error } = await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
+        try {
+            // 1. Sign in with Supabase Auth
+            const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
 
-        document.getElementById('loadingOverlay').style.display = 'none';
+            if (authError) throw authError;
 
-        if (error) {
+            // 2. Fetch user profile data from your 'profiles' table (or 'users' table)
+            // Adjust 'profiles' to match your actual table name in Supabase
+            const { data: profileData, error: profileError } = await supabaseClient
+                .from('profiles')  // Change this to your actual table name (e.g., 'users', 'customers')
+                .select('*')
+                .eq('id', authData.user.id)
+                .single();
+
+            if (profileError && profileError.code !== 'PGRST116') {
+                console.warn('Profile fetch warning:', profileError.message);
+            }
+
+            // 3. Store user data in sessionStorage for dashboard access
+            const userSession = {
+                user: authData.user,
+                profile: profileData || null,
+                access_token: authData.session.access_token,
+                expires_at: authData.session.expires_at
+            };
+            
+            sessionStorage.setItem('harwos_user', JSON.stringify(userSession));
+
+            // 4. Redirect to dash.html (FIXED FILENAME)
+            window.location.href = "dash.html";
+
+        } catch (error) {
+            document.getElementById('loadingOverlay').style.display = 'none';
             alert("Login Error: " + error.message);
-        } else {
-            window.location.href = "dashboard.html";
         }
     };
 
@@ -258,18 +284,34 @@
 
         const email = document.getElementById('resetEmail').value;
 
-        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.origin + "/reset-password.html"
-        });
+        try {
+            const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + "/reset-password.html"
+            });
 
-        document.getElementById('loadingOverlay').style.display = 'none';
+            if (error) throw error;
 
-        if (error) {
-            alert("Reset Error: " + error.message);
-        } else {
+            document.getElementById('loadingOverlay').style.display = 'none';
             alert("A password reset link has been sent to your email!");
+            
+        } catch (error) {
+            document.getElementById('loadingOverlay').style.display = 'none';
+            alert("Reset Error: " + error.message);
         }
     };
+
+    // =========================
+    // CHECK IF ALREADY LOGGED IN (Auto-redirect)
+    // =========================
+    window.addEventListener('DOMContentLoaded', async () => {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        
+        if (session) {
+            // User is already logged in, redirect to dashboard
+            window.location.href = "dash.html";
+        }
+    });
 </script>
+
 </body>
 </html>

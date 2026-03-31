@@ -181,67 +181,87 @@
     // Supabase Core
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // DIRECT CONTROLS (Will not fail)
+    // =========================
+    // UI CONTROLS
+    // =========================
     function showPop() { 
         document.getElementById('bigPolicyPop').style.display = 'flex'; 
         document.body.style.overflow = 'hidden';
     }
+
     function hidePop() { 
         document.getElementById('bigPolicyPop').style.display = 'none'; 
         document.body.style.overflow = 'auto';
     }
+
     function switchToForgot() {
         document.getElementById('loginFormContainer').style.display = 'none';
         document.getElementById('forgotFormContainer').style.display = 'block';
     }
+
     function switchToLogin() {
         document.getElementById('forgotFormContainer').style.display = 'none';
         document.getElementById('loginFormContainer').style.display = 'block';
     }
 
-    // FORM ACTIONS
+    function toggleModal(id) {
+        const modal = document.getElementById(id);
+        modal.classList.toggle('hidden');
+        document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+    }
+
+    // Click outside modal to close
+    window.onclick = (e) => { 
+        if (e.target.id === 'policyModal') toggleModal('policyModal'); 
+    };
+
+    // =========================
+    // LOGIN FUNCTION
+    // =========================
     document.getElementById('loginForm').onsubmit = async (e) => {
         e.preventDefault();
         document.getElementById('loadingOverlay').style.display = 'flex';
-        const { error } = await supabase.auth.signInWithPassword({
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const { error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
         });
+
         document.getElementById('loadingOverlay').style.display = 'none';
-        if (error) alert("Login Error: " + error.message);
-        else window.location.href = "dashboard.html";
+
+        if (error) {
+            alert("Login Error: " + error.message);
+        } else {
+            window.location.href = "dashboard.html";
+        }
     };
 
+    // =========================
+    // FORGOT PASSWORD FUNCTION
+    // =========================
     document.getElementById('forgotForm').onsubmit = async (e) => {
         e.preventDefault();
         document.getElementById('loadingOverlay').style.display = 'flex';
-        const { error } = await supabase.auth.resetPasswordForEmail(document.getElementById('resetEmail').value);
-        document.getElementById('loadingOverlay').style.display = 'none';
-        if (error) alert("Reset Error: " + error.message);
-        else alert("A password reset link has been sent to your email!");
-    };
 
-    <script>
-  window.addEventListener('load', () => AOS.init({ duration: 1200, once: true, offset: 20, easing: 'ease-out-back' }));
-  function toggleMobileMenu() {
-      const menu = document.getElementById('mobileMenu');
-      const backdrop = document.getElementById('menuBackdrop');
-      menu.classList.toggle('menu-open');
-      backdrop.classList.toggle('hidden');
-      document.body.style.overflow = menu.classList.contains('menu-open') ? 'hidden' : 'auto';
-  }
-  function toggleModal(id) {
-      const modal = document.getElementById(id);
-      modal.classList.toggle('hidden');
-      document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
-  }
-  window.onclick = (e) => { 
-      if (e.target.id === 'quoteModal') toggleModal('quoteModal'); 
-      if (e.target.id === 'policyModal') toggleModal('policyModal'); 
-  }
-</script>
+        const email = document.getElementById('resetEmail').value;
+
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + "/reset-password.html"
+        });
+
+        document.getElementById('loadingOverlay').style.display = 'none';
+
+        if (error) {
+            alert("Reset Error: " + error.message);
+        } else {
+            alert("A password reset link has been sent to your email!");
+        }
+    };
 </script>
 </body>
 </html>

@@ -162,38 +162,71 @@
 </div>
 
 <script>
-    const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  // Supabase config
+  const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // DIRECT CONTROLS (UNBREAKABLE)
-    function showForgot() { document.getElementById('loginSection').classList.add('hidden'); document.getElementById('forgotSection').classList.remove('hidden'); }
-    function showLogin() { document.getElementById('forgotSection').classList.add('hidden'); document.getElementById('loginSection').classList.remove('hidden'); }
-    function openPolicies() { document.getElementById('policyModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
-    function closePolicies() { document.getElementById('policyModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+  // ===== UI CONTROLS =====
+  function showForgot() {
+    document.getElementById('loginSection').classList.add('hidden');
+    document.getElementById('forgotSection').classList.remove('hidden');
+  }
 
-    // LOGIN
-    document.getElementById('loginForm').onsubmit = async (e) => {
-        e.preventDefault();
-        document.getElementById('loadingOverlay').style.display = 'flex';
-        const { error } = await supabase.auth.signInWithPassword({
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
-        });
-        document.getElementById('loadingOverlay').style.display = 'none';
-        if (error) alert(error.message);
-        else window.location.href = "dash.html";
-    };
+  function showLogin() {
+    document.getElementById('forgotSection').classList.add('hidden');
+    document.getElementById('loginSection').classList.remove('hidden');
+  }
 
-    // FORGOT
-    document.getElementById('forgotForm').onsubmit = async (e) => {
-        e.preventDefault();
-        document.getElementById('loadingOverlay').style.display = 'flex';
-        const { error } = await supabase.auth.resetPasswordForEmail(document.getElementById('resetEmail').value);
-        document.getElementById('loadingOverlay').style.display = 'none';
-        if (error) alert(error.message);
-        else alert("Check your email for the reset link!");
-    };
+  function openPolicies() {
+    document.getElementById('policyModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePolicies() {
+    document.getElementById('policyModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+
+  // ===== LOGIN =====
+  document.getElementById('loginForm').onsubmit = async (e) => {
+    e.preventDefault();
+    document.getElementById('loadingOverlay').style.display = 'flex';
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    document.getElementById('loadingOverlay').style.display = 'none';
+
+    if (error) {
+      alert("Login Error: " + error.message);
+    } else if (data.session) {
+      // Redirect after confirming session
+      window.location.href = "dash.html";
+    } else {
+      alert("Login failed: session not created.");
+    }
+  };
+
+  // ===== FORGOT PASSWORD =====
+  document.getElementById('forgotForm').onsubmit = async (e) => {
+    e.preventDefault();
+    document.getElementById('loadingOverlay').style.display = 'flex';
+
+    const email = document.getElementById('resetEmail').value;
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+
+    document.getElementById('loadingOverlay').style.display = 'none';
+
+    if (error) {
+      alert("Error: " + error.message);
+    } else {
+      alert("Check your email for the reset link!");
+      showLogin(); // Switch back to login view
+    }
+  };
 </script>
 </body>
 </html>

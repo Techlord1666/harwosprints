@@ -5,15 +5,12 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <title>Login | Harwosprints.ng</title>
     
-    <!-- Tailwind & Supabase SDK -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Plus+Jakarta+Sans:wght@300;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
       tailwind.config = {
@@ -26,10 +23,9 @@
       }
     </script>
     <style>
-        input:focus { border-color: #ea580c !important; transform: translateX(5px); }
+        input:focus { border-color: #ea580c !important; }
         #loadingOverlay { display: none; }
-        .auth-card { animation: fadeInScale 0.8s ease-out forwards; }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .hidden { display: none !important; }
     </style>
 </head>
 
@@ -43,7 +39,7 @@
 <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 px-4 py-3">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="flex items-center gap-2">
-            <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5 shadow-sm bg-white">
+            <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5 bg-white shadow-sm overflow-hidden">
                 <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
             </div>
             <div class="text-xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints.ng</div>
@@ -54,38 +50,52 @@
     </div>
 </nav>
 
-<!-- RESTORED LOGIN FORM CONTAINER -->
+<!-- MAIN AUTH CARD -->
 <main class="min-h-screen pt-32 pb-20 px-4 flex flex-col items-center justify-center">
-    <div class="max-w-md w-full bg-white p-8 md:p-12 border-4 border-brandBlack rounded-[2.5rem] shadow-2xl auth-card">
-        <div class="text-center mb-10">
-            <h1 class="text-3xl font-black uppercase tracking-tight mb-2">Welcome <span class="text-brandOrange">Back.</span></h1>
-            <p class="text-slate-500 font-medium text-sm">Enter your details to access your dashboard.</p>
-        </div>
-
-        <form id="loginForm" class="space-y-6">
-            <div>
-                <label class="block text-[10px] font-black uppercase tracking-widest mb-2 ml-1 text-slate-400">Email Address</label>
-                <input id="email" type="email" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none transition-all font-bold focus:ring-0" placeholder="name@email.com">
+    <div class="max-w-md w-full bg-white p-8 md:p-12 border-4 border-brandBlack rounded-[2.5rem] shadow-2xl">
+        
+        <!-- LOGIN VIEW -->
+        <div id="login-view">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-black uppercase tracking-tight mb-2">Welcome <span class="text-brandOrange">Back.</span></h1>
+                <p class="text-slate-500 font-medium text-sm">Sign in to manage your premium orders.</p>
             </div>
-            <div>
-                <div class="flex justify-between items-center mb-2 px-1">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">Password</label>
-                    <a href="#" class="text-[10px] font-black text-brandOrange uppercase hover:underline">Forgot?</a>
+
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest mb-2 text-slate-400 ml-1">Email Address</label>
+                    <input id="email" type="email" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none transition-all font-bold focus:ring-0" placeholder="name@email.com">
                 </div>
-                <input id="password" type="password" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none transition-all font-bold focus:ring-0" placeholder="••••••••">
+                <div>
+                    <div class="flex justify-between items-center mb-2 px-1">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400">Password</label>
+                        <button type="button" onclick="toggleAuthView('forgot')" class="text-[10px] font-black text-brandOrange uppercase hover:underline">Forgot Password?</button>
+                    </div>
+                    <input id="password" type="password" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none transition-all font-bold focus:ring-0" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full bg-brandBlack text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandOrange transform active:scale-95 transition-all">Sign In to Dashboard</button>
+            </form>
+            <div class="mt-8 text-center border-t border-slate-100 pt-8">
+                <p class="text-sm font-bold uppercase tracking-tight">New here? <a href="signup.html" class="text-brandOrange underline hover:text-brandBlack ml-1">Create Account</a></p>
             </div>
-            
-            <button type="submit" class="w-full bg-brandBlack text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandOrange transform active:scale-95 transition-all">
-                Sign In to Dashboard
-            </button>
-        </form>
-
-        <div class="mt-8 text-center border-t border-slate-100 pt-8">
-            <p class="text-sm font-bold uppercase tracking-tight">
-                Don't have an account? 
-                <a href="signup.html" class="text-brandOrange underline hover:text-brandBlack ml-1">Create Account</a>
-            </p>
         </div>
+
+        <!-- FORGOT PASSWORD VIEW -->
+        <div id="forgot-view" class="hidden">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-black uppercase tracking-tight mb-2">Reset <span class="text-brandOrange">Password.</span></h1>
+                <p class="text-slate-500 font-medium text-sm">We'll send a reset link to your email.</p>
+            </div>
+            <form id="forgotForm" class="space-y-6">
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest mb-2 text-slate-400 ml-1">Your Email</label>
+                    <input id="forgot-email" type="email" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none transition-all font-bold focus:ring-0" placeholder="name@email.com">
+                </div>
+                <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transform active:scale-95 transition-all">Send Reset Link</button>
+                <button type="button" onclick="toggleAuthView('login')" class="w-full text-center text-xs font-black uppercase tracking-widest text-slate-400 hover:text-brandBlack">Back to Login</button>
+            </form>
+        </div>
+
     </div>
 </main>
 
@@ -104,7 +114,7 @@
             </div>
         </div>
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Solutions</h5>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white">Solutions</h5>
             <ul class="space-y-4 text-xs font-bold uppercase">
                 <li><a class="hover:text-brandOrange" href="store.html">Commercial Printing</a></li>
                 <li><a class="hover:text-brandOrange" href="store.html">Brand Identity</a></li>
@@ -113,7 +123,7 @@
             </ul>
         </div>
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Locations</h5>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white">Locations</h5>
             <div class="space-y-4 text-[10px] uppercase font-bold leading-relaxed">
                 <p><span class="text-brandOrange">Head:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
                 <p><span class="text-brandOrange">Sales:</span> Abraham Adesanya Complex beside Onipanu Police Station, Onipanu.</p>
@@ -121,26 +131,24 @@
             </div>
         </div>
         <div class="space-y-6">
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Newsletter</h5>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white">Newsletter</h5>
             <div class="flex gap-2">
-                <input class="bg-slate-900 border-none rounded-lg text-white w-full px-4 text-sm focus:ring-1 focus:ring-brandOrange" placeholder="Email" type="email"/>
+                <input class="bg-slate-900 border-none rounded-lg text-white w-full px-4 text-sm" placeholder="Email" type="email"/>
                 <button class="bg-brandOrange text-white p-2 rounded-lg hover:brightness-110"><span class="material-symbols-outlined">send</span></button>
             </div>
-            <div class="mt-4">
-                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all">Get a Business Website</a>
-            </div>
+            <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-5 py-3 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg">Get a Business Website</a>
         </div>
     </div>
-    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase">
+    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase">
         <p>© 2024 Harwosprints.ng. All rights reserved.</p>
         <div class="flex gap-6">
-            <a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Privacy Policy</a>
-            <a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Terms & Conditions</a>
+            <button onclick="toggleModal('policyModal')" class="hover:text-brandOrange">Privacy Policy</button>
+            <button onclick="toggleModal('policyModal')" class="hover:text-brandOrange">Terms & Conditions</button>
         </div>
     </div>
 </footer>
 
-<!-- RESTORED: FULL LONG POLICY MODAL (TOTAL RESTORATION) -->
+<!-- RESTORED: FULL LONG POLICY MODAL -->
 <div id="policyModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
     <div class="bg-white w-full max-w-4xl h-[85vh] rounded-[2.5rem] overflow-hidden border-4 border-brandOrange shadow-2xl relative flex flex-col">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
@@ -167,37 +175,51 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init({ duration: 1000, once: true });
-
-    // Supabase Auth
+    // Supabase Configuration
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+    // Toggle between Login and Forgot Password
+    function toggleAuthView(view) {
+        document.getElementById('login-view').classList.toggle('hidden', view === 'forgot');
+        document.getElementById('forgot-view').classList.toggle('hidden', view === 'login');
+    }
+
+    // Toggle Policy Modal
+    function toggleModal(id) {
+        const modal = document.getElementById(id);
+        modal.classList.toggle('hidden');
+        document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+    }
+
+    // Login Function
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         document.getElementById('loadingOverlay').style.display = 'flex';
-        
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         document.getElementById('loadingOverlay').style.display = 'none';
 
-        if (error) {
-            alert("Error: " + error.message);
-        } else {
-            window.location.href = "dashboard.html";
-        }
+        if (error) alert(error.message);
+        else window.location.href = "dashboard.html";
     });
 
-    function toggleModal(id) {
-        const modal = document.getElementById(id);
-        modal.classList.toggle('hidden');
-        document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
-    }
+    // Forgot Password Function
+    document.getElementById('forgotForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        document.getElementById('loadingOverlay').style.display = 'flex';
+        const email = document.getElementById('forgot-email').value;
+
+        const { error } = await supabase.auth.resetPasswordForEmail(email);
+        document.getElementById('loadingOverlay').style.display = 'none';
+
+        if (error) alert(error.message);
+        else alert("A password reset link has been sent to your email!");
+    });
 </script>
 </body>
 </html>

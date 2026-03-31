@@ -3,6 +3,16 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    
+    <!-- SEO KEYWORDS & DESCRIPTION -->
+    <meta name="description" content="Harwosprints.ng - Nigeria's premier partner for high-precision printing and tactical branding solutions. We design, print, brand and deliver nationwide."/>
+    <meta name="keywords" content="Harwosprints, Printing Nigeria, Branding Lagos, Custom Packaging, Business Cards Nigeria, Flyers, Branded Souvenirs, Promotional Items, Offset Printing, Digital Imaging, Direct Imaging, Harwos Prints, Printing in Somolu, Printing in Yaba"/>
+    <meta name="author" content="Harwosprints.ng"/>
+
+    <!-- FAVICON (Using your logo) -->
+    <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
+    <link rel="apple-touch-icon" href="harwosprints.ng-logo.jpg">
+
     <title>Sign Up | Harwosprints.ng</title>
     
     <!-- Scripts -->
@@ -221,41 +231,23 @@
     });
 
     // =========================
-    // POLICY MODAL (FIXED)
+    // POLICY MODAL
     // =========================
     function openPolicies() {
         const modal = document.getElementById('policyPopup');
-
-        // FORCE SHOW (fixes hidden conflicts)
         modal.style.display = 'flex';
-        modal.classList.remove('force-hidden');
-
-        // LOCK SCROLL
         document.body.style.overflow = 'hidden';
     }
 
     function closePolicies() {
         const modal = document.getElementById('policyPopup');
-
         modal.style.display = 'none';
-
-        // RESTORE SCROLL
         document.body.style.overflow = 'auto';
     }
 
-    // CLICK OUTSIDE TO CLOSE (IMPORTANT FIX)
     window.addEventListener('click', function (e) {
         const modal = document.getElementById('policyPopup');
-        if (e.target === modal) {
-            closePolicies();
-        }
-    });
-
-    // ESC KEY CLOSE (EXTRA FIX)
-    document.addEventListener('keydown', function(e){
-        if(e.key === "Escape"){
-            closePolicies();
-        }
+        if (e.target === modal) closePolicies();
     });
 </script>
 </body>

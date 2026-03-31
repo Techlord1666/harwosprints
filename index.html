@@ -35,6 +35,14 @@
     <style>
         @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-slow-spin { animation: slowSpin 12s linear infinite; }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+
         #mobileMenu { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .menu-open { transform: translateX(0) !important; }
     </style>
@@ -87,10 +95,6 @@
 <main class="pt-20">
     <!-- SECTION 1: HERO -->
     <section class="relative min-h-[80vh] flex items-center overflow-hidden bg-slate-50 py-12 md:py-24">
-        <div class="absolute inset-0 z-0">
-            <div class="absolute top-[-10%] right-[-10%] w-64 md:w-[600px] h-64 md:h-[600px] rounded-full bg-brandOrange opacity-10 blur-[120px]"></div>
-            <div class="absolute bottom-[-5%] left-[-5%] w-64 md:w-[400px] h-64 md:h-[400px] rounded-full bg-brandBlack opacity-5 blur-[100px]"></div>
-        </div>
         <div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-7 space-y-6 md:space-y-8" data-aos="fade-right">
                 <div class="inline-flex items-center space-x-2 bg-white px-4 py-1.5 rounded-full shadow-sm border border-orange-100">
@@ -105,7 +109,7 @@
                 </p>
                 <div class="flex flex-wrap gap-4 pt-4">
                     <a href="https://wa.me/2349094576733" target="_blank" class="w-full sm:w-auto bg-brandBlack text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:bg-brandOrange transition-all flex justify-center items-center gap-2 group">
-                        Get Started <span class="material-symbols-outlined">arrow_forward</span>
+                        Get Started <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </a>
                     <button onclick="toggleModal()" class="w-full sm:w-auto bg-white text-brandBlack px-8 py-4 rounded-xl font-bold text-lg border-2 border-brandBlack hover:bg-slate-50 transition-all text-center">
                         Order Prints
@@ -114,7 +118,7 @@
             </div>
             <div class="lg:col-span-5" data-aos="zoom-in" data-aos-delay="200">
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 md:border-8 border-brandBlack">
-                    <img src="Home_page-1-scaled-e1669721721219.jpg" alt="Harwosprints Work" class="w-full h-auto object-cover">
+                    <img src="Home_page-1-scaled-e1669721721219.jpg" alt="Work" class="w-full h-auto object-cover">
                 </div>
             </div>
         </div>
@@ -124,89 +128,138 @@
     <section class="py-16 md:py-24 bg-white relative overflow-hidden border-t border-slate-100">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
             <div class="space-y-6 md:space-y-8 order-2 lg:order-1">
-                <div data-aos="fade-up">
-                    <h2 class="text-3xl md:text-6xl font-black text-brandBlack leading-tight uppercase tracking-tighter">
-                        We Design, Print, Brand<br/>
-                        <span class="text-slate-700">giving your Brand <span class="text-brandOrange italic">visibility</span></span>
-                    </h2>
-                    <p class="mt-4 md:mt-6 text-lg md:text-xl text-slate-500 max-w-lg border-l-4 border-brandOrange pl-4 md:pl-6 font-medium">
-                        Get your business more visibility, by custom branding, prints, stickers for party souvenirs & promotional gifting items.
-                    </p>
-                </div>
-                <ul class="space-y-4 md:space-y-6">
-                    <li class="flex items-start md:items-center gap-3 md:gap-4 text-base md:text-lg font-bold text-slate-800" data-aos="fade-up" data-aos-delay="100">
-                        <span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span>
-                        Verified source of quality print materials
-                    </li>
-                    <li class="flex items-start md:items-center gap-3 md:gap-4 text-base md:text-lg font-bold text-slate-800" data-aos="fade-up" data-aos-delay="200">
-                        <span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span>
-                        Proudly & meticulously produced in Nigeria
-                    </li>
-                    <li class="flex items-start md:items-center gap-3 md:gap-4 text-base md:text-lg font-bold text-slate-800" data-aos="fade-up" data-aos-delay="300">
-                        <span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span>
-                        <span>Delivery in <span class="text-brandOrange underline underline-offset-8 font-black">3 TO 5 WORK DAYS</span></span>
-                    </li>
-                    <li class="flex items-start md:items-center gap-3 md:gap-4 text-base md:text-lg font-bold text-slate-800" data-aos="fade-up" data-aos-delay="400">
-                        <span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span>
-                        Designers supports on the Journey
-                    </li>
+                <h2 class="text-3xl md:text-6xl font-black text-brandBlack leading-tight uppercase tracking-tighter">
+                    We Design, Print, Brand<br/>
+                    <span class="text-slate-700">giving your Brand <span class="text-brandOrange italic">visibility</span></span>
+                </h2>
+                <p class="mt-4 md:mt-6 text-lg md:text-xl text-slate-500 max-w-lg border-l-4 border-brandOrange pl-4 md:pl-6">
+                    Get your business more visibility, by custom branding, prints, stickers for party souvenirs & promotional gifting items.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange">check_circle</span> Verified source of quality print materials</li>
+                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange">check_circle</span> Proudly & meticulously produced in Nigeria</li>
+                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange">check_circle</span> Delivery in <span class="text-brandOrange underline font-black">3 TO 5 WORK DAYS</span></li>
+                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange">check_circle</span> Designers supports on the Journey</li>
                 </ul>
-                <div class="pt-4" data-aos="fade-up" data-aos-delay="500">
-                    <button onclick="toggleModal()" class="w-full sm:w-auto inline-flex justify-center items-center gap-4 bg-brandOrange text-white px-8 py-4 md:px-10 md:py-5 rounded-lg font-black text-lg md:text-xl uppercase tracking-wider shadow-lg hover:brightness-110 transition-all">
+                <div class="pt-4">
+                    <button onclick="toggleModal()" class="w-full sm:w-auto inline-flex justify-center items-center gap-4 bg-brandOrange text-white px-8 py-4 md:px-10 md:py-5 rounded-lg font-black text-xl uppercase tracking-wider shadow-lg">
                         START PRINTING <span class="material-symbols-outlined bg-black/20 p-1 rounded">arrow_forward</span>
                     </button>
                 </div>
             </div>
-            <div class="flex justify-center items-center order-1 lg:order-2" data-aos="zoom-in">
+            <div class="flex justify-center items-center order-1 lg:order-2">
                 <div class="relative w-48 h-48 md:w-80 md:h-80">
                     <div class="absolute inset-0 rounded-full border-4 border-dashed border-brandOrange animate-slow-spin"></div>
                     <div class="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-2xl border-2 border-brandBlack overflow-hidden">
-                        <img src="harwosprints.ng-logo.jpg" alt="Harwosprints Logo" class="w-3/4 h-auto object-contain">
+                        <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-3/4 h-auto object-contain">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- NEW SECTION: PRODUCT GRID (Paper Bags, Callcards, Brochures) -->
+    <!-- SECTION 3: PRODUCT GRID -->
     <section class="py-16 md:py-24 bg-slate-50">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-                
-                <!-- Card 1: Paper Bags -->
-                <div class="space-y-4 group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                <div class="space-y-4 group cursor-pointer" data-aos="fade-up">
                     <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
                         <img src="Customizepaperbag.png" alt="Paper Bags" class="w-full h-full object-contain p-4">
                     </div>
-                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">
-                        Paper Bags
-                    </h3>
+                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">Paper Bags</h3>
                 </div>
-
-                <!-- Card 2: Callcards -->
-                <div class="space-y-4 group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                <div class="space-y-4 group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
                     <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
                         <img src="Business card.png" alt="Callcards" class="w-full h-full object-contain p-4">
                     </div>
-                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">
-                        Callcards
-                    </h3>
+                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">Callcards</h3>
                 </div>
-
-                <!-- Card 3: Brochures -->
-                <div class="space-y-4 group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
+                <div class="space-y-4 group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
                     <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
                         <img src="Brochure.png" alt="Brochures" class="w-full h-full object-contain p-4">
                     </div>
-                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">
-                        Brochures
-                    </h3>
+                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">Brochures</h3>
                 </div>
-
             </div>
         </div>
     </section>
 
+    <!-- NEW SECTION: SERVICE HIGHLIGHT CARDS (FROM IMAGE) -->
+    <section class="py-12 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            
+            <!-- Card 1: Bulk Runs -->
+            <div class="bg-[#F3EFE8] rounded-[40px] p-8 md:p-12 relative overflow-hidden h-auto min-h-[500px] flex flex-col" data-aos="fade-right">
+                <div class="relative z-10 space-y-4">
+                    <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-800">
+                        Creative, Unique, Sharp Prints 🌲
+                    </p>
+                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-[1.1] text-brandBlack uppercase max-w-sm">
+                        Direct Imaging or Offset by MO for Bulk Runs
+                    </h2>
+                    
+                    <!-- Floating Badges -->
+                    <div class="flex flex-col gap-3 pt-8">
+                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float">
+                            <span class="material-symbols-outlined text-green-600 font-bold">check_circle</span>
+                            <span class="text-sm font-bold">High Grammes Cards</span>
+                        </div>
+                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float" style="animation-delay: 0.5s;">
+                            <span class="material-symbols-outlined text-green-600 font-bold">check_circle</span>
+                            <span class="text-sm font-bold">Sharp Prints</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Box Image (Placeholder: Replace with your actual image path) -->
+                <div class="mt-auto lg:absolute bottom-0 right-0 lg:w-2/3">
+                    <img src="harwosprints.ng-logo.jpg" alt="Box Branding" class="w-full h-auto object-contain opacity-20 lg:opacity-100 mix-blend-multiply">
+                </div>
+            </div>
+
+            <!-- Card 2: Delivery -->
+            <div class="bg-[#DDE2DB] rounded-[40px] p-8 md:p-12 flex flex-col justify-between" data-aos="fade-left">
+                <div class="space-y-6">
+                    <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-800">
+                        3-5 Working Days, Ready to Ship 🔥
+                    </p>
+                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-[1.1] text-brandBlack uppercase">
+                        We Print. We Brand. We Deliver to your doorstep!
+                    </h2>
+
+                    <!-- Bullet Points -->
+                    <ul class="space-y-4 pt-4">
+                        <li class="flex items-center gap-4 text-sm md:text-lg font-bold text-slate-800">
+                            <div class="bg-white p-2 rounded-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-brandOrange">arrow_forward</span>
+                            </div>
+                            Save cost & time
+                        </li>
+                        <li class="flex items-center gap-4 text-sm md:text-lg font-bold text-slate-800">
+                            <div class="bg-white p-2 rounded-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-brandOrange">arrow_forward</span>
+                            </div>
+                            More brand impact
+                        </li>
+                        <li class="flex items-center gap-4 text-sm md:text-lg font-bold text-slate-800">
+                            <div class="bg-white p-2 rounded-full flex items-center justify-center">
+                                <span class="material-symbols-outlined text-brandOrange">arrow_forward</span>
+                            </div>
+                            Become sustainable
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action Button -->
+                <div class="pt-10">
+                    <a href="store.html" class="inline-flex items-center gap-6 bg-brandBlack text-white px-10 py-5 rounded-2xl font-black text-lg uppercase tracking-wider hover:bg-brandOrange transition-all group">
+                        Customize Now
+                        <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
 </main>
 
 <!-- QUOTE MODAL -->
@@ -217,21 +270,10 @@
             <button onclick="toggleModal()" class="material-symbols-outlined hover:text-brandOrange transition-colors">close</button>
         </div>
         <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="p-8 space-y-4">
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Full Name</label>
-                <input type="text" name="name" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Your Name">
-            </div>
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Email Address</label>
-                <input type="email" name="email" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="email@example.com">
-            </div>
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Print Project Details</label>
-                <textarea name="message" rows="4" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Items, sizes, quantities..."></textarea>
-            </div>
-            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-brandBlack transition-all shadow-lg">
-                Send Request
-            </button>
+            <input type="text" name="name" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Your Name">
+            <input type="email" name="email" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="email@example.com">
+            <textarea name="message" rows="4" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Items, sizes, quantities..."></textarea>
+            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-brandBlack transition-all">Send Request</button>
         </form>
     </div>
 </div>
@@ -258,84 +300,14 @@
   }
 </script>
 
-
-
-<!-- QUOTE MODAL (Sends to harwosprintsltd@gmail.com) -->
-<div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative">
-        <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
-            <h3 class="text-xl font-black uppercase font-headline">Request a Quote</h3>
-            <button onclick="toggleModal()" class="material-symbols-outlined hover:text-brandOrange transition-colors">close</button>
-        </div>
-        
-        <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="p-8 space-y-4">
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Full Name</label>
-                <input type="text" name="name" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Your Name">
-            </div>
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Email Address</label>
-                <input type="email" name="email" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="email@example.com">
-            </div>
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Print Project Details</label>
-                <textarea name="message" rows="4" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Items, sizes, quantities..."></textarea>
-            </div>
-            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-brandBlack transition-all shadow-lg">
-                Send Request
-            </button>
-        </form>
-    </div>
-</div>
-
-<!-- SCRIPTS -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init({ duration: 1000, once: true });
-
-  // Mobile Menu Logic
-  function toggleMobileMenu() {
-      const menu = document.getElementById('mobileMenu');
-      const backdrop = document.getElementById('menuBackdrop');
-      menu.classList.toggle('menu-open');
-      backdrop.classList.toggle('hidden');
-      document.body.style.overflow = menu.classList.contains('menu-open') ? 'hidden' : 'auto';
-  }
-
-  // Quote Modal Logic
-  function toggleModal() {
-      const modal = document.getElementById('quoteModal');
-      modal.classList.toggle('hidden');
-      if (!modal.classList.contains('hidden')) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        // Only re-enable scroll if mobile menu is also closed
-        const menu = document.getElementById('mobileMenu');
-        if (!menu.classList.contains('menu-open')) document.body.style.overflow = 'auto';
-      }
-  }
-  
-  // Close everything on backdrop click
-  window.onclick = function(e) {
-      const modal = document.getElementById('quoteModal');
-      const menu = document.getElementById('mobileMenu');
-      if (e.target == modal) toggleModal();
-  }
-</script>
+</body>
+</html>
 
 
 
 
 
-<!-- AOS Animation Script -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init({
-    duration: 1000,
-    once: true,
-    offset: 100,
-  });
-</script>
+
 
 <!-- Services Bento Grid -->
 <section class="py-24 bg-surface-container-low">

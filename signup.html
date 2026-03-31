@@ -31,22 +31,33 @@ input:focus { transform: translateX(4px); border-color: #ea580c !important; outl
 
 <body class="bg-white font-body text-slate-900 overflow-x-hidden">
 
-<div id="loadingOverlay" class="fixed inset-0 bg-black/50 flex items-center justify-center">
+<!-- LOADER -->
+<div id="loadingOverlay" class="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
 <div class="w-12 h-12 border-4 border-brandOrange border-t-transparent rounded-full animate-spin"></div>
 </div>
 
 <main class="min-h-screen flex flex-col md:flex-row">
 
-<!-- RIGHT -->
-<section class="w-full md:w-1/2 bg-black flex items-center justify-center p-8">
-<h1 class="text-white text-3xl md:text-5xl font-bold text-center">
-Elevate Your Brand
-</h1>
+<!-- IMAGE SIDE -->
+<section class="relative w-full md:w-1/2 h-[300px] md:h-auto">
+    <img src="https://images.unsplash.com/photo-1581091870627-3d1b0c6b1b6b?auto=format&fit=crop&w=1400&q=80"
+         class="absolute inset-0 w-full h-full object-cover"/>
+
+    <div class="absolute inset-0 bg-black/60 flex items-center justify-center p-6">
+        <h1 class="text-white text-3xl md:text-5xl font-bold text-center">
+            Premium Printing Services
+        </h1>
+    </div>
 </section>
 
-<!-- LEFT FORM -->
-<section class="flex-1 flex items-center justify-center p-8">
+<!-- FORM SIDE -->
+<section class="flex-1 flex items-center justify-center p-6 md:p-12">
 <div class="w-full max-w-md">
+
+<!-- HOME BUTTON -->
+<a href="index.html" class="inline-block mb-6 text-xs font-black uppercase text-brandOrange hover:underline">
+← Back Home
+</a>
 
 <h2 class="text-2xl font-black text-brandOrange mb-6">Create Account</h2>
 
@@ -64,24 +75,70 @@ Create Account
 </section>
 </main>
 
-<!-- FOOTER -->
-<footer class="bg-black text-white text-center p-6 mt-10">
-Harwosprints.ng © 2024
+<!-- ================= FOOTER ================= -->
+<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 px-6">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+<div>
+<div class="text-brandOrange font-black text-2xl uppercase">Harwosprints.ng</div>
+<p class="mt-4">Premium printing & branding solutions.</p>
+</div>
+
+<div>
+<h5 class="text-white font-bold mb-4">Solutions</h5>
+<ul class="space-y-2 text-sm">
+<li>Commercial Printing</li>
+<li>Brand Identity</li>
+<li>Packaging</li>
+</ul>
+</div>
+
+<div>
+<h5 class="text-white font-bold mb-4">Locations</h5>
+<p class="text-sm">Lagos, Nigeria</p>
+</div>
+
+<div>
+<h5 class="text-white font-bold mb-4">Newsletter</h5>
+<input class="w-full px-3 py-2 bg-slate-900 text-white rounded">
+</div>
+
+</div>
+
+<div class="mt-10 flex justify-center gap-6 text-xs">
+<a onclick="toggleModal('policyModal')" class="cursor-pointer hover:text-brandOrange">Privacy Policy</a>
+<a onclick="toggleModal('policyModal')" class="cursor-pointer hover:text-brandOrange">Terms & Conditions</a>
+</div>
 </footer>
 
+<!-- POLICY MODAL -->
+<div id="policyModal" class="fixed inset-0 hidden flex items-center justify-center bg-black/90 z-[200]">
+<div class="bg-white max-w-2xl w-full p-6 rounded-xl">
+<h3 class="font-bold text-lg mb-4">Policies</h3>
+<p>All your policy content here...</p>
+<button onclick="toggleModal('policyModal')" class="mt-4 bg-black text-white px-4 py-2 rounded">Close</button>
+</div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
 <script>
 const supabaseClient = supabase.createClient(
 'https://eicmwdhsxzondsxepegu.supabase.co',
 'your-key'
 );
 
+function toggleModal(id){
+const modal=document.getElementById(id);
+modal.classList.toggle('hidden');
+}
+
 document.getElementById('signupForm').addEventListener('submit', async (e)=>{
 e.preventDefault();
 loadingOverlay.style.display='flex';
 
-const email = email.value;
-const password = password.value;
-const full_name = full_name.value;
+const email=document.getElementById('email').value;
+const password=document.getElementById('password').value;
+const full_name=document.getElementById('full_name').value;
 
 const { error } = await supabaseClient.auth.signUp({
 email,

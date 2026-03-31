@@ -19,14 +19,8 @@
       tailwind.config = {
         theme: {
           extend: {
-            colors: {
-              brandOrange: "#ea580c", 
-              brandBlack: "#000000"
-            },
-            fontFamily: {
-              headline: ["Space Grotesk", "sans-serif"],
-              body: ["Plus Jakarta Sans", "sans-serif"],
-            },
+            colors: { brandOrange: "#ea580c", brandBlack: "#000000" },
+            fontFamily: { headline: ["Space Grotesk", "sans-serif"], body: ["Plus Jakarta Sans", "sans-serif"] },
           },
         },
       }
@@ -35,31 +29,13 @@
     <style>
         @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-slow-spin { animation: slowSpin 12s linear infinite; }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
         .animate-float { animation: float 4s ease-in-out infinite; }
-
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee { display: flex; width: max-content; animation: marquee 25s linear infinite; }
-
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { display: flex; width: max-content; animation: marquee 30s linear infinite; }
         #mobileMenu { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .menu-open { transform: translateX(0) !important; }
-
-        /* Timeline Line */
-        .timeline-line {
-            position: absolute; left: 24px; top: 40px; bottom: 40px; width: 2px;
-            background: repeating-linear-gradient(to bottom, #ea580c 0, #ea580c 5px, transparent 5px, transparent 10px);
-        }
-
-        /* Custom Frame Inner Shadow */
-        .work-frame { box-shadow: inset 0 0 15px rgba(0,0,0,0.1); }
+        .timeline-line { position: absolute; left: 24px; top: 40px; bottom: 40px; width: 2px; background: repeating-linear-gradient(to bottom, #ea580c 0, #ea580c 5px, transparent 5px, transparent 10px); }
     </style>
 </head>
 
@@ -69,26 +45,21 @@
 <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
     <div class="flex justify-between items-center w-full px-6 md:px-12 py-4 mx-auto max-w-7xl">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-brandOrange shadow-sm bg-white p-0.5">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-brandOrange bg-white p-0.5">
                 <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
             </div>
             <div class="text-xl md:text-2xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints.ng</div>
         </div>
-
         <div class="hidden md:flex items-center space-x-8 font-headline font-bold">
             <a class="text-brandOrange" href="#">Home</a>
             <a class="hover:text-brandOrange transition-colors" href="store.html">Shop</a>
             <a class="hover:text-brandOrange transition-colors" href="about.html">About</a>
-            <a class="hover:text-brandOrange transition-colors" href="contact.html">Contact</a>
+            <a class="hover:text-brandOrange transition-colors" href="#contact-section">Contact</a>
         </div>
-
         <div class="hidden md:flex items-center space-x-4">
-            <button onclick="toggleModal()" class="bg-brandBlack text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-brandOrange transition-all">Request Quote</button>
+            <button onclick="toggleModal('quoteModal')" class="bg-brandBlack text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-brandOrange transition-all">Request Quote</button>
         </div>
-        
-        <button onclick="toggleMobileMenu()" class="md:hidden flex items-center text-brandBlack">
-            <span class="material-symbols-outlined text-3xl">menu</span>
-        </button>
+        <button onclick="toggleMobileMenu()" class="md:hidden flex items-center text-brandBlack"><span class="material-symbols-outlined text-3xl">menu</span></button>
     </div>
 </nav>
 
@@ -98,15 +69,14 @@
     <div class="flex flex-col space-y-6 font-headline font-bold text-xl text-white">
         <a onclick="toggleMobileMenu()" href="#" class="text-brandOrange">Home</a>
         <a onclick="toggleMobileMenu()" href="store.html">Shop</a>
-        <a onclick="toggleMobileMenu()" href="about.html">About</a>
-        <a onclick="toggleMobileMenu()" href="contact.html">Contact</a>
+        <a onclick="toggleMobileMenu()" href="#contact-section">Contact</a>
     </div>
-    <div class="mt-auto"><button onclick="toggleMobileMenu(); toggleModal();" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-xl">Request Quote</button></div>
+    <div class="mt-auto"><button onclick="toggleMobileMenu(); toggleModal('quoteModal');" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest">Request Quote</button></div>
 </div>
-<div id="menuBackdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/60 z-[55] hidden"></div>
+<div id="menuBackdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/60 z-[55] hidden md:hidden"></div>
 
 <main class="pt-20">
-    <!-- SECTION 1: HERO -->
+    <!-- HERO -->
     <section class="relative min-h-[80vh] flex items-center bg-slate-50 py-12 md:py-24 overflow-hidden">
         <div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-7 space-y-8" data-aos="fade-right">
@@ -118,220 +88,293 @@
                 <p class="text-base md:text-xl text-slate-600 max-w-xl font-medium">Transforming concepts into high-fidelity physical reality.</p>
                 <div class="flex flex-wrap gap-4 pt-4">
                     <a href="https://wa.me/2349094576733" target="_blank" class="w-full sm:w-auto bg-brandBlack text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:bg-brandOrange transition-all flex justify-center items-center gap-2 group">Get Started <span class="material-symbols-outlined">arrow_forward</span></a>
-                    <button onclick="toggleModal()" class="w-full sm:w-auto bg-white text-brandBlack px-8 py-4 rounded-xl font-bold text-lg border-2 border-brandBlack hover:bg-slate-50 transition-all">Order Prints</button>
+                    <button onclick="toggleModal('quoteModal')" class="w-full sm:w-auto bg-white text-brandBlack px-8 py-4 rounded-xl font-bold text-lg border-2 border-brandBlack hover:bg-slate-50 transition-all">Order Prints</button>
                 </div>
             </div>
-            <div class="lg:col-span-5" data-aos="zoom-in" data-aos-delay="200">
-                <div class="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white"><img src="Home_page-1-scaled-e1669721721219.jpg" alt="Hero" class="w-full h-auto object-cover"></div>
-            </div>
+            <div class="lg:col-span-5" data-aos="zoom-in" data-aos-delay="200"><img src="Home_page-1-scaled-e1669721721219.jpg" class="rounded-3xl shadow-2xl border-8 border-white"></div>
         </div>
     </section>
 
-    <!-- SECTION 2: VISIBILITY -->
-    <section class="py-24 bg-white border-t border-slate-100">
+    <!-- VISIBILITY -->
+    <section class="py-24 bg-white border-t">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="space-y-8 order-2 lg:order-1">
+            <div class="space-y-8 order-2 lg:order-1" data-aos="fade-up">
                 <h2 class="text-3xl md:text-6xl font-black text-brandBlack uppercase tracking-tighter">We Design, Print, Brand<br/><span class="text-slate-700">giving your Brand <span class="text-brandOrange italic">visibility</span></span></h2>
-                <p class="mt-6 text-lg md:text-xl text-slate-500 max-w-lg border-l-4 border-brandOrange pl-6 font-medium">Get your business more visibility, by custom branding, prints, stickers for party souvenirs & promotional gifting items.</p>
-                <ul class="space-y-6">
-                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Verified source of quality print materials</li>
-                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Proudly & meticulously produced in Nigeria</li>
-                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Delivery in <span class="text-brandOrange underline font-black">3 TO 5 WORK DAYS</span></li>
-                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Designers supports on the Journey</li>
+                <ul class="space-y-4">
+                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange">verified</span> Nigeria Production</li>
+                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange">local_shipping</span> 3 to 5 Work Days</li>
                 </ul>
-                <div class="pt-4"><button onclick="toggleModal()" class="w-full sm:w-auto inline-flex justify-center items-center gap-4 bg-brandOrange text-white px-10 py-5 rounded-lg font-black text-xl uppercase shadow-lg">START PRINTING <span class="material-symbols-outlined bg-black/20 p-1 rounded">arrow_forward</span></button></div>
             </div>
-            <div class="flex justify-center items-center order-1 lg:order-2">
+            <div class="flex justify-center items-center order-1 lg:order-2" data-aos="zoom-in">
                 <div class="relative w-64 h-64 md:w-80 md:h-80">
                     <div class="absolute inset-0 rounded-full border-4 border-dashed border-brandOrange animate-slow-spin"></div>
-                    <div class="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-2xl border-2 border-brandBlack overflow-hidden"><img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-3/4 h-auto object-contain"></div>
+                    <div class="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-2xl border-2 border-brandBlack overflow-hidden"><img src="harwosprints.ng-logo.jpg" class="w-3/4 object-contain"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 3: PRODUCT GRID -->
+    <!-- PRODUCT GRID -->
     <section class="py-24 bg-slate-50">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="space-y-4 group"><div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-all group-hover:-translate-y-2 group-hover:shadow-xl"><img src="Customizepaperbag.png" alt="Paper Bags" class="w-full h-full object-contain p-4"></div><h3 class="text-lg font-black uppercase text-brandBlack group-hover:text-brandOrange transition-colors text-center">Paper Bags</h3></div>
-            <div class="space-y-4 group"><div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-all group-hover:-translate-y-2 group-hover:shadow-xl"><img src="Business card.png" alt="Callcards" class="w-full h-full object-contain p-4"></div><h3 class="text-lg font-black uppercase text-brandBlack group-hover:text-brandOrange transition-colors text-center">Callcards</h3></div>
-            <div class="space-y-4 group"><div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-all group-hover:-translate-y-2 group-hover:shadow-xl"><img src="Brochure.png" alt="Brochures" class="w-full h-full object-contain p-4"></div><h3 class="text-lg font-black uppercase text-brandBlack group-hover:text-brandOrange transition-colors text-center">Brochures</h3></div>
+            <div class="group" data-aos="fade-up"><div class="aspect-[4/3] rounded-2xl bg-white border shadow transition-all group-hover:-translate-y-2 group-hover:shadow-xl p-4"><img src="Customizepaperbag.png" class="w-full h-full object-contain"></div><h3 class="mt-4 font-black text-center uppercase">Paper Bags</h3></div>
+            <div class="group" data-aos="fade-up" data-aos-delay="100"><div class="aspect-[4/3] rounded-2xl bg-white border shadow transition-all group-hover:-translate-y-2 group-hover:shadow-xl p-4"><img src="Business card.png" class="w-full h-full object-contain"></div><h3 class="mt-4 font-black text-center uppercase">Callcards</h3></div>
+            <div class="group" data-aos="fade-up" data-aos-delay="200"><div class="aspect-[4/3] rounded-2xl bg-white border shadow transition-all group-hover:-translate-y-2 group-hover:shadow-xl p-4"><img src="Brochure.png" class="w-full h-full object-contain"></div><h3 class="mt-4 font-black text-center uppercase">Brochures</h3></div>
         </div>
     </section>
 
-    <!-- SECTION 4: SERVICE HIGHLIGHT BOXES -->
-    <section class="py-24 bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="bg-brandOrange rounded-[40px] p-8 md:p-12 relative min-h-[500px] flex flex-col justify-between overflow-hidden" data-aos="fade-right">
-                <div class="relative z-10 space-y-6">
-                    <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-white/80">Creative, Unique, Sharp Prints 🌲</p>
-                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-[1.1] text-brandBlack uppercase max-w-sm">Direct Imaging or Offset by MO for Bulk Runs</h2>
-                    <div class="flex flex-col gap-4 pt-4">
-                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">High Grammes Cards</span></div>
-                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float" style="animation-delay: 0.5s;"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">Sharp Prints</span></div>
-                    </div>
+    <!-- HIGHLIGHT BOXES -->
+    <section class="py-24 bg-white px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-brandOrange rounded-[40px] p-8 md:p-12 relative min-h-[500px] flex flex-col justify-between" data-aos="fade-right">
+                <h2 class="text-3xl md:text-5xl font-black italic text-brandBlack uppercase max-w-sm">Direct Imaging or Offset by MO for Bulk Runs</h2>
+                <div class="space-y-4">
+                    <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="font-bold">High Grammes Cards</span></div>
                 </div>
-                <div class="mt-8 md:absolute bottom-0 right-0 md:w-3/4 opacity-100"><img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-auto object-contain opacity-30 mix-blend-overlay scale-125 translate-x-12 translate-y-12"></div>
             </div>
-            <div class="bg-brandBlack rounded-[40px] p-8 md:p-12 min-h-[500px] flex flex-col justify-between shadow-2xl" data-aos="fade-left">
-                <div class="space-y-8">
-                    <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-brandOrange">3-5 Working Days, Ready to Ship 🔥</p>
-                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-[1.1] text-white uppercase">We Print. We Brand. We Deliver to your doorstep!</h2>
-                    <ul class="space-y-4 pt-4">
-                        <li class="flex items-center gap-4 text-white font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> Save cost & time</li>
-                        <li class="flex items-center gap-4 text-white font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> More brand impact</li>
-                        <li class="flex items-center gap-4 text-white font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> Become sustainable</li>
-                    </ul>
-                </div>
-                <div class="pt-8"><a href="store.html" class="inline-flex items-center gap-6 bg-brandOrange text-white px-10 py-5 rounded-2xl font-black text-lg uppercase shadow-xl transition-all">Customize Now <span class="material-symbols-outlined">arrow_forward</span></a></div>
+            <div class="bg-brandBlack rounded-[40px] p-8 md:p-12 min-h-[500px] flex flex-col justify-between" data-aos="fade-left">
+                <h2 class="text-3xl md:text-5xl font-black italic text-white uppercase">We Print. We Brand. We Deliver to your doorstep!</h2>
+                <div class="pt-8"><a href="store.html" class="inline-flex items-center gap-6 bg-brandOrange text-white px-10 py-5 rounded-2xl font-black uppercase shadow-xl transition-all">Customize Now <span class="material-symbols-outlined">arrow_forward</span></a></div>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 5: CLIENTS MARQUEE -->
-    <section class="py-20 bg-slate-50 overflow-hidden border-t border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 mb-12 text-center">
-            <h4 class="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-slate-400 italic">"See the list of clients we serve & impact creative solutions."</h4>
-        </div>
+    <!-- CLIENTS MARQUEE -->
+    <section class="py-20 bg-slate-50 overflow-hidden">
         <div class="relative flex overflow-x-hidden">
             <div class="animate-marquee whitespace-nowrap flex items-center gap-16 md:gap-32">
-                <img src="Pepsi_bi_2006svg.png" alt="Pepsi" class="h-12 md:h-20 w-auto object-contain">
-                <img src="aje-logo.png" alt="AJE" class="h-12 md:h-20 w-auto object-contain">
-                <img src="harwosprints.ng_bigi_logo-300x166.jpg" alt="Bigi" class="h-12 md:h-20 w-auto object-contain">
-                <img src="7up-Logo-300x169.png" alt="7up" class="h-12 md:h-20 w-auto object-contain">
-                <img src="logo-fp-c-1.png" alt="Logo" class="h-12 md:h-20 w-auto object-contain">
-                <img src="Pepsi_bi_2006svg.png" alt="Pepsi" class="h-12 md:h-20 w-auto object-contain">
-                <img src="aje-logo.png" alt="AJE" class="h-12 md:h-20 w-auto object-contain">
-                <img src="harwosprints.ng_bigi_logo-300x166.jpg" alt="Bigi" class="h-12 md:h-20 w-auto object-contain">
-                <img src="7up-Logo-300x169.png" alt="7up" class="h-12 md:h-20 w-auto object-contain">
-                <img src="logo-fp-c-1.png" alt="Logo" class="h-12 md:h-20 w-auto object-contain">
+                <img src="Pepsi_bi_2006svg.png" class="h-12 md:h-20 object-contain">
+                <img src="aje-logo.png" class="h-12 md:h-20 object-contain">
+                <img src="harwosprints.ng_bigi_logo-300x166.jpg" class="h-12 md:h-20 object-contain">
+                <img src="7up-Logo-300x169.png" class="h-12 md:h-20 object-contain">
+                <img src="logo-fp-c-1.png" class="h-12 md:h-20 object-contain">
+                <!-- Repeat -->
+                <img src="Pepsi_bi_2006svg.png" class="h-12 md:h-20 object-contain">
+                <img src="aje-logo.png" class="h-12 md:h-20 object-contain">
+                <img src="harwosprints.ng_bigi_logo-300x166.jpg" class="h-12 md:h-20 object-contain">
+                <img src="7up-Logo-300x169.png" class="h-12 md:h-20 object-contain">
+                <img src="logo-fp-c-1.png" class="h-12 md:h-20 object-contain">
             </div>
         </div>
     </section>
 
-    <!-- SECTION 6: HOW IT WORKS -->
-    <section class="py-24 bg-[#FFFBF7] relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <!-- HOW IT WORKS -->
+    <section class="py-24 bg-[#FFFBF7] px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div class="space-y-12">
-                <h2 class="text-4xl md:text-6xl font-black italic tracking-tighter text-brandBlack uppercase" data-aos="fade-up">HOW IT WORKS</h2>
+                <h2 class="text-4xl font-black italic text-brandBlack uppercase" data-aos="fade-up">HOW IT WORKS</h2>
                 <div class="relative space-y-12">
                     <div class="timeline-line hidden md:block"></div>
-                    <div class="flex items-start gap-6 relative group" data-aos="fade-up"><div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg group-hover:scale-110 transition-transform">1</div><div class="space-y-2"><h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">CUSTOMIZE YOUR PRINTS OR BRANDING</h3><p class="text-slate-500 font-medium leading-relaxed max-w-md text-sm md:text-base">Choose from 412 custom products, customize your design with graphics, text or your own images.</p></div></div>
-                    <div class="flex items-start gap-6 relative group" data-aos="fade-up" data-aos-delay="100"><div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg group-hover:scale-110 transition-transform">2</div><div class="space-y-2"><h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">SET UP SHIPPING INSTRUCTIONS</h3><p class="text-slate-500 font-medium leading-relaxed max-w-md text-sm md:text-base">Get your custom packaging when you need it, with delivery in as little as 7 days.</p></div></div>
-                    <div class="flex items-start gap-6 relative group" data-aos="fade-up" data-aos-delay="200"><div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg group-hover:scale-110 transition-transform">3</div><div class="space-y-2"><h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">TRACK THE PROGRESS OF ORDERS</h3><p class="text-slate-500 font-medium leading-relaxed max-w-md text-sm md:text-base">Track your orders in real time. Design. Production. Ready for dispatch. Delivered.</p></div></div>
+                    <div class="flex items-start gap-6 relative group" data-aos="fade-up"><div class="w-12 h-12 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black z-10 shadow-lg">1</div><div><h3 class="font-black uppercase">CUSTOMIZE</h3><p class="text-slate-500">Choose from 412 custom products.</p></div></div>
+                    <div class="flex items-start gap-6 relative group" data-aos="fade-up" data-aos-delay="100"><div class="w-12 h-12 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black z-10 shadow-lg">2</div><div><h3 class="font-black uppercase">SHIPPING</h3><p class="text-slate-500">Set up instructions for 7-day delivery.</p></div></div>
+                    <div class="flex items-start gap-6 relative group" data-aos="fade-up" data-aos-delay="200"><div class="w-12 h-12 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black z-10 shadow-lg">3</div><div><h3 class="font-black uppercase">TRACK</h3><p class="text-slate-500">Track orders real time until delivery.</p></div></div>
                 </div>
-                <div class="pt-6" data-aos="fade-up" data-aos-delay="300"><button onclick="toggleModal()" class="bg-brandBlack text-brandOrange px-10 py-5 rounded-full font-black uppercase text-sm md:text-base tracking-[0.2em] shadow-xl hover:bg-brandOrange hover:text-white transition-all">START PRINTING</button></div>
             </div>
-            <div class="relative" data-aos="zoom-in"><div class="relative bg-white p-4 rounded-[3rem] shadow-2xl border-4 border-brandBlack overflow-hidden animate-float"><img src="harwosprints.ng-logo.jpg" alt="Printing Service" class="w-full h-auto object-cover rounded-[2.5rem]"></div></div>
+            <div class="bg-white p-4 rounded-[3rem] shadow-2xl border-4 border-brandBlack animate-float" data-aos="zoom-in"><img src="harwosprints.ng-logo.jpg" class="rounded-[2.5rem]"></div>
         </div>
     </section>
 
-    <!-- NEW SECTION: GALLERY OF WORK DONE -->
-    <section class="py-24 bg-white border-t border-slate-100">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-end mb-12">
-                <h2 class="text-4xl md:text-6xl font-black italic tracking-tighter text-brandBlack uppercase" data-aos="fade-right">GALLERY OF WORK DONE</h2>
+    <!-- GALLERY -->
+    <section class="py-24 bg-white px-6 border-t">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-black italic text-brandBlack uppercase mb-12">GALLERY OF WORK DONE</h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up"><img src="Branded cap.png" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="50"><img src="Branded cloth.jpeg" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="100"><img src="Branded cups.jpeg" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="150"><img src="Customized items.jpeg" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="200"><img src="Enamel pins.jpeg" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="250"><img src="Pillow .jpeg" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="300"><img src="Roll up banners .jpeg" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="350"><img src="customized phone pouch.jpeg" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="400"><img src="customized shirts.jpeg" class="h-64 w-full object-cover"></div>
+                <div class="border-4 border-brandBlack rounded-xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="450"><img src="water bottles.jpeg" class="h-64 w-full object-cover"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DELIVER -->
+    <section class="py-24 bg-slate-50 px-6">
+        <div class="max-w-7xl mx-auto bg-white rounded-[3rem] p-8 md:p-12 border-4 border-brandBlack shadow-2xl flex flex-col lg:row gap-12" data-aos="fade-up">
+            <div class="lg:w-1/2 rounded-3xl overflow-hidden h-64 md:h-96 shadow-lg">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoOKUa0SkhjfjuKUOtFfpfXeoZvbhd2iyodidx4OvR8IGun5pn4jeAjCcQrbuBRXtR96eeoyjGxNRfZUsJTyXLoEZU6DvLfZdPA5W6VuABmzr9RYAKJ_z1dj_vKNv-WdpeDvzDV2OpIMFNi2Ah2qaWefZXcj4CDzYvdaUX8mcbVNDAN7RogDZFYjio2KulqXQJD-gEDXbURFB5G3QpBGqfhgqKHzFPLT7kktIgLRLXZHjSG1BI_bcqKUCXRXqrBYdM2ChfCx7_B6k" class="w-full h-full object-cover">
+            </div>
+            <div class="lg:w-1/2 space-y-6">
+                <h3 class="text-4xl font-black italic text-brandBlack uppercase">DELIVER</h3>
+                <p class="text-xl">White-glove logistics ensuring prints arrive in pristine condition.</p>
+                <div class="bg-slate-50 p-6 rounded-2xl border">
+                    <div class="flex justify-between font-black uppercase text-xs mb-2"><span>On-time Rate</span><span>95%</span></div>
+                    <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden"><div class="bg-brandOrange h-full w-[95%]"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: CONTACT FORM SECTION -->
+    <section id="contact-section" class="py-24 bg-white px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl md:text-6xl font-black italic text-brandBlack uppercase mb-6">Contact Us</h2>
+                <p class="text-slate-500 font-medium text-lg mb-10">Have a custom project in mind? Fill out the form and our team will get back to you within 24 hours.</p>
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-brandOrange/10 p-3 rounded-xl"><span class="material-symbols-outlined text-brandOrange">call</span></div>
+                        <span class="font-bold">+234 916 8794 383</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="bg-brandOrange/10 p-3 rounded-xl"><span class="material-symbols-outlined text-brandOrange">mail</span></div>
+                        <span class="font-bold">harwosprintsltd@gmail.com</span>
+                    </div>
+                </div>
             </div>
             
-            <!-- Grid: 5 Columns on Laptop, 2 Columns on Mobile -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-                
-                <!-- Frame 1 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up">
-                    <img src="Branded cap.png" alt="Branded Cap" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">Branded caps</span>
-                    </div>
+            <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="bg-slate-50 p-8 md:p-12 rounded-[2.5rem] border-2 border-brandBlack shadow-xl" data-aos="fade-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <input type="text" name="name" required placeholder="Full Name" class="w-full p-4 rounded-xl border focus:border-brandOrange outline-none font-bold">
+                    <input type="email" name="email" required placeholder="Email" class="w-full p-4 rounded-xl border focus:border-brandOrange outline-none font-bold">
                 </div>
-
-                <!-- Frame 2 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="50">
-                    <img src="Branded cloth.jpeg" alt="Branded Cloth" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">Branded cloth</span>
-                    </div>
-                </div>
-
-                <!-- Frame 3 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="100">
-                    <img src="Branded cups.jpeg" alt="Branded Cups" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">Branded cups</span>
-                    </div>
-                </div>
-
-                <!-- Frame 4 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="150">
-                    <img src="Customized items.jpeg" alt="Customized Items" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">Customized items</span>
-                    </div>
-                </div>
-
-                <!-- Frame 5 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="200">
-                    <img src="Enamel pins.jpeg" alt="Enamel Pins" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">Enamel pins</span>
-                    </div>
-                </div>
-
-                <!-- Frame 6 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="250">
-                    <img src="Pillow .jpeg" alt="Branded Pillow" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">Pillow</span>
-                    </div>
-                </div>
-
-                <!-- Frame 7 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="300">
-                    <img src="Roll up banners .jpeg" alt="Roll Up Banners" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">Roll up Banners</span>
-                    </div>
-                </div>
-
-                <!-- Frame 8 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="350">
-                    <img src="customized phone pouch.jpeg" alt="Phone Pouch" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">Phone Items</span>
-                    </div>
-                </div>
-
-                <!-- Frame 9 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="400">
-                    <img src="customized shirts.jpeg" alt="Shirts" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">shirts </span>
-                    </div>
-                </div>
-
-                <!-- Frame 10 -->
-                <div class="group relative overflow-hidden rounded-2xl border-4 border-brandBlack shadow-lg" data-aos="fade-up" data-aos-delay="450">
-                    <img src="water bottles.jpeg" alt="Water Bottles" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-brandOrange/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-black text-sm uppercase">water bottles</span>
-                    </div>
-                </div>
-
-            </div>
+                <input type="text" name="subject" required placeholder="Subject" class="w-full p-4 rounded-xl border focus:border-brandOrange outline-none font-bold mb-6">
+                <textarea name="message" rows="4" required placeholder="Your Message" class="w-full p-4 rounded-xl border focus:border-brandOrange outline-none font-bold mb-6"></textarea>
+                <button type="submit" class="w-full bg-brandBlack text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-brandOrange transition-all">Send Message</button>
+            </form>
         </div>
     </section>
 
+    <!-- NEW: TESTIMONIAL MARQUEE -->
+    <section class="py-24 bg-brandBlack overflow-hidden">
+        <h2 class="text-center text-white text-3xl font-black uppercase mb-16 tracking-widest">Happy Clients</h2>
+        <div class="relative flex overflow-x-hidden">
+            <div class="animate-marquee whitespace-nowrap flex items-center gap-8">
+                <!-- Nigerian Testimonials -->
+                <div class="w-[350px] bg-white p-8 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                    <p class="text-slate-600 font-medium italic mb-6">"Harwosprints delivered 5000 branded bags for our gala. The quality was elite and the colors were spot on!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                        <div><h4 class="font-black text-brandBlack uppercase">Chioma Adeleke</h4><p class="text-xs font-bold text-brandOrange">CEO, Fashion Hub</p></div>
+                    </div>
+                </div>
+                <div class="w-[350px] bg-white p-8 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                    <p class="text-slate-600 font-medium italic mb-6">"Fastest delivery in Lagos. I ordered roll-up banners on Tuesday and got them Thursday. Incredible!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                        <div><h4 class="font-black text-brandBlack uppercase">Olawale Hassan</h4><p class="text-xs font-bold text-brandOrange">Event Planner</p></div>
+                    </div>
+                </div>
+                <div class="w-[350px] bg-white p-8 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                    <p class="text-slate-600 font-medium italic mb-6">"Our restaurant menus have never looked this good. Premium card stock and very sharp imaging."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                        <div><h4 class="font-black text-brandBlack uppercase">Ngozi Okoro</h4><p class="text-xs font-bold text-brandOrange">Restaurateur</p></div>
+                    </div>
+                </div>
+                <div class="w-[350px] bg-white p-8 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                    <p class="text-slate-600 font-medium italic mb-6">"The only place we trust for our tech merch. The shirts and bottles are top quality."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                        <div><h4 class="font-black text-brandBlack uppercase">Tunde Bakare</h4><p class="text-xs font-bold text-brandOrange">Tech Founder</p></div>
+                    </div>
+                </div>
+                <div class="w-[350px] bg-white p-8 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                    <p class="text-slate-600 font-medium italic mb-6">"Professional team, sharp designs, and they actually meet deadlines. A rare gem in Nigeria."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                        <div><h4 class="font-black text-brandBlack uppercase">Aisha Mohammed</h4><p class="text-xs font-bold text-brandOrange">Director, NGO</p></div>
+                    </div>
+                </div>
+                <!-- Duplicate for Loop -->
+                <div class="w-[350px] bg-white p-8 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                    <p class="text-slate-600 font-medium italic mb-6">"Harwosprints delivered 5000 branded bags for our gala."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                        <div><h4 class="font-black text-brandBlack uppercase">Chioma Adeleke</h4><p class="text-xs font-bold text-brandOrange">CEO, Fashion Hub</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
-<!-- DETAILED QUOTE MODAL -->
+<!-- FOOTER -->
+<footer class="bg-slate-900 w-full pt-16 pb-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div class="col-span-1 md:col-span-1">
+            <div class="text-orange-500 font-black text-2xl mb-6 uppercase tracking-tighter">Harwosprints.ng</div>
+            <p class="font-body text-slate-400 leading-relaxed mb-6">The premier partner for high-precision printing and tactical branding solutions.</p>
+            <div class="flex space-x-4">
+                <a class="text-slate-400 hover:text-orange-400 transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+                <a class="text-slate-400 hover:text-orange-400 transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+                <a class="text-slate-400 hover:text-orange-400 transition-colors" href="#"><span class="material-symbols-outlined">call</span></a>
+            </div>
+            <!-- GET A WEBSITE BUTTON -->
+            <div class="mt-8">
+                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest shadow-lg transition-all">
+                    Get a Business Website
+                </a>
+            </div>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6">Our Locations</h5>
+            <div class="space-y-6 text-slate-400 text-sm">
+                <div><p class="text-white font-bold text-xs uppercase mb-1">Head Office</p><p>50, Shipeolu Street, Somolu, Lagos.</p></div>
+                <div><p class="text-white font-bold text-xs uppercase mb-1">Sales Office</p><p>Shop C6, Abraham Adesanya Shopping Complex, Onipanu, Lagos.</p></div>
+                <div><p class="text-white font-bold text-xs uppercase mb-1">Branch Office</p><p>63, Tejuosho Road, Yaba, Lagos.</p></div>
+            </div>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6">Company</h5>
+            <ul class="space-y-4">
+                <li><a onclick="toggleModal('policyModal')" class="text-slate-400 hover:text-orange-400 transition-colors cursor-pointer">Privacy Policy</a></li>
+                <li><a onclick="toggleModal('policyModal')" class="text-slate-400 hover:text-orange-400 transition-colors cursor-pointer">Terms of Service</a></li>
+                <li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">FAQ</a></li>
+                <li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">Support</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6">Newsletter</h5>
+            <p class="text-slate-400 text-sm mb-4">Get the latest insights on design and printing technology.</p>
+            <div class="flex gap-2">
+                <input class="bg-slate-800 border-none rounded-lg text-white w-full px-4 focus:ring-1 focus:ring-orange-500" placeholder="Your email" type="email"/>
+                <button class="bg-orange-500 text-slate-900 p-2 rounded-lg hover:bg-orange-400 transition-colors"><span class="material-symbols-outlined">send</span></button>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="font-body text-slate-400 text-sm">© 2024 Harwosprints.ng. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- POLICY MODAL (POPUP) -->
+<div id="policyModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-2xl h-[80vh] rounded-3xl overflow-hidden shadow-2xl relative flex flex-col">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
+            <h3 class="text-xl font-black uppercase">Harwosprints Policies</h3>
+            <button onclick="toggleModal('policyModal')" class="material-symbols-outlined">close</button>
+        </div>
+        <div class="p-8 overflow-y-auto font-medium text-slate-700 leading-relaxed space-y-6">
+            <h4 class="font-black uppercase text-brandOrange">Shipping & Delivery</h4>
+            <p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. The cost may vary based on the distance from our office.</p>
+            <h4 class="font-black uppercase text-brandOrange">Quality of materials</h4>
+            <p>We are assuring you of our product quality which comes from other parts of the world known best manufacturing standard and practice like us. Sometimes, during transit and production in bulk few error occur and we regret to admit but trust us to do a perfect replacement of broken, torn or defective products.</p>
+            <h4 class="font-black uppercase text-brandOrange">Terms & Conditions</h4>
+            <p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can’t offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging.</p>
+            <h4 class="font-black uppercase text-brandOrange">Refunds</h4>
+            <p>Once your return is received and inspected, we will send you an email to notify you that we have received your returned item. We will also notify you of our commitment to replace a perfect product after we are sure that error is on our part.</p>
+            <h4 class="font-black uppercase text-brandOrange">Data Policy</h4>
+            <p>Our website address is: https://harwosprint.ng. When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor’s IP address and browser user agent string to help spam detection.</p>
+        </div>
+    </div>
+</div>
+
+<!-- QUOTE MODAL -->
 <div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
     <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative">
-        <div class="bg-brandBlack p-6 text-white flex justify-between items-center"><h3 class="text-xl font-black uppercase">Request a Quote</h3><button onclick="toggleModal()" class="material-symbols-outlined hover:text-brandOrange transition-colors">close</button></div>
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center"><h3 class="text-xl font-black uppercase tracking-tighter">Request a Quote</h3><button onclick="toggleModal('quoteModal')" class="material-symbols-outlined">close</button></div>
         <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="p-8 space-y-4">
-            <div><label class="block text-sm font-bold uppercase text-slate-500 mb-1">Full Name</label><input type="text" name="name" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="John Doe"></div>
-            <div><label class="block text-sm font-bold uppercase text-slate-500 mb-1">Email Address</label><input type="email" name="email" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="john@example.com"></div>
-            <div><label class="block text-sm font-bold uppercase text-slate-500 mb-1">Service Required</label><select name="service" class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold"><option>Business Cards</option><option>Flyers / Brochures</option><option>Branded Souvenirs</option><option>Stickers / Labels</option><option>Other</option></select></div>
-            <div><label class="block text-sm font-bold uppercase text-slate-500 mb-1">Quantity / Message</label><textarea name="message" rows="3" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Tell us about your project..."></textarea></div>
-            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-xl">Send Quote Request</button>
+            <input type="text" name="name" required placeholder="Full Name" class="w-full border-2 p-3 rounded-xl outline-none font-bold">
+            <input type="email" name="email" required placeholder="Email" class="w-full border-2 p-3 rounded-xl outline-none font-bold">
+            <select name="service" class="w-full border-2 p-3 rounded-xl font-bold"><option>Business Cards</option><option>Branded Souvenirs</option></select>
+            <textarea name="message" rows="3" required placeholder="Details..." class="w-full border-2 p-3 rounded-xl font-bold"></textarea>
+            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transition-all">Send Quote Request</button>
         </form>
     </div>
 </div>
@@ -346,332 +389,16 @@
       backdrop.classList.toggle('hidden');
       document.body.style.overflow = menu.classList.contains('menu-open') ? 'hidden' : 'auto';
   }
-  function toggleModal() {
-      const modal = document.getElementById('quoteModal');
+  function toggleModal(id) {
+      const modal = document.getElementById(id);
       modal.classList.toggle('hidden');
       document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
   }
-  window.onclick = (e) => { if (e.target == document.getElementById('quoteModal')) toggleModal(); }
+  window.onclick = (e) => { 
+      if (e.target.id === 'quoteModal') toggleModal('quoteModal'); 
+      if (e.target.id === 'policyModal') toggleModal('policyModal'); 
+  }
 </script>
 
-
-
-
-
-<!-- Services Bento Grid -->
-<section class="py-24 bg-surface-container-low">
-<div class="max-w-7xl mx-auto px-6">
-<div class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-<div class="max-w-2xl">
-<h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tighter text-on-surface">Our Core Ecosystem</h2>
-<p class="mt-4 text-on-surface-variant text-lg">We've refined our process into four distinct pillars of excellence, ensuring every project exceeds technical and aesthetic standards.</p>
-</div>
-<a class="group text-primary font-bold flex items-center gap-2" href="#">
-                        View all services 
-                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">east</span>
-</a>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-<!-- Design -->
-<div class="md:col-span-8 bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
-<div class="flex flex-col md:flex-row gap-8 items-start">
-<div class="space-y-4 flex-1">
-<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary-container">edit_note</span>
-</div>
-<h3 class="text-3xl font-headline font-bold tracking-tight">Design</h3>
-<p class="text-on-surface-variant">Our creative studio translates vision into visual language. We specialize in minimalist branding and high-impact digital graphics.</p>
-<div class="pt-4 space-y-2">
-<div class="flex justify-between text-sm font-bold">
-<span>Satisfaction Rate</span>
-<span>98%</span>
-</div>
-<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
-<div class="bg-primary-container h-full w-[98%]"></div>
-</div>
-</div>
-</div>
-<div class="w-full md:w-64 rounded-2xl overflow-hidden aspect-video md:aspect-square">
-<img alt="Design service" class="w-full h-full object-cover" data-alt="Designer workspace with a tablet and high-resolution color calibration screen showing professional graphic layout" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf0MzQyMfkgq4X9fMvTodhPNg4lp4FyAlrR61n53K98qv1gcZ3J6jmnVKHODjPz8zGrtSYH3lRNr5J0F-G7Z2ZH73v-uqyKP-2qqLVebN_RH9X9j1IDM0WjFaRrp9cIiek7QBVVIlav6lt8DURgGNukKFvIQpqPZCIj1rgrZ-dQUKqux_NVvNdG7ax26omBgLRm73xcsr9np16b9trF0x5LVYQ1sz3hpL5mn36K8aEmEK8pU-vWsfsu34Gk8ZlTs5bBZFUvPr_tcw"/>
-</div>
-</div>
-</div>
-<!-- Print -->
-<div class="md:col-span-4 bg-primary-container rounded-3xl p-8 text-on-primary-container relative overflow-hidden group">
-<div class="relative z-10 space-y-4">
-<div class="w-12 h-12 rounded-xl bg-on-primary-container/10 flex items-center justify-center">
-<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">print</span>
-</div>
-<h3 class="text-3xl font-headline font-bold tracking-tight">Print</h3>
-<p class="opacity-90">State-of-the-art lithography and digital presses for impeccable color accuracy.</p>
-<div class="pt-4 space-y-2">
-<div class="flex justify-between text-sm font-bold">
-<span>Color Accuracy</span>
-<span>99.9%</span>
-</div>
-<div class="w-full bg-on-primary-container/20 h-1.5 rounded-full overflow-hidden">
-<div class="bg-on-primary-container h-full w-[99.9%]"></div>
-</div>
-</div>
-</div>
-<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl opacity-10 group-hover:rotate-12 transition-transform duration-700">print</span>
-</div>
-<!-- Brand -->
-<div class="md:col-span-4 bg-on-surface rounded-3xl p-8 text-surface relative overflow-hidden group">
-<div class="relative z-10 space-y-4">
-<div class="w-12 h-12 rounded-xl bg-surface/10 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary-container">workspace_premium</span>
-</div>
-<h3 class="text-3xl font-headline font-bold tracking-tight">Brand</h3>
-<p class="opacity-70">Elevating your market presence through cohesive physical branding systems.</p>
-<div class="pt-4 space-y-2">
-<div class="flex justify-between text-sm font-bold">
-<span>Brand Retention</span>
-<span>92%</span>
-</div>
-<div class="w-full bg-surface/10 h-1.5 rounded-full overflow-hidden">
-<div class="bg-primary-container h-full w-[92%]"></div>
-</div>
-</div>
-</div>
-</div>
-<!-- Deliver -->
-<div class="md:col-span-8 bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/10 shadow-sm flex flex-col md:flex-row gap-8 items-center">
-<div class="w-full md:w-64 rounded-2xl overflow-hidden h-40 md:h-full">
-<img alt="Delivery Service" class="w-full h-full object-cover" data-alt="Professional logistics van driving through a modern cityscape with motion blur, representing fast delivery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoOKUa0SkhjfjuKUOtFfpfXeoZvbhd2iyodidx4OvR8IGun5pn4jeAjCcQrbuBRXtR96eeoyjGxNRfZUsJTyXLoEZU6DvLfZdPA5W6VuABmzr9RYAKJ_z1dj_vKNv-WdpeDvzDV2OpIMFNi2Ah2qaWefZXcj4CDzYvdaUX8mcbVNDAN7RogDZFYjio2KulqXQJD-gEDXbURFB5G3QpBGqfhgqKHzFPLT7kktIgLRLXZHjSG1BI_bcqKUCXRXqrBYdM2ChfCx7_B6k"/>
-</div>
-<div class="space-y-4 flex-1">
-<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
-<span class="material-symbols-outlined text-primary-container">local_shipping</span>
-</div>
-<h3 class="text-3xl font-headline font-bold tracking-tight">Deliver</h3>
-<p class="text-on-surface-variant">White-glove logistics ensuring your prints arrive in pristine condition, anywhere nationwide.</p>
-<div class="pt-4 space-y-2">
-<div class="flex justify-between text-sm font-bold">
-<span>On-time Rate</span>
-<span>95%</span>
-</div>
-<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
-<div class="bg-primary-container h-full w-[95%]"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Why Choose Us: Asymmetric Layout -->
-<section class="py-24 bg-surface overflow-hidden">
-<div class="max-w-7xl mx-auto px-6">
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-<div class="relative">
-<div class="absolute -top-12 -left-12 w-64 h-64 bg-primary-container/5 rounded-full"></div>
-<h2 class="text-4xl md:text-6xl font-headline font-extrabold tracking-tighter text-on-surface mb-8">
-                            Why the world's <br/><span class="text-primary">best brands</span> choose us.
-                        </h2>
-<div class="space-y-10">
-<div class="flex gap-6 group">
-<div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center group-hover:bg-primary-container transition-colors duration-300">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-primary">bolt</span>
-</div>
-<div>
-<h4 class="text-xl font-bold font-headline mb-2">Unmatched Velocity</h4>
-<p class="text-on-surface-variant">Automated workflows and 24/7 production cycles mean your deadlines are always met, never missed.</p>
-</div>
-</div>
-<div class="flex gap-6 group">
-<div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center group-hover:bg-primary-container transition-colors duration-300">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-primary">verified</span>
-</div>
-<div>
-<h4 class="text-xl font-bold font-headline mb-2">Architectural Quality</h4>
-<p class="text-on-surface-variant">Every sheet is inspected by eye and sensor. If it's not perfect, it doesn't leave our floor.</p>
-</div>
-</div>
-<div class="flex gap-6 group">
-<div class="flex-shrink-0 w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center group-hover:bg-primary-container transition-colors duration-300">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-primary">biotech</span>
-</div>
-<div>
-<h4 class="text-xl font-bold font-headline mb-2">Future-Tech Stack</h4>
-<p class="text-on-surface-variant">Leveraging the latest in eco-friendly inks and digital-to-press technology for superior results.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="relative lg:pl-12">
-<div class="bg-surface-container-low rounded-[2rem] p-4 transform lg:rotate-6">
-<div class="rounded-[1.5rem] overflow-hidden">
-<img alt="Technology" class="w-full h-auto" data-alt="High-tech industrial printing machine with neon lighting highlights and mechanical precision details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnSwTUsgIzd6VFo4-5gy2pqFLswlShxXAcA3EYFTBsO9laoBJFjmccCbQZjTYDiSGsw00D3Qwa_6NpImohMfeUJbrNWj5Bu9alkrztUntAv0EUCNNDS9NtvWmikDyvytQkQGzuAqnpKqkElpp__FXuqZO6jwW60lvlNIbS3f-d-1VYmfBNI2QlySlrepKhhjdQYD0FUnDYoS9UWW-Wa9qKxJ_ihX7pEramP1GGbouBCsjXyY5zBwjrui-ZGy2-aIatKXjlnm4E2bk"/>
-</div>
-</div>
-<div class="absolute -bottom-8 -right-8 lg:right-0 bg-primary-container text-on-primary p-8 rounded-3xl shadow-2xl max-w-xs transform lg:-rotate-3">
-<p class="text-4xl font-headline font-black mb-1">50M+</p>
-<p class="font-bold opacity-90 uppercase tracking-widest text-xs">Impressions Delivered</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Featured Products -->
-<section class="py-24 bg-surface-container-lowest">
-<div class="max-w-7xl mx-auto px-6">
-<div class="text-center mb-16">
-<h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tighter text-on-surface">Gallery of Excellence</h2>
-<p class="mt-4 text-on-surface-variant max-w-xl mx-auto">Precision-crafted tangible assets for the digital age.</p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Product 1 -->
-<div class="group">
-<div class="relative rounded-3xl overflow-hidden aspect-square mb-6 bg-surface-container">
-<img alt="Business Cards" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Stack of ultra-premium matte black business cards with metallic orange foil edges in sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRknRDGTp2lrz3lNCwa6C1t8_pzYKJkRNgy73rHYAFs5aBmurlBW23902adptbXG5fgOYwJhVSwjwEkk0hWtdjo1TO0Va5_byTlok18_HBaZd-6sGfUY3ssxWsrMHjK3VPBXWT3F2PqWMi8ztU58wC-By733O8uAJ_Xf7K88c-93uDDQAzhNawHs-X6y3gBqefKFjwqTdPPIdTwarScFUxOiFCIm8jq1vWJsWQmY2tKmQ83LQiMj4YoGqWywPsNPvIPE4OaQgQf1c"/>
-<div class="absolute inset-0 bg-primary-container/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<h4 class="text-xl font-bold font-headline mb-1">Architectural Business Cards</h4>
-<p class="text-on-surface-variant text-sm">Triple-layered 600gsm cardstock with foil detailing.</p>
-</div>
-<!-- Product 2 -->
-<div class="group">
-<div class="relative rounded-3xl overflow-hidden aspect-square mb-6 bg-surface-container">
-<img alt="Branding Kit" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Corporate branding mock-up including letterheads, folders, and notebooks with consistent minimalist logo design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBujnk5chv1s2A2Y0c5XqizNd1_i-QLk0fraQ_Cw2Hb07d0Wmd7z9B_P2Tggiv77FDeVpZl4jzHCBI-QJaHGsSp0L_WSr2m69RWXf__B-UYr-Kgf8lSc9NynEyPBceAk9A66xxbXrg5F4Lazy5LZupbFp73w15_pVseJYt0gEeuzcIcemp1K-L_s-bBbSm_DifL09YncUnIjvcEp-xywnmWihg4vucv6xu67PLxyUaIA4qJr2HgI2zrGITk1mQhMKG7wfP_sX2mMbg"/>
-<div class="absolute inset-0 bg-primary-container/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<h4 class="text-xl font-bold font-headline mb-1">Ecosystem Branding Kits</h4>
-<p class="text-on-surface-variant text-sm">Unified physical presence across all touchpoints.</p>
-</div>
-<!-- Product 3 -->
-<div class="group">
-<div class="relative rounded-3xl overflow-hidden aspect-square mb-6 bg-surface-container">
-<img alt="Large Format" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Close-up of a high-resolution wide format architectural print with vibrant colors and sharp lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3FWlNY3dKIyyt_LA_Cdu2cy1sec8keofYHVngESQRdxWkgYcDmixt4VVLyS9SJlwQv7cqsCLF11MEC-qYBRL3t1wOKM0xLe2u0Vmeo77VvuqiUoia22VKZncJHeuPkVZqVxuNmwfIpDj09a_vfe9kHf-hkX8ghQnTtVaHe324_eW_3vAUtmkifg-am_qCmLaSf1ZHxM6BtyQ8qnppoL0VegMA3sV8YZAtiAsP0KLuknIm-Ifizspz70hul95_90awOxfe8UVuKKw"/>
-<div class="absolute inset-0 bg-primary-container/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<h4 class="text-xl font-bold font-headline mb-1">Wide-Format Narrative</h4>
-<p class="text-on-surface-variant text-sm">Exhibition-grade prints on archival materials.</p>
-</div>
-</div>
-</div>
-</section>
-<!-- Testimonials -->
-<section class="py-24 bg-on-surface text-surface overflow-hidden relative">
-<div class="absolute top-0 right-0 p-24 opacity-5">
-<span class="material-symbols-outlined text-[20rem]">format_quote</span>
-</div>
-<div class="max-w-7xl mx-auto px-6 relative z-10">
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-<div>
-<h2 class="text-4xl md:text-5xl font-headline font-bold tracking-tighter mb-8">Voices of <br/>Collaboration</h2>
-<div class="space-y-8">
-<div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10">
-<p class="text-xl italic mb-6 leading-relaxed">"Harwosprints transformed our entire corporate identity within 48 hours. The color matching was surgical."</p>
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-full bg-surface-variant"></div>
-<div>
-<p class="font-bold">Aurelia Vance</p>
-<p class="text-sm opacity-60">Creative Director, NeoNexus</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div class="space-y-4">
-<div class="h-40 bg-white/5 rounded-2xl flex items-center justify-center p-8">
-<span class="text-2xl font-black opacity-40 uppercase">GlobalTech</span>
-</div>
-<div class="h-60 bg-primary-container rounded-2xl flex items-center justify-center p-8 text-on-primary-container">
-<span class="text-3xl font-black uppercase">Studio9</span>
-</div>
-</div>
-<div class="space-y-4 pt-12">
-<div class="h-60 bg-surface/10 rounded-2xl flex items-center justify-center p-8">
-<span class="text-2xl font-black opacity-40 uppercase">Vanguard</span>
-</div>
-<div class="h-40 bg-white/5 rounded-2xl flex items-center justify-center p-8">
-<span class="text-2xl font-black opacity-40 uppercase">Echo</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- CTA Banner -->
-<section class="py-24">
-<div class="max-w-7xl mx-auto px-6">
-<div class="kinetic-gradient rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl glow-effect">
-<div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<pattern height="40" id="dots" patternunits="userSpaceOnUse" width="40" x="0" y="0">
-<circle cx="2" cy="2" fill="white" r="2"></circle>
-</pattern>
-</defs>
-<rect fill="url(#dots)" height="100%" width="100%"></rect>
-</svg>
-</div>
-<div class="relative z-10">
-<h2 class="text-4xl md:text-6xl font-headline font-black tracking-tighter text-white mb-8">Ready to bring your <br/>vision to life?</h2>
-<div class="flex flex-wrap justify-center gap-6">
-<button class="bg-white text-primary px-10 py-5 rounded-2xl font-black text-xl hover:scale-105 transition-transform shadow-xl">
-                                Start Your Project
-                            </button>
-<button class="bg-on-primary-container/20 backdrop-blur-sm text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xl hover:bg-white/10 transition-colors">
-                                Talk to an Expert
-                            </button>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="bg-slate-900 dark:bg-black w-full pt-16 pb-8 border-t border-slate-800">
-<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-<div class="col-span-1 md:col-span-1">
-<div class="text-orange-500 font-black text-xl mb-6">Harwosprints.ng</div>
-<p class="font-body text-slate-400 leading-relaxed mb-6">The premier partner for high-precision printing and tactical branding solutions.</p>
-<div class="flex space-x-4">
-<a class="text-slate-400 hover:text-orange-400 transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
-<a class="text-slate-400 hover:text-orange-400 transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
-<a class="text-slate-400 hover:text-orange-400 transition-colors" href="#"><span class="material-symbols-outlined">call</span></a>
-</div>
-</div>
-<div>
-<h5 class="text-white font-bold mb-6">Solutions</h5>
-<ul class="space-y-4">
-<li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">Commercial Printing</a></li>
-<li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">Brand Identity</a></li>
-<li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">Custom Packaging</a></li>
-<li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">Wide Format</a></li>
-</ul>
-</div>
-<div>
-<h5 class="text-white font-bold mb-6">Company</h5>
-<ul class="space-y-4">
-<li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">About Us</a></li>
-<li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">Our Portfolio</a></li>
-<li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">Careers</a></li>
-<li><a class="text-slate-400 hover:text-orange-400 transition-colors" href="#">Support</a></li>
-</ul>
-</div>
-<div>
-<h5 class="text-white font-bold mb-6">Newsletter</h5>
-<p class="text-slate-400 text-sm mb-4">Get the latest insights on design and printing technology.</p>
-<div class="flex gap-2">
-<input class="bg-slate-800 border-none rounded-lg text-white w-full px-4 focus:ring-1 focus:ring-orange-500" placeholder="Your email" type="email"/>
-<button class="bg-orange-500 text-slate-900 p-2 rounded-lg hover:bg-orange-400 transition-colors">
-<span class="material-symbols-outlined">send</span>
-</button>
-</div>
-</div>
-</div>
-<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-<p class="font-body text-slate-400 text-sm">© 2024 Harwosprints.ng. All rights reserved.</p>
-<div class="flex gap-6">
-<a class="text-slate-400 hover:text-white transition-colors text-sm" href="#">Privacy Policy</a>
-<a class="text-slate-400 hover:text-white transition-colors text-sm" href="#">Terms of Service</a>
-<a class="text-slate-400 hover:text-white transition-colors text-sm" href="#">FAQ</a>
-<a class="text-slate-400 hover:text-white transition-colors text-sm" href="#">Support</a>
-</div>
-</div>
-</footer>
-</body></html>
+</body>
+</html>

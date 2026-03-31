@@ -33,11 +33,9 @@
     </script>
     
     <style>
-        /* Spinning Animation */
         @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-slow-spin { animation: slowSpin 12s linear infinite; }
         
-        /* Floating Animation */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
@@ -45,19 +43,24 @@
         }
         .animate-float { animation: float 4s ease-in-out infinite; }
 
-        /* Infinite Marquee Animation */
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
-        .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: marquee 25s linear infinite;
-        }
+        .animate-marquee { display: flex; width: max-content; animation: marquee 25s linear infinite; }
 
         #mobileMenu { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .menu-open { transform: translateX(0) !important; }
+
+        /* Custom Timeline Line */
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 40px;
+            bottom: 40px;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #ea580c 0, #ea580c 5px, transparent 5px, transparent 10px);
+        }
     </style>
 </head>
 
@@ -66,45 +69,38 @@
 <!-- NAVBAR -->
 <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
     <div class="flex justify-between items-center w-full px-6 md:px-12 py-4 mx-auto max-w-7xl">
-        <!-- Logo in small circle + Name -->
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-brandOrange shadow-sm bg-white p-0.5">
                 <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
             </div>
-            <div class="text-xl md:text-2xl font-black text-brandOrange uppercase tracking-tighter font-headline">
-                Harwosprints.ng
-            </div>
+            <div class="text-xl md:text-2xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints.ng</div>
         </div>
 
-        <!-- Desktop Links -->
         <div class="hidden md:flex items-center space-x-8 font-headline font-bold">
             <a class="text-brandOrange" href="#">Home</a>
             <a class="hover:text-brandOrange transition-colors" href="store.html">Shop</a>
             <a class="hover:text-brandOrange transition-colors" href="about.html">About</a>
-            <a class="hover:text-brandOrange transition-colors" href="signin.html">sign up</a>
+            <a class="hover:text-brandOrange transition-colors" href="contact.html">Contact</a>
         </div>
 
         <div class="hidden md:flex items-center space-x-4">
-            <button onclick="toggleModal()" class="bg-brandBlack text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-brandOrange transition-all">
-                Request Quote
-            </button>
+            <button onclick="toggleModal()" class="bg-brandBlack text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-brandOrange transition-all">Request Quote</button>
         </div>
         
-        <!-- Hamburger Menu -->
         <button onclick="toggleMobileMenu()" class="md:hidden flex items-center text-brandBlack">
             <span class="material-symbols-outlined text-3xl">menu</span>
         </button>
     </div>
 </nav>
 
-<!-- MOBILE MENU (Sidebar) -->
+<!-- MOBILE MENU -->
 <div id="mobileMenu" class="fixed inset-y-0 right-0 w-[280px] bg-brandBlack z-[60] shadow-2xl transform translate-x-full flex flex-col p-8 md:hidden">
     <button onclick="toggleMobileMenu()" class="self-end text-white mb-8"><span class="material-symbols-outlined text-3xl">close</span></button>
     <div class="flex flex-col space-y-6 font-headline font-bold text-xl text-white">
         <a onclick="toggleMobileMenu()" href="#" class="text-brandOrange">Home</a>
         <a onclick="toggleMobileMenu()" href="store.html">Shop</a>
         <a onclick="toggleMobileMenu()" href="about.html">About</a>
-        <a onclick="toggleMobileMenu()" href="signin.html">Sign up</a>
+        <a onclick="toggleMobileMenu()" href="contact.html">Contact</a>
     </div>
     <div class="mt-auto"><button onclick="toggleMobileMenu(); toggleModal();" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-xl">Request Quote</button></div>
 </div>
@@ -119,10 +115,8 @@
                     <span class="flex h-2 w-2 rounded-full bg-brandOrange animate-pulse"></span>
                     <span class="text-xs font-bold uppercase tracking-widest text-slate-600">Harwosprints Premium Solutions</span>
                 </div>
-                <h1 class="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">
-                    We Design, <span class="text-brandOrange">Print</span>, Brand & Deliver
-                </h1>
-                <p class="text-base md:text-xl text-slate-600 max-w-xl leading-relaxed font-medium">Transforming concepts into high-fidelity physical reality.</p>
+                <h1 class="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">We Design, <span class="text-brandOrange">Print</span>, Brand & Deliver</h1>
+                <p class="text-base md:text-xl text-slate-600 max-w-xl font-medium">Transforming concepts into high-fidelity physical reality.</p>
                 <div class="flex flex-wrap gap-4 pt-4">
                     <a href="https://wa.me/2349094576733" target="_blank" class="w-full sm:w-auto bg-brandBlack text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:bg-brandOrange transition-all flex justify-center items-center gap-2 group">Get Started <span class="material-symbols-outlined">arrow_forward</span></a>
                     <button onclick="toggleModal()" class="w-full sm:w-auto bg-white text-brandBlack px-8 py-4 rounded-xl font-bold text-lg border-2 border-brandBlack hover:bg-slate-50 transition-all">Order Prints</button>
@@ -195,7 +189,7 @@
         </div>
     </section>
 
-    <!-- SECTION 5: CLIENTS MARQUEE (COLORED LOGOS) -->
+    <!-- SECTION 5: CLIENTS MARQUEE -->
     <section class="py-20 bg-slate-50 overflow-hidden border-t border-slate-100">
         <div class="max-w-7xl mx-auto px-6 mb-12 text-center">
             <h4 class="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-slate-400 italic">"See the list of clients we serve & impact creative solutions."</h4>
@@ -207,7 +201,6 @@
                 <img src="harwosprints.ng_bigi_logo-300x166.jpg" alt="Bigi" class="h-12 md:h-20 w-auto object-contain">
                 <img src="7up-Logo-300x169.png" alt="7up" class="h-12 md:h-20 w-auto object-contain">
                 <img src="logo-fp-c-1.png" alt="Logo" class="h-12 md:h-20 w-auto object-contain">
-                <!-- Duplicate for Loop -->
                 <img src="Pepsi_bi_2006svg.png" alt="Pepsi" class="h-12 md:h-20 w-auto object-contain">
                 <img src="aje-logo.png" alt="AJE" class="h-12 md:h-20 w-auto object-contain">
                 <img src="harwosprints.ng_bigi_logo-300x166.jpg" alt="Bigi" class="h-12 md:h-20 w-auto object-contain">
@@ -216,16 +209,73 @@
             </div>
         </div>
     </section>
+
+    <!-- NEW SECTION: HOW IT WORKS -->
+    <section class="py-24 bg-[#FFFBF7] relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <div class="space-y-12">
+                    <h2 class="text-4xl md:text-6xl font-black italic tracking-tighter text-brandBlack uppercase" data-aos="fade-up">HOW IT WORKS</h2>
+                    
+                    <div class="relative space-y-12">
+                        <!-- Connecting dotted line -->
+                        <div class="timeline-line hidden md:block"></div>
+
+                        <!-- Step 1 -->
+                        <div class="flex items-start gap-6 relative group" data-aos="fade-up" data-aos-delay="100">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg group-hover:scale-110 transition-transform">1</div>
+                            <div class="space-y-2">
+                                <h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">CUSTOMIZE YOUR PRINTS OR BRANDING</h3>
+                                <p class="text-slate-500 font-medium leading-relaxed max-w-md text-sm md:text-base">Choose from 412 custom products, customize your design with graphics, text or your own uploaded images.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex items-start gap-6 relative group" data-aos="fade-up" data-aos-delay="200">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg group-hover:scale-110 transition-transform">2</div>
+                            <div class="space-y-2">
+                                <h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">SET UP SHIPPING INSTRUCTIONS</h3>
+                                <p class="text-slate-500 font-medium leading-relaxed max-w-md text-sm md:text-base">Get your custom packaging when you need it, with delivery in as little as 7 days for some products.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex items-start gap-6 relative group" data-aos="fade-up" data-aos-delay="300">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg group-hover:scale-110 transition-transform">3</div>
+                            <div class="space-y-2">
+                                <h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">TRACK THE PROGRESS OF ORDERS</h3>
+                                <p class="text-slate-500 font-medium leading-relaxed max-w-md text-sm md:text-base">Track your orders in real time online or off line. Design. Production. Ready for dispatch. Delivered. Or feel free to WhatsApp Chat.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6" data-aos="fade-up" data-aos-delay="400">
+                        <button onclick="toggleModal()" class="bg-brandBlack text-brandOrange px-10 py-5 rounded-full font-black uppercase text-sm md:text-base tracking-[0.2em] shadow-xl hover:bg-brandOrange hover:text-white transition-all transform hover:-translate-y-1">START PRINTING</button>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE IMAGE: Modern 3D Mockup representation -->
+                <div class="relative" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="relative bg-white p-4 rounded-[3rem] shadow-2xl border-4 border-brandBlack overflow-hidden animate-float">
+                        <img src="harwosprints.ng-logo.jpg" alt="Premium Printing Service" class="w-full h-auto object-cover rounded-[2.5rem]">
+                    </div>
+                    <!-- Decorative Floating Elements -->
+                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-brandOrange rounded-full flex items-center justify-center text-white font-black uppercase text-[10px] rotate-12 shadow-lg border-2 border-white">Premium Quality</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 </main>
 
-<!-- DETAILED QUOTE MODAL (RESORED FULL VERSION) -->
+<!-- DETAILED QUOTE MODAL -->
 <div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
     <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
-            <h3 class="text-xl font-black uppercase font-headline">Request a Quote</h3>
+            <h3 class="text-xl font-black uppercase">Request a Quote</h3>
             <button onclick="toggleModal()" class="material-symbols-outlined hover:text-brandOrange transition-colors">close</button>
         </div>
-        
         <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="p-8 space-y-4">
             <div>
                 <label class="block text-sm font-bold uppercase text-slate-500 mb-1">Full Name</label>
@@ -249,9 +299,7 @@
                 <label class="block text-sm font-bold uppercase text-slate-500 mb-1">Quantity / Message</label>
                 <textarea name="message" rows="3" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none transition-all" placeholder="Tell us about your project..."></textarea>
             </div>
-            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-brandBlack transition-all shadow-lg">
-                Send Quote Request
-            </button>
+            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-brandBlack transition-all shadow-lg">Send Quote Request</button>
         </form>
     </div>
 </div>
@@ -259,7 +307,6 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   window.addEventListener('load', () => AOS.init({ duration: 1000, once: true }));
-  
   function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
       const backdrop = document.getElementById('menuBackdrop');
@@ -267,15 +314,15 @@
       backdrop.classList.toggle('hidden');
       document.body.style.overflow = menu.classList.contains('menu-open') ? 'hidden' : 'auto';
   }
-  
   function toggleModal() {
       const modal = document.getElementById('quoteModal');
       modal.classList.toggle('hidden');
       document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
   }
-  
   window.onclick = (e) => { if (e.target == document.getElementById('quoteModal')) toggleModal(); }
 </script>
+
+
 
 
 <!-- Services Bento Grid -->

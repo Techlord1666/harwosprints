@@ -4,16 +4,10 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <title>Harwosprints.ng | We Design, Print, Brand & Deliver</title>
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Animation Library CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
@@ -26,308 +20,296 @@
         },
       }
     </script>
-    
     <style>
-        body { animation: fadeInPage 1.2s ease-in-out; }
-        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
-        
-        /* Fixed Horizontal Scroll issues */
-        .overflow-x-hidden { overflow-x: hidden !important; }
-
-        @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .animate-slow-spin { animation: slowSpin 15s linear infinite; }
-        
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .animate-slow-spin { animation: spin 15s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-float { animation: float 4s ease-in-out infinite; }
-
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        .animate-marquee { display: flex; width: max-content; animation: marquee 35s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { display: flex; width: max-content; animation: marquee 30s linear infinite; }
-
         #mobileMenu { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .menu-open { transform: translateX(0) !important; }
-
-        .timeline-line { position: absolute; left: 20px; top: 40px; bottom: 40px; width: 2px; background: repeating-linear-gradient(to bottom, #ea580c 0, #ea580c 5px, transparent 5px, transparent 10px); }
+        .timeline-line { position: absolute; left: 24px; top: 40px; bottom: 40px; width: 2px; background: repeating-linear-gradient(to bottom, #ea580c 0, #ea580c 5px, transparent 5px, transparent 10px); }
     </style>
 </head>
 
-<body class="bg-white font-body text-slate-900 overflow-x-hidden w-full">
+<body class="bg-white font-body text-slate-900 overflow-x-hidden">
 
 <!-- NAVBAR -->
-<nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
-    <div class="flex justify-between items-center w-full px-4 md:px-12 py-3 mx-auto max-w-7xl">
-        <!-- Logo Group -->
+<nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-brandOrange bg-white shadow-sm">
-                <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
-            </div>
-            <div class="text-lg md:text-2xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints</div>
+            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-brandOrange p-0.5"><img src="harwosprints.ng-logo.jpg" class="w-full h-full object-contain rounded-full"></div>
+            <div class="text-xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints.ng</div>
         </div>
-
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-6 font-headline font-bold uppercase text-[10px] tracking-widest">
+        <div class="hidden lg:flex items-center space-x-6 font-bold uppercase text-[10px] tracking-widest">
             <a class="text-brandOrange" href="#">Home</a>
             <a class="hover:text-brandOrange" href="store.html">Shop</a>
             <a class="hover:text-brandOrange" href="#contact-section">Contact</a>
-            <span class="w-px h-4 bg-slate-200"></span>
-            <a href="login.html" class="text-brandBlack hover:text-brandOrange">Login</a>
+            <a href="login.html" class="text-brandBlack">Login</a>
             <a href="signup.html" class="bg-brandBlack text-white px-4 py-2 rounded-lg hover:bg-brandOrange">Sign Up</a>
         </div>
-
-        <!-- Mobile Toggle Button -->
-        <button onclick="toggleMobileMenu()" class="lg:hidden flex items-center text-brandBlack p-1">
-            <span class="material-symbols-outlined text-3xl">menu</span>
-        </button>
+        <button onclick="toggleMobileMenu()" class="lg:hidden text-brandBlack"><span class="material-symbols-outlined text-3xl">menu</span></button>
     </div>
 </nav>
 
-<!-- MOBILE MENU SIDEBAR -->
-<div id="mobileMenu" class="fixed inset-y-0 right-0 w-[280px] bg-brandBlack z-[60] shadow-2xl transform translate-x-full flex flex-col p-8 lg:hidden text-white">
-    <button onclick="toggleMobileMenu()" class="self-end mb-8"><span class="material-symbols-outlined text-3xl text-white">close</span></button>
-    <div class="flex flex-col space-y-6 font-headline font-bold text-lg">
+<!-- MOBILE MENU -->
+<div id="mobileMenu" class="fixed inset-y-0 right-0 w-[300px] bg-brandBlack z-[60] shadow-2xl transform translate-x-full flex flex-col p-8 lg:hidden text-white">
+    <button onclick="toggleMobileMenu()" class="self-end mb-8"><span class="material-symbols-outlined text-3xl">close</span></button>
+    <div class="flex flex-col space-y-6 font-headline font-bold text-xl">
         <a onclick="toggleMobileMenu()" href="#" class="text-brandOrange">Home</a>
         <a onclick="toggleMobileMenu()" href="store.html">Shop</a>
         <a onclick="toggleMobileMenu()" href="#contact-section">Contact</a>
         <hr class="border-slate-800">
-        <a onclick="toggleMobileMenu()" href="login.html">Login</a>
-        <a onclick="toggleMobileMenu()" href="signup.html" class="text-brandOrange">Sign Up</a>
+        <a onclick="toggleMobileMenu()" href="login.html" class="text-lg">Login</a>
+        <a onclick="toggleMobileMenu()" href="signup.html" class="text-lg text-brandOrange">Sign Up</a>
     </div>
-    <div class="mt-auto"><button onclick="toggleMobileMenu(); toggleModal('quoteModal');" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase text-sm tracking-widest">Request Quote</button></div>
 </div>
 <div id="menuBackdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/60 z-[55] hidden"></div>
 
-<main class="pt-16">
-    <!-- HERO SECTION -->
-    <section class="relative min-h-[70vh] md:min-h-[85vh] flex items-center bg-slate-50 py-10 md:py-24 overflow-hidden px-4">
-        <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div class="lg:col-span-7 space-y-4 md:space-y-8" data-aos="fade-up">
-                <div class="inline-flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm border border-orange-100">
+<main class="pt-20">
+    <!-- HERO -->
+    <section class="relative min-h-[80vh] flex items-center bg-slate-50 py-12 md:py-24 overflow-hidden px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 space-y-8" data-aos="fade-right">
+                <div class="inline-flex items-center space-x-2 bg-white px-4 py-1.5 rounded-full border border-orange-100 shadow-sm">
                     <span class="flex h-2 w-2 rounded-full bg-brandOrange animate-pulse"></span>
-                    <span class="text-[9px] md:text-xs font-bold uppercase tracking-widest text-slate-600">Premium Print Solutions</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-600">Premium Print Solutions</span>
                 </div>
-                <h1 class="text-3xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">
-                    We Design, <span class="text-brandOrange">Print</span>, Brand & Deliver
-                </h1>
-                <p class="text-sm md:text-xl text-slate-600 max-w-xl leading-relaxed font-medium">
-                    Transforming concepts into high-fidelity physical reality. From avant-garde brand identities to precision-engineered marketing materials.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-3 pt-4">
-                    <a href="https://wa.me/2349094576733" target="_blank" class="bg-brandBlack text-white px-6 py-4 rounded-xl font-bold text-center shadow-xl hover:bg-brandOrange flex justify-center items-center gap-2">Get Started <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
-                    <button onclick="toggleModal('quoteModal')" class="bg-white text-brandBlack px-6 py-4 rounded-xl font-bold border-2 border-brandBlack hover:bg-slate-50">Order Prints</button>
+                <h1 class="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">We Design, <span class="text-brandOrange">Print</span>, Brand & Deliver</h1>
+                <p class="text-base md:text-xl text-slate-600 font-medium">Transforming concepts into high-fidelity physical reality. From avant-garde brand identities to precision-engineered marketing materials.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="https://wa.me/2349094576733" target="_blank" class="bg-brandBlack text-white px-8 py-4 rounded-xl font-bold text-lg text-center hover:bg-brandOrange transition-all flex items-center justify-center gap-2">Get Started <span class="material-symbols-outlined">arrow_forward</span></a>
+                    <button onclick="toggleModal('quoteModal')" class="bg-white text-brandBlack px-8 py-4 rounded-xl font-bold border-2 border-brandBlack hover:bg-slate-50 transition-all">Order Prints</button>
                 </div>
             </div>
-            <div class="lg:col-span-5 px-4" data-aos="zoom-in">
-                <img src="Home_page-1-scaled-e1669721721219.jpg" class="rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl border-4 md:border-8 border-white">
-            </div>
+            <div class="lg:col-span-5 px-4" data-aos="zoom-in"><img src="Home_page-1-scaled-e1669721721219.jpg" class="rounded-[2.5rem] shadow-2xl border-8 border-white"></div>
         </div>
     </section>
 
-    <!-- VISIBILITY SECTION -->
-    <section class="py-12 md:py-24 bg-white border-t px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6 order-2 lg:order-1" data-aos="fade-up">
-                <h2 class="text-2xl md:text-6xl font-black text-brandBlack uppercase tracking-tighter">
-                    We Design, Print, Brand<br/><span class="text-slate-800">giving your Brand <span class="text-brandOrange italic">visibility</span></span>
-                </h2>
-                <p class="text-sm md:text-xl text-slate-500 max-w-lg border-l-4 border-brandOrange pl-4 font-medium">Get your business more visibility, by custom branding, prints, stickers for party souvenirs & promotional gifting items.</p>
-                <ul class="space-y-4 text-sm md:text-lg">
-                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Verified quality print materials</li>
-                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Produced in Nigeria</li>
-                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Delivery in <span class="text-brandOrange underline underline-offset-4">3 TO 5 WORK DAYS</span></li>
-                    <li class="flex items-center gap-3 font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Designers support</li>
+    <!-- VISIBILITY -->
+    <section class="py-16 md:py-24 bg-white border-t px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-8 order-2 lg:order-1" data-aos="fade-up">
+                <h2 class="text-3xl md:text-6xl font-black text-brandBlack uppercase tracking-tighter">We Design, Print, Brand<br/><span class="text-slate-800">giving your Brand <span class="text-brandOrange italic">visibility</span></span></h2>
+                <p class="text-lg text-slate-500 max-w-lg border-l-4 border-brandOrange pl-6">Get your business more visibility, by custom branding, prints, stickers for party souvenirs & promotional gifting items.</p>
+                <ul class="space-y-6">
+                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Verified source of quality print materials</li>
+                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Proudly & meticulously produced in Nigeria</li>
+                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Delivery in <span class="text-brandOrange underline underline-offset-8">3 TO 5 WORK DAYS</span></li>
+                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Designers supports on the Journey</li>
                 </ul>
-                <button onclick="toggleModal('quoteModal')" class="w-full sm:w-auto bg-brandOrange text-white px-8 py-4 rounded-lg font-black uppercase shadow-lg text-sm">START PRINTING</button>
+                <button onclick="toggleModal('quoteModal')" class="bg-brandOrange text-white px-10 py-5 rounded-lg font-black text-xl uppercase shadow-xl hover:scale-105 transition-all">START PRINTING</button>
             </div>
             <div class="flex justify-center items-center order-1 lg:order-2" data-aos="zoom-in">
-                <div class="relative w-48 h-48 md:w-80 md:h-80">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 group">
                     <div class="absolute inset-0 rounded-full border-4 border-dashed border-brandOrange animate-slow-spin"></div>
-                    <div class="absolute inset-3 bg-white rounded-full flex items-center justify-center shadow-2xl border-2 border-brandBlack overflow-hidden">
-                        <img src="harwosprints.ng-logo.jpg" class="w-3/4 object-contain">
-                    </div>
+                    <div class="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-2xl border-2 border-brandBlack overflow-hidden"><img src="harwosprints.ng-logo.jpg" class="w-3/4 object-contain"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- PRODUCT GRID -->
-    <section class="py-12 md:py-24 bg-slate-50 px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
-            <div class="group" data-aos="fade-up"><div class="aspect-[4/3] rounded-xl bg-white border shadow-sm p-4 flex items-center justify-center"><img src="Customizepaperbag.png" class="max-h-full object-contain"></div><h3 class="mt-3 font-black text-center uppercase text-xs tracking-widest">Paper Bags</h3></div>
-            <div class="group" data-aos="fade-up" data-aos-delay="100"><div class="aspect-[4/3] rounded-xl bg-white border shadow-sm p-4 flex items-center justify-center"><img src="Business card.png" class="max-h-full object-contain"></div><h3 class="mt-3 font-black text-center uppercase text-xs tracking-widest">Callcards</h3></div>
-            <div class="group" data-aos="fade-up" data-aos-delay="200"><div class="aspect-[4/3] rounded-xl bg-white border shadow-sm p-4 flex items-center justify-center"><img src="Brochure.png" class="max-h-full object-contain"></div><h3 class="mt-3 font-black text-center uppercase text-xs tracking-widest">Brochures</h3></div>
+    <section class="py-16 md:py-24 bg-slate-50 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <div class="group" data-aos="fade-up"><div class="aspect-[4/3] rounded-2xl bg-white border shadow p-4 flex items-center justify-center"><img src="Customizepaperbag.png" class="max-h-full object-contain"></div><h3 class="mt-4 font-black uppercase tracking-widest">Paper Bags</h3></div>
+            <div class="group" data-aos="fade-up" data-aos-delay="100"><div class="aspect-[4/3] rounded-2xl bg-white border shadow p-4 flex items-center justify-center"><img src="Business card.png" class="max-h-full object-contain"></div><h3 class="mt-4 font-black uppercase tracking-widest">Callcards</h3></div>
+            <div class="group" data-aos="fade-up" data-aos-delay="200"><div class="aspect-[4/3] rounded-2xl bg-white border shadow p-4 flex items-center justify-center"><img src="Brochure.png" class="max-h-full object-contain"></div><h3 class="mt-4 font-black uppercase tracking-widest">Brochures</h3></div>
         </div>
     </section>
 
-    <!-- BULK RUN BOXES -->
-    <section class="py-12 md:py-24 bg-white px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-            <div class="bg-brandOrange rounded-[2rem] md:rounded-[40px] p-6 md:p-12 relative min-h-[350px] md:min-h-[500px] flex flex-col justify-between overflow-hidden shadow-lg" data-aos="fade-right">
-                <div class="relative z-10 space-y-4">
-                    <p class="text-[9px] font-black uppercase tracking-widest text-white/90">Creative & Sharp Prints 🌲</p>
-                    <h2 class="text-2xl md:text-5xl font-black italic tracking-tighter text-brandBlack uppercase max-w-sm leading-tight">Direct Imaging or Offset by MO for Bulk Runs</h2>
-                    <div class="flex flex-col gap-3">
-                        <div class="bg-white px-4 py-2 rounded-full shadow-md self-start flex items-center gap-2 text-[10px] md:text-sm font-bold animate-float"><span class="material-symbols-outlined text-green-600 font-bold text-sm">check_circle</span>High Grammes Cards</div>
+    <!-- BULK RUN BOXES (STRICT RESTORATION) -->
+    <section class="py-16 md:py-24 bg-white px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Box 1 -->
+            <div class="bg-brandOrange rounded-[40px] p-8 md:p-12 relative min-h-fit md:min-h-[500px] flex flex-col justify-between overflow-hidden shadow-xl" data-aos="fade-right">
+                <div class="relative z-10 space-y-6">
+                    <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-white/80">Creative, Unique, Sharp Prints 🌲</p>
+                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-tight text-brandBlack uppercase max-w-sm">Direct Imaging or Offset by MO for Bulk Runs</h2>
+                    <div class="flex flex-col gap-4 pt-4">
+                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">High Grammes Cards</span></div>
+                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float" style="animation-delay: 1s;"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">Sharp Prints</span></div>
                     </div>
                 </div>
                 <img src="harwosprints.ng-logo.jpg" class="absolute bottom-0 right-0 w-1/2 md:w-3/4 opacity-20 mix-blend-overlay translate-x-10 translate-y-10">
             </div>
-            <div class="bg-brandBlack rounded-[2rem] md:rounded-[40px] p-6 md:p-12 min-h-[350px] md:min-h-[500px] flex flex-col justify-between shadow-2xl text-white" data-aos="fade-left">
-                <div class="space-y-6">
-                    <p class="text-[9px] font-black uppercase tracking-widest text-brandOrange">3-5 Working Days 🔥</p>
-                    <h2 class="text-2xl md:text-5xl font-black italic uppercase leading-tight">We Print. We Brand. We Deliver to your doorstep!</h2>
+            <!-- Box 2 -->
+            <div class="bg-brandBlack rounded-[40px] p-8 md:p-12 min-h-fit md:min-h-[500px] flex flex-col justify-between shadow-2xl text-white" data-aos="fade-left">
+                <div class="space-y-8">
+                    <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-brandOrange">3-5 Working Days, Ready to Ship 🔥</p>
+                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-tight uppercase">We Print. We Brand. We Deliver to your doorstep!</h2>
+                    <ul class="space-y-4 pt-4">
+                        <li class="flex items-center gap-4 text-lg font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> Save cost & time</li>
+                        <li class="flex items-center gap-4 text-lg font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> More brand impact</li>
+                        <li class="flex items-center gap-4 text-lg font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> Become sustainable</li>
+                    </ul>
                 </div>
-                <div class="pt-6"><a href="store.html" class="w-full sm:w-auto bg-brandOrange text-white px-8 py-4 rounded-xl font-black uppercase text-sm shadow-xl hover:scale-105 transition-all inline-block text-center">Customize Now</a></div>
+                <div class="pt-8"><a href="store.html" class="inline-flex items-center gap-6 bg-brandOrange text-white px-10 py-5 rounded-2xl font-black text-lg uppercase shadow-xl hover:scale-105 transition-all text-center">Customize Now</a></div>
             </div>
-        </div>
-    </section>
-
-    <!-- CLIENTS MARQUEE -->
-    <section class="py-12 bg-white overflow-hidden border-y">
-        <div class="animate-marquee whitespace-nowrap flex items-center gap-10 md:gap-20">
-            <img src="Pepsi_bi_2006svg.png" class="h-10 md:h-16 object-contain"><img src="aje-logo.png" class="h-10 md:h-16 object-contain"><img src="harwosprints.ng_bigi_logo-300x166.jpg" class="h-10 md:h-16 object-contain"><img src="7up-Logo-300x169.png" class="h-10 md:h-16 object-contain">
-            <img src="Pepsi_bi_2006svg.png" class="h-10 md:h-16 object-contain"><img src="aje-logo.png" class="h-10 md:h-16 object-contain"><img src="harwosprints.ng_bigi_logo-300x166.jpg" class="h-10 md:h-16 object-contain"><img src="7up-Logo-300x169.png" class="h-10 md:h-16 object-contain">
         </div>
     </section>
 
     <!-- HOW IT WORKS -->
-    <section class="py-12 md:py-24 bg-[#FFFBF7] px-4 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-8" data-aos="fade-up">
-                <h2 class="text-3xl md:text-6xl font-black italic text-brandBlack uppercase tracking-tighter">HOW IT WORKS</h2>
-                <div class="relative space-y-10 pl-2">
-                    <div class="timeline-line hidden sm:block"></div>
-                    <div class="flex items-start gap-4 relative">
-                        <div class="w-10 h-10 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black z-10 shrink-0">1</div>
-                        <div><h3 class="font-black uppercase text-sm">CUSTOMIZE YOUR PRINTS</h3><p class="text-xs text-slate-500">Choose from 412 custom products.</p></div>
+    <section class="py-16 md:py-24 bg-[#FFFBF7] px-4 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-12" data-aos="fade-right">
+                <h2 class="text-4xl md:text-6xl font-black italic tracking-tighter text-brandBlack uppercase">HOW IT WORKS</h2>
+                <div class="relative space-y-12">
+                    <div class="timeline-line hidden md:block"></div>
+                    <div class="flex items-start gap-6 relative">
+                        <div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg">1</div>
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">CUSTOMIZE YOUR PRINTS OR BRANDING</h3>
+                            <p class="text-slate-500 font-medium max-w-md text-sm md:text-base">Choose from 412 custom products, customize your design with graphics, text or your own uploaded images.</p>
+                        </div>
                     </div>
-                    <div class="flex items-start gap-4 relative">
-                        <div class="w-10 h-10 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black z-10 shrink-0">2</div>
-                        <div><h3 class="font-black uppercase text-sm">SHIPPING INSTRUCTIONS</h3><p class="text-xs text-slate-500">Fast delivery in 7 days for most items.</p></div>
+                    <div class="flex items-start gap-6 relative">
+                        <div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg">2</div>
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">SET UP SHIPPING INSTRUCTIONS</h3>
+                            <p class="text-slate-500 font-medium max-w-md text-sm md:text-base">Get your custom packaging when you need it, with delivery in as little as 7 days for some products.</p>
+                        </div>
                     </div>
-                    <div class="flex items-start gap-4 relative">
-                        <div class="w-10 h-10 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black z-10 shrink-0">3</div>
-                        <div><h3 class="font-black uppercase text-sm">TRACK PROGRESS</h3><p class="text-xs text-slate-500">Track orders in real time until delivery.</p></div>
+                    <div class="flex items-start gap-6 relative">
+                        <div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg">3</div>
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-black uppercase text-brandBlack tracking-tight">TRACK THE PROGRESS OF ORDERS</h3>
+                            <p class="text-slate-500 font-medium max-w-md text-sm md:text-base">Track your orders in real time online or off line. Design. Production. Ready for dispatch. Delivered.</p>
+                        </div>
                     </div>
                 </div>
-                <button onclick="toggleModal('quoteModal')" class="w-full sm:w-auto bg-brandBlack text-brandOrange px-8 py-4 rounded-full font-black uppercase text-xs tracking-widest shadow-xl">START PRINTING</button>
+                <div class="pt-6"><button onclick="toggleModal('quoteModal')" class="bg-brandBlack text-brandOrange px-10 py-5 rounded-full font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all">START PRINTING</button></div>
             </div>
-            <div class="hidden lg:block animate-float"><img src="harwosprints.ng-logo.jpg" class="rounded-[2.5rem] border-4 border-brandBlack shadow-xl"></div>
+            <div class="hidden lg:block animate-float"><img src="harwosprints.ng-logo.jpg" class="rounded-[3rem] border-8 border-brandBlack shadow-2xl"></div>
         </div>
     </section>
 
-    <!-- GALLERY -->
-    <section class="py-12 md:py-24 bg-white border-t px-4">
+    <!-- GALLERY (10 IMAGES) -->
+    <section class="py-16 md:py-24 bg-white border-t px-4">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl md:text-6xl font-black italic text-brandBlack uppercase mb-8 md:mb-12">GALLERY OF WORK DONE</h2>
+            <h2 class="text-3xl md:text-6xl font-black italic text-brandBlack uppercase mb-12" data-aos="fade-up">GALLERY OF WORK DONE</h2>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-6">
-                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-sm" data-aos="zoom-in"><img src="Branded cap.png" class="h-40 md:h-64 w-full object-cover"></div>
-                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-sm" data-aos="zoom-in" data-aos-delay="100"><img src="Branded cloth.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
-                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-sm" data-aos="zoom-in" data-aos-delay="200"><img src="Branded cups.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
-                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-sm" data-aos="zoom-in" data-aos-delay="300"><img src="Customized items.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
-                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-sm" data-aos="zoom-in" data-aos-delay="400"><img src="Enamel pins.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in"><img src="Branded cap.png" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="100"><img src="Branded cloth.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="200"><img src="Branded cups.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="300"><img src="Customized items.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="400"><img src="Enamel pins.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="50"><img src="Pillow .jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="150"><img src="Roll up banners .jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="250"><img src="customized phone pouch.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="350"><img src="customized shirts.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
+                <div class="border-2 md:border-4 border-brandBlack rounded-xl overflow-hidden shadow-md" data-aos="zoom-in" data-aos-delay="450"><img src="water bottles.jpeg" class="h-40 md:h-64 w-full object-cover"></div>
             </div>
         </div>
     </section>
 
-    <!-- CONTACT FORM -->
-    <section id="contact-section" class="py-12 md:py-24 bg-slate-50 px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            <div data-aos="fade-up">
-                <h2 class="text-3xl md:text-6xl font-black italic text-brandBlack uppercase mb-4 tracking-tighter">Contact Us</h2>
-                <p class="text-sm md:text-lg text-slate-500 mb-8 font-medium leading-relaxed">Fill out the form and our team will get back to you within 24 hours.</p>
-                <div class="space-y-4 text-sm font-black">
+    <!-- CONTACT SECTION -->
+    <section id="contact-section" class="py-16 md:py-24 bg-slate-50 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <h2 class="text-3xl md:text-6xl font-black italic text-brandBlack uppercase mb-6">Contact Us</h2>
+                <p class="text-sm md:text-lg text-slate-500 mb-8 font-medium leading-relaxed">Have a custom project in mind? Fill out the form and our team will get back to you within 24 hours.</p>
+                <div class="space-y-4 font-black">
                     <div class="flex items-center gap-3"><span class="material-symbols-outlined text-brandOrange">call</span> +234 916 8794 383</div>
-                    <div class="flex items-center gap-3"><span class="material-symbols-outlined text-brandOrange text-sm">mail</span> harwosprintsltd@gmail.com</div>
+                    <div class="flex items-center gap-3 underline decoration-brandOrange decoration-2"><span class="material-symbols-outlined text-brandOrange">mail</span> harwosprintsltd@gmail.com</div>
                 </div>
             </div>
-            <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="bg-white p-6 md:p-12 rounded-[1.5rem] md:rounded-[2.5rem] border-2 md:border-4 border-brandBlack shadow-xl">
+            <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="bg-white p-8 md:p-12 rounded-[2.5rem] border-4 border-brandBlack shadow-2xl" data-aos="fade-left">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <input type="text" name="name" required placeholder="Full Name" class="w-full p-4 rounded-xl border-2 text-sm focus:border-brandOrange outline-none font-bold">
-                    <input type="email" name="email" required placeholder="Email" class="w-full p-4 rounded-xl border-2 text-sm focus:border-brandOrange outline-none font-bold">
+                    <input type="text" name="name" required placeholder="Full Name" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold">
+                    <input type="email" name="email" required placeholder="Email Address" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold">
                 </div>
-                <textarea name="message" rows="3" required placeholder="Message" class="w-full p-4 rounded-xl border-2 text-sm focus:border-brandOrange outline-none font-bold mb-4"></textarea>
-                <button type="submit" class="w-full bg-brandBlack text-white py-4 rounded-xl font-black uppercase text-xs tracking-widest hover:bg-brandOrange">Send Message</button>
+                <textarea name="message" rows="4" required placeholder="Your Message" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold mb-4"></textarea>
+                <button type="submit" class="w-full bg-brandBlack text-white py-5 rounded-xl font-black uppercase tracking-widest hover:bg-brandOrange transition-all shadow-xl">Send Message</button>
             </form>
         </div>
     </section>
 
     <!-- TESTIMONIALS -->
-    <section class="py-12 bg-brandBlack overflow-hidden">
-        <h2 class="text-center text-white text-xl md:text-3xl font-black uppercase mb-10 tracking-widest">Happy Clients</h2>
+    <section class="py-16 bg-brandBlack overflow-hidden">
+        <h2 class="text-center text-white text-2xl font-black uppercase mb-12 tracking-widest px-4">Happy Clients</h2>
         <div class="animate-marquee flex items-center gap-6">
-            <div class="w-[260px] md:w-[400px] bg-white p-6 rounded-2xl shrink-0 border-b-4 border-brandOrange">
-                <p class="text-slate-600 text-xs md:text-sm font-bold italic mb-4">"Harwosprints delivered 5000 branded bags for our gala. Elite quality!"</p>
+            <div class="w-[280px] md:w-[400px] bg-white p-6 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                <p class="text-slate-600 text-sm font-bold italic mb-6 whitespace-normal leading-relaxed">"Harwosprints delivered 5000 branded bags for our gala. The quality was elite!"</p>
                 <h4 class="font-black text-brandBlack uppercase text-[10px]">Chioma Adeleke</h4>
             </div>
-            <div class="w-[260px] md:w-[400px] bg-white p-6 rounded-2xl shrink-0 border-b-4 border-brandOrange">
-                <p class="text-slate-600 text-xs md:text-sm font-bold italic mb-4">"Fastest delivery in Lagos. Ordered roll-ups and got them in 2 days."</p>
+            <div class="w-[280px] md:w-[400px] bg-white p-6 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                <p class="text-slate-600 text-sm font-bold italic mb-6 whitespace-normal leading-relaxed">"Fastest delivery in Lagos. Ordered roll-up banners and got them in 2 days."</p>
                 <h4 class="font-black text-brandBlack uppercase text-[10px]">Olawale Hassan</h4>
             </div>
-            <div class="w-[260px] md:w-[400px] bg-white p-6 rounded-2xl shrink-0 border-b-4 border-brandOrange">
-                <p class="text-slate-600 text-xs md:text-sm font-bold italic mb-4">"The only place we trust for our tech merch. Shirts are top quality."</p>
-                <h4 class="font-black text-brandBlack uppercase text-[10px]">Tunde Bakare</h4>
+            <div class="w-[280px] md:w-[400px] bg-white p-6 rounded-3xl shrink-0 border-b-8 border-brandOrange">
+                <p class="text-slate-600 text-sm font-bold italic mb-6 whitespace-normal leading-relaxed">"Fastest delivery in Lagos. Ordered roll-up banners and got them in 2 days."</p>
+                <h4 class="font-black text-brandBlack uppercase text-[10px]">Chioma Adeleke</h4>
             </div>
         </div>
     </section>
 </main>
 
 <!-- FOOTER -->
-<footer class="bg-brandBlack text-slate-400 pt-12 pb-6 px-4 border-t border-slate-900">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="space-y-4">
-            <div class="text-brandOrange font-black text-xl uppercase tracking-tighter">Harwosprints.ng</div>
-            <div class="flex space-x-4 text-lg">
-                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook hover:text-brandOrange"></i></a>
-                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank"><i class="fab fa-instagram hover:text-brandOrange"></i></a>
-                <a href="https://wa.me/2349094576733" target="_blank"><i class="fab fa-whatsapp hover:text-brandOrange"></i></a>
-                <a href="mailto:harwosprintsltd@gmail.com"><i class="fas fa-envelope hover:text-brandOrange"></i></a>
+<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div class="space-y-6">
+            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
+            <p class="text-xs font-medium leading-relaxed">Tactical branding solutions for the high-precision market.</p>
+            <div class="flex space-x-5 text-xl">
+                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/harwosprintsltd" target="_blank" class="hover:text-brandOrange"><i class="fab fa-x-twitter"></i></a>
+                <a href="mailto:harwosprintsltd@gmail.com" class="hover:text-brandOrange"><i class="fas fa-envelope"></i></a>
+                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
-        <div class="text-[10px] uppercase font-bold space-y-2 leading-relaxed">
-            <h5 class="text-white text-xs mb-3">Locations</h5>
-            <p>Head Office: 50, Shipeolu Street, Somolu.</p>
-            <p>Sales: Abraham Adesanya Complex, Onipanu.</p>
-            <p>Branch: 63, Tejuosho Road, Yaba.</p>
+        <div class="text-[10px] uppercase font-bold space-y-4">
+            <h5 class="text-white text-xs font-black uppercase">Locations</h5>
+            <p><span class="text-brandOrange">Head:</span> 50, Shipeolu Street, Somolu.</p>
+            <p><span class="text-brandOrange">Sales:</span> Abraham Adesanya Complex, Onipanu.</p>
+            <p><span class="text-brandOrange">Branch:</span> 63, Tejuosho Road, Yaba.</p>
         </div>
         <div class="space-y-4">
-            <h5 class="text-white text-xs uppercase font-bold">Legal</h5>
-            <ul class="text-[10px] font-bold uppercase space-y-2">
-                <li><a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Policies & Returns</a></li>
-            </ul>
+            <h5 class="text-white text-xs font-black uppercase">Legal</h5>
+            <a onclick="toggleModal('policyModal')" class="block text-[10px] font-black uppercase hover:text-brandOrange cursor-pointer">Policies & Returns</a>
         </div>
-        <div class="space-y-4">
-            <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all">Get a Business Website</a>
+        <div>
+            <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-5 py-3 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all">Get a Business Website</a>
         </div>
     </div>
 </footer>
 
-<!-- MODALS -->
+<!-- RESTORED: DETAILED QUOTE MODAL -->
 <div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-lg rounded-2xl overflow-hidden border-2 border-brandBlack shadow-2xl relative">
-        <div class="bg-brandBlack p-4 text-white flex justify-between items-center"><h3 class="text-sm font-black uppercase">Request a Quote</h3><button onclick="toggleModal('quoteModal')" class="material-symbols-outlined text-sm">close</button></div>
-        <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="p-6 space-y-4">
-            <input type="text" name="name" required placeholder="Name" class="w-full border-2 p-3 rounded-lg text-sm font-bold">
-            <textarea name="message" rows="3" required placeholder="Project details" class="w-full border-2 p-3 rounded-lg text-sm font-bold"></textarea>
-            <button type="submit" class="w-full bg-brandOrange text-white py-3 rounded-lg font-black uppercase text-xs">Send Quote</button>
+    <div class="bg-white w-full max-w-lg rounded-[2rem] overflow-hidden border-4 border-brandBlack shadow-2xl relative">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center"><h3 class="text-xl font-black uppercase tracking-tighter">Request a Quote</h3><button onclick="toggleModal('quoteModal')" class="material-symbols-outlined">close</button></div>
+        <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="p-8 space-y-4">
+            <div><label class="block text-xs font-bold uppercase text-slate-500 mb-1">Full Name</label><input type="text" name="name" required class="w-full border-2 p-3 rounded-xl focus:border-brandOrange outline-none font-bold"></div>
+            <div><label class="block text-xs font-bold uppercase text-slate-500 mb-1">Email Address</label><input type="email" name="email" required class="w-full border-2 p-3 rounded-xl focus:border-brandOrange outline-none font-bold"></div>
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">What are you printing?</label>
+                <select name="service" class="w-full border-2 p-3 rounded-xl font-bold bg-white outline-none focus:border-brandOrange">
+                    <option>Business Cards</option><option>Flyers / Brochures</option><option>Branded Souvenirs</option><option>Stickers / Labels</option><option>Other</option>
+                </select>
+            </div>
+            <div><label class="block text-xs font-bold uppercase text-slate-500 mb-1">Quantity / Message</label><textarea name="message" rows="3" required class="w-full border-2 p-3 rounded-xl focus:border-brandOrange outline-none font-bold"></textarea></div>
+            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase shadow-xl hover:bg-brandBlack transition-all">Send Quote Request</button>
         </form>
     </div>
 </div>
 
+<!-- POLICY MODAL -->
 <div id="policyModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-2xl h-[70vh] rounded-2xl overflow-hidden flex flex-col border-2 border-brandOrange">
-        <div class="bg-brandBlack p-4 text-white flex justify-between items-center"><h3 class="text-sm font-black uppercase">Policies</h3><button onclick="toggleModal('policyModal')" class="material-symbols-outlined text-sm">close</button></div>
-        <div class="p-6 overflow-y-auto space-y-4 text-xs font-medium">
-            <h4 class="font-black text-brandOrange uppercase">Shipping & Quality</h4>
-            <p>Cost varies by distance. Partnered with Kwik & DHL. We replace broken or defective products if reported immediately.</p>
-            <h4 class="font-black text-brandOrange uppercase">Returns</h4>
-            <p>30-day return policy for unused items in original packaging. Refunds processed after replacement options are exhausted.</p>
+    <div class="bg-white w-full max-w-2xl h-[70vh] rounded-[2rem] overflow-hidden border-4 border-brandOrange shadow-2xl relative flex flex-col">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center"><h3 class="text-lg font-black uppercase">Harwosprints Policies</h3><button onclick="toggleModal('policyModal')" class="material-symbols-outlined text-white">close</button></div>
+        <div class="p-8 overflow-y-auto text-xs font-medium space-y-6 leading-relaxed">
+            <h4 class="font-black uppercase text-brandOrange">Shipping & Delivery</h4><p>Cost varies by distance. Partnered with Kwik & DHL. Products QC assured.</p>
+            <h4 class="font-black uppercase text-brandOrange">Quality Assurance</h4><p>We guarantee top manufacturing standards. Defective items replaced if reported immediately.</p>
+            <h4 class="font-black uppercase text-brandOrange">Data Privacy</h4><p>We respect your privacy. Data collected via forms is handled securely for order processing.</p>
         </div>
     </div>
 </div>
 
-<!-- SCRIPTS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  window.addEventListener('load', () => AOS.init({ duration: 1000, once: true, offset: 10 }));
+  window.addEventListener('load', () => AOS.init({ duration: 1000, once: true, offset: 20 }));
   function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
       const backdrop = document.getElementById('menuBackdrop');

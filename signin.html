@@ -222,6 +222,26 @@
         if (error) alert("Reset Error: " + error.message);
         else alert("A password reset link has been sent to your email!");
     };
+
+    <script>
+  window.addEventListener('load', () => AOS.init({ duration: 1200, once: true, offset: 20, easing: 'ease-out-back' }));
+  function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const backdrop = document.getElementById('menuBackdrop');
+      menu.classList.toggle('menu-open');
+      backdrop.classList.toggle('hidden');
+      document.body.style.overflow = menu.classList.contains('menu-open') ? 'hidden' : 'auto';
+  }
+  function toggleModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.toggle('hidden');
+      document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+  }
+  window.onclick = (e) => { 
+      if (e.target.id === 'quoteModal') toggleModal('quoteModal'); 
+      if (e.target.id === 'policyModal') toggleModal('policyModal'); 
+  }
+</script>
 </script>
 </body>
 </html>

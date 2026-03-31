@@ -1,347 +1,303 @@
 <!DOCTYPE html>
+<html class="scroll-smooth overflow-x-hidden" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    
+    <!-- SEO & Favicon -->
+    <title>Customer Dashboard | Harwosprints.ng</title>
+    <meta name="description" content="Manage your premium print orders, track production, and communicate with the Harwosprints team."/>
+    <meta name="keywords" content="Harwosprints Dashboard, Order Tracking, Printing Nigeria, Branding Solutions"/>
+    <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Customer Dashboard | Harwosprints.ng</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Plus+Jakarta+Sans:wght@300;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
       tailwind.config = {
-        darkMode: "class",
         theme: {
           extend: {
-            colors: {
-              "error": "#b02500",
-              "on-primary": "#fff0e7",
-              "surface-dim": "#d3d5d5",
-              "tertiary-fixed": "#ffd33a",
-              "on-secondary-container": "#525151",
-              "inverse-primary": "#fd8b00",
-              "surface-container": "#e7e8e8",
-              "primary-fixed": "#fd8b00",
-              "on-primary-fixed": "#180800",
-              "surface-variant": "#dbdddd",
-              "inverse-surface": "#0c0f0f",
-              "secondary-fixed": "#e5e2e1",
-              "on-primary-fixed-variant": "#512800",
-              "surface-container-high": "#e1e3e3",
-              "on-secondary-fixed-variant": "#5c5b5b",
-              "on-tertiary-container": "#5c4900",
-              "error-container": "#f95630",
-              "on-primary-container": "#442100",
-              "tertiary-dim": "#614d00",
-              "on-surface": "#2d2f2f",
-              "inverse-on-surface": "#9c9d9d",
-              "error-dim": "#b92902",
-              "primary-dim": "#7b4000",
-              "primary-fixed-dim": "#ea8000",
-              "primary": "#8c4a00",
-              "on-secondary-fixed": "#403f3f",
-              "primary-container": "#fd8b00",
-              "surface-bright": "#f6f6f6",
-              "on-tertiary-fixed-variant": "#675200",
-              "on-background": "#2d2f2f",
-              "on-secondary": "#f5f2f1",
-              "surface-container-lowest": "#ffffff",
-              "surface-tint": "#8c4a00",
-              "on-error": "#ffefec",
-              "secondary-fixed-dim": "#d6d4d3",
-              "surface-container-highest": "#dbdddd",
-              "outline": "#767777",
-              "secondary-container": "#e5e2e1",
-              "tertiary-container": "#ffd33a",
-              "secondary-dim": "#504f4f",
-              "secondary": "#5c5b5b",
-              "background": "#f6f6f6",
-              "tertiary": "#6f5900",
-              "on-tertiary": "#fff2d3",
-              "on-error-container": "#520c00",
-              "on-tertiary-fixed": "#453600",
-              "surface-container-low": "#f0f1f1",
-              "tertiary-fixed-dim": "#efc52b",
-              "surface": "#f6f6f6",
-              "on-surface-variant": "#5a5c5c",
-              "outline-variant": "#acadad"
-            },
-            fontFamily: {
-              "headline": ["Space Grotesk"],
-              "body": ["Plus Jakarta Sans"],
-              "label": ["Plus Jakarta Sans"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            colors: { brandOrange: "#ea580c", brandBlack: "#000000" },
+            fontFamily: { headline: ["Space Grotesk", "sans-serif"], body: ["Plus Jakarta Sans", "sans-serif"] },
           },
         },
       }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+    
+    <style>
+        .sidebar-item:hover { transform: translateX(8px); background-color: rgba(234, 88, 12, 0.1); color: #ea580c; }
+        .active-nav { border-right: 4px solid #ea580c; color: #ea580c; background-color: rgba(234, 88, 12, 0.05); }
+        #chatWindow { display: none; transition: all 0.3s ease; }
+        .force-show { display: block !important; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        #loadingOverlay { display: flex; }
     </style>
 </head>
-<body class="bg-surface text-on-surface flex min-h-screen">
-<!-- SideNavBar Component -->
-<aside class="h-full w-64 fixed left-0 top-0 bg-slate-50 dark:bg-slate-900 flex flex-col p-4 border-r border-slate-200 dark:border-slate-800 z-40">
-<div class="mb-10 px-4">
-<h1 class="text-xl font-bold text-slate-900 dark:text-white">Customer Portal</h1>
-<p class="font-['Plus_Jakarta_Sans'] text-xs font-semibold text-slate-500 dark:text-slate-400">Manage your prints</p>
+
+<body class="bg-slate-50 font-body text-slate-900 overflow-x-hidden flex flex-col min-h-screen">
+
+<!-- LOADING SPINNER -->
+<div id="loadingOverlay" class="fixed inset-0 bg-white z-[1000] flex flex-col items-center justify-center">
+    <div class="w-12 h-12 border-4 border-brandOrange border-t-transparent rounded-full animate-spin mb-4"></div>
+    <p class="font-black text-xs uppercase tracking-widest animate-pulse text-brandOrange">Initializing Secure Dashboard...</p>
 </div>
-<nav class="flex-1 space-y-2">
-<!-- Active: Dashboard -->
-<a class="flex items-center gap-3 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 rounded-lg px-4 py-2 border-r-4 border-orange-600 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:translate-x-1 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span>Dashboard</span>
-</a>
-<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-2 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all hover:translate-x-1 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
-<span>Orders</span>
-</a>
-<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-2 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all hover:translate-x-1 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
-<span>Tracking</span>
-</a>
-<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-2 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all hover:translate-x-1 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
-<span>Uploads</span>
-</a>
-<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 px-4 py-2 font-['Plus_Jakarta_Sans'] text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-all hover:translate-x-1 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span>Settings</span>
-</a>
-</nav>
-<div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
-<button class="w-full bg-primary-container text-on-primary-container font-bold py-3 px-4 rounded-xl shadow-[0_12px_40px_rgba(253,139,0,0.2)] flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all">
-<span class="material-symbols-outlined" data-icon="add">add</span>
-                New Order
-            </button>
-<div class="mt-6 flex items-center gap-3 px-2">
-<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
-<img alt="User Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a professional smiling man in a modern office setting with warm sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8aoKJvsoU8JU1ysjbfrJtRONG078wn3SKj7NVitZM_HqaPjzOpsbXLnI6dKU3YnWUPJGN9pmHc-qeH3riRD8EJQqcA9pEoRocNHEtP0I-BZX7ok4Mn1057uOnUhHh5NKYX3ElTsBgSI4H2YK481MYYLcGlbZQOCbLynEdwx5SZiJ1cuoOENEKTTIC-3BCPPCRLyGPRAyhh5VamFNcC4Cys9PrtEv704VP3mTMo0ZgQRNIHg7ezLQhOQVSaolPv7fa62jOSjAEiFk"/>
-</div>
-<div class="flex-1 overflow-hidden">
-<p class="text-sm font-bold truncate">Alex Morgan</p>
-<p class="text-xs text-slate-500 truncate">Pro Member</p>
-</div>
-<button class="text-slate-400 hover:text-error transition-colors">
-<span class="material-symbols-outlined" data-icon="logout">logout</span>
-</button>
-</div>
-</div>
+
+<!-- DESKTOP SIDEBAR -->
+<aside class="hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-white border-r border-slate-200 z-50 p-6">
+    <div class="flex items-center gap-3 mb-10">
+        <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5"><img src="harwosprints.ng-logo.jpg" class="w-full h-full object-contain rounded-full"></div>
+        <div class="text-xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwos</div>
+    </div>
+    
+    <nav class="flex-1 space-y-2">
+        <a href="#" class="sidebar-item active-nav flex items-center gap-3 p-3 rounded-xl font-bold transition-all">
+            <span class="material-symbols-outlined">dashboard</span> Dashboard
+        </a>
+        <a href="store.html" class="sidebar-item flex items-center gap-3 p-3 rounded-xl font-bold text-slate-500 transition-all">
+            <span class="material-symbols-outlined">shopping_bag</span> Order Prints
+        </a>
+        <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl font-bold text-slate-500 transition-all">
+            <span class="material-symbols-outlined">history</span> Order History
+        </a>
+        <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl font-bold text-slate-500 transition-all">
+            <span class="material-symbols-outlined">settings</span> Settings
+        </a>
+    </nav>
+
+    <div class="mt-auto border-t border-slate-100 pt-6">
+        <button onclick="handleLogout()" class="w-full flex items-center justify-center gap-2 bg-brandBlack text-white p-3 rounded-xl font-black uppercase text-xs hover:bg-brandOrange transition-all">
+            <span class="material-symbols-outlined text-sm">logout</span> Logout
+        </button>
+    </div>
 </aside>
-<!-- Main Content Canvas -->
-<main class="flex-1 ml-64 p-8 bg-surface">
-<!-- Header Section -->
-<header class="flex justify-between items-end mb-12">
-<div>
-<h2 class="text-4xl font-black tracking-tight mb-2">Welcome back, Alex.</h2>
-<p class="text-on-surface-variant text-lg">You have <span class="text-primary font-bold">3 active print jobs</span> in production.</p>
-</div>
-<div class="flex items-center gap-4">
-<div class="bg-surface-container-lowest px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-semibold shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-<span class="material-symbols-outlined text-primary" data-icon="calendar_today">calendar_today</span>
-                    Oct 24, 2024
-                </div>
-<button class="bg-surface-container-highest p-2 rounded-lg text-on-surface hover:bg-surface-variant transition-colors">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-</div>
+
+<!-- MOBILE TOP BAR -->
+<header class="lg:hidden fixed top-0 w-full bg-white border-b z-50 px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full border-2 border-brandOrange p-0.5"><img src="harwosprints.ng-logo.jpg" class="w-full h-full object-contain rounded-full"></div>
+        <div class="text-lg font-black text-brandOrange uppercase font-headline">Harwos</div>
+    </div>
+    <button onclick="handleLogout()" class="text-slate-500"><span class="material-symbols-outlined">logout</span></button>
 </header>
-<!-- Bento Grid Stats & Quick Actions -->
-<section class="grid grid-cols-12 gap-6 mb-12">
-<!-- Main Tracking Card -->
-<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl shadow-[0_12px_40px_rgba(45,47,47,0.06)] flex flex-col md:flex-row gap-8 items-center overflow-hidden relative">
-<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
-<div class="flex-1 z-10">
-<span class="bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded mb-4 inline-block">Current Status</span>
-<h3 class="text-2xl font-bold mb-4">Branding Package #4492</h3>
-<div class="flex items-center gap-12 mb-6">
-<div class="flex flex-col">
-<span class="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">Est. Delivery</span>
-<span class="text-xl font-bold">Oct 28</span>
-</div>
-<div class="flex flex-col">
-<span class="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">Progress</span>
-<span class="text-xl font-bold">75%</span>
-</div>
-</div>
-<!-- Custom Progress Stepper -->
-<div class="relative w-full h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-primary-container rounded-full" style="width: 75%"></div>
-</div>
-<div class="flex justify-between mt-3 text-[10px] font-bold text-on-surface-variant uppercase">
-<span>Ordered</span>
-<span>Design</span>
-<span class="text-primary">Printing</span>
-<span>Shipping</span>
-</div>
-</div>
-<div class="w-full md:w-48 h-48 rounded-lg overflow-hidden flex-shrink-0 shadow-lg border-4 border-white">
-<img alt="Print Preview" class="w-full h-full object-cover" data-alt="macro shot of high-quality business card prints with vibrant orange colors and textured premium cardstock" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWT-WzHsYYgVpYQraxT6up4oHQTCQs-SirQ9FlAE5Vsx0f8W6R7oP7V8K5LwE0TKaRHaCrfzNbuLOf4E24m-nxXp6vrvYRifdc_MEDzyeTL-my-u3ANs1r2HvtCpVqkUsFYGTCoSmLcd1mYeWvADa7o4Ed2vCIyPChoeUo4WFzMYLc0OL8F2g9JYzsvG5HjEJNIyQNuuxY3PxX_V0iPu2MEBkHGpx7mcA0cTE6pY1jaf-s2HSJHooHeyHdfVed5688xa-po2wzYb4"/>
-</div>
-</div>
-<!-- Quick Stats Column -->
-<div class="col-span-12 lg:col-span-4 grid grid-rows-2 gap-6">
-<div class="bg-surface-container-low p-6 rounded-xl flex items-center justify-between">
-<div>
-<p class="text-sm font-bold text-on-surface-variant">Total Spent</p>
-<p class="text-2xl font-black text-on-surface">₦452,000</p>
-</div>
-<div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-primary shadow-sm">
-<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
-</div>
-</div>
-<div class="bg-on-surface p-6 rounded-xl flex items-center justify-between">
-<div>
-<p class="text-sm font-bold text-slate-400">Reward Points</p>
-<p class="text-2xl font-black text-white">2,450 <span class="text-primary-container text-xs">pts</span></p>
-</div>
-<div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-primary-container shadow-sm">
-<span class="material-symbols-outlined" data-icon="stars" data-weight="fill">stars</span>
-</div>
-</div>
-</div>
-</section>
-<!-- Main Workspace Section -->
-<section class="grid grid-cols-12 gap-8">
-<!-- Order History Table -->
-<div class="col-span-12 xl:col-span-8">
-<div class="flex items-center justify-between mb-6">
-<h3 class="text-2xl font-bold">Recent Orders</h3>
-<button class="text-sm font-bold text-primary flex items-center gap-1 hover:underline">
-                        View All History <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-<div class="bg-surface-container-lowest rounded-xl shadow-[0_12px_40px_rgba(45,47,47,0.06)] overflow-hidden">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low/50">
-<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Order ID</th>
-<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Project</th>
-<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Status</th>
-<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Amount</th>
-<th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant">Action</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-surface-container">
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="px-6 py-5 font-bold text-sm">#ORD-9921</td>
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
-<span class="material-symbols-outlined text-sm" data-icon="menu_book">menu_book</span>
-</div>
-<span class="font-semibold text-sm">Menu Printing (A4)</span>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-green-100 text-green-700">
-<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                        Completed
-                                    </span>
-</td>
-<td class="px-6 py-5 font-bold text-sm">₦12,500</td>
-<td class="px-6 py-5">
-<button class="text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="px-6 py-5 font-bold text-sm">#ORD-9840</td>
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-sm" data-icon="layers">layers</span>
-</div>
-<span class="font-semibold text-sm">PVC ID Cards</span>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-orange-100 text-orange-700">
-<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                                        Printing
-                                    </span>
-</td>
-<td class="px-6 py-5 font-bold text-sm">₦85,000</td>
-<td class="px-6 py-5">
-<button class="text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="px-6 py-5 font-bold text-sm">#ORD-9712</td>
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
-<span class="material-symbols-outlined text-sm" data-icon="width_full">width_full</span>
-</div>
-<span class="font-semibold text-sm">Rollup Banner</span>
-</div>
-</td>
-<td class="px-6 py-5">
-<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-slate-100 text-slate-700">
-<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-                                        Draft
-                                    </span>
-</td>
-<td class="px-6 py-5 font-bold text-sm">₦45,000</td>
-<td class="px-6 py-5">
-<button class="text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Upload & Design Area -->
-<div class="col-span-12 xl:col-span-4">
-<h3 class="text-2xl font-bold mb-6">File Center</h3>
-<div class="bg-surface-container-low border-2 border-dashed border-outline-variant/30 rounded-xl p-8 flex flex-col items-center text-center group hover:border-primary/50 transition-all cursor-pointer">
-<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-3xl text-primary" data-icon="cloud_upload">cloud_upload</span>
-</div>
-<h4 class="font-bold mb-1">Upload New Assets</h4>
-<p class="text-xs text-on-surface-variant mb-6 px-4">PDF, AI, or high-res JPG preferred. Max 100MB.</p>
-<button class="px-6 py-2 bg-on-surface text-white text-xs font-bold rounded-lg hover:bg-black transition-colors">
-                        Select Files
-                    </button>
-</div>
-<div class="mt-8 space-y-4">
-<h4 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-2">Saved Textures</h4>
-<div class="flex flex-wrap gap-2">
-<!-- Texture Preview Chips -->
-<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 rounded-full">
-<div class="w-4 h-4 rounded-full bg-gradient-to-tr from-slate-400 to-slate-100 shadow-inner"></div>
-<span class="text-[10px] font-bold">Matte Finish</span>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 rounded-full">
-<div class="w-4 h-4 rounded-full bg-gradient-to-tr from-yellow-400 to-yellow-600 shadow-inner"></div>
-<span class="text-[10px] font-bold">Gold Foil</span>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 rounded-full">
-<div class="w-4 h-4 rounded-full bg-gradient-to-tr from-orange-400 to-orange-100 shadow-inner"></div>
-<span class="text-[10px] font-bold">Spot UV</span>
-</div>
-</div>
-</div>
-<!-- Ad/CTA card -->
-<div class="mt-8 bg-gradient-to-br from-primary to-primary-dim p-6 rounded-xl text-on-primary relative overflow-hidden">
-<div class="relative z-10">
-<h4 class="text-lg font-bold mb-1">Upgrade to Enterprise</h4>
-<p class="text-xs opacity-90 mb-4">Bulk printing discounts and dedicated project managers.</p>
-<button class="text-xs font-black uppercase tracking-tighter border-b-2 border-on-primary pb-1">Learn More</button>
-</div>
-<span class="material-symbols-outlined absolute -bottom-6 -right-6 text-9xl opacity-10 rotate-12" data-icon="business_center">business_center</span>
-</div>
-</div>
-</section>
+
+<!-- MAIN CONTENT AREA -->
+<main class="flex-1 lg:ml-64 pt-20 lg:pt-10 pb-20 px-4 md:px-12">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- HEADER GREETING -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4" data-aos="fade-up">
+            <div>
+                <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tight">Welcome Back, <span id="clientName" class="text-brandOrange">...</span></h1>
+                <p class="text-slate-500 font-medium mt-2">Here is the latest update on your print production.</p>
+            </div>
+            <div class="bg-white border-2 border-brandBlack px-4 py-2 rounded-xl shadow-sm flex items-center gap-3 font-black text-xs uppercase tracking-widest">
+                <span class="material-symbols-outlined text-brandOrange">calendar_today</span>
+                <span id="currentDate">-- --, ----</span>
+            </div>
+        </div>
+
+        <!-- DASHBOARD BENTO GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            
+            <!-- TRACKING CARD -->
+            <div class="md:col-span-8 bg-brandBlack text-white rounded-[2.5rem] p-8 relative overflow-hidden shadow-2xl" data-aos="fade-right">
+                <div class="relative z-10">
+                    <span class="text-[10px] font-black uppercase bg-brandOrange px-3 py-1 rounded-full tracking-widest mb-6 inline-block">Active Production</span>
+                    <h3 class="text-2xl md:text-3xl font-black uppercase italic mb-8">Business Card #4492</h3>
+                    
+                    <div class="flex justify-between items-end mb-4">
+                        <span class="text-xs font-bold uppercase text-slate-400">Current Progress</span>
+                        <span class="text-3xl font-black">75%</span>
+                    </div>
+                    
+                    <!-- PROGRESS BAR -->
+                    <div class="w-full bg-white/10 h-4 rounded-full overflow-hidden mb-6">
+                        <div class="bg-brandOrange h-full w-[75%] rounded-full shadow-[0_0_15px_#ea580c] relative">
+                            <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-4 text-[9px] font-black uppercase text-center gap-2">
+                        <div class="text-brandOrange">Ordered</div>
+                        <div class="text-brandOrange">Design</div>
+                        <div class="text-brandOrange animate-pulse underline underline-offset-4">Printing</div>
+                        <div class="text-slate-500">Shipping</div>
+                    </div>
+                </div>
+                <img src="harwosprints.ng-logo.jpg" class="absolute bottom-0 right-0 w-1/2 opacity-10 mix-blend-overlay rotate-12 translate-x-10 translate-y-10">
+            </div>
+
+            <!-- QUICK STATS -->
+            <div class="md:col-span-4 space-y-6">
+                <div class="bg-white p-6 rounded-3xl border-2 border-slate-100 shadow-sm hover:border-brandOrange transition-all" data-aos="fade-left">
+                    <p class="text-[10px] font-black uppercase text-slate-400 mb-1">Total Spent</p>
+                    <p class="text-2xl font-black text-brandBlack tracking-tighter">₦452,000</p>
+                </div>
+                <div class="bg-brandOrange text-white p-6 rounded-3xl shadow-xl transform hover:scale-105 transition-all" data-aos="fade-left" data-aos-delay="100">
+                    <p class="text-[10px] font-black uppercase opacity-80 mb-1">Harwos Points</p>
+                    <p class="text-2xl font-black tracking-tighter italic">2,450 PTS</p>
+                </div>
+            </div>
+
+            <!-- ORDER TABLE -->
+            <div class="md:col-span-12 bg-white rounded-[2.5rem] border-2 border-slate-100 overflow-hidden shadow-sm mt-4" data-aos="fade-up">
+                <div class="p-8 border-b border-slate-50 flex justify-between items-center">
+                    <h3 class="font-black uppercase tracking-tighter text-xl">Recent Orders</h3>
+                    <a href="#" class="text-xs font-black uppercase text-brandOrange hover:underline">View All</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                <th class="px-8 py-4">Order ID</th>
+                                <th class="px-8 py-4">Project</th>
+                                <th class="px-8 py-4">Status</th>
+                                <th class="px-8 py-4">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-bold text-sm">
+                            <tr class="border-b border-slate-50 hover:bg-slate-50">
+                                <td class="px-8 py-5">#ORD-9921</td>
+                                <td class="px-8 py-5 flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-brandOrange"></span> Menu Printing</td>
+                                <td class="px-8 py-5"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] uppercase">Completed</span></td>
+                                <td class="px-8 py-5 text-brandBlack italic">₦12,500</td>
+                            </tr>
+                            <tr class="border-b border-slate-50 hover:bg-slate-50">
+                                <td class="px-8 py-5">#ORD-9840</td>
+                                <td class="px-8 py-5 flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-brandOrange"></span> PVC ID Cards</td>
+                                <td class="px-8 py-5"><span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-[10px] uppercase">Printing</span></td>
+                                <td class="px-8 py-5 text-brandBlack italic">₦85,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </main>
-</body></html>
+
+<!-- HARWOS BOT (CHATBOT) -->
+<div class="fixed bottom-6 right-6 z-[100]">
+    <!-- Bot Window -->
+    <div id="chatWindow" class="w-[320px] bg-white rounded-[2rem] border-4 border-brandBlack shadow-2xl overflow-hidden mb-4 flex flex-col">
+        <div class="bg-brandBlack p-5 text-white flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full border border-brandOrange p-0.5"><img src="harwosprints.ng-logo.jpg" class="rounded-full"></div>
+                <span class="font-black uppercase text-xs">Harwos Bot</span>
+            </div>
+            <button onclick="toggleChat()" class="text-2xl font-light">&times;</button>
+        </div>
+        <div class="p-6 space-y-4">
+            <p class="text-sm font-bold leading-relaxed">👋 Hello! How can we help you today?</p>
+            <div class="flex flex-col gap-2">
+                <a href="https://wa.me/2349094576733" target="_blank" class="w-full p-3 bg-slate-50 hover:bg-brandOrange hover:text-white rounded-xl text-xs font-black uppercase text-center transition-all">Chat on WhatsApp</a>
+                <button onclick="alert('Lagos: 50 Shipeolu Str, Somolu')" class="w-full p-3 bg-slate-50 hover:bg-brandBlack hover:text-white rounded-xl text-xs font-black uppercase transition-all">Our Location</button>
+                <button onclick="alert('Contacting support...')" class="w-full p-3 bg-slate-50 hover:bg-brandBlack hover:text-white rounded-xl text-xs font-black uppercase transition-all">Speak to human</button>
+            </div>
+        </div>
+    </div>
+    <!-- Bot Trigger Button -->
+    <button onclick="toggleChat()" class="w-16 h-16 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform border-4 border-brandOrange">
+        <span class="material-symbols-outlined text-3xl">chat</span>
+    </button>
+</div>
+
+<!-- RESTORED: FULL BRAND FOOTER -->
+<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6 lg:ml-64">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="space-y-6">
+            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
+            <p class="font-medium leading-relaxed">The premier partner for high-precision printing and tactical branding solutions.</p>
+            <div class="flex space-x-5 text-2xl">
+                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange transition-all text-xl"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange transition-all text-xl"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/harwosprintsltd" target="_blank" class="hover:text-brandOrange transition-all text-xl"><i class="fab fa-x-twitter"></i></a>
+                <a href="mailto:harwosprintsltd@gmail.com" class="hover:text-brandOrange transition-all text-xl"><i class="fas fa-envelope"></i></a>
+                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange transition-all text-xl"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white">Solutions</h5>
+            <ul class="space-y-4 text-xs font-bold uppercase">
+                <li><a class="hover:text-brandOrange" href="#">Commercial Printing</a></li>
+                <li><a class="hover:text-brandOrange" href="#">Brand Identity</a></li>
+                <li><a class="hover:text-brandOrange" href="#">Custom Packaging</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white">Locations</h5>
+            <div class="space-y-4 text-[10px] uppercase font-bold leading-relaxed">
+                <p><span class="text-brandOrange">Head:</span> 50, Shipeolu Street, Somolu, Lagos.</p>
+                <p><span class="text-brandOrange">Sales:</span> Abraham Adesanya Complex, Onipanu.</p>
+                <p><span class="text-brandOrange">Branch:</span> 63, Tejuosho Road, Yaba.</p>
+            </div>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white">Action</h5>
+            <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-5 py-3 rounded-lg font-black text-[9px] uppercase tracking-widest shadow-lg hover:scale-105 transition-all">Get a Business Website</a>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 flex justify-between items-center text-[10px] font-bold uppercase">
+        <p>© 2024 Harwosprints.ng</p>
+        <div class="flex gap-4">
+            <a href="#" class="hover:text-brandOrange underline">Privacy Policy</a>
+            <a href="#" class="hover:text-brandOrange underline">Terms</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Supabase Config
+    const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // Initial Load Logic
+    window.onload = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+            // No user found, redirect to login
+            window.location.href = "signin.html";
+            return;
+        }
+
+        // Fetch Full Name from profiles table
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name')
+            .eq('id', user.id)
+            .single();
+
+        document.getElementById('clientName').innerText = profile ? profile.full_name : user.email.split('@')[0];
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        // Hide loader after fetching
+        document.getElementById('loadingOverlay').style.display = 'none';
+    };
+
+    // Logout Function
+    async function handleLogout() {
+        await supabase.auth.signOut();
+        window.location.href = "index.html";
+    }
+
+    // Chatbot Toggle
+    function toggleChat() {
+        const win = document.getElementById('chatWindow');
+        win.classList.toggle('force-show');
+    }
+</script>
+
+</body>
+</html>

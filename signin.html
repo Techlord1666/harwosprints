@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html class="scroll-smooth overflow-x-hidden" lang="en">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     
     <!-- SEO KEYWORDS & DESCRIPTION -->
-    <meta name="description" content="Harwosprints Customer Dashboard - Track your printing orders and manage your branding identity."/>
-    <meta name="keywords" content="Harwosprints, Dashboard, Track Order, Printing Lagos, Custom Branding"/>
+    <meta name="description" content="Login to Harwosprints.ng - Nigeria's premier partner for high-precision printing and tactical branding solutions."/>
+    <meta name="keywords" content="Harwosprints Login, Printing Nigeria, Branding Lagos, Custom Packaging, Business Cards Nigeria, Harwos Prints"/>
     <meta name="author" content="Harwosprints.ng"/>
 
-    <!-- FAVICON -->
+    <!-- FAVICON (Using your logo) -->
     <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
     <link rel="apple-touch-icon" href="harwosprints.ng-logo.jpg">
 
-    <title>Dashboard | Harwosprints.ng</title>
+    <title>Login | Harwosprints.ng</title>
     
-    <!-- Scripts -->
+    <!-- Ultra-Fast Loading Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
       tailwind.config = {
@@ -35,166 +32,95 @@
         },
       }
     </script>
-    
     <style>
-        #loadingOverlay { display: flex; }
-        .sidebar-item:hover { background: rgba(234, 88, 12, 0.1); color: #ea580c; transform: translateX(10px); }
-        .order-progress-bar { transition: width 1.5s ease-in-out; }
-        #chatBotWindow { display: none; transform: translateY(20px); opacity: 0; transition: all 0.3s ease; }
-        #chatBotWindow.active { display: flex; transform: translateY(0); opacity: 1; }
+        #loadingOverlay { display: none; }
+        .force-show { display: flex !important; }
+        input:focus { border-color: #ea580c !important; outline: none; }
+        .hidden { display: none !important; }
+        body { opacity: 0; animation: fastFade 0.4s ease-in forwards; }
+        @keyframes fastFade { from { opacity: 0; } to { opacity: 1; } }
+        .policy-content h4 { font-weight: 800; color: #ea580c; margin-top: 1.5rem; margin-bottom: 0.5rem; text-transform: uppercase; }
+        .policy-content p { margin-bottom: 1rem; line-height: 1.6; }
     </style>
 </head>
 
 <body class="bg-slate-50 font-body text-slate-900 overflow-x-hidden">
 
-<!-- LOADING SPINNER -->
-<div id="loadingOverlay" class="fixed inset-0 bg-white z-[1000] flex flex-col items-center justify-center">
-    <div class="w-12 h-12 border-4 border-brandOrange border-t-transparent rounded-full animate-spin mb-4"></div>
-    <p class="font-black text-[10px] uppercase tracking-[0.3em] text-brandOrange animate-pulse">Authenticating Portal...</p>
+<!-- FAST LOADER -->
+<div id="loadingOverlay" class="fixed inset-0 bg-black/60 z-[10000] items-center justify-center backdrop-blur-sm">
+    <div class="w-10 h-10 border-4 border-brandOrange border-t-transparent rounded-full animate-spin"></div>
 </div>
 
-<!-- TOP NAV -->
-<nav class="fixed top-0 w-full z-[100] bg-white border-b border-slate-200 px-4 md:px-8 py-3 flex justify-between items-center">
-    <div class="flex items-center gap-2">
-        <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5 bg-white overflow-hidden shadow-sm">
-            <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
+<!-- NAVBAR -->
+<nav class="fixed top-0 w-full z-[100] bg-white border-b border-slate-200 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5 bg-white overflow-hidden shadow-sm">
+                <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
+            </div>
+            <div class="text-xl font-black text-brandOrange uppercase font-headline tracking-tighter">Harwosprints.ng</div>
         </div>
-        <div class="text-xl font-black text-brandOrange uppercase font-headline">Harwosprints</div>
-    </div>
-    <div class="flex items-center gap-4">
-        <button onclick="logout()" class="bg-brandBlack text-white px-4 py-2 rounded-lg font-black text-[10px] uppercase hover:bg-brandOrange transition-all">Logout</button>
+        <a href="index.html" class="bg-brandBlack text-white px-5 py-2 rounded-full font-bold text-[10px] uppercase hover:bg-brandOrange">Home</a>
     </div>
 </nav>
 
-<!-- DASHBOARD LAYOUT -->
-<div class="flex pt-16 min-h-screen">
-    
-    <!-- SIDEBAR (Desktop) -->
-    <aside class="hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-white border-r border-slate-200 pt-20 p-6 z-40">
-        <nav class="space-y-4">
-            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl font-bold text-brandOrange bg-orange-50 transition-all">
-                <span class="material-symbols-outlined">dashboard</span> Dashboard
-            </a>
-            <a href="store.html" class="sidebar-item flex items-center gap-3 p-3 rounded-xl font-bold text-slate-500 transition-all">
-                <span class="material-symbols-outlined">shopping_cart</span> Shop / Store
-            </a>
-            <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-xl font-bold text-slate-500 transition-all">
-                <span class="material-symbols-outlined">description</span> My Orders
-            </a>
-        </nav>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 lg:ml-64 p-4 md:p-12">
+<!-- AUTH BOX -->
+<main class="min-h-screen pt-24 pb-12 px-4 flex flex-col items-center justify-center">
+    <div class="max-w-md w-full bg-white p-8 md:p-12 border-[3px] border-brandBlack rounded-[2.5rem] shadow-2xl">
         
-        <!-- WELCOME SECTION -->
-        <header class="mb-12" data-aos="fade-up">
-            <h1 class="text-3xl md:text-5xl font-black text-brandBlack uppercase tracking-tighter">
-                Welcome, <span id="clientName" class="text-brandOrange">User</span>.
-            </h1>
-            <p class="text-slate-500 font-medium mt-2">Manage your printing assets and track production live.</p>
-        </header>
-
-        <!-- DASHBOARD GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-            
-            <!-- ORDER TRACKER CARD -->
-            <div class="md:col-span-8 bg-brandBlack text-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden" data-aos="zoom-in">
-                <div class="relative z-10">
-                    <div class="flex justify-between items-start mb-8">
-                        <div>
-                            <span class="text-[10px] font-black uppercase tracking-[0.2em] bg-brandOrange px-3 py-1 rounded-full">Order Tracking</span>
-                            <h3 class="text-2xl md:text-3xl font-black uppercase italic mt-4">Current Project: PVC ID Cards</h3>
-                        </div>
-                        <span class="text-4xl font-black text-brandOrange">75%</span>
-                    </div>
-
-                    <!-- Progress Bar -->
-                    <div class="w-full bg-white/10 h-4 rounded-full overflow-hidden mb-6">
-                        <div class="bg-brandOrange h-full order-progress-bar w-[75%] rounded-full shadow-[0_0_20px_#ea580c]"></div>
-                    </div>
-
-                    <div class="grid grid-cols-4 text-[9px] font-black uppercase text-center gap-2">
-                        <div class="text-brandOrange">Confirmed</div>
-                        <div class="text-brandOrange">Design</div>
-                        <div class="text-brandOrange animate-pulse">Printing</div>
-                        <div class="text-slate-500">Shipping</div>
-                    </div>
-                </div>
-                <!-- Background decorative logo -->
-                <img src="harwosprints.ng-logo.jpg" class="absolute bottom-[-10%] right-[-10%] w-64 opacity-10 mix-blend-overlay rotate-12">
+        <!-- LOGIN SECTION -->
+        <div id="loginFormContainer">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black uppercase mb-1">Welcome <span class="text-brandOrange">Back.</span></h1>
+                <p class="text-slate-400 font-medium text-xs">Log in to manage your premium orders.</p>
             </div>
-
-            <!-- QUICK STATS -->
-            <div class="md:col-span-4 space-y-6">
-                <div class="bg-white p-8 rounded-[2rem] border-2 border-slate-100 shadow-sm" data-aos="fade-left">
-                    <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Saved Artwork</p>
-                    <p class="text-3xl font-black text-brandBlack">12 <span class="text-sm font-medium">Files</span></p>
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest mb-1 text-slate-500">Email Address</label>
+                    <input id="email" type="email" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm" placeholder="name@email.com">
                 </div>
-                <div class="bg-brandOrange p-8 rounded-[2rem] text-white shadow-xl transform hover:scale-105 transition-all" data-aos="fade-left" data-aos-delay="100">
-                    <p class="text-[10px] font-black uppercase opacity-80 mb-2">Harwos Reward Points</p>
-                    <p class="text-3xl font-black italic">2,450 PTS</p>
+                <div>
+                    <div class="flex justify-between items-center mb-1 px-1">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500">Password</label>
+                        <button type="button" onclick="showForgot()" class="text-[10px] font-black text-brandOrange uppercase">Forgot Password?</button>
+                    </div>
+                    <input id="password" type="password" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm" placeholder="••••••••">
                 </div>
+                <button type="submit" class="w-full bg-brandBlack text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandOrange active:scale-95 transition-all">Sign In to Dashboard</button>
+            </form>
+            <div class="mt-8 text-center border-t border-slate-100 pt-6">
+                <p class="text-xs font-bold uppercase tracking-tight text-slate-400">New customer? <a href="signup.html" class="text-brandOrange underline ml-1">Create Account</a></p>
             </div>
-
         </div>
 
-        <!-- RECENT ACTIVITY TABLE -->
-        <section class="mt-12 bg-white rounded-[2.5rem] border-2 border-slate-100 overflow-hidden shadow-sm" data-aos="fade-up">
-            <div class="p-8 border-b border-slate-50 flex justify-between items-center">
-                <h3 class="font-black uppercase text-xl">Recent History</h3>
-                <button class="material-symbols-outlined text-brandOrange">history</button>
+        <!-- FORGOT PASSWORD SECTION -->
+        <div id="forgotFormContainer" class="hidden">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black uppercase mb-1">Reset <span class="text-brandOrange">Password.</span></h1>
+                <p class="text-slate-400 font-medium text-xs">A reset link will be sent to your email.</p>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <tr class="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                        <th class="px-8 py-4">Job ID</th>
-                        <th class="px-8 py-4">Item</th>
-                        <th class="px-8 py-4">Status</th>
-                    </tr>
-                    <tr class="border-b border-slate-50 font-bold text-sm">
-                        <td class="px-8 py-5">#HW-9921</td>
-                        <td class="px-8 py-5">Branded Souvenirs</td>
-                        <td class="px-8 py-5 text-green-600 uppercase text-[10px]">Completed</td>
-                    </tr>
-                </table>
-            </div>
-        </section>
-
-    </main>
-</div>
-
-<!-- CHAT BOT -->
-<div class="fixed bottom-6 right-6 z-[200]">
-    <div id="chatBotWindow" class="w-[320px] h-[400px] bg-white rounded-[2.5rem] border-4 border-brandBlack shadow-2xl overflow-hidden flex flex-col mb-4">
-        <div class="bg-brandBlack p-5 text-white flex justify-between items-center">
-            <div class="flex items-center gap-2 text-xs font-black uppercase">
-                <img src="harwosprints.ng-logo.jpg" class="w-6 h-6 rounded-full border border-brandOrange">
-                Harwos Assistant
-            </div>
-            <button onclick="toggleChat()">&times;</button>
+            <form id="forgotForm" class="space-y-6">
+                <input id="resetEmail" type="email" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold text-sm" placeholder="Registered Email">
+                <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transition-all">Send Reset Link</button>
+                <button type="button" onclick="showLogin()" class="w-full text-center text-[10px] font-black uppercase tracking-widest text-slate-400 mt-4">Back to Login</button>
+            </form>
         </div>
-        <div class="flex-1 p-6 space-y-4 overflow-y-auto text-sm font-medium">
-            <div class="bg-slate-100 p-3 rounded-2xl rounded-tl-none">Hello! I'm the Harwos Bot. How can I help you?</div>
-            <div class="flex flex-col gap-2">
-                <a href="https://wa.me/2349094576733" target="_blank" class="p-3 bg-brandOrange text-white rounded-xl text-center font-black uppercase text-[10px]">Chat on WhatsApp</a>
-                <button onclick="alert('Lagos: 50 Shipeolu Street, Somolu')" class="p-3 border-2 border-slate-100 rounded-xl font-black uppercase text-[10px]">Our Locations</button>
-            </div>
-        </div>
+
     </div>
-    <button onclick="toggleChat()" class="w-16 h-16 bg-brandBlack text-brandOrange rounded-full border-4 border-brandOrange shadow-2xl flex items-center justify-center hover:scale-110 transition-all">
-        <span class="material-symbols-outlined text-3xl">chat</span>
-    </button>
-</div>
+</main>
 
-<!-- FOOTER (EXACT RESTORATION) -->
-<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6 lg:ml-64">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<!-- RESTORED: FULL HOMEPAGE FOOTER -->
+<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
         <div class="space-y-6">
-            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
-            <div class="flex space-x-5 text-xl">
-                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange transition-all"><i class="fab fa-whatsapp"></i></a>
+            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter font-headline">Harwosprints.ng</div>
+            <p class="text-sm leading-relaxed">The premier partner for high-precision printing and tactical branding solutions.</p>
+            <div class="flex justify-center md:justify-start space-x-5 text-xl">
+                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/harwosprintsltd" target="_blank" class="hover:text-brandOrange"><i class="fab fa-x-twitter"></i></a>
                 <a href="mailto:harwosprintsltd@gmail.com" class="hover:text-brandOrange transition-all"><i class="fas fa-envelope"></i></a>
+                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
         <div>
@@ -202,78 +128,107 @@
             <ul class="space-y-4 text-xs font-bold uppercase">
                 <li><a class="hover:text-brandOrange" href="store.html">Commercial Printing</a></li>
                 <li><a class="hover:text-brandOrange" href="store.html">Brand Identity</a></li>
+                <li><a class="hover:text-brandOrange" href="store.html">Custom Packaging</a></li>
             </ul>
         </div>
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase text-sm">Legal</h5>
-            <button onclick="toggleModal('policyModal')" class="text-xs font-bold uppercase hover:text-brandOrange">Privacy Policy</button>
+            <h5 class="text-white font-bold mb-6 uppercase text-sm text-white">Locations</h5>
+            <div class="space-y-4 text-[10px] uppercase font-bold leading-relaxed">
+                <p><span class="text-brandOrange">Head:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
+                <p><span class="text-brandOrange">Sales:</span> Abraham Adesanya Complex beside Onipanu Police Station, Onipanu.</p>
+                <p><span class="text-brandOrange">Branch:</span> 63, Tejuosho Road, Yaba, Lagos.</p>
+            </div>
         </div>
         <div>
-            <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-5 py-3 rounded-lg font-black text-[9px] uppercase tracking-widest shadow-lg transition-all">Get a Business Website</a>
+            <h5 class="text-white font-bold mb-6 uppercase text-sm text-white">Newsletter</h5>
+            <div class="flex gap-2">
+                <input class="bg-slate-900 border-none rounded-lg text-white w-full px-4 text-sm" placeholder="Email" type="email"/>
+                <button class="bg-brandOrange text-white p-2 rounded-lg hover:brightness-110"><span class="material-symbols-outlined">send</span></button>
+            </div>
+            <div class="mt-8">
+                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-5 py-3 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg">Get a Business Website</a>
+            </div>
         </div>
     </div>
-    <p class="text-center mt-12 text-[10px] font-bold uppercase">© 2024 Harwosprints.ng. All rights reserved.</p>
+    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase">
+        <p>© 2024 Harwosprints.ng. All rights reserved.</p>
+        <div class="flex gap-6">
+            <button onclick="openPop()" class="hover:text-brandOrange underline">Privacy Policy</button>
+            <button onclick="openPop()" class="hover:text-brandOrange underline">Terms & Conditions</button>
+        </div>
+    </div>
 </footer>
 
-<!-- POLICY MODAL -->
-<div id="policyModal" class="fixed inset-0 z-[1000] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
-    <div class="bg-white w-full max-w-4xl h-[80vh] rounded-[2rem] border-4 border-brandOrange overflow-hidden flex flex-col">
-        <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
+<!-- TOTAL RESTORATION: FULL LONG POLICIES POPUP -->
+<div id="policyPop" class="fixed inset-0 z-[10000] bg-black/95 hidden items-center justify-center p-4 backdrop-blur-md">
+    <div class="bg-white w-full max-w-4xl h-[85vh] rounded-[2rem] border-4 border-brandOrange overflow-hidden flex flex-col shadow-2xl">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
             <h3 class="text-xl font-black uppercase tracking-tighter">Harwosprints Policies</h3>
-            <button onclick="toggleModal('policyModal')" class="text-3xl">&times;</button>
+            <button onclick="closePop()" class="text-3xl">&times;</button>
         </div>
-        <div class="p-8 overflow-y-auto text-sm leading-relaxed text-slate-700">
-            <h4 class="font-black text-brandOrange uppercase mb-2">Shipping & Delivery</h4>
-            <p class="mb-6">The cost of shipping is charged separate from products and varies based on distance. Partners include Kwik and DHL.</p>
-            <h4 class="font-black text-brandOrange uppercase mb-2">Refunds & Returns</h4>
-            <p class="mb-6">Our policy lasts 30 days. To be eligible for a return, items must be unused and in original packaging.</p>
+        <div class="p-8 md:p-12 overflow-y-auto text-sm font-medium space-y-2 leading-relaxed text-slate-700 policy-content">
+            
+            <h4>Shipping & Delivery</h4>
+            <p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. The cost may vary based on the distance from our office. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos unless otherwise arranged or stated by the customer/s. Products will be packed and protected for deliveries to QC standard assured. Refund or replaced product/s shipping to our office is at the expenses of customer/s, whatever is shipped from our office is paid by us.</p>
+
+            <h4>Quality of materials</h4>
+            <p>We are assuring you of our product quality which comes from other parts of the world known best manufacturing standard and practice like us. Sometimes, during transit and production in bulk few error occur and we regret to admit but trust us to do a perfect replacement of broken, torn or defective products. please always notify us by mail or chat immediately you receive order to correct such anomalies.</p>
+
+            <h4>Terms & Conditions</h4>
+            <p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can’t offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Kindly call, chat or mail us about your complains or dissatisfaction, refunds are made after a replacement of perfect product has been exhausted. To complete your return, we require a receipt or proof of purchase. Please do not send your purchase back to the manufacturer.</p>
+
+            <h4>Refunds</h4>
+            <p>Once your return is received and inspected, we will send you an email to notify you that we have received your returned item. We will also notify you of our commitment to replace a perfect product after we are sure that error is on our part. We will exhaust all avenue to keep our customers happy by replacement, if still not satisfied then your refund will be processed, and a credit will automatically be applied to your credit card or original method of payment. Late or missing refunds: If you haven’t received a refund yet, first check your bank account again.</p>
+
+            <h4>Exchanges</h4>
+            <p>We only replace items if they are defective or damaged. If you need to exchange it for the same item, send us an email at harwosprintsltd@gmail.com and send your item to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p>
+
+            <h4>Shipping & Product returns</h4>
+            <p>To return your product, you should mail your product to: harwosprint.ng 50, Shipeolu Street, Shomolu, Lagos. You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are non-refundable. If you receive a refund, the cost of return shipping will be deducted from your refund.</p>
+
+            <h4>Data Policy</h4>
+            <p>WHO WE ARE. Our website address is: https://harwosprint.ng. WHAT PERSONAL DATA WE COLLECT AND WHY WE COLLECT IT. When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor’s IP address and browser user agent string to help spam detection. Cookies last for one year for your convenience. Articles on this site may include embedded content (e.g. videos, images, articles, etc.). We protect your data with strict breach procedures and industry regulatory disclosure requirements.</p>
+
         </div>
     </div>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init({ duration: 1000, once: true });
-
-    // Supabase Config
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Initial Dashboard Loading Logic
-    window.onload = async () => {
-        const { data: { user } } = await supabase.auth.getUser();
+    // Instant UI logic
+    function showForgot() { document.getElementById('loginFormContainer').classList.add('hidden'); document.getElementById('forgotFormContainer').classList.remove('hidden'); }
+    function showLogin() { document.getElementById('forgotFormContainer').classList.add('hidden'); document.getElementById('loginFormContainer').classList.remove('hidden'); }
+    function openPop() { document.getElementById('policyPop').classList.add('force-show'); document.body.style.overflow = 'hidden'; }
+    function closePop() { document.getElementById('policyPop').classList.remove('force-show'); document.body.style.overflow = 'auto'; }
 
-        if (!user) {
-            window.location.href = "signin.html";
-            return;
+    // Login logic
+    document.getElementById('loginForm').onsubmit = async (e) => {
+        e.preventDefault();
+        document.getElementById('loadingOverlay').classList.add('force-show');
+        const { error } = await supabase.auth.signInWithPassword({
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        });
+        if (error) {
+            document.getElementById('loadingOverlay').classList.remove('force-show');
+            alert(error.message);
+        } else {
+            window.location.href = "dash.html";
         }
-
-        // FETCH NAME FROM PROFILES TABLE
-        const { data: profile, error } = await supabase
-            .from('profiles')
-            .select('full_name')
-            .eq('id', user.id)
-            .single();
-
-        document.getElementById('clientName').innerText = profile ? profile.full_name : user.email.split('@')[0];
-        document.getElementById('loadingOverlay').style.display = 'none';
     };
 
-    async function logout() {
-        await supabase.auth.signOut();
-        window.location.href = "index.html";
-    }
-
-    function toggleChat() {
-        document.getElementById('chatBotWindow').classList.toggle('active');
-    }
-
-    function toggleModal(id) {
-        const modal = document.getElementById(id);
-        modal.classList.toggle('hidden');
-        document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
-    }
+    // Forgot Password logic
+    document.getElementById('forgotForm').onsubmit = async (e) => {
+        e.preventDefault();
+        document.getElementById('loadingOverlay').classList.add('force-show');
+        const { error } = await supabase.auth.resetPasswordForEmail(document.getElementById('resetEmail').value);
+        document.getElementById('loadingOverlay').classList.remove('force-show');
+        if (error) alert(error.message);
+        else alert("Password reset link sent! Check your inbox.");
+    };
 </script>
 </body>
 </html>

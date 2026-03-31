@@ -107,7 +107,6 @@
     </div>
 </main>
 
-<!-- FOOTER (EXACT HOMEPAGE COPY) -->
 <!-- FOOTER (FULL RESTORATION) -->
 <footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -174,7 +173,7 @@
                 <p>We are assuring you of our product quality which comes from other parts of the world known best manufacturing standard and practice like us. Sometimes, during transit and production in bulk few error occur and we regret to admit but trust us to do a perfect replacement of broken, torn or defective products. please always notify us by mail or chat immediately you receive order to correct such anomalies.</p>
             </div>
             <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Terms & Conditions</h4>
-                <p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can’t offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Refunds are made after a replacement of perfect product has been exhausted. Complete return requires receipt or proof of purchase.</p>
+                <p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can't offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Refunds are made after a replacement of perfect product has been exhausted. Complete return requires receipt or proof of purchase.</p>
             </div>
             <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Refunds & Exchanges</h4>
                 <p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprintsltd@gmail.com and return to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p>
@@ -185,6 +184,10 @@
         </div>
     </div>
 </div>
+
+<!-- MATERIAL SYMBOLS ICON FONT -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
 <script>
     // Supabase Core
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
@@ -194,16 +197,6 @@
     // =========================
     // UI CONTROLS
     // =========================
-    function showPop() { 
-        document.getElementById('bigPolicyPop').style.display = 'flex'; 
-        document.body.style.overflow = 'hidden';
-    }
-
-    function hidePop() { 
-        document.getElementById('bigPolicyPop').style.display = 'none'; 
-        document.body.style.overflow = 'auto';
-    }
-
     function switchToForgot() {
         document.getElementById('loginFormContainer').style.display = 'none';
         document.getElementById('forgotFormContainer').style.display = 'block';
@@ -236,7 +229,7 @@
         const password = document.getElementById('password').value;
 
         try {
-            // 1. Sign in with Supabase Auth
+            // Sign in with Supabase Auth
             const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password
@@ -244,30 +237,13 @@
 
             if (authError) throw authError;
 
-            // 2. Fetch user profile data from your 'profiles' table (or 'users' table)
-            // Adjust 'profiles' to match your actual table name in Supabase
-            const { data: profileData, error: profileError } = await supabaseClient
-                .from('profiles')  // Change this to your actual table name (e.g., 'users', 'customers')
-                .select('*')
-                .eq('id', authData.user.id)
-                .single();
+            // Store session in localStorage (persists better than sessionStorage)
+            localStorage.setItem('harwos_access_token', authData.session.access_token);
+            localStorage.setItem('harwos_user_id', authData.user.id);
+            localStorage.setItem('harwos_user_email', authData.user.email);
 
-            if (profileError && profileError.code !== 'PGRST116') {
-                console.warn('Profile fetch warning:', profileError.message);
-            }
-
-            // 3. Store user data in sessionStorage for dashboard access
-            const userSession = {
-                user: authData.user,
-                profile: profileData || null,
-                access_token: authData.session.access_token,
-                expires_at: authData.session.expires_at
-            };
-            
-            sessionStorage.setItem('harwos_user', JSON.stringify(userSession));
-
-            // 4. Redirect to dash.html (FIXED FILENAME)
-            window.location.href = "dash.html";
+            // Redirect to dash.html (FIXED: using replace() instead of href)
+            window.location.replace("dash.html");
 
         } catch (error) {
             document.getElementById('loadingOverlay').style.display = 'none';
@@ -293,25 +269,13 @@
 
             document.getElementById('loadingOverlay').style.display = 'none';
             alert("A password reset link has been sent to your email!");
-            
+            switchToLogin();
+
         } catch (error) {
             document.getElementById('loadingOverlay').style.display = 'none';
             alert("Reset Error: " + error.message);
         }
     };
-
-    // =========================
-    // CHECK IF ALREADY LOGGED IN (Auto-redirect)
-    // =========================
-    window.addEventListener('DOMContentLoaded', async () => {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        
-        if (session) {
-            // User is already logged in, redirect to dashboard
-            window.location.href = "dash.html";
-        }
-    });
 </script>
-
 </body>
 </html>

@@ -1,227 +1,65 @@
 <!DOCTYPE html>
-
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Login &amp; Signup | Harwosprints.ng</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:wght@200..800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Login | Harwosprints.ng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Plus+Jakarta+Sans:wght@300;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <script>
       tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "error": "#b02500",
-              "on-primary": "#fff0e7",
-              "surface-dim": "#d3d5d5",
-              "tertiary-fixed": "#ffd33a",
-              "on-secondary-container": "#525151",
-              "inverse-primary": "#fd8b00",
-              "surface-container": "#e7e8e8",
-              "primary-fixed": "#fd8b00",
-              "on-primary-fixed": "#180800",
-              "surface-variant": "#dbdddd",
-              "inverse-surface": "#0c0f0f",
-              "secondary-fixed": "#e5e2e1",
-              "on-primary-fixed-variant": "#512800",
-              "surface-container-high": "#e1e3e3",
-              "on-secondary-fixed-variant": "#5c5b5b",
-              "on-tertiary-container": "#5c4900",
-              "error-container": "#f95630",
-              "on-primary-container": "#442100",
-              "tertiary-dim": "#614d00",
-              "on-surface": "#2d2f2f",
-              "inverse-on-surface": "#9c9d9d",
-              "error-dim": "#b92902",
-              "primary-dim": "#7b4000",
-              "primary-fixed-dim": "#ea8000",
-              "primary": "#8c4a00",
-              "on-secondary-fixed": "#403f3f",
-              "primary-container": "#fd8b00",
-              "surface-bright": "#f6f6f6",
-              "on-tertiary-fixed-variant": "#675200",
-              "on-background": "#2d2f2f",
-              "on-secondary": "#f5f2f1",
-              "surface-container-lowest": "#ffffff",
-              "surface-tint": "#8c4a00",
-              "on-error": "#ffefec",
-              "secondary-fixed-dim": "#d6d4d3",
-              "surface-container-highest": "#dbdddd",
-              "outline": "#767777",
-              "secondary-container": "#e5e2e1",
-              "tertiary-container": "#ffd33a",
-              "secondary-dim": "#504f4f",
-              "secondary": "#5c5b5b",
-              "background": "#f6f6f6",
-              "tertiary": "#6f5900",
-              "on-tertiary": "#fff2d3",
-              "on-error-container": "#520c00",
-              "on-tertiary-fixed": "#453600",
-              "surface-container-low": "#f0f1f1",
-              "tertiary-fixed-dim": "#efc52b",
-              "surface": "#f6f6f6",
-              "on-surface-variant": "#5a5c5c",
-              "outline-variant": "#acadad"
-            },
-            fontFamily: {
-              "headline": ["Space Grotesk"],
-              "body": ["Plus Jakarta Sans"],
-              "label": ["Plus Jakarta Sans"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-          },
-        },
+        theme: { extend: { colors: { brandOrange: "#ea580c", brandBlack: "#000000" } } },
       }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f6f6f6;
-        }
-        .hero-gradient {
-            background: linear-gradient(135deg, #8c4a00 0%, #fd8b00 100%);
-        }
-    </style>
 </head>
-<body class="bg-surface text-on-surface">
-<!-- Top Navigation (Shell Suppressed per Rule for Transactional Page, only Logo visible) -->
-<header class="fixed top-0 w-full z-50 px-6 md:px-12 py-6 flex justify-between items-center pointer-events-none">
-<div class="text-2xl font-black text-primary-container uppercase tracking-tighter font-headline pointer-events-auto">
-            Harwosprints.ng
-        </div>
-<a class="text-sm font-bold text-on-surface-variant hover:text-primary transition-colors font-label pointer-events-auto" href="#">
-            Back to Home
-        </a>
+<body class="bg-white font-body">
+
+<header class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full border-2 border-brandOrange overflow-hidden p-0.5"><img src="harwosprints.ng-logo.jpg" class="w-full h-full object-contain rounded-full"></div>
+        <div class="text-xl font-black text-brandOrange uppercase font-headline">Harwosprints</div>
+    </div>
 </header>
-<main class="min-h-screen flex items-center justify-center lg:justify-start">
-<!-- Main Auth Container -->
-<div class="w-full h-screen flex overflow-hidden">
-<!-- Left Side: Interactive Form Canvas -->
-<section class="w-full lg:w-[45%] flex flex-col justify-center px-8 md:px-20 lg:px-24 bg-surface-bright relative z-10">
-<div class="max-w-md w-full mx-auto lg:mx-0">
-<!-- Title Section -->
-<div class="mb-10">
-<h1 class="text-4xl md:text-5xl font-headline font-bold tracking-tight text-on-background mb-4">
-                            Welcome <span class="text-primary-container">Back.</span>
-</h1>
-<p class="text-on-surface-variant text-lg font-body leading-relaxed">
-                            Access your premium print dashboard and manage your custom orders with precision.
-                        </p>
-</div>
-<!-- Social Login Buttons -->
-<div class="grid grid-cols-2 gap-4 mb-8">
-<button class="flex items-center justify-center gap-3 py-3 px-4 bg-surface-container-lowest rounded-xl shadow-[0_12px_40px_rgba(45,47,47,0.06)] hover:bg-surface-container transition-all group">
-<img alt="Google" class="w-5 h-5" data-alt="Official Google G logo in bright brand colors on a transparent background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfU-OKTf9TPVrfKPgdJqVuSU1C11-sjM3OQSG6lwVikOsicHJdwuAk2Yz9KHJzJI_yPiiZSWWKHOqIgXe467sqME_En8cP3wHi3v_BMXIxWBs6Pwhc6onZBPE9mLaLwem3rnbpmBvCOHpVxUip80JhZ4xzRWdBgP6FEmHrkjElCC9WyNd2KrBSBZXUUFtaM9pFxCkUHwjmk8q9fFt5vjN6lFVtswmZTPDShASL_f0Q8DIREJUQZW9Phma6V9baeOeQ2u4dZeQMlho"/>
-<span class="text-sm font-bold font-label text-on-secondary-container">Google</span>
-</button>
-<button class="flex items-center justify-center gap-3 py-3 px-4 bg-inverse-surface rounded-xl shadow-[0_12px_40px_rgba(45,47,47,0.06)] hover:opacity-90 transition-all group">
-<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">ios</span>
-<span class="text-sm font-bold font-label text-white">Apple ID</span>
-</button>
-</div>
-<div class="relative flex items-center mb-8">
-<div class="flex-grow border-t border-outline-variant/20"></div>
-<span class="flex-shrink mx-4 text-xs font-bold text-outline uppercase tracking-widest font-label">Or Email</span>
-<div class="flex-grow border-t border-outline-variant/20"></div>
-</div>
-<!-- Auth Form -->
-<form action="#" class="space-y-6">
-<div class="space-y-2">
-<label class="block text-xs font-black text-on-surface uppercase tracking-widest font-label ml-1">Email Address</label>
-<input class="w-full px-5 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary-container/30 focus:bg-surface-container-lowest transition-all placeholder:text-outline/50 font-body text-on-surface" placeholder="name@company.com" type="email"/>
-</div>
-<div class="space-y-2">
-<div class="flex justify-between items-center px-1">
-<label class="block text-xs font-black text-on-surface uppercase tracking-widest font-label">Password</label>
-<a class="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline" href="#">Forgot?</a>
-</div>
-<div class="relative">
-<input class="w-full px-5 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary-container/30 focus:bg-surface-container-lowest transition-all placeholder:text-outline/50 font-body text-on-surface" placeholder="••••••••" type="password"/>
-<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
-<span class="material-symbols-outlined text-xl">visibility</span>
-</button>
-</div>
-</div>
-<div class="pt-2">
-<button class="w-full hero-gradient text-on-primary font-bold py-4 rounded-xl shadow-[0_12px_40px_rgba(253,139,0,0.2)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 group" type="submit">
-<span class="font-headline tracking-wide">Sign In to Dashboard</span>
-<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-</button>
-</div>
-</form>
-<!-- Switch Auth Mode -->
-<div class="mt-10 text-center lg:text-left">
-<p class="text-on-surface-variant font-body">
-                            Don't have an account? 
-                            <a class="text-primary-container font-bold hover:underline ml-1" href="#">Create an account</a>
-</p>
-</div>
-</div>
-<!-- Footer Links (Transactional Style) -->
-<div class="mt-auto py-8 flex gap-6 text-[10px] font-bold text-outline uppercase tracking-widest font-label opacity-60">
-<a class="hover:text-primary transition-colors" href="#">Privacy</a>
-<a class="hover:text-primary transition-colors" href="#">Terms</a>
-<a class="hover:text-primary transition-colors" href="#">Help Center</a>
-</div>
-</section>
-<!-- Right Side: Brand Showcase Canvas -->
-<section class="hidden lg:flex lg:w-[55%] relative overflow-hidden bg-inverse-surface">
-<!-- Visual Background -->
-<div class="absolute inset-0">
-<img alt="Premium Printing" class="w-full h-full object-cover opacity-60 mix-blend-luminosity scale-110" data-alt="Close-up high-detail photograph of a high-end industrial offset printing press in motion with vibrant orange ink rollers and blurred movement" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBadvsOSmpE6Mx-dH2eMOiSb8kg2Z2KpyxsLe3SFakHv9x0GoZQppOeY7TnXoB2a9Mga5bFQRpmPqhym4xS-6mYVQxOnFJ-CmMcfg3Pl8hBRzWilrkjA-nGJUR9DRLTaey4ewhNdC1oUMYy25SKpqzvm9XP0LCWU0LSKyww4oqQ3GoiOWW31oV409ZZDR4GDsUAPa5Oc5J_RYXHK54uIPpCLwFORrBYInNVZRoSFhhXxVQabIEunSmGFuSB93SDjUl7ctXZsG-upGU"/>
-<div class="absolute inset-0 bg-gradient-to-tr from-inverse-surface via-inverse-surface/40 to-transparent"></div>
-</div>
-<!-- Floating Editorial Cards (Kinetic Press Design) -->
-<div class="relative z-10 flex flex-col justify-center items-start px-20 w-full">
-<div class="space-y-12">
-<!-- Card 1 -->
-<div class="bg-surface-container-lowest/10 backdrop-blur-xl border-l-4 border-primary-container p-8 rounded-tr-3xl rounded-br-3xl max-w-md transform hover:-translate-y-2 transition-transform duration-500">
-<span class="material-symbols-outlined text-primary-container mb-4 text-4xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
-<h3 class="text-white text-2xl font-headline font-bold mb-2">Artisan Precision</h3>
-<p class="text-secondary-fixed-dim font-body leading-relaxed">
-                                Our kinetic press technology ensures every pixel is captured with museum-grade accuracy on premium materials.
-                            </p>
-</div>
-<!-- Card 2 -->
-<div class="bg-surface-container-lowest/5 backdrop-blur-md border-l-4 border-white/20 p-8 rounded-tr-3xl rounded-br-3xl max-w-md ml-12 transform hover:-translate-y-2 transition-transform duration-500 delay-100">
-<span class="material-symbols-outlined text-white mb-4 text-4xl">shutter_speed</span>
-<h3 class="text-white text-2xl font-headline font-bold mb-2">High Velocity</h3>
-<p class="text-secondary-fixed-dim font-body leading-relaxed">
-                                From digital design to physical reality in record time. Track your order through our production cycle in real-time.
-                            </p>
-</div>
-</div>
-<!-- Bottom Branding -->
-<div class="absolute bottom-12 left-20">
-<div class="flex items-center gap-4">
-<div class="flex -space-x-3">
-<div class="w-10 h-10 rounded-full border-2 border-inverse-surface overflow-hidden">
-<img alt="User 1" data-alt="Close-up portrait of a creative professional man smiling with warm studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBISas70ypmf94yHCux1N_OUm9P78L0cHlR7kNRG6OXDPqs0l-0Na4pkrh4qJK4L-RGLv-uTj-2euasMUsT19VqJdeRghNx1a7MpV1LRctmcWc7d3HMl7ATzfJh7flMrEoBT7fTpxuNOddH3k8IoLxJNdroOenIJrMiL6IK-zzNB2-fiJnJWnOuIkI5qqzXSD505mB7KZD4qnfj4i3ktCPeNcL2xTVHk9gB5PUmBacI_DrBfqKCfiGgvxqBWGS8OGNka7M_bardcbw"/>
-</div>
-<div class="w-10 h-10 rounded-full border-2 border-inverse-surface overflow-hidden">
-<img alt="User 2" data-alt="Portrait of a young woman designer with a neutral background and professional soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw_AsSOgkSVStN9AadXJwV8M7SVhRbdyc0e4U3kZiG2XNIYUXuVMs6cVF5fcagnsP20pBxV3Q3V_7ade46cG8mlNBiIjEgcmUceHTEc0nWamQ12ASfLYHryNSbGOzPS1lB398fQ-x4zEl9tpN3scmrscKokqVW3JdgMpW2Ttcj3I6Kf86Ehd88NecdJzzVcdX22Weud39uryG1mY_ATWWh1D-itjjULwSAhiFfi28v_cbkOTFefoKzKalkBJUWb2irS8LVSOoQq80"/>
-</div>
-<div class="w-10 h-10 rounded-full border-2 border-inverse-surface bg-primary-container flex items-center justify-center text-[10px] font-bold text-on-primary-container">
-                                    +2k
-                                </div>
-</div>
-<p class="text-xs font-label font-bold text-secondary-fixed uppercase tracking-widest">
-                                Trusted by Nigeria's leading creatives
-                            </p>
-</div>
-</div>
-</div>
-<!-- Abstract Decorative Element -->
-<div class="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-primary-container/20 blur-[120px] rounded-full pointer-events-none"></div>
-<div class="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/30 blur-[100px] rounded-full pointer-events-none"></div>
-</section>
-</div>
+
+<main class="min-h-screen flex items-center justify-center px-6">
+    <div class="max-w-md w-full bg-white p-8 border-4 border-brandBlack rounded-[2rem] shadow-2xl">
+        <div class="mb-8">
+            <h1 class="text-3xl font-black uppercase tracking-tight">Welcome <span class="text-brandOrange">Back.</span></h1>
+            <p class="text-slate-500 font-medium">Log in to manage your orders.</p>
+        </div>
+
+        <form id="loginForm" class="space-y-5">
+            <input id="email" type="email" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-brandOrange" placeholder="Email">
+            <input id="password" type="password" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-brandOrange" placeholder="Password">
+            <button type="submit" class="w-full bg-brandBlack text-white font-black py-4 rounded-2xl shadow-xl hover:bg-brandOrange transition-all uppercase tracking-widest">Sign In</button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm">New here? <a href="signup.html" class="text-brandOrange font-black">Create Account</a></p>
+        </div>
+    </div>
 </main>
-<!-- FAB (Suppressed for Auth Pages as per Design System) -->
-</body></html>
+
+<script>
+    const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (error) {
+            alert(error.message);
+        } else {
+            window.location.href = "dashboard.html";
+        }
+    });
+</script>
+</body>
+</html>

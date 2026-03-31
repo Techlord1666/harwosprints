@@ -297,6 +297,23 @@
         const win = document.getElementById('chatWindow');
         win.classList.toggle('force-show');
     }
+
+    // Place this in dash.html <script>
+const userData = JSON.parse(sessionStorage.getItem('harwos_user'));
+
+if (!userData) {
+    // Not logged in, redirect back to login
+    window.location.href = "login.html";
+} else {
+    // User is logged in - use the data
+    console.log('User:', userData.user);
+    console.log('Profile:', userData.profile);
+    
+    // Display user info
+    document.getElementById('userEmail').textContent = userData.user.email;
+    // Add more fields as needed
+}
+
 </script>
 
 </body>

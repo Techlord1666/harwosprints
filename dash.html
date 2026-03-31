@@ -36,6 +36,8 @@
         .force-show { display: block !important; animation: slideUp 0.4s ease-out; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         #loadingOverlay { display: flex; }
+        /* Emergency error display */
+        #errorMessage { display: none; color: #dc2626; text-align: center; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 
@@ -45,6 +47,9 @@
 <div id="loadingOverlay" class="fixed inset-0 bg-white z-[1000] flex flex-col items-center justify-center">
     <div class="w-12 h-12 border-4 border-brandOrange border-t-transparent rounded-full animate-spin mb-4"></div>
     <p class="font-black text-xs uppercase tracking-widest animate-pulse text-brandOrange">Initializing Secure Dashboard...</p>
+    <div id="errorMessage" class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg max-w-md"></div>
+    <button id="retryBtn" onclick="window.location.reload()" class="hidden mt-4 bg-brandOrange text-white px-6 py-2 rounded-full font-bold text-xs uppercase">Retry</button>
+    <button id="loginBtn" onclick="window.location.href='login.html'" class="hidden mt-2 bg-brandBlack text-white px-6 py-2 rounded-full font-bold text-xs uppercase">Go to Login</button>
 </div>
 
 <!-- DESKTOP SIDEBAR -->
@@ -255,65 +260,181 @@
 <!-- Scripts -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init({ duration: 1000, once: true });
+    // Emergency timeout - if loading takes more than 8 seconds, show error
+    const emergencyTimeout = setTimeout(() => {
+        const errorDiv = document.getElementById('errorMessage');
+        const retryBtn = document.getElementById('retryBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        
+        if (errorDiv && document.getElementById('loadingOverlay').style.display !== 'none') {
+            errorDiv.style.display = 'block';
+            errorDiv.innerHTML = '⚠️ Loading timeout. JavaScript may be blocked or Supabase is not responding.<br>Check console for errors (F12)';
+            retryBtn.classList.remove('hidden');
+            loginBtn.classList.remove('hidden');
+        }
+    }, 8000);
+
+    // Initialize AOS
+    try {
+        AOS.init({ duration: 1000, once: true });
+    } catch (e) {
+        console.log('AOS not loaded');
+    }
 
     // Supabase Config
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    
+    let supabaseClient;
+    
+    try {
+        supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+        console.log('Supabase client created successfully');
+    } catch (error) {
+        console.error('Failed to create Supabase client:', error);
+        showError('Failed to initialize Supabase: ' + error.message);
+    }
 
-    // Initial Load Logic
-    window.onload = async () => {
-        const { data: { user } } = await supabase.auth.getUser();
-
-        if (!user) {
-            // No user found, redirect to login
-            window.location.href = "signin.html";
-            return;
-        }
-
-        // Fetch Full Name from profiles table
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('full_name')
-            .eq('id', user.id)
-            .single();
-
-        document.getElementById('clientName').innerText = profile ? profile.full_name : user.email.split('@')[0];
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    function showError(msg) {
+        const errorDiv = document.getElementById('errorMessage');
+        const retryBtn = document.getElementById('retryBtn');
+        const loginBtn = document.getElementById('loginBtn');
         
-        // Hide loader after fetching
-        document.getElementById('loadingOverlay').style.display = 'none';
-    };
+        if (errorDiv) {
+            errorDiv.style.display = 'block';
+            errorDiv.innerHTML = '❌ ' + msg;
+        }
+        if (retryBtn) retryBtn.classList.remove('hidden');
+        if (loginBtn) loginBtn.classList.remove('hidden');
+    }
+
+    // Initialize Dashboard
+    async function initDashboard() {
+        console.log('Starting dashboard initialization...');
+        
+        try {
+            // Check if supabase is available
+            if (!supabaseClient) {
+                throw new Error('Supabase client not initialized');
+            }
+
+            // Get session with timeout protection
+            let session = null;
+            let sessionError = null;
+            
+            try {
+                const result = await supabaseClient.auth.getSession();
+                session = result.data.session;
+                sessionError = result.error;
+                console.log('Session check result:', session ? 'Found' : 'Not found');
+            } catch (e) {
+                console.error('Session check failed:', e);
+                throw new Error('Cannot check session: ' + e.message);
+            }
+            
+            if (sessionError) {
+                console.error('Session error:', sessionError);
+                throw new Error('Session error: ' + sessionError.message);
+            }
+            
+            if (!session) {
+                console.log('No session - redirecting to login');
+                window.location.replace("login.html");
+                return;
+            }
+
+            // User is logged in
+            const user = session.user;
+            console.log('User found:', user.email);
+            
+            // Get display name
+            let displayName = user.email.split('@')[0];
+            
+            // Try to fetch profile
+            try {
+                const { data: profile, error: profileError } = await supabaseClient
+                    .from('profiles')
+                    .select('full_name, first_name, last_name')
+                    .eq('id', user.id)
+                    .single();
+
+                if (profileError) {
+                    console.log('Profile fetch error (non-critical):', profileError.message);
+                } else if (profile) {
+                    if (profile.full_name) {
+                        displayName = profile.full_name;
+                    } else if (profile.first_name || profile.last_name) {
+                        displayName = `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
+                    }
+                    console.log('Profile loaded:', displayName);
+                }
+            } catch (profileErr) {
+                console.log('Profile fetch exception (non-critical):', profileErr);
+            }
+
+            // Update UI
+            const clientNameEl = document.getElementById('clientName');
+            const currentDateEl = document.getElementById('currentDate');
+            
+            if (clientNameEl) {
+                clientNameEl.innerText = displayName;
+            }
+            
+            if (currentDateEl) {
+                currentDateEl.innerText = new Date().toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+            }
+
+            // Hide loading screen
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+            
+            // Clear emergency timeout
+            clearTimeout(emergencyTimeout);
+            
+            console.log('Dashboard loaded successfully for:', displayName);
+
+        } catch (error) {
+            console.error('Dashboard init error:', error);
+            showError(error.message + '<br>Please check your internet connection and try again.');
+        }
+    }
 
     // Logout Function
     async function handleLogout() {
-        await supabase.auth.signOut();
-        window.location.href = "index.html";
+        try {
+            if (supabaseClient) {
+                await supabaseClient.auth.signOut();
+            }
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.replace("login.html");
+        } catch (error) {
+            console.error('Logout error:', error);
+            window.location.replace("login.html");
+        }
     }
 
     // Chatbot Toggle
     function toggleChat() {
         const win = document.getElementById('chatWindow');
-        win.classList.toggle('force-show');
+        if (win) {
+            win.classList.toggle('force-show');
+        }
     }
 
-    // Place this in dash.html <script>
-const userData = JSON.parse(sessionStorage.getItem('harwos_user'));
-
-if (!userData) {
-    // Not logged in, redirect back to login
-    window.location.href = "login.html";
-} else {
-    // User is logged in - use the data
-    console.log('User:', userData.user);
-    console.log('Profile:', userData.profile);
-    
-    // Display user info
-    document.getElementById('userEmail').textContent = userData.user.email;
-    // Add more fields as needed
-}
-
+    // Start initialization when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    } else {
+        // DOM already loaded
+        initDashboard();
+    }
 </script>
 
 </body>

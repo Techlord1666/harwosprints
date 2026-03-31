@@ -35,11 +35,7 @@
     <style>
         @keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-slow-spin { animation: slowSpin 12s linear infinite; }
-        
-        /* Mobile Menu Transition */
-        #mobileMenu {
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        #mobileMenu { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .menu-open { transform: translateX(0) !important; }
     </style>
 </head>
@@ -49,54 +45,43 @@
 <!-- NAVBAR -->
 <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
     <div class="flex justify-between items-center w-full px-6 md:px-12 py-4 mx-auto max-w-7xl">
-        <!-- Logo -->
         <div class="text-xl md:text-2xl font-black text-brandOrange uppercase tracking-tighter font-headline">
             Harwosprints.ng
         </div>
-
-        <!-- Desktop Links (Hidden on Mobile) -->
         <div class="hidden md:flex items-center space-x-8 font-headline font-bold">
             <a class="text-brandOrange" href="#">Home</a>
             <a class="hover:text-brandOrange transition-colors" href="store.html">Shop</a>
             <a class="hover:text-brandOrange transition-colors" href="about.html">About</a>
             <a class="hover:text-brandOrange transition-colors" href="contact.html">Contact</a>
         </div>
-
-        <!-- Desktop Action (Hidden on Mobile) -->
         <div class="hidden md:flex items-center space-x-4">
             <button onclick="toggleModal()" class="bg-brandBlack text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-brandOrange transition-all">
                 Request Quote
             </button>
         </div>
-
-        <!-- Mobile Menu Button (Visible only on Mobile) -->
         <button onclick="toggleMobileMenu()" class="md:hidden flex items-center text-brandBlack">
             <span class="material-symbols-outlined text-3xl">menu</span>
         </button>
     </div>
 </nav>
 
-<!-- MOBILE MENU OVERLAY (Animated Sidebar) -->
+<!-- MOBILE MENU -->
 <div id="mobileMenu" class="fixed inset-y-0 right-0 w-[280px] bg-brandBlack z-[60] shadow-2xl transform translate-x-full flex flex-col p-8 md:hidden">
     <button onclick="toggleMobileMenu()" class="self-end text-white mb-8">
         <span class="material-symbols-outlined text-3xl">close</span>
     </button>
-    
     <div class="flex flex-col space-y-6 font-headline font-bold text-xl text-white">
         <a onclick="toggleMobileMenu()" href="#" class="text-brandOrange">Home</a>
         <a onclick="toggleMobileMenu()" href="store.html">Shop</a>
         <a onclick="toggleMobileMenu()" href="about.html">About</a>
         <a onclick="toggleMobileMenu()" href="contact.html">Contact</a>
     </div>
-
     <div class="mt-auto">
         <button onclick="toggleMobileMenu(); toggleModal();" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest">
             Request Quote
         </button>
     </div>
 </div>
-
-<!-- Dark Backdrop for Mobile Menu -->
 <div id="menuBackdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-[55] hidden md:hidden"></div>
 
 <main class="pt-20">
@@ -106,7 +91,6 @@
             <div class="absolute top-[-10%] right-[-10%] w-64 md:w-[600px] h-64 md:h-[600px] rounded-full bg-brandOrange opacity-10 blur-[120px]"></div>
             <div class="absolute bottom-[-5%] left-[-5%] w-64 md:w-[400px] h-64 md:h-[400px] rounded-full bg-brandBlack opacity-5 blur-[100px]"></div>
         </div>
-
         <div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-7 space-y-6 md:space-y-8" data-aos="fade-right">
                 <div class="inline-flex items-center space-x-2 bg-white px-4 py-1.5 rounded-full shadow-sm border border-orange-100">
@@ -121,15 +105,13 @@
                 </p>
                 <div class="flex flex-wrap gap-4 pt-4">
                     <a href="https://wa.me/2349094576733" target="_blank" class="w-full sm:w-auto bg-brandBlack text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:bg-brandOrange transition-all flex justify-center items-center gap-2 group">
-                        Get Started 
-                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        Get Started <span class="material-symbols-outlined">arrow_forward</span>
                     </a>
                     <button onclick="toggleModal()" class="w-full sm:w-auto bg-white text-brandBlack px-8 py-4 rounded-xl font-bold text-lg border-2 border-brandBlack hover:bg-slate-50 transition-all text-center">
                         Order Prints
                     </button>
                 </div>
             </div>
-
             <div class="lg:col-span-5" data-aos="zoom-in" data-aos-delay="200">
                 <div class="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 md:border-8 border-brandBlack">
                     <img src="Home_page-1-scaled-e1669721721219.jpg" alt="Harwosprints Work" class="w-full h-auto object-cover">
@@ -138,10 +120,9 @@
         </div>
     </section>
 
-    <!-- SECTION 2: VISIBILITY (ALL WORDS INTACT) -->
+    <!-- SECTION 2: VISIBILITY -->
     <section class="py-16 md:py-24 bg-white relative overflow-hidden border-t border-slate-100">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
-            
             <div class="space-y-6 md:space-y-8 order-2 lg:order-1">
                 <div data-aos="fade-up">
                     <h2 class="text-3xl md:text-6xl font-black text-brandBlack leading-tight uppercase tracking-tighter">
@@ -152,7 +133,6 @@
                         Get your business more visibility, by custom branding, prints, stickers for party souvenirs & promotional gifting items.
                     </p>
                 </div>
-
                 <ul class="space-y-4 md:space-y-6">
                     <li class="flex items-start md:items-center gap-3 md:gap-4 text-base md:text-lg font-bold text-slate-800" data-aos="fade-up" data-aos-delay="100">
                         <span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span>
@@ -171,16 +151,12 @@
                         Designers supports on the Journey
                     </li>
                 </ul>
-
                 <div class="pt-4" data-aos="fade-up" data-aos-delay="500">
                     <button onclick="toggleModal()" class="w-full sm:w-auto inline-flex justify-center items-center gap-4 bg-brandOrange text-white px-8 py-4 md:px-10 md:py-5 rounded-lg font-black text-lg md:text-xl uppercase tracking-wider shadow-lg hover:brightness-110 transition-all">
-                        START PRINTING
-                        <span class="material-symbols-outlined bg-black/20 p-1 rounded">arrow_forward</span>
+                        START PRINTING <span class="material-symbols-outlined bg-black/20 p-1 rounded">arrow_forward</span>
                     </button>
                 </div>
             </div>
-
-            <!-- Logo Circle -->
             <div class="flex justify-center items-center order-1 lg:order-2" data-aos="zoom-in">
                 <div class="relative w-48 h-48 md:w-80 md:h-80">
                     <div class="absolute inset-0 rounded-full border-4 border-dashed border-brandOrange animate-slow-spin"></div>
@@ -191,7 +167,98 @@
             </div>
         </div>
     </section>
+
+    <!-- NEW SECTION: PRODUCT GRID (Paper Bags, Callcards, Brochures) -->
+    <section class="py-16 md:py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                
+                <!-- Card 1: Paper Bags -->
+                <div class="space-y-4 group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
+                        <img src="Customizepaperbag.png" alt="Paper Bags" class="w-full h-full object-contain p-4">
+                    </div>
+                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">
+                        Paper Bags
+                    </h3>
+                </div>
+
+                <!-- Card 2: Callcards -->
+                <div class="space-y-4 group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
+                        <img src="Business card.png" alt="Callcards" class="w-full h-full object-contain p-4">
+                    </div>
+                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">
+                        Callcards
+                    </h3>
+                </div>
+
+                <!-- Card 3: Brochures -->
+                <div class="space-y-4 group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white shadow-md border border-slate-100 transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
+                        <img src="Brochure.png" alt="Brochures" class="w-full h-full object-contain p-4">
+                    </div>
+                    <h3 class="text-lg font-black uppercase tracking-widest text-brandBlack group-hover:text-brandOrange transition-colors">
+                        Brochures
+                    </h3>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
 </main>
+
+<!-- QUOTE MODAL -->
+<div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
+            <h3 class="text-xl font-black uppercase font-headline">Request a Quote</h3>
+            <button onclick="toggleModal()" class="material-symbols-outlined hover:text-brandOrange transition-colors">close</button>
+        </div>
+        <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="p-8 space-y-4">
+            <div>
+                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Full Name</label>
+                <input type="text" name="name" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Your Name">
+            </div>
+            <div>
+                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Email Address</label>
+                <input type="email" name="email" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="email@example.com">
+            </div>
+            <div>
+                <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Print Project Details</label>
+                <textarea name="message" rows="4" required class="w-full border-2 border-slate-100 p-3 rounded-xl focus:border-brandOrange outline-none font-bold" placeholder="Items, sizes, quantities..."></textarea>
+            </div>
+            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-brandBlack transition-all shadow-lg">
+                Send Request
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000, once: true });
+  function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const backdrop = document.getElementById('menuBackdrop');
+      menu.classList.toggle('menu-open');
+      backdrop.classList.toggle('hidden');
+      document.body.style.overflow = menu.classList.contains('menu-open') ? 'hidden' : 'auto';
+  }
+  function toggleModal() {
+      const modal = document.getElementById('quoteModal');
+      modal.classList.toggle('hidden');
+      document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+  }
+  window.onclick = function(e) {
+      const modal = document.getElementById('quoteModal');
+      if (e.target == modal) toggleModal();
+  }
+</script>
+
+
 
 <!-- QUOTE MODAL (Sends to harwosprintsltd@gmail.com) -->
 <div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">

@@ -180,27 +180,37 @@
 </div>
 
 <script>
-    // SUPABASE INTEGRATION
+    // =========================
+    // SUPABASE CONFIG
+    // =========================
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
+    // =========================
     // SIGN UP LOGIC
-    document.getElementById('signupForm').onsubmit = async (e) => {
+    // =========================
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        document.getElementById('loadingOverlay').style.display = 'flex';
-        
+
+        const loader = document.getElementById('loadingOverlay');
+        loader.style.display = 'flex';
+
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const full_name = document.getElementById('fullName').value;
+        const fullName = document.getElementById('fullName').value;
 
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
-            options: { data: { full_name: full_name } }
+            options: {
+                data: {
+                    full_name: fullName
+                }
+            }
         });
 
-        document.getElementById('loadingOverlay').style.display = 'none';
+        loader.style.display = 'none';
 
         if (error) {
             alert("Error: " + error.message);
@@ -208,18 +218,45 @@
             alert("Registration Successful! Welcome to Harwosprints.");
             window.location.href = "signin.html";
         }
-    };
+    });
 
-    // UNBREAKABLE POLICY CONTROLS
-    function openPolicies() { 
-        document.getElementById('policyPopup').style.display = 'flex'; 
+    // =========================
+    // POLICY MODAL (FIXED)
+    // =========================
+    function openPolicies() {
+        const modal = document.getElementById('policyPopup');
+
+        // FORCE SHOW (fixes hidden conflicts)
+        modal.style.display = 'flex';
+        modal.classList.remove('force-hidden');
+
+        // LOCK SCROLL
         document.body.style.overflow = 'hidden';
     }
-    function closePolicies() { 
-        document.getElementById('policyPopup').style.display = 'none'; 
+
+    function closePolicies() {
+        const modal = document.getElementById('policyPopup');
+
+        modal.style.display = 'none';
+
+        // RESTORE SCROLL
         document.body.style.overflow = 'auto';
     }
-</script>
 
+    // CLICK OUTSIDE TO CLOSE (IMPORTANT FIX)
+    window.addEventListener('click', function (e) {
+        const modal = document.getElementById('policyPopup');
+        if (e.target === modal) {
+            closePolicies();
+        }
+    });
+
+    // ESC KEY CLOSE (EXTRA FIX)
+    document.addEventListener('keydown', function(e){
+        if(e.key === "Escape"){
+            closePolicies();
+        }
+    });
+</script>
 </body>
 </html>

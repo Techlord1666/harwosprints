@@ -48,7 +48,7 @@
     
     <style>
       body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background-color: #fdfdfd; }
-      #loadingOverlay { display: flex; }
+      #loadingOverlay { display: flex; transition: opacity 0.5s ease; }
       
       /* ORIGINAL CART TRANSITION LOGIC */
       .cart-drawer { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); }
@@ -57,11 +57,10 @@
       .cart-open #cartOverlay { display: block; }
       
       .category-active { background-color: #ea580c !important; color: white !important; transform: scale(1.05); }
-      .hidden { display: none !important; }
       .no-scrollbar::-webkit-scrollbar { display: none; }
       input:focus, select:focus, textarea:focus { border-color: #ea580c !important; outline: none; box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1); }
       
-      /* MODAL SCROLLING & POPUP SYSTEM */
+      /* MODAL SYSTEM */
       .modal-container {
         display: none;
         position: fixed;
@@ -111,7 +110,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <button onclick="toggleCart()" class="relative p-2.5 bg-slate-100 rounded-full hover:bg-brandOrange hover:text-white transition-all group">
+            <button onclick="toggleCart(true)" class="relative p-2.5 bg-slate-100 rounded-full hover:bg-brandOrange hover:text-white transition-all group">
                 <span class="material-symbols-outlined">shopping_cart</span>
                 <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brandOrange text-white text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-black">0</span>
             </button>
@@ -159,11 +158,11 @@
     <!-- PRODUCT GRID (5 COL LAPTOP / 2 COL MOBILE) -->
     <section id="productsSection" class="max-w-[1440px] mx-auto px-4 md:px-12 min-h-[600px]">
         <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-8"></div>
-        <div id="emptyStore" class="hidden text-center py-32 font-black uppercase text-slate-400 uppercase">The store is currently empty.</div>
+        <div id="emptyStore" class="hidden text-center py-32 font-black uppercase text-slate-400">The store is currently empty.</div>
     </section>
 </main>
 
-<!-- CART OVERLAY & DRAWER -->
+<!-- CART DRAWER -->
 <div id="cartOverlay" class="fixed inset-0 bg-black/60 z-[200] hidden backdrop-blur-sm" onclick="toggleCart(false)">
     <div class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col" onclick="event.stopPropagation()">
         <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
@@ -173,7 +172,7 @@
         <div id="cartItemsList" class="flex-1 overflow-y-auto p-8 space-y-6 bg-slate-50"></div>
         <div class="p-8 border-t bg-white">
             <div class="flex justify-between items-end mb-8">
-                <span class="text-xs font-black uppercase text-slate-400">Total Estimated</span>
+                <span class="text-xs font-black uppercase text-slate-400">Total Sum</span>
                 <span id="cartSubtotal" class="text-3xl font-black text-brandBlack">₦0</span>
             </div>
             <button onclick="openPaymentModal()" class="w-full bg-brandOrange text-white py-6 rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl">
@@ -183,11 +182,11 @@
     </div>
 </div>
 
-<!-- CHECKOUT & BANKING MODAL -->
+<!-- BANKING/CHECKOUT MODAL -->
 <div id="paymentModal" class="modal-container">
     <div class="modal-content overflow-hidden flex flex-col h-[90vh]">
         <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
-            <h3 class="text-xl font-black uppercase tracking-widest">Billing Details</h3>
+            <h3 class="text-xl font-black uppercase tracking-widest">Payment & Billing</h3>
             <button onclick="closePaymentModal()" class="material-symbols-outlined text-3xl">close</button>
         </div>
         <div class="flex-1 overflow-y-auto p-8 md:p-12 space-y-10">
@@ -204,8 +203,8 @@
                         Make payment directly into our bank account. Please use your Order ID as reference. Order will not be processed until funds have cleared.
                     </p>
                     <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
-                        <p class="text-xs font-black">Acc Name: <span class="text-brandOrange uppercase">Harwos Print Nigeria Limited</span></p>
-                        <p class="text-xs font-black">Bank Name: <span class="text-brandOrange uppercase">Access Bank</span></p>
+                        <p class="text-xs font-black uppercase">Acc Name: <span class="text-brandOrange uppercase font-bold">Harwos Print Nigeria Limited</span></p>
+                        <p class="text-xs font-black uppercase">Bank Name: <span class="text-brandOrange uppercase font-bold">Access Bank</span></p>
                         <p class="text-3xl font-black tracking-widest text-brandOrange">0761264611</p>
                     </div>
                     <div class="text-[10px] font-black uppercase text-slate-400 space-y-2 leading-relaxed uppercase">
@@ -217,8 +216,9 @@
 
                 <div class="md:col-span-2 flex items-start gap-4 py-4 border-t">
                     <input type="checkbox" required class="mt-1 w-6 h-6 rounded text-brandOrange">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase">
-                        I have read and agree to the website <button type="button" onclick="toggleModal('policyPopup')" class="text-brandOrange underline">terms and conditions</button> *
+                    <p class="text-[10px] font-bold text-slate-500 uppercase leading-relaxed">
+                        Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy. Only. 
+                        <br><br>I have read and agree to the website <button type="button" onclick="toggleModal('policyPopup')" class="text-brandOrange underline">terms and conditions</button> *
                     </p>
                 </div>
 
@@ -234,7 +234,7 @@
         <button onclick="closeDetail()" class="absolute top-6 right-6 z-[160] w-12 h-12 bg-white rounded-full flex shadow-xl items-center justify-center hover:bg-brandOrange hover:text-white transition-all"><span class="material-symbols-outlined text-3xl">close</span></button>
         
         <div class="w-full md:w-1/2 bg-slate-50 p-6 flex flex-col border-b md:border-b-0 md:border-r">
-            <div id="detailMainImg" class="flex-1 flex items-center justify-center min-h-[300px]"><img src="" class="max-h-[450px] object-contain rounded-2xl"></div>
+            <div id="detailMainImg" class="flex-1 flex items-center justify-center min-h-[300px]"><img src="" class="max-h-[450px] object-contain rounded-3xl"></div>
             <div id="detailThumbs" class="flex gap-3 mt-4 overflow-x-auto no-scrollbar pb-2"></div>
         </div>
 
@@ -280,13 +280,13 @@
                     <p class="text-[10px] font-black uppercase mb-2">Upload Images (Max 5)</p>
                     <input id="adFiles" type="file" multiple accept="image/*" class="w-full text-xs font-bold">
                 </div>
-                <button type="submit" id="uploadBtn" class="w-full bg-brandOrange text-white py-5 rounded-xl font-black uppercase tracking-widest shadow-xl">Save to Cloud</button>
+                <button type="submit" id="uploadBtn" class="w-full bg-brandOrange text-white py-5 rounded-xl font-black uppercase tracking-widest shadow-xl">Process to Store</button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- POLICIES MODAL -->
+<!-- POLICIES MODAL (FULL RESTORATION) -->
 <div id="policyPopup" class="modal-container">
     <div class="modal-content max-w-4xl h-[85vh] flex flex-col overflow-hidden">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
@@ -308,7 +308,7 @@
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center md:text-left">
         <div class="space-y-6">
             <div class="text-brandOrange font-black text-3xl tracking-tighter">Harwosprints.ng</div>
-            <p class="text-[10px] text-slate-500 leading-relaxed uppercase">Premier partner for high-precision printing and tactical branding solutions in Nigeria.</p>
+            <p class="text-[10px] text-slate-500 leading-relaxed uppercase font-bold">The premier partner for high-precision printing and tactical branding solutions in Nigeria.</p>
         </div>
         <div>
             <h5 class="text-white mb-6 text-sm uppercase">Solutions</h5>
@@ -317,7 +317,7 @@
             </ul>
         </div>
         <div>
-            <h5 class="text-white mb-6 text-sm uppercase">Locations</h5>
+            <h5 class="text-white mb-6 text-sm uppercase font-bold text-brandOrange">Locations</h5>
             <div class="space-y-5 text-[9px] leading-loose text-slate-500">
                 <p><span class="text-brandOrange">Head Office:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
                 <p><span class="text-brandOrange">Sales Office:</span> Abraham Adesanya Complex, Onipanu, Lagos.</p>
@@ -334,13 +334,6 @@
             <button onclick="openAdminPanel()" class="w-full text-center text-[10px] text-slate-800 hover:text-brandOrange transition-all mt-4">Admin Access</button>
         </div>
     </div>
-    <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase gap-6 text-center">
-        <p>© 2024 Harwosprints.ng. All rights reserved.</p>
-        <div class="flex gap-8">
-            <button onclick="toggleModal('policyPopup')">Privacy Policy</button>
-            <button onclick="toggleModal('policyPopup')">Terms & Conditions</button>
-        </div>
-    </div>
 </footer>
 
 <script>
@@ -350,13 +343,16 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 let allProducts = [];
-let cart = JSON.parse(localStorage.getItem("harwos_stable_v1")) || [];
+let cart = JSON.parse(localStorage.getItem("harwos_final_v10")) || [];
 let isAdminMode = false;
 
 window.onload = async () => {
+    // Show page immediately to prevent stuck loader
+    document.getElementById('loadingOverlay').style.opacity = '0';
+    setTimeout(() => document.getElementById('loadingOverlay').style.display = 'none', 500);
+    
     await loadStoreData();
     updateCartUI();
-    document.getElementById('loadingOverlay').style.display = 'none';
 };
 
 async function loadStoreData() {
@@ -380,10 +376,10 @@ function renderProducts(list) {
                 <h3 class="font-black uppercase text-[10px] mb-1 truncate text-brandBlack">${p.name}</h3>
                 <p class="text-brandOrange font-black text-sm mb-4">₦${Number(p.price).toLocaleString()}</p>
                 <div class="flex items-center gap-2 mt-auto">
-                    <input type="number" id="qty-${p.id}" value="1" min="1" class="w-12 text-[10px] p-2 border-2 rounded-xl font-bold border-slate-100">
+                    <input type="number" id="qty-${p.id}" value="1" min="1" class="w-12 text-[10px] p-2 border-2 rounded-xl font-bold border-slate-100 focus:border-brandOrange">
                     <button onclick="addToCart('${p.id}', document.getElementById('qty-${p.id}').value)" class="flex-1 bg-brandBlack text-white text-[9px] py-3 rounded-xl font-black uppercase tracking-widest hover:bg-brandOrange">Add</button>
                 </div>
-                ${isAdminMode ? `<div class="flex gap-2 mt-2 pt-2 border-t"><button onclick="editProduct('${p.id}')" class="flex-1 bg-blue-500 text-white text-[8px] py-2 rounded-lg">Edit</button><button onclick="deleteProduct('${p.id}')" class="flex-1 bg-red-500 text-white text-[8px] py-2 rounded-lg">Delete</button></div>` : ''}
+                ${isAdminMode ? `<div class="flex gap-2 mt-3 pt-3 border-t"><button onclick="editProduct('${p.id}')" class="flex-1 bg-blue-500 text-white text-[8px] py-2 rounded-lg">Edit</button><button onclick="deleteProduct('${p.id}')" class="flex-1 bg-red-500 text-white text-[8px] py-2 rounded-lg">Delete</button></div>` : ''}
             </div>`;
     });
 }
@@ -397,7 +393,7 @@ function openAdminPanel() {
     } else if (pass === "harwosprint1") {
         isAdminMode = true;
         renderProducts(allProducts);
-        alert("Admin mode active. Edit/Delete visible on cards.");
+        alert("Edit/Delete buttons activated on product cards.");
     }
 }
 
@@ -412,6 +408,7 @@ function openDetail(id) {
     document.getElementById('detDesc').innerText = p.description;
     document.getElementById('detPrice').innerText = "₦" + Number(p.price).toLocaleString();
     document.getElementById('detailMainImg').querySelector('img').src = p.images?.[0] || 'harwosprints.ng-logo.jpg';
+    
     const thumbs = document.getElementById('detailThumbs');
     thumbs.innerHTML = '';
     p.images?.forEach(img => {
@@ -424,7 +421,7 @@ function openDetail(id) {
 function closeDetail() { document.getElementById('detailModal').style.display = 'none'; document.body.classList.remove('modal-active'); }
 function updateDetQty(val) { const el = document.getElementById('detQty'); let n = parseInt(el.value) + val; if(n < 1) n = 1; el.value = n; }
 
-// --- RESTORED ORIGINAL CART FUNCTIONALITY ---
+// --- RESTORED ORIGINAL CART LOGIC ---
 function addToCart(id, qty) {
     const product = allProducts.find(p => p.id === id);
     if(!product) return;
@@ -432,14 +429,14 @@ function addToCart(id, qty) {
     const existing = cart.find(item => item.id === id);
     if(existing) existing.qty += qty; else cart.push({...product, qty: qty});
     
-    localStorage.setItem("harwos_stable_v1", JSON.stringify(cart));
+    localStorage.setItem("harwos_final_v10", JSON.stringify(cart));
     updateCartUI();
-    toggleCart(true); // Automatically opens drawer
+    toggleCart(true); 
 }
 
 function removeFromCart(i) {
     cart.splice(i, 1);
-    localStorage.setItem("harwos_stable_v1", JSON.stringify(cart));
+    localStorage.setItem("harwos_final_v10", JSON.stringify(cart));
     updateCartUI();
 }
 
@@ -449,9 +446,8 @@ function updateCartUI() {
     list.innerHTML = '';
     let total = 0;
     cart.forEach((item, i) => {
-        const itemTotal = item.price * item.qty;
-        total += itemTotal;
-        list.innerHTML += `<div class="flex gap-4 items-center bg-white p-3 rounded-2xl border shadow-sm"><img src="${item.images?.[0]}" class="w-12 h-12 object-cover rounded-lg"><div><h4 class="text-[10px] font-black uppercase text-brandBlack">${item.name}</h4><p class="text-[10px] font-bold text-brandOrange">${item.qty} units x ₦${Number(item.price).toLocaleString()}</p></div><button onclick="removeFromCart(${i})" class="ml-auto material-symbols-outlined text-slate-300">delete</button></div>`;
+        total += (item.price * item.qty);
+        list.innerHTML += `<div class="flex gap-4 items-center bg-white p-3 rounded-2xl border shadow-sm"><img src="${item.images?.[0]}" class="w-12 h-12 object-cover rounded-lg"><div><h4 class="text-[10px] font-black uppercase text-brandBlack font-bold">${item.name}</h4><p class="text-[10px] font-bold text-brandOrange">${item.qty} units x ₦${Number(item.price).toLocaleString()}</p></div><button onclick="removeFromCart(${i})" class="ml-auto material-symbols-outlined text-slate-300">delete</button></div>`;
     });
     document.getElementById('cartSubtotal').innerText = "₦" + total.toLocaleString();
 }
@@ -469,13 +465,13 @@ function toggleModal(id) { const el = document.getElementById(id); el.style.disp
 document.getElementById('masterOrderForm').onsubmit = (e) => {
     e.preventDefault();
     const items = cart.map(i => `• ${i.name} (Qty: ${i.qty}) - ₦${(i.price * i.qty).toLocaleString()}`).join('%0A');
-    const text = `*NEW ORDER FROM HARWOSPRINTS.NG*%0A${items}%0A*Total Sum:* ${document.getElementById('cartSubtotal').innerText}%0A%0A*Name:* ${document.getElementById('billFName').value} ${document.getElementById('billLName').value}%0A*Phone:* ${document.getElementById('billPhone').value}%0A*Address:* ${document.getElementById('billStreet1').value}`;
+    const text = `*NEW ORDER - HARWOSPRINTS*%0A------------------%0A${items}%0A------------------%0A*Total Sum:* ${document.getElementById('cartSubtotal').innerText}%0A%0A*Name:* ${document.getElementById('billFName').value} ${document.getElementById('billLName').value}%0A*Phone:* ${document.getElementById('billPhone').value}%0A*Address:* ${document.getElementById('billStreet1').value}`;
     window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
 };
 
 document.getElementById('masterAdminForm').onsubmit = async (e) => {
     e.preventDefault();
-    const btn = document.getElementById('uploadBtn'); btn.innerText = "Processing..."; btn.disabled = true;
+    const btn = document.getElementById('uploadBtn'); btn.innerText = "Syncing..."; btn.disabled = true;
     let urls = [];
     const files = document.getElementById('adFiles').files;
     for(let f of files) {

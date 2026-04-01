@@ -139,6 +139,15 @@
         html {
             scroll-behavior: smooth;
         }
+        
+        /* Logout button hover effect */
+        .logout-btn {
+            @apply transition-all duration-300;
+        }
+        .logout-btn:hover {
+            @apply bg-red-600 text-white;
+            transform: translateX(4px);
+        }
     </style>
 </head>
 
@@ -189,8 +198,16 @@
         </div>
     </nav>
 
+    <!-- LOGOUT BUTTON - DESKTOP -->
     <div class="p-3 xl:p-4 border-t border-slate-800">
-        <button onclick="handleLogout()" class="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-red-600 text-white p-2.5 xl:p-3 rounded-xl font-black uppercase text-xs transition-all">
+        <div class="bg-slate-900 rounded-xl p-4 mb-4">
+            <p class="text-slate-400 text-[10px] uppercase font-bold mb-1">Account Status</p>
+            <p class="text-green-400 text-xs font-black flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                Active
+            </p>
+        </div>
+        <button onclick="handleLogout()" class="logout-btn w-full flex items-center justify-center gap-2 bg-slate-800 text-slate-300 p-3 rounded-xl font-black uppercase text-xs border border-slate-700 hover:border-red-500">
             <span class="material-symbols-outlined text-sm">logout</span> 
             <span>Sign Out</span>
         </button>
@@ -205,8 +222,11 @@
         </div>
         <div class="text-brandOrange font-black text-base sm:text-lg uppercase truncate">HARWOSPRINTS</div>
     </div>
-    <button onclick="handleLogout()" class="text-slate-400 hover:text-white flex-shrink-0 p-2">
+    
+    <!-- MOBILE LOGOUT BUTTON -->
+    <button onclick="handleLogout()" class="text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1 flex-shrink-0 p-2">
         <span class="material-symbols-outlined text-xl">logout</span>
+        <span class="text-xs font-bold uppercase hidden sm:inline">Exit</span>
     </button>
 </header>
 
@@ -372,6 +392,11 @@
     <button onclick="showSection('tracking')" class="flex flex-col items-center gap-1 p-2 text-slate-400 min-w-[60px]">
         <span class="material-symbols-outlined text-xl sm:text-2xl">local_shipping</span>
         <span class="text-[9px] sm:text-[10px] font-bold uppercase">Track</span>
+    </button>
+    <!-- MOBILE LOGOUT IN NAV -->
+    <button onclick="handleLogout()" class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-red-500 min-w-[60px]">
+        <span class="material-symbols-outlined text-xl sm:text-2xl">logout</span>
+        <span class="text-[9px] sm:text-[10px] font-bold uppercase">Logout</span>
     </button>
 </nav>
 
@@ -724,10 +749,10 @@
         const mobileButtons = document.querySelectorAll('nav.lg\\\\:hidden button');
         mobileButtons.forEach(btn => {
             const onclick = btn.getAttribute('onclick');
-            if (onclick && onclick.includes(sectionName)) {
+            if (onclick && onclick.includes(`showSection('${sectionName}')`)) {
                 btn.classList.remove('text-slate-400');
                 btn.classList.add('text-brandOrange');
-            } else {
+            } else if (!onclick.includes('handleLogout')) {
                 btn.classList.remove('text-brandOrange');
                 btn.classList.add('text-slate-400');
             }
@@ -799,14 +824,32 @@
         }
     }
     
+    // LOGOUT FUNCTION - Redirects to index.html
     async function handleLogout() {
         try {
-            await supabaseClient.auth.signOut();
-            localStorage.clear();
-            sessionStorage.clear();
-            window.location.replace('login.html');
+            // Show loading or confirmation
+            if (confirm('Are you sure you want to logout?')) {
+                // Sign out from Supabase
+                if (supabaseClient) {
+                    await supabaseClient.auth.signOut();
+                }
+                
+                // Clear all storage
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Clear any cookies if needed
+                document.cookie.split(";").forEach(function(c) {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+                
+                // Redirect to index.html (homepage)
+                window.location.replace('index.html');
+            }
         } catch (error) {
-            window.location.replace('login.html');
+            console.error('Logout error:', error);
+            // Even if error, still redirect to index.html
+            window.location.replace('index.html');
         }
     }
     

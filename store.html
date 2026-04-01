@@ -44,13 +44,7 @@
     <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="flex items-center gap-3">
             <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-10 h-10 rounded-full border-2 border-brandOrange">
-            <span class="text-xl md:text-2xl font-black text-brandOrange tracking-tighter font-headline">Harwosprints.ng</span>
-        </div>
-        <div class="hidden lg:flex items-center gap-8 font-bold text-[10px] uppercase tracking-widest">
-            <a href="index.html">Home</a>
-            <a href="store.html" class="text-brandOrange underline underline-offset-8">Shop</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <span class="text-xl md:text-2xl font-black text-brandOrange tracking-tighter font-headline uppercase">Harwosprints.ng</span>
         </div>
         <div class="flex items-center gap-4">
             <button onclick="toggleCart(true)" class="relative p-2.5 bg-slate-100 rounded-full">
@@ -62,14 +56,14 @@
 </nav>
 
 <main class="pt-20">
-    <!-- RESTORED HERO SECTION -->
+    <!-- HERO SECTION -->
     <section class="px-4 md:px-12 mb-12 mt-4">
         <div class="relative overflow-hidden rounded-[3rem] bg-brandBlack h-[350px] md:h-[550px] flex items-center shadow-2xl">
             <img class="absolute inset-0 w-full h-full object-cover opacity-50 scale-105" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop" alt="Hero"/>
             <div class="absolute inset-0 bg-gradient-to-r from-brandBlack via-brandBlack/40 to-transparent"></div>
             <div class="relative z-10 px-8 md:px-20 max-w-4xl">
                 <h1 class="text-4xl md:text-8xl font-black text-white mb-6 uppercase tracking-tighter leading-none">Big Format <br><span class="text-brandOrange italic">Store.</span></h1>
-                <p class="text-slate-300 text-sm md:text-xl mb-10 max-w-lg font-medium leading-relaxed">Nigeria's premium destination for industrial printing and bespoke branding solutions.</p>
+                <p class="text-slate-300 text-sm md:text-xl mb-10 max-w-lg font-medium leading-relaxed uppercase">Nigeria's premium destination for industrial printing and bespoke branding solutions.</p>
                 <button onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})" class="bg-brandOrange text-white px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:brightness-110 shadow-2xl transition-all">Browse Store</button>
             </div>
         </div>
@@ -80,22 +74,24 @@
         <div class="bg-white p-6 rounded-[2rem] shadow-xl border border-slate-100 flex flex-col gap-6">
             <div class="relative">
                 <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-slate-300">search</span>
-                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search products..." class="w-full pl-14 pr-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-brandOrange font-bold">
+                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search catalog..." class="w-full pl-14 pr-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-brandOrange font-bold">
             </div>
             <div class="flex overflow-x-auto gap-2 no-scrollbar">
                 <button onclick="filterProducts('all', this)" class="cat-btn category-active shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100">All Items</button>
                 <button onclick="filterProducts('Brand Support', this)" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100">Brand Support</button>
+                <button onclick="filterProducts('Promo Items', this)" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100">Promo Items</button>
                 <button onclick="filterProducts('Souvenirs', this)" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100">Souvenirs</button>
                 <button onclick="filterProducts('Giftings', this)" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100">Giftings</button>
                 <button onclick="filterProducts('Formats', this)" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100">Formats</button>
+                <button onclick="filterProducts('Offset', this)" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100">Offset</button>
             </div>
         </div>
     </section>
 
     <!-- PRODUCT GRID: 2 COL MOBILE, 5 COL LAPTOP -->
     <section id="productsSection" class="max-w-[1400px] mx-auto px-4 min-h-[500px]">
-        <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-8"></div>
-        <div id="emptyStore" class="hidden text-center py-20 text-slate-400 font-black uppercase tracking-widest">Store is empty. Check back soon.</div>
+        <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6"></div>
+        <div id="emptyStore" class="hidden text-center py-20 text-slate-400 font-black uppercase tracking-widest">The store is currently empty.</div>
     </section>
 </main>
 
@@ -103,16 +99,16 @@
 <div id="cartOverlay" class="fixed inset-0 bg-black/60 z-[200] hidden backdrop-blur-sm" onclick="toggleCart(false)">
     <div class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col" onclick="event.stopPropagation()">
         <div class="bg-brandBlack p-8 text-white flex justify-between items-center">
-            <h3 class="text-xl font-black uppercase">Your Request Cart</h3>
+            <h3 class="text-xl font-black uppercase">My Request Cart</h3>
             <button onclick="toggleCart(false)" class="material-symbols-outlined">close</button>
         </div>
         <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50"></div>
         <div class="p-8 border-t bg-white">
             <div class="flex justify-between mb-6">
-                <span class="font-black uppercase text-slate-400">Subtotal</span>
+                <span class="font-black uppercase text-slate-400 text-xs">Total Estimated</span>
                 <span id="cartSubtotal" class="text-2xl font-black text-brandBlack">₦0</span>
             </div>
-            <button onclick="openPaymentModal()" class="w-full bg-brandOrange text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-lg">Proceed to Checkout</button>
+            <button onclick="openPaymentModal()" class="w-full bg-brandOrange text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-lg">Continue to Payment</button>
         </div>
     </div>
 </div>
@@ -121,8 +117,8 @@
 <div id="paymentModal" class="fixed inset-0 z-[300] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-lg">
     <div class="bg-white w-full max-w-4xl h-[90vh] rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
-            <h3 class="font-black uppercase">Payment & Billing</h3>
-            <button onclick="closePaymentModal()" class="material-symbols-outlined text-3xl">close</button>
+            <h3 class="font-black uppercase">Checkout & Bank Transfer</h3>
+            <button onclick="closePaymentModal()" class="material-symbols-outlined">close</button>
         </div>
         <div class="flex-1 overflow-y-auto p-8 md:p-12">
             <form id="masterOrderForm" class="space-y-8">
@@ -134,15 +130,15 @@
                     <input type="email" id="billEmail" placeholder="Email Address *" required class="border-2 p-4 rounded-xl font-bold w-full bg-slate-50">
                 </div>
 
-                <div class="bg-brandBlack text-white p-8 rounded-[2rem] border-l-[12px] border-brandOrange space-y-4">
-                    <h4 class="text-xl font-black uppercase text-brandOrange">Bank Transfer Payment</h4>
-                    <p class="text-sm font-bold text-slate-300">Make payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                <div class="bg-brandBlack text-white p-8 rounded-[2rem] border-l-[12px] border-brandOrange space-y-4 shadow-xl">
+                    <h4 class="text-xl font-black uppercase text-brandOrange">Bank Payment Details</h4>
+                    <p class="text-[12px] font-bold text-slate-300 uppercase leading-relaxed italic">Make payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
                     <div class="bg-white/10 p-5 rounded-2xl border border-white/20">
-                        <p class="text-xs font-black uppercase mb-1">Account Name: <span class="text-brandOrange">Harwos Print Nigeria Limited</span></p>
-                        <p class="text-xs font-black uppercase mb-1">Bank Name: <span class="text-brandOrange">Access Bank</span></p>
+                        <p class="text-xs font-black uppercase mb-1">Acc Name: <span class="text-brandOrange">Harwos Print Nigeria Limited</span></p>
+                        <p class="text-xs font-black uppercase mb-1">Bank: <span class="text-brandOrange">Access Bank</span></p>
                         <p class="text-2xl font-black tracking-widest text-brandOrange">0761264611</p>
                     </div>
-                    <div class="text-[10px] font-black uppercase text-slate-400 space-y-2 leading-relaxed">
+                    <div class="text-[10px] font-black uppercase text-slate-400 space-y-2 leading-relaxed italic">
                         <p>• Kindly upload your job file/s and instructions to our email in CDR/PDF/PSD/PNG formats after payment.</p>
                         <p>• Jobs without designs will be charged an amount to be discussed on live chat.</p>
                         <p>• Delivery Charges which varies from #2500 or more according to distance should be added to payment after discussion with CEX on chat.</p>
@@ -157,23 +153,23 @@
                     </p>
                 </div>
 
-                <button type="submit" class="w-full bg-brandOrange text-white py-6 rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl hover:bg-brandBlack transition-all">Confirm Order on WhatsApp</button>
+                <button type="submit" class="w-full bg-brandOrange text-white py-6 rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl">Place Order on WhatsApp</button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- PRODUCT DETAIL MODAL -->
+<!-- PRODUCT DETAIL POPUP -->
 <div id="detailModal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
     <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-[3rem] overflow-hidden flex flex-col md:flex-row relative">
-        <button onclick="closeDetail()" class="absolute top-6 right-6 z-[160] w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-brandOrange hover:text-white transition-all"><span class="material-symbols-outlined">close</span></button>
+        <button onclick="closeDetail()" class="absolute top-6 right-6 z-[160] w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg"><span class="material-symbols-outlined">close</span></button>
         <div class="w-full md:w-1/2 bg-slate-50 p-4 flex flex-col">
             <div id="detailMainImg" class="flex-1 flex items-center justify-center overflow-hidden"><img src="" class="max-h-[400px] object-contain rounded-2xl"></div>
             <div id="detailThumbs" class="flex gap-2 mt-4 overflow-x-auto no-scrollbar p-2"></div>
         </div>
         <div class="w-full md:w-1/2 p-10 flex flex-col justify-center">
             <p id="detCat" class="text-[10px] font-black text-brandOrange uppercase mb-2 tracking-widest"></p>
-            <h2 id="detName" class="text-3xl font-black uppercase mb-6 leading-none"></h2>
+            <h2 id="detName" class="text-3xl font-black uppercase mb-6 leading-none text-brandBlack"></h2>
             <p id="detDesc" class="text-slate-500 text-sm mb-10 leading-relaxed"></p>
             <div class="flex items-center gap-6 mb-10">
                 <div class="flex items-center border-2 border-slate-100 rounded-2xl overflow-hidden bg-slate-50">
@@ -183,81 +179,72 @@
                 </div>
                 <div class="text-2xl font-black text-brandBlack" id="detPrice">₦0</div>
             </div>
-            <button id="detailAddBtn" class="w-full bg-brandBlack text-white py-6 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandOrange transition-all">Add to Cart</button>
+            <button id="detailAddBtn" class="w-full bg-brandBlack text-white py-6 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandOrange transition-all">Add to My Order</button>
         </div>
     </div>
 </div>
 
-<!-- POLICY MODAL (COMPLETE CONTENT) -->
-<div id="policyPopup" class="fixed inset-0 z-[1000] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
-    <div class="bg-white w-full max-w-4xl h-[85vh] rounded-[3rem] overflow-hidden flex flex-col shadow-2xl">
-        <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
-            <h3 class="font-black uppercase">Harwosprints Policies</h3>
-            <button onclick="toggleModal('policyPopup')" class="material-symbols-outlined text-3xl">close</button>
-        </div>
-        <div class="p-10 overflow-y-auto space-y-8 text-sm text-slate-700 leading-relaxed">
-            <section>
-                <h4 class="font-black text-brandOrange uppercase text-lg border-b-2 border-slate-100 pb-2 mb-4">Shipping & Delivery</h4>
-                <p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. The cost may vary based on the distance from our office. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos unless otherwise arranged or stated by the customer/s. Products will be packed and protected for deliveries to QC standard assured. Refund or replaced product/s shipping to our office is at the expenses of customer/s, whatever is shipped from our office is paid by us.</p>
-            </section>
-            <section>
-                <h4 class="font-black text-brandOrange uppercase text-lg border-b-2 border-slate-100 pb-2 mb-4">Quality of materials</h4>
-                <p>We are assuring you of our product quality which comes from other parts of the world known best manufacturing standard and practice like us. Sometimes, during transit and production in bulk few error occur and we regret to admit but trust us to do a perfect replacement of broken, torn or defective products. please always notify us by mail or chat immediately you receive order to correct such anomalies.</p>
-            </section>
-            <section>
-                <h4 class="font-black text-brandOrange uppercase text-lg border-b-2 border-slate-100 pb-2 mb-4">Terms & Conditions</h4>
-                <p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can’t offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Refunds are made after a replacement of perfect product has been exhausted. Complete return requires receipt or proof of purchase.</p>
-            </section>
-            <section>
-                <h4 class="font-black text-brandOrange uppercase text-lg border-b-2 border-slate-100 pb-2 mb-4">Refunds & Exchanges</h4>
-                <p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprintsltd@gmail.com and return to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p>
-            </section>
-            <section>
-                <h4 class="font-black text-brandOrange uppercase text-lg border-b-2 border-slate-100 pb-2 mb-4">Data Policy</h4>
-                <p>Website: https://harwosprint.ng. We collect comments data, IP addresses, and browser agent strings for spam detection. Cookies last for one year for convenience. We handle embedded content from other websites securely.</p>
-            </section>
-        </div>
-    </div>
-</div>
-
-<!-- ADMIN PANEL -->
+<!-- ADMIN MODAL -->
 <div id="adminPanel" class="fixed inset-0 z-[500] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-xl">
     <div class="bg-white w-full max-w-3xl h-[90vh] rounded-[2.5rem] overflow-hidden flex flex-col border-4 border-brandOrange">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
-            <h3 class="font-black uppercase italic tracking-tighter">Master Admin - Store Upload</h3>
+            <h3 class="font-black uppercase italic tracking-tighter" id="adminPanelTitle">Master Admin - Store Upload</h3>
             <button onclick="closeAdminPanel()" class="material-symbols-outlined">close</button>
         </div>
         <div class="flex-1 overflow-y-auto p-10">
             <form id="masterAdminForm" class="space-y-6">
-                <input id="adName" required placeholder="Product Name" class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50">
+                <input type="hidden" id="adEditId">
+                <input id="adName" required placeholder="Product Title" class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50">
                 <div class="grid grid-cols-2 gap-4">
                     <input id="adPrice1" type="number" required placeholder="Unit Price (₦)" class="border-2 p-5 rounded-2xl font-bold bg-slate-50">
                     <input id="adPriceBulk" type="number" required placeholder="Bulk Price (₦)" class="border-2 p-5 rounded-2xl font-bold bg-slate-50">
                 </div>
                 <select id="adCat" class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50">
-                    <option>Brand Support</option><option>Souvenirs</option><option>Giftings</option><option>Formats</option>
+                    <option>Brand Support</option>
+                    <option>Promo Items</option>
+                    <option>Souvenirs</option>
+                    <option>Giftings</option>
+                    <option>Formats</option>
+                    <option>Offset</option>
                 </select>
-                <textarea id="adDesc" rows="3" placeholder="Describe the quality and details..." class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50"></textarea>
+                <textarea id="adDesc" rows="3" placeholder="Description & quality specs..." class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50"></textarea>
                 <div class="p-8 border-2 border-dashed border-slate-200 rounded-3xl text-center bg-slate-50">
-                    <p class="text-xs font-black uppercase text-brandOrange mb-4">Upload up to 5 images</p>
+                    <p class="text-xs font-black uppercase text-brandOrange mb-4">Select up to 5 Product Images</p>
                     <input id="adFiles" type="file" multiple accept="image/*" class="w-full text-xs font-bold text-slate-500">
                 </div>
-                <button type="submit" id="uploadBtn" class="w-full bg-brandOrange text-white py-6 rounded-2xl font-black uppercase tracking-[0.3em] shadow-xl">Upload to Store</button>
+                <button type="submit" id="uploadBtn" class="w-full bg-brandOrange text-white py-6 rounded-2xl font-black uppercase tracking-[0.3em] shadow-xl">Upload Product</button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- FULL FOOTER -->
-<footer class="bg-brandBlack text-slate-400 pt-20 pb-10 border-t border-slate-900 px-6">
+<!-- POLICY MODAL -->
+<div id="policyPopup" class="fixed inset-0 z-[1000] hidden flex items-center justify-center p-4 bg-black/95">
+    <div class="bg-white w-full max-w-4xl h-[85vh] rounded-[3rem] overflow-hidden flex flex-col shadow-2xl">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
+            <h3 class="font-black uppercase tracking-widest">Harwosprints Policies</h3>
+            <button onclick="toggleModal('policyPopup')" class="material-symbols-outlined text-3xl">close</button>
+        </div>
+        <div class="p-10 overflow-y-auto space-y-8 text-sm text-slate-700 leading-relaxed font-medium">
+            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-2 mb-4">Shipping & Delivery</h4><p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. The cost may vary based on the distance from our office. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos unless otherwise arranged or stated by the customer/s. Products will be packed and protected for deliveries to QC standard assured. Refund or replaced product/s shipping to our office is at the expenses of customer/s, whatever is shipped from our office is paid by us.</p></section>
+            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-2 mb-4">Quality of materials</h4><p>We are assuring you of our product quality which comes from other parts of the world known best manufacturing standard and practice like us. Sometimes, during transit and production in bulk few error occur and we regret to admit but trust us to do a perfect replacement of broken, torn or defective products. please always notify us by mail or chat immediately you receive order to correct such anomalies.</p></section>
+            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-2 mb-4">Terms & Conditions</h4><p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can’t offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Refunds are made after a replacement of perfect product has been exhausted. Complete return requires receipt or proof of purchase.</p></section>
+            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-2 mb-4">Refunds & Exchanges</h4><p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprintsltd@gmail.com and return to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p></section>
+            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-2 mb-4">Data Policy</h4><p>Website: https://harwosprint.ng. We collect comments data, IP addresses, and browser agent strings for spam detection. Cookies last for one year for convenience. We handle embedded content from other websites securely.</p></section>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-brandBlack text-slate-400 pt-20 pb-10 px-6 mt-12 border-t border-slate-900">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center md:text-left">
         <div class="space-y-6">
-            <div class="text-brandOrange font-black text-3xl uppercase tracking-tighter">Harwosprints.ng</div>
-            <p class="text-xs font-bold uppercase leading-relaxed">The premier partner for high-precision printing and tactical branding solutions.</p>
+            <div class="text-brandOrange font-black text-3xl uppercase tracking-tighter font-headline">Harwosprints.ng</div>
+            <p class="text-[11px] font-black uppercase leading-relaxed text-slate-500">The premier partner for high-precision printing and tactical branding solutions in Nigeria.</p>
         </div>
         <div>
             <h5 class="text-white font-black mb-6 uppercase text-sm">Solutions</h5>
-            <ul class="space-y-4 text-[11px] font-black uppercase">
+            <ul class="space-y-4 text-[11px] font-black uppercase text-slate-500">
                 <li>Commercial Printing</li>
                 <li>Brand Identity</li>
                 <li>Custom Packaging</li>
@@ -266,28 +253,20 @@
         </div>
         <div>
             <h5 class="text-white font-black mb-6 uppercase text-sm">Locations</h5>
-            <div class="space-y-5 text-[9px] font-black uppercase leading-loose">
-                <p><span class="text-brandOrange">Head Office:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
+            <div class="space-y-5 text-[9px] font-black uppercase leading-loose text-slate-500">
+                <p><span class="text-brandOrange">Head Office:</span> 50, Shipeolu Street, Somolu, Lagos. <br>Call: +234 916 8794 383</p>
                 <p><span class="text-brandOrange">Sales Office:</span> Abraham Adesanya Complex, Onipanu, Lagos.</p>
                 <p><span class="text-brandOrange">Branch Office:</span> 63, Tejuosho Road, Yaba, Lagos.</p>
             </div>
         </div>
         <div class="space-y-6">
             <h5 class="text-white font-black mb-4 uppercase text-sm">Newsletter</h5>
-            <div class="flex bg-slate-900 rounded-2xl overflow-hidden p-1.5">
-                <input type="email" placeholder="Email Address" class="bg-transparent border-none text-white text-xs flex-1 px-4">
+            <div class="flex bg-slate-900 rounded-2xl overflow-hidden p-1.5 border border-slate-800">
+                <input type="email" placeholder="Email Address" class="bg-transparent border-none text-white text-xs flex-1 px-4 focus:ring-0">
                 <button class="bg-brandOrange text-white p-3 rounded-xl"><span class="material-symbols-outlined text-sm">send</span></button>
             </div>
-            <a href="#" class="block text-center bg-brandOrange text-white py-4 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg">Get a Business Website</a>
-            <!-- HIDDEN ADMIN ACCESS BUTTON -->
-            <button onclick="openAdminPanel()" class="w-full text-center text-[10px] font-black text-slate-800 uppercase hover:text-brandOrange transition-all mt-4">Admin Access</button>
-        </div>
-    </div>
-    <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase gap-4">
-        <p>© 2024 Harwosprints.ng. All rights reserved.</p>
-        <div class="flex gap-8">
-            <button onclick="toggleModal('policyPopup')">Privacy Policy</button>
-            <button onclick="toggleModal('policyPopup')">Terms & Conditions</button>
+            <a href="#" class="block text-center bg-brandOrange text-white py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:brightness-110">Get a Business Website</a>
+            <button onclick="openAdminPanel()" class="w-full text-[10px] font-black uppercase text-slate-800 hover:text-brandOrange transition-all pt-4">Admin Access</button>
         </div>
     </div>
 </footer>
@@ -298,7 +277,8 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 let allProducts = [];
-let cart = JSON.parse(localStorage.getItem("harwos_v3_cart")) || [];
+let cart = JSON.parse(localStorage.getItem("harwos_v4_cart")) || [];
+let isAdmin = false;
 
 window.onload = async () => {
     await loadStoreData();
@@ -321,22 +301,76 @@ function renderProducts(list) {
     list.forEach(p => {
         grid.innerHTML += `
             <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-slate-100 hover:shadow-2xl transition-all group">
-                <div class="relative h-40 md:h-56 overflow-hidden">
+                <div class="relative h-40 md:h-52 overflow-hidden">
                     <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-700" onclick="openDetail('${p.id}')">
                     <div class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[8px] font-black uppercase text-brandOrange">${p.category}</div>
                 </div>
                 <div class="p-5">
                     <h3 class="font-black uppercase text-[10px] mb-1 truncate text-brandBlack">${p.name}</h3>
                     <p class="text-brandOrange font-black text-sm">₦${Number(p.price).toLocaleString()}</p>
+                    
                     <div class="flex items-center gap-2 mt-4">
-                        <input type="number" id="qty-${p.id}" value="1" min="1" class="w-12 text-[10px] p-2 border-2 rounded-xl font-bold border-slate-100">
+                        <input type="number" id="qty-${p.id}" value="1" min="1" class="w-12 text-[10px] p-2 border-2 rounded-xl font-bold border-slate-100 focus:border-brandOrange">
                         <button onclick="addToCart('${p.id}', document.getElementById('qty-${p.id}').value)" class="flex-1 bg-brandBlack text-white text-[9px] py-3 rounded-xl font-black uppercase tracking-widest hover:bg-brandOrange">Add</button>
                     </div>
+
+                    ${isAdmin ? `
+                    <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t">
+                        <button onclick="editProduct('${p.id}')" class="bg-blue-500 text-white text-[8px] py-2 rounded-lg font-black uppercase">Edit</button>
+                        <button onclick="deleteProduct('${p.id}')" class="bg-red-500 text-white text-[8px] py-2 rounded-lg font-black uppercase">Delete</button>
+                    </div>` : ''}
                 </div>
             </div>`;
     });
 }
 
+// ADMIN FUNCTIONS
+function openAdminPanel() { 
+    if(prompt("Master Admin Password:") === "harwosprint") { 
+        isAdmin = true; 
+        renderProducts(allProducts); 
+        document.getElementById('adminPanel').style.display = 'flex'; 
+    } 
+}
+function closeAdminPanel() { 
+    document.getElementById('adminPanel').style.display = 'none'; 
+    document.getElementById('masterAdminForm').reset();
+    document.getElementById('adEditId').value = '';
+    document.getElementById('uploadBtn').innerText = "Upload Product";
+}
+
+async function deleteProduct(id) {
+    if(!confirm("Are you sure you want to delete this product?")) return;
+    const { error } = await supabaseClient.from('products').delete().eq('id', id);
+    if(!error) { alert("Deleted!"); location.reload(); }
+}
+
+function editProduct(id) {
+    const p = allProducts.find(x => x.id === id);
+    if(!p) return;
+    document.getElementById('adminPanel').style.display = 'flex';
+    document.getElementById('adminPanelTitle').innerText = "Edit Product";
+    document.getElementById('adEditId').value = p.id;
+    document.getElementById('adName').value = p.name;
+    document.getElementById('adPrice1').value = p.price;
+    document.getElementById('adPriceBulk').value = p.bulk_price;
+    document.getElementById('adCat').value = p.category;
+    document.getElementById('adDesc').value = p.description;
+    document.getElementById('uploadBtn').innerText = "Update Product";
+}
+
+// SEARCH/FILTER
+function searchProducts() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(q)));
+}
+function filterProducts(cat, btn) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active'));
+    btn.classList.add('category-active');
+    renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat));
+}
+
+// CART LOGIC
 function updateDetQty(val) {
     const el = document.getElementById('detQty');
     let n = parseInt(el.value) + val;
@@ -349,16 +383,14 @@ function openDetail(id) {
     if(!p) return;
     document.getElementById('detName').innerText = p.name;
     document.getElementById('detCat').innerText = p.category;
-    document.getElementById('detDesc').innerText = p.description || 'Premium industrial grade printing solution.';
+    document.getElementById('detDesc').innerText = p.description;
     document.getElementById('detPrice').innerText = "₦" + Number(p.price).toLocaleString();
     document.getElementById('detailMainImg').querySelector('img').src = p.images?.[0] || 'harwosprints.ng-logo.jpg';
-    
     const thumbs = document.getElementById('detailThumbs');
     thumbs.innerHTML = '';
     p.images?.forEach(img => {
-        thumbs.innerHTML += `<img src="${img}" class="h-16 w-16 object-cover rounded-xl border-2 border-slate-100 cursor-pointer hover:border-brandOrange" onclick="document.getElementById('detailMainImg').querySelector('img').src='${img}'">`;
+        thumbs.innerHTML += `<img src="${img}" class="h-16 w-16 object-cover rounded-xl border-2 border-slate-100 cursor-pointer" onclick="document.getElementById('detailMainImg').querySelector('img').src='${img}'">`;
     });
-
     document.getElementById('detailAddBtn').onclick = () => { addToCart(p.id, document.getElementById('detQty').value); closeDetail(); };
     document.getElementById('detailModal').style.display = 'flex';
 }
@@ -369,16 +401,9 @@ function addToCart(id, qty) {
     const existing = cart.find(x => x.id === id);
     if(existing) existing.qty += qty;
     else cart.push({...p, qty});
-    
-    localStorage.setItem("harwos_v3_cart", JSON.stringify(cart));
+    localStorage.setItem("harwos_v4_cart", JSON.stringify(cart));
     updateCartUI();
     toggleCart(true);
-}
-
-function removeFromCart(i) {
-    cart.splice(i, 1);
-    localStorage.setItem("harwos_v3_cart", JSON.stringify(cart));
-    updateCartUI();
 }
 
 function updateCartUI() {
@@ -387,84 +412,68 @@ function updateCartUI() {
     list.innerHTML = '';
     let total = 0;
     cart.forEach((item, i) => {
-        const sub = item.price * item.qty;
-        total += sub;
+        total += (item.price * item.qty);
         list.innerHTML += `
             <div class="flex gap-4 items-center bg-white p-4 rounded-3xl border border-slate-100 shadow-sm">
                 <img src="${item.images?.[0]}" class="w-14 h-14 object-cover rounded-xl">
                 <div class="flex-1">
-                    <h4 class="text-[10px] font-black uppercase text-brandBlack">${item.name}</h4>
-                    <p class="text-[10px] font-bold text-brandOrange">${item.qty} units x ₦${Number(item.price).toLocaleString()}</p>
+                    <h4 class="text-[10px] font-black uppercase">${item.name}</h4>
+                    <p class="text-[10px] font-bold text-brandOrange">${item.qty} x ₦${Number(item.price).toLocaleString()}</p>
                 </div>
-                <button onclick="removeFromCart(${i})" class="material-symbols-outlined text-slate-300 hover:text-red-500">delete</button>
+                <button onclick="removeFromCart(${i})" class="material-symbols-outlined text-slate-300">delete</button>
             </div>`;
     });
     document.getElementById('cartSubtotal').innerText = "₦" + total.toLocaleString();
 }
 
+function removeFromCart(i) { cart.splice(i, 1); localStorage.setItem("harwos_v4_cart", JSON.stringify(cart)); updateCartUI(); }
 function toggleCart(show) { document.body.classList[show ? 'add' : 'remove']('cart-open'); }
 function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
 function openPaymentModal() { if(cart.length > 0) { toggleCart(false); document.getElementById('paymentModal').style.display = 'flex'; } }
 function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
-function toggleModal(id) { 
-    const el = document.getElementById(id);
-    if (el.style.display === 'flex') { el.style.display = 'none'; el.classList.add('hidden'); }
-    else { el.style.display = 'flex'; el.classList.remove('hidden'); }
-}
+function toggleModal(id) { document.getElementById(id).style.display = (document.getElementById(id).style.display === 'flex' ? 'none' : 'flex'); }
 
-function searchProducts() {
-    const q = document.getElementById('searchInput').value.toLowerCase();
-    renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(q)));
-}
-
-function filterProducts(cat, btn) {
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active'));
-    btn.classList.add('category-active');
-    renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat));
-}
-
+// FORMS SUBMISSION
 document.getElementById('masterOrderForm').onsubmit = (e) => {
     e.preventDefault();
     const items = cart.map(i => `• ${i.name} (Qty: ${i.qty}) - ₦${(i.price * i.qty).toLocaleString()}`).join('%0A');
-    const total = document.getElementById('cartSubtotal').innerText;
-    const user = `%0A%0A*Customer:* ${document.getElementById('billFName').value} ${document.getElementById('billLName').value}%0A*Phone:* ${document.getElementById('billPhone').value}%0A*Address:* ${document.getElementById('billStreet1').value}`;
-    const text = `*NEW ORDER - HARWOSPRINTS.NG*%0A--------------------------%0A${items}%0A--------------------------%0A*Total Sum:* ${total}${user}`;
+    const user = `%0A%0A*Customer:* ${document.getElementById('billFName').value} ${document.getElementById('billLName').value}%0A*Phone:* ${document.getElementById('billPhone').value}`;
+    const text = `*NEW ORDER - HARWOSPRINTS.NG*%0A------------------%0A${items}%0A------------------%0A*Total Sum:* ${document.getElementById('cartSubtotal').innerText}${user}`;
     window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
 };
-
-// ADMIN 
-function openAdminPanel() { if(prompt("Enter Password to Access Master Admin:") === "harwosprint") document.getElementById('adminPanel').style.display = 'flex'; }
-function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; }
 
 document.getElementById('masterAdminForm').onsubmit = async (e) => {
     e.preventDefault();
     const btn = document.getElementById('uploadBtn');
-    btn.innerText = "Syncing with Cloud...";
+    const editId = document.getElementById('adEditId').value;
+    btn.innerText = "Processing...";
     btn.disabled = true;
 
-    const files = document.getElementById('adFiles').files;
     let urls = [];
-    for(let f of files) {
-        if(urls.length >= 5) break;
-        const path = `store/${Date.now()}_${f.name}`;
-        const { error: upErr } = await supabaseClient.storage.from('product-images').upload(path, f);
-        if(!upErr) {
-            const { data } = supabaseClient.storage.from('product-images').getPublicUrl(path);
-            urls.push(data.publicUrl);
+    const files = document.getElementById('adFiles').files;
+    if(files.length > 0) {
+        for(let f of files) {
+            const path = `store/${Date.now()}_${f.name}`;
+            const { error: upErr } = await supabaseClient.storage.from('product-images').upload(path, f);
+            if(!upErr) urls.push(supabaseClient.storage.from('product-images').getPublicUrl(path).data.publicUrl);
         }
     }
 
-    const { error } = await supabaseClient.from('products').insert([{
+    const payload = {
         name: document.getElementById('adName').value,
         price: document.getElementById('adPrice1').value,
         bulk_price: document.getElementById('adPriceBulk').value,
         category: document.getElementById('adCat').value,
-        description: document.getElementById('adDesc').value,
-        images: urls
-    }]);
+        description: document.getElementById('adDesc').value
+    };
+    if(urls.length > 0) payload.images = urls;
 
-    if (!error) { alert("Successfully Uploaded!"); location.reload(); }
-    else { alert("Error: " + error.message); btn.disabled = false; btn.innerText = "Upload to Store"; }
+    let result;
+    if(editId) result = await supabaseClient.from('products').update(payload).eq('id', editId);
+    else result = await supabaseClient.from('products').insert([payload]);
+
+    if(!result.error) { alert("Operation Success!"); location.reload(); }
+    else { alert("Error: " + result.error.message); btn.disabled = false; btn.innerText = "Retry"; }
 };
 </script>
 </body>

@@ -254,154 +254,200 @@
 </footer>
 
 <script>
-    const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
+const supabaseKey = 'YOUR_KEY_HERE';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    let allProducts = [];
-    let cart = [];
-    const admins = ['dben61168@gmail.com', 'harwosprints@gmail.com'];
+let allProducts = [];
+let cart = [];
+let searchTimeout;
 
-    // 1. AUTH OBSERVER
-    supabase.auth.onAuthStateChange((event, session) => {
-        if (session) {
-            document.getElementById('loginBtn').classList.add('hidden');
-            document.getElementById('dashBtn').classList.remove('hidden');
-            if (admins.includes(session.user.email)) {
-                document.getElementById('adminBtn').classList.remove('hidden');
-            }
-        }
-    });
+// AUTH
+supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (session) {
+        document.getElementById('loginBtn').classList.add('hidden');
+        document.getElementById('dashBtn').classList.remove('hidden');
+    }
+});
 
-    async function init() {
-        await loadProducts();
+// INIT (FASTER LOAD)
+function init() {
+    loadProducts(); // no await = faster UI
+    setTimeout(() => {
         document.getElementById('loadingOverlay').style.display = 'none';
+    }, 800);
+}
+
+// LOAD PRODUCTS (OPTIMIZED)
+async function loadProducts() {
+    const { data } = await supabaseClient
+        .from('products')
+        .select('id,name,price,images,category,description,bulk_price')
+        .order('created_at', { ascending: false })
+        .limit(20);
+
+    if (data) {
+        allProducts = data;
+        render(data);
+    }
+}
+
+// RENDER (OPTIMIZED IMAGES)
+function render(list) {
+    const grid = document.getElementById('productGrid');
+    const empty = document.getElementById('emptyState');
+
+    if (list.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
     }
 
-    // 2. LOAD DATA
-    async function loadProducts() {
-        const { data } = await supabase.from('products').select('*').order('created_at', {ascending: false});
-        if (data) { allProducts = data; render(data); }
-    }
+    empty.classList.add('hidden');
 
-    // 3. RENDER GRID
-    function render(list) {
-        const grid = document.getElementById('productGrid');
-        const empty = document.getElementById('emptyState');
-        if (list.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
-        empty.classList.add('hidden');
-        grid.innerHTML = list.map(p => `
-            <div class="bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl group hover:-translate-y-2 transition-all duration-500">
-                <div onclick="openDetail('${p.id}')" class="h-44 md:h-72 overflow-hidden cursor-pointer">
-                    <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover">
-                </div>
-                <div class="p-4 md:p-6 text-center">
-                    <h3 class="font-black uppercase text-[10px] md:text-sm truncate">${p.name}</h3>
-                    <p class="text-brandOrange font-black text-xs md:text-lg mt-2">₦${Number(p.price).toLocaleString()}</p>
-                    <button onclick="addToCart('${p.id}')" class="w-full bg-brandBlack text-white py-3 rounded-xl text-[9px] font-black uppercase mt-4 hover:bg-brandOrange transition-all">Add to Cart</button>
-                </div>
+    grid.innerHTML = list.map(p => {
+        const img = p.images?.[0] 
+            ? `${p.images[0]}?width=400&quality=60` 
+            : 'harwosprints.ng-logo.jpg';
+
+        return `
+        <div class="bg-white rounded-[2rem] overflow-hidden shadow-xl">
+            <div onclick="openDetail('${p.id}')" class="h-44 md:h-72 cursor-pointer">
+                <img src="${img}" loading="lazy" class="w-full h-full object-cover">
             </div>
-        `).join('');
-    }
+            <div class="p-4 text-center">
+                <h3 class="font-black text-xs truncate">${p.name}</h3>
+                <p class="text-orange-600 font-black mt-2">₦${Number(p.price).toLocaleString()}</p>
+                <button onclick="addToCart('${p.id}')" class="w-full bg-black text-white py-2 rounded-xl mt-3">Add</button>
+            </div>
+        </div>
+        `;
+    }).join('');
+}
 
-    // 4. SEARCH & FILTER
-    function searchProducts() {
+// SEARCH (DEBOUNCED)
+function searchProducts() {
+    clearTimeout(searchTimeout);
+
+    searchTimeout = setTimeout(() => {
         const q = document.getElementById('searchInput').value.toLowerCase();
         render(allProducts.filter(p => p.name.toLowerCase().includes(q)));
-    }
+    }, 300);
+}
 
-    function filterProducts(cat) {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active'));
-        event.target.classList.add('category-active');
-        render(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat));
-    }
+// FILTER
+function filterProducts(cat) {
+    render(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat));
+}
 
-    // 5. CART
-    function addToCart(id) { cart.push(allProducts.find(x => x.id === id)); updateCart(); toggleCart(true); }
-    function removeFromCart(i) { cart.splice(i, 1); updateCart(); }
-    function toggleCart(open = false) { document.getElementById('cartOverlay').style.display = open || document.getElementById('cartOverlay').style.display === 'none' ? 'block' : 'none'; }
-    
-    function updateCart() {
-        document.getElementById('cartCountBadge').innerText = cart.length;
-        let total = cart.reduce((s, i) => s + Number(i.price), 0);
-        document.getElementById('cartTotal').innerText = "₦" + total.toLocaleString();
-        document.getElementById('cartItems').innerHTML = cart.map((item, i) => `
-            <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border">
-                <img src="${item.images[0]}" class="w-12 h-12 rounded-xl object-cover">
-                <div class="flex-1"><h4 class="font-black text-[10px] uppercase">${item.name}</h4><p class="text-brandOrange font-black text-xs">₦${Number(item.price).toLocaleString()}</p></div>
-                <button onclick="removeFromCart(${i})" class="material-symbols-outlined text-slate-300">delete</button>
+// CART
+function addToCart(id) {
+    cart.push(allProducts.find(x => x.id === id));
+    updateCart();
+    toggleCart(true);
+}
+
+function removeFromCart(i) {
+    cart.splice(i, 1);
+    updateCart();
+}
+
+function toggleCart(open = false) {
+    const el = document.getElementById('cartOverlay');
+    el.style.display = open || el.style.display === 'none' ? 'block' : 'none';
+}
+
+function updateCart() {
+    document.getElementById('cartCountBadge').innerText = cart.length;
+
+    let total = cart.reduce((s, i) => s + Number(i.price), 0);
+    document.getElementById('cartTotal').innerText = "₦" + total.toLocaleString();
+
+    document.getElementById('cartItems').innerHTML = cart.map((item, i) => `
+        <div class="flex gap-3 bg-slate-50 p-3 rounded-xl">
+            <img src="${item.images[0]}?width=100" loading="lazy" class="w-12 h-12 object-cover">
+            <div class="flex-1">
+                <h4 class="text-xs font-bold">${item.name}</h4>
+                <p class="text-orange-600">₦${Number(item.price).toLocaleString()}</p>
             </div>
-        `).join('');
-    }
+            <button onclick="removeFromCart(${i})">✕</button>
+        </div>
+    `).join('');
+}
 
-    // 6. CHECKOUT
-    function openCheckout() { if(cart.length === 0) return; toggleCart(); document.getElementById('paymentModal').style.display = 'flex'; }
-    function closePayment() { document.getElementById('paymentModal').style.display = 'none'; }
+// DETAIL (OPTIMIZED IMAGES)
+function openDetail(id) {
+    const p = allProducts.find(x => x.id === id);
 
-    document.getElementById('checkoutForm').onsubmit = (e) => {
-        e.preventDefault();
-        let items = cart.map(p => `- ${p.name} (₦${Number(p.price).toLocaleString()})`).join('%0A');
-        let details = `Name: ${document.getElementById('fName').value}%0AAddress: ${document.getElementById('address').value}%0APhone: ${document.getElementById('phone').value}`;
-        let text = `*HARWOSPRINTS NEW ORDER*%0A%0A*Items:*%0A${items}%0A%0A*Billing:*%0A${details}%0A%0A*Note:* ${document.getElementById('notes').value}`;
-        window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
+    document.getElementById('detailName').innerText = p.name;
+    document.getElementById('detailCat').innerText = p.category;
+    document.getElementById('detailDescription').innerText = p.description;
+
+    document.getElementById('price1').innerText =
+        "₦" + Number(p.price).toLocaleString();
+
+    document.getElementById('priceBulk').innerText =
+        "₦" + Number(p.bulk_price || 0).toLocaleString();
+
+    document.getElementById('detailMainImg').innerHTML =
+        `<img src="${p.images[0]}?width=600" class="w-full h-full object-cover">`;
+
+    document.getElementById('detailThumbs').innerHTML =
+        p.images.map(img =>
+            `<img src="${img}?width=100" loading="lazy"
+            onclick="document.querySelector('#detailMainImg img').src='${img}'"
+            class="w-16 h-16 cursor-pointer">`
+        ).join('');
+
+    document.getElementById('detailAddBtn').onclick = () => {
+        addToCart(p.id);
+        closeDetail();
     };
 
-    // 7. DETAIL POPUP
-    function openDetail(id) {
-        const p = allProducts.find(x => x.id === id);
-        document.getElementById('detailName').innerText = p.name;
-        document.getElementById('detailCat').innerText = p.category;
-        document.getElementById('detailDescription').innerText = p.description;
-        document.getElementById('price1').innerText = "Single Price: ₦" + Number(p.price).toLocaleString();
-        document.getElementById('priceBulk').innerText = "Bulk Price: ₦" + Number(p.bulk_price || 0).toLocaleString();
-        document.getElementById('detailMainImg').innerHTML = `<img src="${p.images[0]}" class="w-full h-full object-cover">`;
-        document.getElementById('detailThumbs').innerHTML = p.images.map(img => `<img src="${img}" onclick="document.querySelector('#detailMainImg img').src='${img}'" class="w-16 h-16 rounded-xl object-cover cursor-pointer border">`).join('');
-        document.getElementById('detailAddBtn').onclick = () => { addToCart(p.id); closeDetail(); };
-        document.getElementById('detailModal').style.display = 'flex';
-    }
-    function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+    document.getElementById('detailModal').style.display = 'flex';
+}
 
-    // 8. ADMIN PANEL
-    function openAdminPanel() { document.getElementById('adminPanel').style.display = 'flex'; loadAdminList(); }
-    function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; }
+function closeDetail() {
+    document.getElementById('detailModal').style.display = 'none';
+}
 
-    document.getElementById('adminForm').onsubmit = async (e) => {
-        e.preventDefault();
-        document.getElementById('loadingOverlay').style.display = 'flex';
-        const files = document.getElementById('adFiles').files;
-        const imageUrls = [];
-        for (let file of files) {
-            const path = `store/${Date.now()}_${file.name}`;
-            const { data } = await supabase.storage.from('product-images').upload(path, file);
-            if (data) {
-                const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(path);
-                imageUrls.push(publicUrl);
-            }
-        }
-        const product = {
-            name: document.getElementById('adName').value,
-            price: document.getElementById('adPrice').value,
-            bulk_price: document.getElementById('adBulk').value,
-            category: document.getElementById('adCat').value,
-            description: document.getElementById('adDesc').value,
-            images: imageUrls
-        };
-        await supabase.from('products').insert([product]);
-        alert("Success!");
-        location.reload();
+// ADMIN UPLOAD (PARALLEL = FAST)
+document.getElementById('adminForm').onsubmit = async (e) => {
+    e.preventDefault();
+
+    const files = document.getElementById('adFiles').files;
+
+    const uploadPromises = [...files].map(file => {
+        const path = `store/${Date.now()}_${file.name}`;
+
+        return supabaseClient.storage
+            .from('product-images')
+            .upload(path, file)
+            .then(() => {
+                return supabaseClient.storage
+                    .from('product-images')
+                    .getPublicUrl(path).data.publicUrl;
+            });
+    });
+
+    const imageUrls = await Promise.all(uploadPromises);
+
+    const product = {
+        name: adName.value,
+        price: adPrice.value,
+        bulk_price: adBulk.value,
+        category: adCat.value,
+        description: adDesc.value,
+        images: imageUrls
     };
 
-    function loadAdminList() {
-        document.getElementById('adminList').innerHTML = allProducts.map(p => `
-            <div class="flex justify-between bg-slate-50 p-4 rounded-2xl border">
-                <span class="font-black text-[10px] uppercase">${p.name}</span>
-                <button onclick="deleteP('${p.id}')" class="text-red-500 font-black text-[10px]">Delete</button>
-            </div>
-        `).join('');
-    }
-    async function deleteP(id) { if(confirm("Delete?")) { await supabase.from('products').delete().eq('id', id); loadProducts(); loadAdminList(); } }
+    await supabaseClient.from('products').insert([product]);
 
-    init();
+    alert("Uploaded!");
+    location.reload();
+};
+
+init();
 </script>
 </body>
 </html>

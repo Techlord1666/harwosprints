@@ -1,378 +1,721 @@
-<!DOCTYPE html>
-
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Shop - Harwosprints.ng</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+# Recreate the store.html content since it was lost
+store_html_content = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Shop - Harwosprints.ng</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             colors: {
-              "error": "#b02500",
-              "on-primary": "#fff0e7",
-              "surface-dim": "#d3d5d5",
-              "tertiary-fixed": "#ffd33a",
-              "on-secondary-container": "#525151",
-              "inverse-primary": "#fd8b00",
-              "surface-container": "#e7e8e8",
-              "primary-fixed": "#fd8b00",
-              "on-primary-fixed": "#180800",
-              "surface-variant": "#dbdddd",
-              "inverse-surface": "#0c0f0f",
-              "secondary-fixed": "#e5e2e1",
-              "on-primary-fixed-variant": "#512800",
-              "surface-container-high": "#e1e3e3",
-              "on-secondary-fixed-variant": "#5c5b5b",
-              "on-tertiary-container": "#5c4900",
-              "error-container": "#f95630",
-              "on-primary-container": "#442100",
-              "tertiary-dim": "#614d00",
-              "on-surface": "#2d2f2f",
-              "inverse-on-surface": "#9c9d9d",
-              "error-dim": "#b92902",
-              "primary-dim": "#7b4000",
-              "primary-fixed-dim": "#ea8000",
+              "brandOrange": "#ea580c",
+              "brandBlack": "#0f0f0f",
               "primary": "#8c4a00",
-              "on-secondary-fixed": "#403f3f",
               "primary-container": "#fd8b00",
-              "surface-bright": "#f6f6f6",
-              "on-tertiary-fixed-variant": "#675200",
-              "on-background": "#2d2f2f",
-              "on-secondary": "#f5f2f1",
-              "surface-container-lowest": "#ffffff",
-              "surface-tint": "#8c4a00",
-              "on-error": "#ffefec",
-              "secondary-fixed-dim": "#d6d4d3",
-              "surface-container-highest": "#dbdddd",
-              "outline": "#767777",
-              "secondary-container": "#e5e2e1",
-              "tertiary-container": "#ffd33a",
-              "secondary-dim": "#504f4f",
-              "secondary": "#5c5b5b",
-              "background": "#f6f6f6",
-              "tertiary": "#6f5900",
-              "on-tertiary": "#fff2d3",
-              "on-error-container": "#520c00",
-              "on-tertiary-fixed": "#453600",
-              "surface-container-low": "#f0f1f1",
-              "tertiary-fixed-dim": "#efc52b",
               "surface": "#f6f6f6",
-              "on-surface-variant": "#5a5c5c",
-              "outline-variant": "#acadad"
+              "surface-container-low": "#f0f1f1",
+              "surface-container-highest": "#dbdddd",
+              "on-surface": "#2d2f2f",
+              "on-surface-variant": "#5a5c5c"
             },
             fontFamily: {
               "headline": ["Space Grotesk"],
-              "body": ["Plus Jakarta Sans"],
-              "label": ["Plus Jakarta Sans"]
+              "body": ["Plus Jakarta Sans"]
             },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
           },
         },
       }
     </script>
-<style>
+    <style>
       .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
       body { font-family: 'Plus Jakarta Sans', sans-serif; }
       h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+      
+      .admin-only { display: none !important; }
+      .is-admin .admin-only { display: flex !important; }
+      .is-admin .admin-only.block { display: block !important; }
+      .is-admin .admin-only.grid { display: grid !important; }
+      
+      .image-preview {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px dashed #ccc;
+        cursor: pointer;
+      }
+      
+      .product-card {
+        transition: all 0.3s ease;
+      }
+      .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      }
+      
+      .modal-enter {
+        animation: modalSlideIn 0.3s ease-out;
+      }
+      
+      @keyframes modalSlideIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      
+      .admin-badge {
+        animation: pulse-orange 2s infinite;
+      }
+      
+      @keyframes pulse-orange {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.7); }
+        50% { box-shadow: 0 0 0 10px rgba(234, 88, 12, 0); }
+      }
     </style>
 </head>
-<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
-<!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-[#ffffffcc] dark:bg-[#121212cc] backdrop-blur-md shadow-[0_12px_40px_rgba(45,47,47,0.06)]">
-<div class="flex justify-between items-center w-full px-6 md:px-12 py-4 mx-auto">
-<div class="text-2xl font-black text-orange-600 dark:text-orange-500 uppercase tracking-tighter font-['Space_Grotesk']">
-                Harwosprints.ng
-            </div>
-<div class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] font-bold tracking-tight">
-<a class="text-slate-700 dark:text-slate-300 hover:text-orange-500 transition-colors duration-300" href="#">Home</a>
-<a class="text-orange-600 dark:text-orange-400 border-b-2 border-orange-600 hover:text-orange-500 transition-colors duration-300" href="#">Shop</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-orange-500 transition-colors duration-300" href="#">About</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-orange-500 transition-colors duration-300" href="#">Blog</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-orange-500 transition-colors duration-300" href="#">Contact</a>
+<body class="bg-surface text-on-surface">
+
+<!-- Admin Access Button (Hidden - only visible to admins) -->
+<div id="adminAccessBtn" class="admin-only fixed top-24 right-6 z-[60] hidden">
+    <button onclick="toggleAdminPanel()" class="admin-badge bg-brandOrange text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg flex items-center gap-2 hover:bg-orange-700 transition-all">
+        <span class="material-symbols-outlined text-sm">admin_panel_settings</span>
+        Admin Panel
+    </button>
 </div>
-<div class="flex items-center gap-4">
-<button class="hidden lg:flex items-center text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined">search</span>
-</button>
-<a class="px-5 py-2 text-sm font-bold text-slate-700 hover:text-primary transition-all" href="#">Login</a>
-<a class="px-6 py-2 bg-primary-container text-on-primary-container font-bold rounded-lg shadow-sm hover:scale-105 active:scale-95 transition-all" href="#">Sign Up</a>
-</div>
-</div>
-</nav>
-<main class="pt-24 pb-20">
-<!-- Hero / Banner Section -->
-<section class="px-6 md:px-12 mb-16">
-<div class="relative overflow-hidden rounded-2xl bg-inverse-surface h-[300px] md:h-[400px] flex items-center">
-<div class="absolute inset-0 opacity-40">
-<img class="w-full h-full object-cover" data-alt="high-end large format printing press in action with vibrant ink patterns and atmospheric studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATndB7iaQe4LSg5THkedTbD45f7nX-yK3E7fOQc0HEFA_QWPqTso2RWVj8pdBR6SAY6r2lVdlokNVNW_ANt599jHFyrsNajMDMbwtid-WpMCJYU-lYFghJLVjZ5DJLQv5zg4ZPmr9O1yjNYcED8IZyRwO4XDjTqKfqeD0r_dxygps-zs7G0iRHAfugRvzzRQVkdHW55asNqVxlncK9LWusXwdDgLydXClr3Z30NEls9h7e6cGB4isdGWJA0g4KEIXtfRVl7I_Gm30"/>
-</div>
-<div class="relative z-10 px-8 md:px-16 max-w-2xl">
-<h1 class="text-4xl md:text-6xl font-black text-surface-container-lowest mb-4 tracking-tighter leading-tight">
-                        Elevate Your <span class="text-primary-container">Brand Presence</span>
-</h1>
-<p class="text-surface-variant text-lg mb-8 font-body max-w-md">
-                        Premium printing solutions from large scale banners to precision branding materials. Engineered for impact.
-                    </p>
-<div class="flex gap-4">
-<button class="bg-primary-container text-on-primary-container px-8 py-3 rounded-xl font-bold hover:shadow-[0_0_20px_rgba(253,139,0,0.3)] transition-all">
-                            View Collections
+
+<!-- Admin Panel Modal -->
+<div id="adminPanelModal" class="fixed inset-0 bg-black/50 z-[70] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto modal-enter">
+        <div class="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
+            <h2 class="text-2xl font-black text-brandBlack">Product Management</h2>
+            <button onclick="toggleAdminPanel()" class="text-slate-400 hover:text-red-500">
+                <span class="material-symbols-outlined text-2xl">close</span>
+            </button>
+        </div>
+        
+        <div class="p-6 space-y-6">
+            <!-- Add New Product Form -->
+            <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-brandOrange">add_circle</span>
+                    Add New Product
+                </h3>
+                <form id="productForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Product Name</label>
+                        <input type="text" id="productName" required class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:border-brandOrange focus:outline-none">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Price (₦)</label>
+                        <input type="number" id="productPrice" required class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:border-brandOrange focus:outline-none">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Category</label>
+                        <select id="productCategory" required class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:border-brandOrange focus:outline-none">
+                            <option value="">Select Category</option>
+                            <option value="Large Format Banners">Large Format Banners</option>
+                            <option value="Custom Stickers & Labels">Custom Stickers & Labels</option>
+                            <option value="Flex & Vinyl Prints">Flex & Vinyl Prints</option>
+                            <option value="Business Branding">Business Branding</option>
+                            <option value="Apparel Printing">Apparel Printing</option>
+                            <option value="Corporate Stationery">Corporate Stationery</option>
+                        </select>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Description</label>
+                        <textarea id="productDescription" rows="3" required class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:border-brandOrange focus:outline-none"></textarea>
+                    </div>
+                    
+                    <!-- Image Upload Section -->
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Product Images (Max 5)</label>
+                        <div class="grid grid-cols-5 gap-2 mb-2">
+                            <div class="relative">
+                                <input type="file" id="image1" accept="image/*" class="hidden" onchange="previewImage(this, 'preview1')">
+                                <label for="image1" class="cursor-pointer block">
+                                    <img id="preview1" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24'%3E%3Cpath fill='%23ccc' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E" class="image-preview hover:border-brandOrange transition-colors">
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="file" id="image2" accept="image/*" class="hidden" onchange="previewImage(this, 'preview2')">
+                                <label for="image2" class="cursor-pointer block">
+                                    <img id="preview2" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24'%3E%3Cpath fill='%23ccc' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E" class="image-preview hover:border-brandOrange transition-colors">
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="file" id="image3" accept="image/*" class="hidden" onchange="previewImage(this, 'preview3')">
+                                <label for="image3" class="cursor-pointer block">
+                                    <img id="preview3" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24'%3E%3Cpath fill='%23ccc' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E" class="image-preview hover:border-brandOrange transition-colors">
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="file" id="image4" accept="image/*" class="hidden" onchange="previewImage(this, 'preview4')">
+                                <label for="image4" class="cursor-pointer block">
+                                    <img id="preview4" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24'%3E%3Cpath fill='%23ccc' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E" class="image-preview hover:border-brandOrange transition-colors">
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input type="file" id="image5" accept="image/*" class="hidden" onchange="previewImage(this, 'preview5')">
+                                <label for="image5" class="cursor-pointer block">
+                                    <img id="preview5" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24'%3E%3Cpath fill='%23ccc' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E" class="image-preview hover:border-brandOrange transition-colors">
+                                </label>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400">Click boxes to upload images. First image will be the main display image.</p>
+                    </div>
+                    
+                    <div class="md:col-span-2 flex gap-3">
+                        <button type="submit" class="flex-1 bg-brandOrange text-white py-3 rounded-xl font-bold hover:bg-orange-700 transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">save</span>
+                            Save Product
                         </button>
-</div>
-</div>
-</div>
-</section>
-<!-- Product Grid & Filter Layout -->
-<section class="px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
-<!-- Filter Sidebar -->
-<aside class="lg:col-span-3 space-y-10">
-<div>
-<h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">filter_list</span>
-                        Categories
-                    </h3>
-<ul class="space-y-3">
-<li>
-<button class="w-full text-left px-4 py-3 rounded-xl bg-primary-container text-on-primary-container font-bold flex justify-between items-center transition-all">
-                                All Products
-                                <span class="text-xs opacity-70">48</span>
-</button>
-</li>
-<li>
-<button class="w-full text-left px-4 py-3 rounded-xl hover:bg-surface-container-low text-on-surface-variant font-medium flex justify-between items-center transition-all">
-                                Large Format Banners
-                                <span class="text-xs opacity-40">12</span>
-</button>
-</li>
-<li>
-<button class="w-full text-left px-4 py-3 rounded-xl hover:bg-surface-container-low text-on-surface-variant font-medium flex justify-between items-center transition-all">
-                                Custom Stickers &amp; Labels
-                                <span class="text-xs opacity-40">18</span>
-</button>
-</li>
-<li>
-<button class="w-full text-left px-4 py-3 rounded-xl hover:bg-surface-container-low text-on-surface-variant font-medium flex justify-between items-center transition-all">
-                                Flex &amp; Vinyl Prints
-                                <span class="text-xs opacity-40">09</span>
-</button>
-</li>
-<li>
-<button class="w-full text-left px-4 py-3 rounded-xl hover:bg-surface-container-low text-on-surface-variant font-medium flex justify-between items-center transition-all">
-                                Business Branding
-                                <span class="text-xs opacity-40">09</span>
-</button>
-</li>
-</ul>
-</div>
-<div>
-<h3 class="text-xl font-bold mb-6">Material Quality</h3>
-<div class="flex flex-wrap gap-2">
-<span class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">Matte Finish</span>
-<span class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">Glossy</span>
-<span class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">UV Resistant</span>
-<span class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold text-on-surface">Weatherproof</span>
-</div>
-</div>
-<div class="p-6 bg-surface-container-low rounded-2xl">
-<span class="material-symbols-outlined text-primary mb-2">support_agent</span>
-<h4 class="font-bold mb-2">Need Custom Design?</h4>
-<p class="text-sm text-on-surface-variant mb-4">Our expert designers are ready to help bring your vision to life.</p>
-<button class="text-primary font-bold text-sm underline underline-offset-4">Talk to a designer</button>
-</div>
-</aside>
-<!-- Products Grid -->
-<div class="lg:col-span-9">
-<div class="flex justify-between items-center mb-10">
-<p class="text-on-surface-variant font-medium">Showing 12 of 48 products</p>
-<div class="flex items-center gap-4">
-<select class="bg-surface-container-low border-none rounded-lg text-sm font-bold focus:ring-primary">
-<option>Sort by: Popularity</option>
-<option>Newest Arrivals</option>
-<option>Price: Low to High</option>
-</select>
-</div>
-</div>
-<!-- Bento-style Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-<!-- Product Card 1 -->
-<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close-up of high-quality vinyl stickers with vibrant colors and sharp details on a clean white surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMYHsTnUfoZqL_NYX4bkdfYq8oVe9f2bhs14KcOUjvrXHZ4MPvvfXX7J833DIQyeIyXWCPXRAub0WKFR3ZcvjG9vNPbetumpwNk2fYXdfs9p-I3h1dpKEsGN8py8t4ldjLZMNAjK7b9tCPbvwNPX6sLSWUOQh5EEFYeikddgT7qphE0rl8S8jsVXijN13jr_9EUPANYOmiD5R5D0KmmN6fhIrgtKTFEgkVB1qISShNcuPm9bj_k9S-FRYhnof3wxrrfRqLnaBaXrY"/>
-<div class="absolute top-4 left-4">
-<span class="bg-primary text-on-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">New Arrival</span>
-</div>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2">Premium Vinyl Stickers</h3>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Weather-resistant, high-gloss stickers perfect for branding and product packaging.</p>
-<div class="flex items-center justify-between mt-auto">
-<span class="text-lg font-black text-primary">From ₦4,500</span>
-<button class="p-3 bg-secondary-container rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-all">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Product Card 2 -->
-<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Professional large format indoor banner stand showing sharp architectural graphics in a modern office foyer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHcX_PLrnzH_ocU_B5J4BLffLNTytkExcmz1Uhb2XXAtKcuQXXBwu_rIOcoMwqQdmYa5l3jcX85wPXn0AqKYmoDvfwABOKz_l60LhKmaYIhUvTa_1QjuL3640Xh5p8sD8QKrINUi0ReOBv4ZKQKizRqq4LgEEYRxA22AJUCf7G0uf51e6sqJkz7IbnqhRFG_Uzvvu32sCkUHxMewBP27JW30m5dYDFOltVKIvkhDjq1HUsx2Aud9NtiSpMO-ieGfetPo9GD1CZXV0"/>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2">Pull-up Banners</h3>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Durable aluminum stand with high-resolution canvas print for trade shows.</p>
-<div class="flex items-center justify-between mt-auto">
-<span class="text-lg font-black text-primary">₦22,000</span>
-<button class="px-5 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-all">
-                                    Request Quote
-                                </button>
-</div>
-</div>
-</div>
-<!-- Product Card 3 -->
-<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Stack of minimalist luxury business cards with gold foil edges and deep texture on dark gray paper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9bqR99XVuJ2tAOq5byGxNBbRBrNMZLulCO8I0HNALsaHrJJ3r91r98lztE1g5uRFnQdNJSJvxyY_ydBuMAZdtreZ8RksQbgfYThSVCkm6duGeLctPyLw9A2pwzE_7p5MkdGaxdn_WRcV7QVVTCQza5uUflwgpuajs4k9ZZNDzOJOX6bOax-L0dhC2LArfFN9_cDr4aO2ixfkpQAd-XyHBHtNYeyaKXpesiaXM18gvNo58sgs2WmAoXCS-Ps3vUcmr7d_1EZXOyH4"/>
-<div class="absolute top-4 left-4">
-<span class="bg-inverse-surface text-surface text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">Bestseller</span>
-</div>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2">Business Cards</h3>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">400gsm premium cardstock with matte lamination and optional spot UV.</p>
-<div class="flex items-center justify-between mt-auto">
-<span class="text-lg font-black text-primary">From ₦8,000</span>
-<button class="p-3 bg-secondary-container rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-all">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Product Card 4 -->
-<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Outdoor mesh banner fixed to a construction fence showing architectural renderings with bright sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcoExMHFj_G5tRahD5xwxdlZDp_PeMYNdNKXPJyK4-elVxMQNFgD1zCr8nXTrq9GnVq4_eNZYS4crNQBXOVjgn3upKsya6_9ECNPRxQLZKQo136hnhB0y03Ao5fs6dS_ehX_W5-9fSPWfNG-3vxsbWjo-ydzSnlS4hpBBvV0KOdz774_Cj-Knqb__gmQUWoSNX0SZAjerTOCYD3iY5S17p4Cjbb63cib0gewzM45BI1PHGzwEaw2dHkSNmP4FGzVxoMrtHvO_r-rg"/>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2">Flex Banners</h3>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Large scale outdoor flex banners with grommets for easy mounting.</p>
-<div class="flex items-center justify-between mt-auto">
-<span class="text-lg font-black text-primary">₦1,200 /sqft</span>
-<button class="px-5 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-all">
-                                    Request Quote
-                                </button>
-</div>
-</div>
-</div>
-<!-- Product Card 5 -->
-<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Collection of branded company stationery including letterheads, envelopes and folders on a light wood desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARBILejZxsnn-8LVYAcmUGrw8lV9WKkvvzCN_PZnnbSOsTYqjdvz6soXL2alEDKkxTywSdAC9ZV5BgZvOG96o0ahDuH3SveJLbBACI05aq785jxSUzUaDndcTWP4-l2_sH__YSyI_iiC0yB9ftKtr83Mxb1CzjMxnmMBTOO84_sBHOxVfYUGiKs1-H5N7A6IXor-7NFUeYOWsQNegMlbjEe7qlylsYQ3Sb67eCRXrCrKjahkwY9Y3eq0XTqerXjYA3687EJJoVNTg"/>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2">Corporate Stationery</h3>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Complete branding kit including letterheads, envelopes, and folders.</p>
-<div class="flex items-center justify-between mt-auto">
-<span class="text-lg font-black text-primary">Custom</span>
-<button class="px-5 py-2.5 bg-primary-container text-on-primary-container font-bold rounded-xl text-sm shadow-sm active:scale-95 transition-all">
-                                    Request Quote
-                                </button>
-</div>
-</div>
-</div>
-<!-- Product Card 6 -->
-<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(45,47,47,0.06)] transition-all hover:-translate-y-2">
-<div class="relative h-64 overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Industrial heat press machine transferring a colorful design onto a premium cotton t-shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC98wSF2UhjPIDnY7-KIyIgIZnKktkcnOqEAJKbz-C1bpHdd2Th8zrWxptvmVYoEpPySPzjcvIuZA34xNKJz4jfhArilpRKHhXyxMH46WZc5ZSceegFFKz4mfkIKYe06tXN2VpUoupcyRvxCtmNlkXjdw4IOVLicC4FCbk2QQmocZ2M-fsNXDIAaEopk_hIYzJLF9ln1rWK34iAVDF370g_X8I6w216mQSPif0725ZdC4COCIw_yif3aSPTGxCAwDJFdEIR8lMMsiI"/>
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold mb-2">Apparel Printing</h3>
-<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">DTF and Screen printing for hoodies, t-shirts, and corporate uniforms.</p>
-<div class="flex items-center justify-between mt-auto">
-<span class="text-lg font-black text-primary">From ₦3,500</span>
-<button class="p-3 bg-secondary-container rounded-xl hover:bg-primary-container hover:text-on-primary-container transition-all">
-<span class="material-symbols-outlined">add_shopping_cart</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Pagination -->
-<div class="mt-16 flex justify-center gap-2">
-<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center font-bold text-on-surface-variant">1</button>
-<button class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold">2</button>
-<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center font-bold text-on-surface-variant">3</button>
-<button class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center font-bold text-on-surface-variant">
-<span class="material-symbols-outlined text-sm">chevron_right</span>
-</button>
-</div>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="w-full pt-16 pb-8 bg-slate-900 dark:bg-black border-t border-slate-800">
-<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-<div class="space-y-6">
-<div class="text-orange-500 font-black text-xl font-['Space_Grotesk'] uppercase tracking-tighter">
-                    Harwosprints.ng
+                        <button type="button" onclick="resetForm()" class="px-6 py-3 border border-slate-300 rounded-xl font-bold hover:bg-slate-100 transition-all">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Manage Existing Products -->
+            <div>
+                <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-brandOrange">inventory</span>
+                    Manage Products
+                </h3>
+                <div id="adminProductList" class="space-y-3 max-h-96 overflow-y-auto">
+                    <!-- Products loaded here -->
                 </div>
-<p class="text-slate-400 font-['Plus_Jakarta_Sans'] text-sm leading-relaxed">
-                    Precision-engineered printing solutions for the modern brand. Based in Lagos, shipping nationwide.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+    <div class="flex justify-between items-center w-full px-6 md:px-12 py-4 mx-auto">
+        <div class="text-2xl font-black text-brandOrange uppercase tracking-tighter">
+            Harwosprints.ng
+        </div>
+        <div class="hidden md:flex items-center gap-8 font-bold tracking-tight">
+            <a class="text-slate-700 hover:text-brandOrange transition-colors" href="index.html">Home</a>
+            <a class="text-brandOrange border-b-2 border-brandOrange" href="store.html">Shop</a>
+            <a class="text-slate-700 hover:text-brandOrange transition-colors" href="about.html">About</a>
+            <a class="text-slate-700 hover:text-brandOrange transition-colors" href="contact.html">Contact</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <a class="px-5 py-2 text-sm font-bold text-slate-700 hover:text-brandOrange transition-all" href="login.html">Login</a>
+            <a class="px-6 py-2 bg-brandOrange text-white font-bold rounded-lg shadow-sm hover:scale-105 active:scale-95 transition-all" href="signup.html">Sign Up</a>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-24 pb-20">
+    <!-- Hero Section -->
+    <section class="px-6 md:px-12 mb-16">
+        <div class="relative overflow-hidden rounded-2xl bg-slate-900 h-[300px] md:h-[400px] flex items-center">
+            <div class="absolute inset-0 opacity-40">
+                <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200" alt="Printing press"/>
+            </div>
+            <div class="relative z-10 px-8 md:px-16 max-w-2xl">
+                <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter leading-tight">
+                    Elevate Your <span class="text-brandOrange">Brand Presence</span>
+                </h1>
+                <p class="text-slate-300 text-lg mb-8 max-w-md">
+                    Premium printing solutions from large scale banners to precision branding materials.
                 </p>
-<div class="flex gap-4">
-<span class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-orange-500 cursor-pointer transition-colors">
-<span class="material-symbols-outlined text-sm">public</span>
-</span>
-<span class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-orange-500 cursor-pointer transition-colors">
-<span class="material-symbols-outlined text-sm">share</span>
-</span>
-<span class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:text-orange-500 cursor-pointer transition-colors">
-<span class="material-symbols-outlined text-sm">chat_bubble</span>
-</span>
-</div>
-</div>
-<div class="space-y-6">
-<h4 class="text-white font-bold font-['Space_Grotesk'] uppercase tracking-widest text-xs">Navigation</h4>
-<ul class="space-y-3 font-['Plus_Jakarta_Sans'] text-slate-400 text-sm">
-<li><a class="hover:text-orange-400 transition-colors" href="#">Browse Products</a></li>
-<li><a class="hover:text-orange-400 transition-colors" href="#">My Account</a></li>
-<li><a class="hover:text-orange-400 transition-colors" href="#">Order Tracking</a></li>
-<li><a class="hover:text-orange-400 transition-colors" href="#">Bulk Orders</a></li>
-</ul>
-</div>
-<div class="space-y-6">
-<h4 class="text-white font-bold font-['Space_Grotesk'] uppercase tracking-widest text-xs">Customer Service</h4>
-<ul class="space-y-3 font-['Plus_Jakarta_Sans'] text-slate-400 text-sm">
-<li><a class="hover:text-orange-400 transition-colors" href="#">Privacy Policy</a></li>
-<li><a class="hover:text-orange-400 transition-colors" href="#">Terms of Service</a></li>
-<li><a class="hover:text-orange-400 transition-colors" href="#">FAQ</a></li>
-<li><a class="hover:text-orange-400 transition-colors" href="#">Support</a></li>
-</ul>
-</div>
-<div class="space-y-6">
-<h4 class="text-white font-bold font-['Space_Grotesk'] uppercase tracking-widest text-xs">Newsletter</h4>
-<p class="text-slate-400 font-['Plus_Jakarta_Sans'] text-sm">Get print tips and special offers.</p>
-<div class="relative">
-<input class="w-full bg-slate-800 border-none rounded-lg py-3 px-4 text-sm text-white focus:ring-1 focus:ring-orange-500" placeholder="Email Address" type="email"/>
-<button class="absolute right-2 top-1.5 p-1.5 bg-orange-600 rounded-md text-white">
-<span class="material-symbols-outlined text-sm">arrow_forward</span>
-</button>
-</div>
-</div>
-</div>
-<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
-<p class="text-slate-400 font-['Plus_Jakarta_Sans'] text-xs">© 2024 Harwosprints.ng. All rights reserved.</p>
-<div class="flex gap-6 text-xs text-slate-400">
-<span>Designed for Impact</span>
-<span>Powered by PrecisePress</span>
-</div>
-</div>
+                <div class="flex gap-4 flex-wrap">
+                    <button onclick="scrollToProducts()" class="bg-brandOrange text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all">
+                        View Collections
+                    </button>
+                    <a href="https://wa.me/2349094576733?text=Hello%20Harwosprints,%20I%20would%20like%20to%20request%20a%20quote" target="_blank" class="bg-white text-slate-900 px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">chat</span>
+                        Request Quote
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="productsSection" class="px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Sidebar -->
+        <aside class="lg:col-span-3 space-y-8">
+            <div>
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-brandOrange">filter_list</span>
+                    Categories
+                </h3>
+                <ul class="space-y-2" id="categoryList">
+                    <li>
+                        <button onclick="filterProducts('all')" class="category-btn w-full text-left px-4 py-3 rounded-xl bg-brandOrange text-white font-bold flex justify-between items-center transition-all" data-category="all">
+                            All Products
+                            <span class="text-xs opacity-70" id="count-all">0</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="filterProducts('Large Format Banners')" class="category-btn w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-600 font-medium flex justify-between items-center transition-all" data-category="Large Format Banners">
+                            Large Format Banners
+                            <span class="text-xs opacity-40" id="count-banners">0</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="filterProducts('Custom Stickers & Labels')" class="category-btn w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-600 font-medium flex justify-between items-center transition-all" data-category="Custom Stickers & Labels">
+                            Custom Stickers & Labels
+                            <span class="text-xs opacity-40" id="count-stickers">0</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="filterProducts('Flex & Vinyl Prints')" class="category-btn w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-600 font-medium flex justify-between items-center transition-all" data-category="Flex & Vinyl Prints">
+                            Flex & Vinyl Prints
+                            <span class="text-xs opacity-40" id="count-flex">0</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="filterProducts('Business Branding')" class="category-btn w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-600 font-medium flex justify-between items-center transition-all" data-category="Business Branding">
+                            Business Branding
+                            <span class="text-xs opacity-40" id="count-branding">0</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="filterProducts('Apparel Printing')" class="category-btn w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-600 font-medium flex justify-between items-center transition-all" data-category="Apparel Printing">
+                            Apparel Printing
+                            <span class="text-xs opacity-40" id="count-apparel">0</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="filterProducts('Corporate Stationery')" class="category-btn w-full text-left px-4 py-3 rounded-xl hover:bg-slate-100 text-slate-600 font-medium flex justify-between items-center transition-all" data-category="Corporate Stationery">
+                            Corporate Stationery
+                            <span class="text-xs opacity-40" id="count-stationery">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- WhatsApp Quote Box -->
+            <div class="p-6 bg-green-50 rounded-2xl border-2 border-green-200">
+                <span class="material-symbols-outlined text-green-600 mb-2 text-3xl">chat</span>
+                <h4 class="font-bold mb-2 text-green-800">Need a Custom Quote?</h4>
+                <p class="text-sm text-green-700 mb-4">Chat with us on WhatsApp for bulk orders and custom printing.</p>
+                <a href="https://wa.me/2349094576733?text=Hello%20Harwosprints,%20I%20would%20like%20to%20request%20a%20quote" target="_blank" class="w-full block text-center bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition-all">
+                    Request Quote
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Products Grid -->
+        <div class="lg:col-span-9">
+            <div class="flex justify-between items-center mb-8">
+                <p class="text-slate-600 font-medium">Showing <span id="showingCount">0</span> of <span id="totalCount">0</span> products</p>
+                <select id="sortSelect" onchange="sortProducts()" class="bg-slate-100 border-none rounded-lg text-sm font-bold px-4 py-2">
+                    <option value="newest">Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
+            </div>
+            
+            <!-- Grid: 2 cols mobile, 3 cols laptop -->
+            <div id="productsGrid" class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
+                <div class="col-span-full flex justify-center py-20">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-brandOrange"></div>
+                </div>
+            </div>
+            
+            <div id="emptyState" class="hidden col-span-full py-20 text-center">
+                <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">inventory_2</span>
+                <p class="text-slate-500 font-bold text-lg">No products found</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="w-full pt-16 pb-8 bg-slate-900 text-white">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div class="space-y-6">
+            <div class="text-brandOrange font-black text-xl uppercase tracking-tighter">Harwosprints.ng</div>
+            <p class="text-slate-400 text-sm">Precision-engineered printing solutions for the modern brand. Based in Lagos.</p>
+        </div>
+        <div>
+            <h4 class="font-bold uppercase tracking-widest text-xs mb-4">Navigation</h4>
+            <ul class="space-y-2 text-slate-400 text-sm">
+                <li><a href="store.html" class="hover:text-brandOrange">Browse Products</a></li>
+                <li><a href="dashboard.html" class="hover:text-brandOrange">My Account</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-bold uppercase tracking-widest text-xs mb-4">Support</h4>
+            <ul class="space-y-2 text-slate-400 text-sm">
+                <li><a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange">WhatsApp Support</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-bold uppercase tracking-widest text-xs mb-4">Contact</h4>
+            <p class="text-slate-400 text-sm">+234 909 457 6733</p>
+        </div>
+    </div>
 </footer>
-</body></html>
+
+<script>
+    // Supabase Configuration
+    const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
+    
+    let supabaseClient;
+    let currentUser = null;
+    let isAdmin = false;
+    let allProducts = [];
+    let currentCategory = 'all';
+    
+    const ADMIN_EMAILS = ['dben61168@gmail.com', 'harwosprints@gmail.com'];
+    const WHATSAPP_NUMBER = '2349094576733';
+    
+    async function initApp() {
+        try {
+            supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+            
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                currentUser = session.user;
+                checkAdminStatus();
+            }
+            
+            await loadProducts();
+            setupRealtimeSubscriptions();
+            
+        } catch (error) {
+            console.error('Initialization error:', error);
+        }
+    }
+    
+    function checkAdminStatus() {
+        if (currentUser && ADMIN_EMAILS.includes(currentUser.email)) {
+            isAdmin = true;
+            document.body.classList.add('is-admin');
+            document.getElementById('adminAccessBtn').classList.remove('hidden');
+        }
+    }
+    
+    async function loadProducts() {
+        try {
+            const { data: products, error } = await supabaseClient
+                .from('products')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            
+            allProducts = products || [];
+            updateCategoryCounts();
+            renderProducts();
+            
+        } catch (error) {
+            console.error('Error loading products:', error);
+        }
+    }
+    
+    function updateCategoryCounts() {
+        const counts = {
+            'all': allProducts.length,
+            'Large Format Banners': 0,
+            'Custom Stickers & Labels': 0,
+            'Flex & Vinyl Prints': 0,
+            'Business Branding': 0,
+            'Apparel Printing': 0,
+            'Corporate Stationery': 0
+        };
+        
+        allProducts.forEach(product => {
+            if (counts.hasOwnProperty(product.category)) {
+                counts[product.category]++;
+            }
+        });
+        
+        Object.keys(counts).forEach(key => {
+            const id = key === 'all' ? 'count-all' : 
+                      key === 'Large Format Banners' ? 'count-banners' :
+                      key === 'Custom Stickers & Labels' ? 'count-stickers' :
+                      key === 'Flex & Vinyl Prints' ? 'count-flex' :
+                      key === 'Business Branding' ? 'count-branding' :
+                      key === 'Apparel Printing' ? 'count-apparel' : 'count-stationery';
+            const el = document.getElementById(id);
+            if (el) el.textContent = counts[key];
+        });
+    }
+    
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        const emptyState = document.getElementById('emptyState');
+        
+        let filtered = currentCategory === 'all' ? allProducts : allProducts.filter(p => p.category === currentCategory);
+        
+        const sortValue = document.getElementById('sortSelect').value;
+        if (sortValue === 'price-low') filtered.sort((a, b) => a.price - b.price);
+        else if (sortValue === 'price-high') filtered.sort((a, b) => b.price - a.price);
+        
+        document.getElementById('showingCount').textContent = filtered.length;
+        document.getElementById('totalCount').textContent = allProducts.length;
+        
+        if (filtered.length === 0) {
+            grid.innerHTML = '';
+            emptyState.classList.remove('hidden');
+            return;
+        }
+        
+        emptyState.classList.add('hidden');
+        
+        grid.innerHTML = filtered.map(product => {
+            const mainImage = product.images?.[0] || 'https://via.placeholder.com/400x300?text=No+Image';
+            const priceDisplay = product.price === 0 ? 'Custom Price' : '₦' + Number(product.price).toLocaleString();
+            
+            return `
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative h-48 lg:h-64 overflow-hidden">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                             src="${mainImage}" alt="${product.name}"
+                             onerror="this.src='https://via.placeholder.com/400x300?text=Image+Error'">
+                        ${isAdmin ? `
+                            <div class="absolute top-2 right-2 flex gap-1">
+                                <button onclick="editProduct('${product.id}')" class="bg-white p-2 rounded-lg shadow-md hover:bg-brandOrange hover:text-white">
+                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                </button>
+                                <button onclick="deleteProduct('${product.id}')" class="bg-white p-2 rounded-lg shadow-md hover:bg-red-500 hover:text-white">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="p-4 lg:p-6">
+                        <p class="text-[10px] font-bold uppercase text-brandOrange mb-1">${product.category}</p>
+                        <h3 class="text-base lg:text-lg font-bold mb-2 line-clamp-1">${product.name}</h3>
+                        <p class="text-xs lg:text-sm text-slate-500 mb-4 line-clamp-2">${product.description}</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm lg:text-lg font-black text-brandOrange">${priceDisplay}</span>
+                            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=Hello%20Harwosprints,%20I'm%20interested%20in:%0A%0AProduct:%20${encodeURIComponent(product.name)}%0ACategory:%20${encodeURIComponent(product.category)}" 
+                               target="_blank" 
+                               class="px-3 lg:px-4 py-2 bg-slate-900 text-white font-bold rounded-lg text-xs hover:bg-brandOrange transition-all">
+                                Request Quote
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    function filterProducts(category) {
+        currentCategory = category;
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            if (btn.dataset.category === category) {
+                btn.classList.remove('hover:bg-slate-100', 'text-slate-600');
+                btn.classList.add('bg-brandOrange', 'text-white');
+            } else {
+                btn.classList.add('hover:bg-slate-100', 'text-slate-600');
+                btn.classList.remove('bg-brandOrange', 'text-white');
+            }
+        });
+        renderProducts();
+    }
+    
+    function sortProducts() {
+        renderProducts();
+    }
+    
+    function toggleAdminPanel() {
+        const modal = document.getElementById('adminPanelModal');
+        modal.classList.toggle('hidden');
+        modal.classList.toggle('flex');
+        if (!modal.classList.contains('hidden')) loadAdminProductList();
+    }
+    
+    function loadAdminProductList() {
+        const container = document.getElementById('adminProductList');
+        container.innerHTML = allProducts.map(product => `
+            <div class="flex items-center gap-4 p-3 bg-white rounded-xl border">
+                <img src="${product.images?.[0] || 'https://via.placeholder.com/60'}" class="w-16 h-16 object-cover rounded-lg">
+                <div class="flex-1 min-w-0">
+                    <h4 class="font-bold text-sm truncate">${product.name}</h4>
+                    <p class="text-xs text-slate-500">${product.category} • ₦${Number(product.price).toLocaleString()}</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="editProduct('${product.id}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                        <span class="material-symbols-outlined text-sm">edit</span>
+                    </button>
+                    <button onclick="deleteProduct('${product.id}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg">
+                        <span class="material-symbols-outlined text-sm">delete</span>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function previewImage(input, previewId) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => document.getElementById(previewId).src = e.target.result;
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    async function uploadImage(file, productId, index) {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${productId}_${index}.${fileExt}`;
+        const filePath = `products/${fileName}`;
+        
+        await supabaseClient.storage.from('product-images').upload(filePath, file, { upsert: true });
+        const { data: { publicUrl } } = supabaseClient.storage.from('product-images').getPublicUrl(filePath);
+        return publicUrl;
+    }
+    
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="animate-spin material-symbols-outlined">refresh</span> Saving...';
+        
+        try {
+            const name = document.getElementById('productName').value;
+            const price = parseFloat(document.getElementById('productPrice').value) || 0;
+            const category = document.getElementById('productCategory').value;
+            const description = document.getElementById('productDescription').value;
+            
+            const { data: product, error } = await supabaseClient
+                .from('products')
+                .insert([{ name, price, category, description, images: [] }])
+                .select()
+                .single();
+            
+            if (error) throw error;
+            
+            const imageUrls = [];
+            for (let i = 1; i <= 5; i++) {
+                const fileInput = document.getElementById(`image${i}`);
+                if (fileInput.files?.[0]) {
+                    const url = await uploadImage(fileInput.files[0], product.id, i);
+                    imageUrls.push(url);
+                }
+            }
+            
+            if (imageUrls.length > 0) {
+                await supabaseClient.from('products').update({ images: imageUrls }).eq('id', product.id);
+            }
+            
+            alert('Product added successfully!');
+            resetForm();
+            loadProducts();
+            
+        } catch (error) {
+            alert('Error: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span class="material-symbols-outlined">save</span> Save Product';
+        }
+    });
+    
+    async function deleteProduct(productId) {
+        if (!confirm('Delete this product?')) return;
+        try {
+            await supabaseClient.from('products').delete().eq('id', productId);
+            loadProducts();
+        } catch (error) {
+            alert('Error deleting: ' + error.message);
+        }
+    }
+    
+    function editProduct(productId) {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) return;
+        
+        document.getElementById('productName').value = product.name;
+        document.getElementById('productPrice').value = product.price;
+        document.getElementById('productCategory').value = product.category;
+        document.getElementById('productDescription').value = product.description;
+        
+        product.images?.forEach((img, idx) => {
+            if (idx < 5) document.getElementById(`preview${idx + 1}`).src = img;
+        });
+        
+        const submitBtn = document.querySelector('#productForm button[type="submit"]');
+        submitBtn.textContent = 'Update Product';
+        submitBtn.onclick = async (e) => {
+            e.preventDefault();
+            await updateProduct(productId);
+        };
+    }
+    
+    async function updateProduct(productId) {
+        try {
+            const updates = {
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value) || 0,
+                category: document.getElementById('productCategory').value,
+                description: document.getElementById('productDescription').value
+            };
+            
+            const currentProduct = allProducts.find(p => p.id === productId);
+            const imageUrls = [...(currentProduct.images || [])];
+            
+            for (let i = 1; i <= 5; i++) {
+                const fileInput = document.getElementById(`image${i}`);
+                if (fileInput.files?.[0]) {
+                    imageUrls[i-1] = await uploadImage(fileInput.files[0], productId, i);
+                }
+            }
+            
+            updates.images = imageUrls.filter(url => url);
+            
+            await supabaseClient.from('products').update(updates).eq('id', productId);
+            
+            alert('Product updated!');
+            resetForm();
+            loadProducts();
+            
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    }
+    
+    function resetForm() {
+        document.getElementById('productForm').reset();
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById(`preview${i}`).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24'%3E%3Cpath fill='%23ccc' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3C/svg%3E";
+        }
+        const submitBtn = document.querySelector('#productForm button[type="submit"]');
+        submitBtn.innerHTML = '<span class="material-symbols-outlined">save</span> Save Product';
+        submitBtn.onclick = null;
+    }
+    
+    function setupRealtimeSubscriptions() {
+        supabaseClient.channel('products-channel')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => loadProducts())
+            .subscribe();
+    }
+    
+    function scrollToProducts() {
+        document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    document.addEventListener('DOMContentLoaded', initApp);
+</script>
+
+</body>
+</html>'''
+
+# Save the file
+with open('/mnt/kimi/output/store.html', 'w', encoding='utf-8') as f:
+    f.write(store_html_content)
+
+print("✅ store.html created successfully!")
+print(f"File size: {len(store_html_content)} characters")

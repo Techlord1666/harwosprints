@@ -5,19 +5,26 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     
     <!-- SEO KEYWORDS & DESCRIPTION -->
-    <title>Store - Harwosprints.ng | Premium Printing & Branding</title>
-    <meta name="description" content="Official Harwosprints store. Premium Large Format Banners, Stickers, Apparel, and Corporate Branding in Lagos, Nigeria."/>
-    <meta name="keywords" content="Harwosprints Shop, Printing Lagos, Custom Stickers, Large Format Banners, Apparel Printing, Souvenirs, Giftings, Offset Printing"/>
+    <title>Premium Store - Harwosprints.ng | Design, Print, Brand & Deliver</title>
+    <meta name="description" content="Harwosprints.ng - Nigeria's premier partner for high-precision printing and tactical branding solutions. Order Large Format, Stickers, Souvenirs, and more."/>
+    <meta name="keywords" content="Harwosprints, Printing Nigeria, Branding Lagos, Custom Packaging, Business Cards Nigeria, Flyers, Branded Souvenirs, Promotional Items, Offset Printing, Digital Imaging, Direct Imaging, Harwos Prints, Printing in Somolu, Printing in Yaba, Brand Support, Promo Items, Souvenirs Lagos, Giftings Nigeria"/>
     <meta name="author" content="Harwosprints.ng"/>
 
-    <!-- FAVICON -->
+    <!-- SOCIAL MEDIA SHARING PREVIEW (Open Graph) -->
+    <meta property="og:title" content="Harwosprints.ng | Premium Printing Store"/>
+    <meta property="og:description" content="High-precision printing and tactical branding solutions. Order your custom materials today."/>
+    <meta property="og:image" content="harwosprints.ng-logo.jpg"/>
+    <meta property="og:url" content="https://harwosprints.ng/store.html"/>
+    <meta property="og:type" content="website"/>
+
+    <!-- FAVICON (Using your logo) -->
     <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
     <link rel="apple-touch-icon" href="harwosprints.ng-logo.jpg">
 
     <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Plus+Jakarta+Sans:wght@300;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -25,420 +32,692 @@
       tailwind.config = {
         theme: {
           extend: {
-            colors: { brandOrange: "#ea580c", brandBlack: "#0f0f0f" },
-            fontFamily: { headline: ["Space Grotesk"], body: ["Plus Jakarta Sans"] },
+            colors: {
+                brandOrange: "#ea580c",
+                brandBlack: "#0f0f0f",
+                slateLight: "#f8fafc"
+            },
+            fontFamily: {
+                headline: ["Space Grotesk", "sans-serif"],
+                body: ["Plus Jakarta Sans", "sans-serif"]
+            },
           },
         },
       }
     </script>
+    
     <style>
-      body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
-      #loadingOverlay { display: flex; }
-      .cart-drawer { transition: transform 0.4s ease-in-out; transform: translateX(100%); }
+      body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background-color: #f8fafc; }
+      #loadingOverlay { display: flex; transition: opacity 0.5s ease; }
+      .product-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+      .product-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+      .cart-drawer { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); }
       .cart-open .cart-drawer { transform: translateX(0); }
-      .category-active { background-color: #ea580c !important; color: white !important; transform: scale(1.05); }
+      .category-active { background-color: #ea580c !important; color: white !important; transform: scale(1.05); box-shadow: 0 10px 20px rgba(234, 88, 12, 0.2); }
       .hidden { display: none !important; }
       .no-scrollbar::-webkit-scrollbar { display: none; }
-      input:focus, select:focus, textarea:focus { border-color: #ea580c !important; outline: none; ring: 0; }
+      input:focus, select:focus, textarea:focus { border-color: #ea580c !important; outline: none; box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1); }
+      .glass-effect { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+      @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+      .animate-float { animation: float 3s ease-in-out infinite; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="text-slate-900">
 
-<!-- LOADER -->
-<div id="loadingOverlay" class="fixed inset-0 bg-white z-[1000] flex items-center justify-center">
-    <div class="w-12 h-12 border-4 border-brandOrange border-t-transparent rounded-full animate-spin"></div>
+<!-- GLOBAL LOADER -->
+<div id="loadingOverlay" class="fixed inset-0 bg-white z-[2000] flex flex-col items-center justify-center">
+    <div class="w-16 h-16 border-4 border-slate-100 border-t-brandOrange rounded-full animate-spin mb-4"></div>
+    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-brandOrange animate-pulse">Syncing Harwos Cloud...</p>
 </div>
 
-<!-- NAVIGATION -->
+<!-- TOP NAVIGATION -->
 <nav class="fixed top-0 w-full z-[100] bg-white/90 backdrop-blur-md border-b border-slate-100 px-4 md:px-12 py-4">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <!-- Brand -->
         <div class="flex items-center gap-3">
-            <img src="harwosprints.ng-logo.jpg" class="w-10 h-10 rounded-full border-2 border-brandOrange">
-            <span class="text-xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints.ng</span>
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-brandOrange p-0.5 shadow-sm bg-white overflow-hidden">
+                <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
+            </div>
+            <span class="text-xl md:text-2xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints.ng</span>
         </div>
         
+        <!-- Navigation Links -->
         <div class="hidden lg:flex items-center gap-8 font-bold text-[10px] uppercase tracking-widest">
-            <a href="index.html" class="hover:text-brandOrange transition-colors">Home</a>
-            <a href="store.html" class="text-brandOrange underline">Shop</a>
-            <a href="about.html" class="hover:text-brandOrange transition-colors">About</a>
-            <a href="contact.html" class="hover:text-brandOrange transition-colors">Contact</a>
+            <a href="index.html" class="hover:text-brandOrange transition-all">Home</a>
+            <a href="store.html" class="text-brandOrange underline underline-offset-8 decoration-2">Shop</a>
+            <a href="about.html" class="hover:text-brandOrange transition-all">About</a>
+            <a href="contact.html" class="hover:text-brandOrange transition-all">Contact</a>
         </div>
 
-        <div class="flex items-center gap-3">
-            <!-- CART -->
-            <button onclick="toggleCart()" class="relative p-2 bg-slate-100 rounded-full hover:bg-brandOrange hover:text-white transition-all">
+        <!-- Action Icons -->
+        <div class="flex items-center gap-4">
+            <!-- Search Toggle (Mobile) -->
+            <button class="lg:hidden p-2 text-slate-400"><span class="material-symbols-outlined">search</span></button>
+            
+            <!-- Cart Trigger -->
+            <button onclick="toggleCart()" class="relative p-2.5 bg-slate-100 rounded-full hover:bg-brandOrange hover:text-white transition-all group">
                 <span class="material-symbols-outlined">shopping_cart</span>
-                <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brandOrange text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-black">0</span>
+                <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brandOrange text-white text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-black group-hover:scale-110 transition-transform">0</span>
             </button>
             
-            <!-- AUTH BUTTONS -->
-            <a href="signin.html" id="loginBtn" class="text-[10px] font-black uppercase border border-slate-200 px-4 py-2 rounded-lg hover:bg-brandBlack hover:text-white transition-all">Login</a>
-            <a href="dash.html" id="dashBtn" class="hidden text-[10px] font-black uppercase bg-brandBlack text-white px-4 py-2 rounded-lg hover:bg-brandOrange transition-all">Dashboard</a>
+            <!-- Auth Switching -->
+            <div id="authArea" class="flex items-center gap-2 border-l pl-4 border-slate-200">
+                <a href="signin.html" id="loginBtn" class="text-[10px] font-black uppercase text-slate-500 hover:text-brandBlack px-4 py-2">Login</a>
+                <a href="dash.html" id="dashBtn" class="hidden text-[10px] font-black uppercase bg-brandBlack text-white px-5 py-2.5 rounded-xl shadow-lg hover:bg-brandOrange transition-all">Dashboard</a>
+            </div>
 
-            <!-- ADMIN ACCESS (DYNAMIC) -->
-            <button id="adminBtn" onclick="openAdminPanel()" class="hidden bg-brandOrange text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase shadow-lg animate-bounce">Upload</button>
+            <!-- ADMIN ACCESS BUTTON -->
+            <button id="adminBtn" onclick="openAdminPanel()" class="hidden bg-brandOrange text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase shadow-xl hover:brightness-110 animate-float">
+                <span class="flex items-center gap-2"><i class="fas fa-plus"></i> Upload</span>
+            </button>
         </div>
     </div>
 </nav>
 
 <main class="pt-24 pb-20">
-    <!-- HERO -->
+    <!-- HERO SECTION: Large Format Focus -->
     <section class="px-4 md:px-12 mb-12">
-        <div class="relative overflow-hidden rounded-[2.5rem] bg-brandBlack h-[300px] md:h-[500px] flex items-center shadow-2xl">
-            <img class="absolute inset-0 w-full h-full object-cover opacity-40" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop" alt="Printing Image"/>
-            <div class="relative z-10 px-8 md:px-20 max-w-3xl">
-                <h1 class="text-3xl md:text-7xl font-black text-white mb-4 uppercase tracking-tighter">Big Format <br><span class="text-brandOrange italic">Store.</span></h1>
-                <p class="text-slate-300 text-sm md:text-lg mb-8 max-w-md">Nigeria's premium destination for industrial printing and bespoke branding.</p>
-                <button onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})" class="bg-brandOrange text-white px-8 py-4 rounded-xl font-black uppercase text-xs hover:scale-105 transition-all">View Products</button>
+        <div class="relative overflow-hidden rounded-[3rem] bg-brandBlack h-[350px] md:h-[550px] flex items-center shadow-2xl">
+            <!-- Printing Imagery -->
+            <img class="absolute inset-0 w-full h-full object-cover opacity-50 scale-105" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop" alt="Large Format Printing"/>
+            <div class="absolute inset-0 bg-gradient-to-r from-brandBlack via-brandBlack/40 to-transparent"></div>
+            
+            <div class="relative z-10 px-8 md:px-20 max-w-4xl">
+                <div class="inline-flex items-center gap-2 bg-brandOrange/20 text-brandOrange px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-brandOrange/30">
+                    <span class="flex h-2 w-2 rounded-full bg-brandOrange animate-ping"></span>
+                    Premium Print Hub
+                </div>
+                <h1 class="text-4xl md:text-8xl font-black text-white mb-6 uppercase tracking-tighter leading-none">
+                    Impactful <br><span class="text-brandOrange italic">Branding.</span>
+                </h1>
+                <p class="text-slate-300 text-sm md:text-xl mb-10 max-w-lg font-medium leading-relaxed">The professional destination for Large Format, Corporate Stationery, and Bespoke Souvenirs. Elevate your brand today.</p>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})" class="bg-brandOrange text-white px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-white hover:text-brandBlack transition-all shadow-2xl">Browse Collections</button>
+                    <a href="https://wa.me/2349094576733" target="_blank" class="bg-white/10 backdrop-blur-md text-white border-2 border-white/20 px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-white hover:text-brandBlack transition-all">Live Chat</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- SEARCH & CATEGORIES -->
-    <section class="max-w-7xl mx-auto px-4 md:px-12 mb-12">
-        <div class="bg-white p-6 rounded-[2rem] shadow-xl border border-slate-100 flex flex-col gap-6">
+    <!-- SEARCH & CATEGORIES BAR -->
+    <section class="max-w-7xl mx-auto px-4 md:px-12 mb-16">
+        <div class="bg-white p-6 md:p-8 rounded-[2.5rem] shadow-2xl border border-slate-100 flex flex-col gap-8">
+            <!-- Search Engine -->
             <div class="relative w-full">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search our collections..." class="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-brandOrange font-bold">
+                <span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 text-3xl">search</span>
+                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="What are you looking for? (e.g. Stickers, Banners...)" class="w-full pl-16 pr-6 py-5 bg-slate-50 border-none rounded-[1.5rem] focus:ring-4 focus:ring-brandOrange/10 font-bold text-lg placeholder:text-slate-300">
             </div>
+            
+            <!-- Category Tabs -->
             <div class="flex overflow-x-auto gap-3 no-scrollbar pb-2">
-                <button onclick="filter('all')" class="cat-btn category-active shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100 hover:bg-brandOrange hover:text-white transition-all">All Items</button>
-                <button onclick="filter('Brand Support')" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100 hover:bg-brandOrange hover:text-white transition-all">Brand Support</button>
-                <button onclick="filter('Promo Items')" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100 hover:bg-brandOrange hover:text-white transition-all">Promo Items</button>
-                <button onclick="filter('Souvenirs')" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100 hover:bg-brandOrange hover:text-white transition-all">Souvenirs</button>
-                <button onclick="filter('Giftings')" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100 hover:bg-brandOrange hover:text-white transition-all">Giftings</button>
-                <button onclick="filter('Formats')" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100 hover:bg-brandOrange hover:text-white transition-all">Formats</button>
-                <button onclick="filter('Offset')" class="cat-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase bg-slate-100 hover:bg-brandOrange hover:text-white transition-all">Offset</button>
+                <button onclick="filterProducts('all', this)" class="cat-btn category-active shrink-0 px-8 py-4 rounded-2xl text-[10px] font-black uppercase transition-all bg-slate-50 border-2 border-transparent">All Items</button>
+                <button onclick="filterProducts('Brand Support', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl text-[10px] font-black uppercase transition-all bg-slate-50 border-2 border-transparent hover:border-brandOrange/30">Brand Support</button>
+                <button onclick="filterProducts('Promo Items', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl text-[10px] font-black uppercase transition-all bg-slate-50 border-2 border-transparent hover:border-brandOrange/30">Promo Items</button>
+                <button onclick="filterProducts('Souvenirs', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl text-[10px] font-black uppercase transition-all bg-slate-50 border-2 border-transparent hover:border-brandOrange/30">Souvenirs</button>
+                <button onclick="filterProducts('Giftings', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl text-[10px] font-black uppercase transition-all bg-slate-50 border-2 border-transparent hover:border-brandOrange/30">Giftings</button>
+                <button onclick="filterProducts('Formats', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl text-[10px] font-black uppercase transition-all bg-slate-50 border-2 border-transparent hover:border-brandOrange/30">Formats</button>
+                <button onclick="filterProducts('Offset', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl text-[10px] font-black uppercase transition-all bg-slate-50 border-2 border-transparent hover:border-brandOrange/30">Offset</button>
             </div>
         </div>
     </section>
 
-    <!-- STORE SECTION -->
-    <section id="productsSection" class="max-w-7xl mx-auto px-4 md:px-12 min-h-[500px]">
-        <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
-            <!-- Dynamic Products -->
+    <!-- MAIN STORE GRID -->
+    <section id="productsSection" class="max-w-7xl mx-auto px-4 md:px-12 min-h-[600px]">
+        <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12">
+            <!-- PRODUCT CARDS RENDERED BY JAVASCRIPT -->
         </div>
+        
         <!-- EMPTY STORE STATE -->
-        <div id="emptyStore" class="hidden flex flex-col items-center justify-center py-24 text-center">
-            <span class="material-symbols-outlined text-8xl text-slate-200">inventory_2</span>
-            <p class="text-slate-400 font-black mt-4 uppercase tracking-[0.2em]">The store is currently empty.</p>
+        <div id="emptyStore" class="hidden flex flex-col items-center justify-center py-32 text-center">
+            <div class="w-32 h-32 bg-slate-100 rounded-full flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-6xl text-slate-300">inventory_2</span>
+            </div>
+            <h3 class="text-2xl font-black uppercase text-slate-400 tracking-widest">Store is currently empty</h3>
+            <p class="text-slate-400 mt-2 font-medium">We are updating our catalog. Check back soon!</p>
         </div>
     </section>
 </main>
 
-<!-- CART DRAWER -->
-<div id="cartOverlay" class="fixed inset-0 bg-black/60 z-[200] hidden backdrop-blur-sm">
-    <div class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col p-8">
-        <div class="flex justify-between items-center mb-10">
-            <h3 class="text-2xl font-black uppercase">My Selection</h3>
-            <button onclick="toggleCart()" class="material-symbols-outlined text-3xl">close</button>
-        </div>
-        <div id="cartItems" class="flex-1 overflow-y-auto space-y-4"></div>
-        <div class="border-t pt-8">
-            <div class="flex justify-between font-black text-xl mb-8 uppercase">
-                <span>Estimated Total</span>
-                <span id="cartTotal">₦0</span>
+<!-- CART DRAWER SYSTEM -->
+<div id="cartOverlay" class="fixed inset-0 bg-black/60 z-[200] hidden backdrop-blur-sm transition-opacity">
+    <div class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
+        <!-- Cart Header -->
+        <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
+            <div>
+                <h3 class="text-2xl font-black uppercase tracking-tighter">My Selection</h3>
+                <p id="cartItemsCountLabel" class="text-[10px] font-bold text-brandOrange uppercase mt-1">0 items added</p>
             </div>
-            <button onclick="openPayment()" class="w-full bg-brandOrange text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transition-all">
+            <button onclick="toggleCart()" class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-brandBlack transition-all">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <!-- Cart Body -->
+        <div id="cartItemsList" class="flex-1 overflow-y-auto p-8 space-y-6 bg-slate-50">
+            <!-- Items load here -->
+        </div>
+        
+        <!-- Cart Footer -->
+        <div class="p-8 border-t bg-white space-y-6">
+            <div class="flex justify-between items-end">
+                <span class="text-xs font-black uppercase text-slate-400">Estimated Subtotal</span>
+                <span id="cartSubtotal" class="text-3xl font-black text-brandBlack tracking-tighter">₦0</span>
+            </div>
+            <button onclick="openPaymentModal()" class="w-full bg-brandOrange text-white py-6 rounded-[1.5rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-orange-500/20 hover:bg-brandBlack transition-all">
                 Continue to Payment
             </button>
         </div>
     </div>
 </div>
 
-<!-- BILLING / CHECKOUT MODAL -->
-<div id="paymentModal" class="fixed inset-0 z-[300] hidden items-center justify-center p-4 bg-black/90 backdrop-blur-md">
-    <div class="bg-white w-full max-w-4xl h-[90vh] rounded-[2.5rem] overflow-hidden flex flex-col shadow-2xl">
-        <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
-            <h3 class="text-xl font-black uppercase">Checkout Details</h3>
-            <button onclick="closePayment()" class="material-symbols-outlined">close</button>
+<!-- COMPLETE BILLING & CHECKOUT MODAL -->
+<div id="paymentModal" class="fixed inset-0 z-[300] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-lg">
+    <div class="bg-white w-full max-w-4xl h-[90vh] rounded-[3rem] overflow-hidden flex flex-col shadow-2xl">
+        <!-- Modal Header -->
+        <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
+            <div>
+                <h3 class="text-2xl font-black uppercase">Finalize Your Order</h3>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Billing & Delivery Details</p>
+            </div>
+            <button onclick="closePaymentModal()" class="material-symbols-outlined text-3xl">close</button>
         </div>
-        <div class="flex-1 overflow-y-auto p-8">
-            <p class="text-[10px] font-black uppercase text-slate-400 mb-6 tracking-widest">Customer matched zone: "Nigeria National Delivery"</p>
-            
-            <form id="checkoutForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <h4 class="md:col-span-2 font-black uppercase text-brandOrange border-b pb-2">Billing details</h4>
-                <input type="text" id="fName" required placeholder="First name *" class="border-2 p-4 rounded-xl font-bold bg-slate-50">
-                <input type="text" id="lName" required placeholder="Last name *" class="border-2 p-4 rounded-xl font-bold bg-slate-50">
-                <input type="text" id="cName" placeholder="Company name (optional)" class="border-2 p-4 rounded-xl md:col-span-2 font-bold bg-slate-50">
+        
+        <!-- Scrollable Form Body -->
+        <div class="flex-1 overflow-y-auto p-8 md:p-12">
+            <form id="masterOrderForm" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="md:col-span-2 flex items-center gap-4 bg-blue-50 p-4 rounded-2xl border border-blue-100 mb-4">
+                    <span class="material-symbols-outlined text-blue-600">info</span>
+                    <p class="text-xs font-bold text-blue-800 uppercase tracking-tight">Zone Matched: "Nigeria National Standard Delivery"</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">First Name *</label>
+                    <input type="text" id="billFName" required class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Last Name *</label>
+                    <input type="text" id="billLName" required class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                </div>
+                <div class="md:col-span-2 space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Company Name (Optional)</label>
+                    <input type="text" id="billCName" class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                </div>
                 
-                <select id="country" class="border-2 p-4 rounded-xl font-bold bg-slate-50 md:col-span-2">
-                    <option>Nigeria</option>
-                </select>
+                <div class="md:col-span-2 space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Country / Region *</label>
+                    <select id="billCountry" class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                        <option>Nigeria</option>
+                    </select>
+                </div>
 
                 <div class="md:col-span-2 space-y-4">
-                    <label class="block text-[10px] font-black uppercase text-slate-500">Street address *</label>
-                    <input type="text" id="street1" required placeholder="House number and street name" class="w-full border-2 p-4 rounded-xl font-bold bg-slate-50">
-                    <input type="text" id="street2" placeholder="Apartment, suite, unit, etc. (optional)" class="w-full border-2 p-4 rounded-xl font-bold bg-slate-50">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Street address *</label>
+                    <input type="text" id="billStreet1" required placeholder="House number and street name" class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                    <input type="text" id="billStreet2" placeholder="Apartment, suite, unit, etc. (optional)" class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
                 </div>
 
-                <input type="text" id="city" required placeholder="Town / City *" class="border-2 p-4 rounded-xl font-bold bg-slate-50">
-                <input type="text" id="state" required placeholder="State / County *" class="border-2 p-4 rounded-xl font-bold bg-slate-50">
-                <input type="text" id="zip" placeholder="Postcode / ZIP (optional)" class="border-2 p-4 rounded-xl font-bold bg-slate-50">
-                <input type="tel" id="phone" required placeholder="Phone *" class="border-2 p-4 rounded-xl font-bold bg-slate-50">
-                <input type="email" id="emailBill" required placeholder="Email address *" class="border-2 p-4 rounded-xl md:col-span-2 font-bold bg-slate-50">
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Town / City *</label>
+                    <input type="text" id="billCity" required class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">State / County *</label>
+                    <input type="text" id="billState" required placeholder="Select State" class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Postcode / ZIP (Optional)</label>
+                    <input type="text" id="billZip" class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Phone *</label>
+                    <input type="tel" id="billPhone" required class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                </div>
+                <div class="md:col-span-2 space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Email address *</label>
+                    <input type="email" id="billEmail" required class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50">
+                </div>
                 
-                <textarea id="orderNotes" placeholder="Order notes (optional) - e.g. special delivery instructions" class="border-2 p-4 rounded-xl md:col-span-2 font-bold bg-slate-50" rows="3"></textarea>
+                <div class="md:col-span-2 space-y-2">
+                    <label class="block text-[10px] font-black uppercase text-slate-400 ml-1">Order notes (optional)</label>
+                    <textarea id="billNotes" rows="3" placeholder="Special notes for delivery or printing instructions." class="w-full border-2 border-slate-100 p-4 rounded-2xl font-bold bg-slate-50"></textarea>
+                </div>
 
-                <!-- PAYMENT INFO BOX -->
-                <div class="md:col-span-2 bg-slate-100 p-8 rounded-3xl border-4 border-brandOrange mt-8 space-y-6">
-                    <h4 class="font-black uppercase text-brandOrange text-lg">Direct bank transfer</h4>
-                    <p class="text-sm font-bold leading-relaxed text-slate-700 italic">
-                        Make payment directly into our bank account. Please use your Name as the payment reference. Your order will not be processed until funds have cleared in our account.
+                <!-- ORDER SUMMARY TABLE -->
+                <div class="md:col-span-2 bg-slate-50 rounded-3xl border-2 border-slate-100 p-8 my-6">
+                    <h4 class="font-black uppercase text-xl mb-6">Your order</h4>
+                    <div id="orderSummaryItems" class="space-y-4 border-b pb-6">
+                        <!-- Summary list -->
+                    </div>
+                    <div class="pt-6 space-y-2">
+                        <div class="flex justify-between font-bold text-sm uppercase"><span>Subtotal</span> <span id="summarySubtotal">₦0</span></div>
+                        <div class="flex justify-between font-bold text-sm uppercase"><span>Shipment</span> <span class="text-brandOrange">Contact CEX on WhatsApp</span></div>
+                        <div class="flex justify-between font-black text-2xl uppercase pt-4 border-t border-slate-200"><span>Total</span> <span id="summaryTotal" class="text-brandOrange">₦0</span></div>
+                    </div>
+                </div>
+
+                <!-- BANK DETAILS -->
+                <div class="md:col-span-2 bg-brandBlack text-white p-10 rounded-[2.5rem] shadow-2xl space-y-8 border-l-[12px] border-brandOrange">
+                    <h4 class="text-2xl font-black uppercase italic tracking-widest text-brandOrange">Direct Bank Transfer</h4>
+                    <p class="text-sm font-bold text-slate-300 leading-relaxed italic">
+                        Make payment directly into our bank account. Please use your Order ID or Full Name as the payment reference. Your order will not be processed until funds have cleared.
                     </p>
-                    <div class="bg-white p-6 rounded-2xl border-2 border-slate-200">
-                        <p class="font-black uppercase text-sm">Account Name: <span class="text-brandOrange">Harwos Print Nigeria Limited</span></p>
-                        <p class="font-black uppercase text-sm">Bank Name: <span class="text-brandOrange">Access Bank</span></p>
-                        <p class="font-black uppercase text-sm">Account Number: <span class="text-brandOrange text-xl tracking-widest">0761264611</span></p>
+                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10 space-y-4">
+                        <p class="font-black uppercase text-sm">Account: <span class="text-brandOrange">Harwos Print Nigeria Limited</span></p>
+                        <p class="font-black uppercase text-sm">Bank: <span class="text-brandOrange">Access Bank</span></p>
+                        <p class="font-black uppercase text-sm">ACCT No: <span class="text-brandOrange text-2xl tracking-widest">0761264611</span></p>
                     </div>
-                    <div class="text-[10px] font-black uppercase text-slate-500 leading-relaxed">
-                        * Kindly upload job files/instructions to harwosprintsltd@gmail.com after payment.<br>
-                        * Jobs without designs attract extra discussion fee.<br>
-                        * Delivery charges (#2500+) vary by distance.
+                    <div class="space-y-2 text-[10px] font-black uppercase text-slate-400">
+                        <p>* Delivery Charges (#2500+) apply separately based on distance.</p>
+                        <p>* Send payment proof and CDR/PNG/PDF files to harwosprintsltd@gmail.com.</p>
                     </div>
                 </div>
 
-                <div class="md:col-span-2 flex items-start gap-3 mt-4">
-                    <input type="checkbox" required class="mt-1 rounded text-brandOrange focus:ring-brandOrange">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase leading-relaxed">I have read and agree to the website terms and conditions *</p>
+                <!-- CONSENT -->
+                <div class="md:col-span-2 flex items-start gap-4 py-6">
+                    <input type="checkbox" required class="mt-1 w-5 h-5 rounded border-2 border-slate-200 text-brandOrange focus:ring-brandOrange">
+                    <p class="text-[10px] font-bold text-slate-500 uppercase leading-relaxed">
+                        I have read and agree to the website <span class="text-brandOrange underline">terms and conditions</span> *. Your personal data will be used to process your order as described in our privacy policy.
+                    </p>
                 </div>
 
-                <button type="submit" class="md:col-span-2 bg-brandBlack text-white py-6 rounded-2xl font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-brandOrange transition-all mb-10">Place Order (WhatsApp)</button>
+                <button type="submit" class="md:col-span-2 bg-brandOrange text-white py-6 rounded-2xl font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-brandBlack transition-all transform active:scale-95 mb-12">
+                    Place Order via WhatsApp
+                </button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- PRODUCT DETAIL POPUP -->
+<!-- PRODUCT DETAIL MODAL (5 IMAGES) -->
 <div id="detailModal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-    <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-[3rem] overflow-hidden flex flex-col md:flex-row relative shadow-2xl">
-        <button onclick="closeDetail()" class="absolute top-6 right-6 z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg"><span class="material-symbols-outlined">close</span></button>
-        <div class="w-full md:w-1/2 bg-slate-100">
-            <div id="detailMainImg" class="h-64 md:h-[500px]"><img src="" class="w-full h-full object-cover"></div>
-            <div id="detailThumbs" class="flex gap-2 p-4 bg-white overflow-x-auto no-scrollbar"></div>
-        </div>
-        <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-            <h2 id="detailName" class="text-2xl font-black uppercase mb-2"></h2>
-            <p id="detailCat" class="text-[10px] font-black text-brandOrange uppercase mb-6 tracking-widest"></p>
-            <p id="detailDesc" class="text-slate-500 text-sm leading-relaxed mb-10"></p>
-            <div class="space-y-3 mb-10">
-                <div class="flex justify-between border-b pb-2"><span class="text-xs font-bold uppercase text-slate-400">Price Per 1</span> <span id="priceOne" class="font-black"></span></div>
-                <div class="flex justify-between border-b pb-2"><span class="text-xs font-bold uppercase text-brandOrange">Bulk Price</span> <span id="priceBulk" class="font-black text-brandOrange"></span></div>
+    <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-[3.5rem] overflow-hidden flex flex-col md:flex-row relative shadow-2xl">
+        <button onclick="closeDetail()" class="absolute top-8 right-8 z-[160] w-12 h-12 bg-white rounded-full flex shadow-xl items-center justify-center hover:bg-brandOrange hover:text-white transition-all"><span class="material-symbols-outlined">close</span></button>
+        
+        <!-- Gallery Section -->
+        <div class="w-full md:w-1/2 bg-slate-50 flex flex-col">
+            <div id="detailMainView" class="flex-1 min-h-[300px] flex items-center justify-center overflow-hidden">
+                <img src="" class="w-full h-full object-cover">
             </div>
-            <button id="detailAddBtn" class="w-full bg-brandBlack text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-brandOrange">Add to Request</button>
+            <div id="detailGalleryStrip" class="flex gap-3 p-6 bg-white overflow-x-auto border-t">
+                <!-- 5 Thumbs rendered here -->
+            </div>
+        </div>
+        
+        <!-- Content Section -->
+        <div class="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center bg-white">
+            <p id="detCat" class="text-[10px] font-black text-brandOrange uppercase tracking-[0.3em] mb-4"></p>
+            <h2 id="detName" class="text-3xl md:text-5xl font-black uppercase tracking-tighter text-brandBlack mb-6"></h2>
+            <p id="detDesc" class="text-slate-500 text-sm md:text-base leading-relaxed mb-10"></p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-12">
+                <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
+                    <span class="text-[9px] font-black uppercase text-slate-400">Unit Price</span>
+                    <p id="detPrice1" class="text-xl font-black text-brandBlack mt-1"></p>
+                </div>
+                <div class="bg-brandOrange/5 p-4 rounded-2xl border-2 border-brandOrange/20">
+                    <span class="text-[9px] font-black uppercase text-brandOrange">Bulk Rate</span>
+                    <p id="detPriceBulk" class="text-xl font-black text-brandOrange mt-1"></p>
+                </div>
+            </div>
+
+            <button id="detAddBtn" class="w-full bg-brandBlack text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-2xl hover:bg-brandOrange transition-all transform active:scale-95">
+                Add to Request List
+            </button>
         </div>
     </div>
 </div>
 
-<!-- ADMIN UPLOAD PANEL -->
+<!-- ADMIN MANAGEMENT MODAL -->
 <div id="adminPanel" class="fixed inset-0 z-[500] hidden items-center justify-center p-4 bg-black/95 backdrop-blur-xl">
-    <div class="bg-white w-full max-w-2xl h-[90vh] rounded-[2.5rem] overflow-hidden flex flex-col">
-        <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
-            <h3 class="text-xl font-black uppercase italic">Master Store Upload</h3>
-            <button onclick="closeAdminPanel()" class="material-symbols-outlined">close</button>
+    <div class="bg-white w-full max-w-3xl h-[90vh] rounded-[3rem] overflow-hidden flex flex-col border-4 border-brandOrange">
+        <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
+            <h3 class="text-2xl font-black uppercase italic tracking-tighter">Master Store Admin</h3>
+            <button onclick="closeAdminPanel()" class="material-symbols-outlined text-3xl">close</button>
         </div>
-        <div class="flex-1 overflow-y-auto p-8">
-            <form id="adminForm" class="space-y-6">
-                <input id="adName" required placeholder="Product Name" class="w-full border-2 p-4 rounded-2xl font-bold">
-                <div class="grid grid-cols-2 gap-4">
-                    <input id="adPrice" type="number" required placeholder="Price Per 1 (₦)" class="border-2 p-4 rounded-2xl font-bold">
-                    <input id="adPriceBulk" type="number" required placeholder="Price in Bulk (₦)" class="border-2 p-4 rounded-2xl font-bold">
+        <div class="flex-1 overflow-y-auto p-10">
+            <!-- Upload Form -->
+            <form id="masterAdminForm" class="space-y-6 bg-slate-50 p-8 rounded-[2rem] border-2 border-slate-100">
+                <h4 class="font-black uppercase text-brandOrange text-sm border-b pb-2">Upload New Project</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Product Title</label>
+                        <input id="adName" required placeholder="e.g. Branded T-Shirt" class="w-full border-2 p-4 rounded-2xl font-bold">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Unit Price (₦)</label>
+                        <input id="adPrice1" type="number" required placeholder="0.00" class="w-full border-2 p-4 rounded-2xl font-bold">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Bulk Price (₦)</label>
+                        <input id="adPriceBulk" type="number" required placeholder="0.00" class="w-full border-2 p-4 rounded-2xl font-bold">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Store Category</label>
+                        <select id="adCat" class="w-full border-2 p-4 rounded-2xl font-bold bg-white">
+                            <option>Brand Support</option>
+                            <option>Promo Items</option>
+                            <option>Souvenirs</option>
+                            <option>Giftings</option>
+                            <option>Formats</option>
+                            <option>Offset</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-[10px] font-black uppercase text-slate-400 ml-1">Project Description</label>
+                        <textarea id="adDesc" rows="3" placeholder="Explain quality, GSM, or size details..." class="w-full border-2 p-4 rounded-2xl font-bold"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-[10px] font-black uppercase text-brandOrange mb-2">Upload Product Images (Max 5)</label>
+                        <input id="adFiles" type="file" multiple accept="image/*" class="w-full border-2 border-dashed p-10 rounded-3xl bg-white font-bold text-xs">
+                    </div>
                 </div>
-                <select id="adCat" class="w-full border-2 p-4 rounded-2xl font-bold">
-                    <option>Brand Support</option><option>Promo Items</option><option>Souvenirs</option>
-                    <option>Giftings</option><option>Formats</option><option>Offset</option>
-                </select>
-                <textarea id="adDesc" rows="3" placeholder="Full Description" class="w-full border-2 p-4 rounded-2xl font-bold"></textarea>
-                <div class="p-4 bg-slate-50 rounded-2xl border-2 border-dashed">
-                    <label class="block text-[10px] font-black uppercase mb-2">Product Images (Select 5 files)</label>
-                    <input id="adFiles" type="file" multiple accept="image/*" class="w-full text-xs font-bold">
-                </div>
-                <button type="submit" class="w-full bg-brandOrange text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl">Push to Store</button>
+                <button type="submit" class="w-full bg-brandOrange text-white py-6 rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl hover:bg-brandBlack transition-all">Publish to Live Store</button>
             </form>
-            <div id="adminProductList" class="mt-12 space-y-4"></div>
+
+            <!-- Management List -->
+            <div class="mt-16 space-y-6">
+                <h4 class="font-black uppercase text-slate-400 text-sm border-b pb-2">Active Catalog Management</h4>
+                <div id="adminProductList" class="grid grid-cols-1 gap-4">
+                    <!-- Manageable items -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- FOOTER -->
-<footer class="bg-brandBlack text-slate-400 pt-20 pb-10 border-t border-slate-900 px-6 mt-20">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
+<!-- RE-RESTORED: FULL HOMEPAGE FOOTER -->
+<footer class="bg-brandBlack text-slate-400 pt-20 pb-10 border-t border-slate-900 px-6 mt-24">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center md:text-left">
         <div class="space-y-6">
-            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
-            <div class="flex justify-center md:justify-start space-x-5 text-xl">
-                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange"><i class="fab fa-whatsapp"></i></a>
+            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter font-headline">Harwosprints.ng</div>
+            <p class="text-sm leading-relaxed">The premier partner for high-precision printing and tactical branding solutions.</p>
+            <div class="flex justify-center md:justify-start space-x-6 text-2xl">
+                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange transition-all"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange transition-all"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/harwosprintsltd" target="_blank" class="hover:text-brandOrange transition-all"><i class="fab fa-x-twitter"></i></a>
+                <a href="mailto:harwosprintsltd@gmail.com" class="hover:text-brandOrange transition-all"><i class="fas fa-envelope"></i></a>
+                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange transition-all"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
-        <div class="text-[10px] uppercase font-bold space-y-4">
-            <h5 class="text-white text-xs font-black uppercase">Locations</h5>
-            <p><span class="text-brandOrange">Head:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
-            <p><span class="text-brandOrange">Sales:</span> Abraham Adesanya Complex, Onipanu.</p>
-            <p><span class="text-brandOrange">Branch:</span> 63, Tejuosho Road, Yaba.</p>
-        </div>
-        <div class="space-y-4">
-            <h5 class="text-white text-xs font-black uppercase">Company</h5>
-            <ul class="space-y-2 text-[10px] font-black uppercase">
-                <li><a href="about.html" class="hover:text-brandOrange transition-colors">About Us</a></li>
-                <li><a href="contact.html" class="hover:text-brandOrange transition-colors">Contact Support</a></li>
+        <div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white">Solutions</h5>
+            <ul class="space-y-4 text-xs font-bold uppercase">
+                <li><a class="hover:text-brandOrange transition-colors" href="store.html">Commercial Printing</a></li>
+                <li><a class="hover:text-brandOrange transition-colors" href="store.html">Brand Identity</a></li>
+                <li><a class="hover:text-brandOrange transition-colors" href="store.html">Custom Packaging</a></li>
+                <li><a class="hover:text-brandOrange transition-colors" href="store.html">Wide Format</a></li>
             </ul>
         </div>
         <div>
-            <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-5 py-3 rounded-lg font-black text-[9px] uppercase tracking-widest shadow-lg">Get a Business Website</a>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white">Our Locations</h5>
+            <div class="space-y-4 text-[10px] uppercase font-bold leading-relaxed">
+                <p><span class="text-brandOrange text-white">Head Office:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
+                <p><span class="text-brandOrange text-white">Sales Office:</span> Abraham Adesanya Complex beside Onipanu Police Station, Onipanu, Lagos.</p>
+                <p><span class="text-brandOrange text-white">Branch Office:</span> 63, Tejuosho Road, Yaba, Lagos.</p>
+            </div>
+        </div>
+        <div class="space-y-6">
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-white font-headline">Newsletter</h5>
+            <div class="flex gap-2">
+                <input class="bg-slate-900 border-none rounded-xl text-white w-full px-5 text-xs focus:ring-1 focus:ring-brandOrange" placeholder="Email Address" type="email"/>
+                <button class="bg-brandOrange text-white p-3 rounded-xl hover:brightness-110 transition-all"><span class="material-symbols-outlined text-sm">send</span></button>
+            </div>
+            <div class="mt-4">
+                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-5 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-orange-500/20">Get a Business Website</a>
+            </div>
         </div>
     </div>
-    <div class="text-center mt-12 text-[10px] font-bold text-slate-600 uppercase tracking-widest">© 2024 Harwosprints.ng. All rights reserved.</div>
+    <div class="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-slate-900 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+        <p>© 2024 Harwosprints.ng. All rights reserved.</p>
+        <div class="flex gap-8">
+            <a href="#" class="hover:text-brandOrange transition-colors">Privacy Policy</a>
+            <a href="#" class="hover:text-brandOrange transition-colors">Terms & Conditions</a>
+            <a href="#" class="hover:text-brandOrange transition-colors">FAQ</a>
+            <a href="#" class="hover:text-brandOrange transition-colors">Support</a>
+        </div>
+    </div>
 </footer>
 
+<!-- SCRIPT LOGIC (TOTAL REWRITE FOR POWER) -->
 <script>
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     let allProducts = [];
+    let currentFilter = 'all';
     let cart = [];
-    const admins = ['dben61168@gmail.com', 'harwosprints@gmail.com'];
+    const superAdmins = ['dben61168@gmail.com', 'harwosprints@gmail.com'];
 
-    // 1. AUTH OBSERVER (FIXED FOR INSTANT RELOAD)
-    async function checkAuth() {
+    // 1. BOOTSTRAP APP
+    async function init() {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
             document.getElementById('loginBtn').classList.add('hidden');
             document.getElementById('dashBtn').classList.remove('hidden');
-            if (admins.includes(user.email)) {
+            if (superAdmins.includes(user.email)) {
                 document.getElementById('adminBtn').classList.remove('hidden');
             }
         }
-    }
-
-    // 2. SEARCH & FILTER
-    function searchProducts() {
-        const q = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = allProducts.filter(p => p.name.toLowerCase().includes(q));
-        render(filtered);
-    }
-
-    function filter(cat) {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active'));
-        event.target.classList.add('category-active');
-        const filtered = cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat);
-        render(filtered);
-    }
-
-    // 3. CORE LOADING
-    async function loadProducts() {
-        const { data } = await supabase.from('products').select('*').order('created_at', {ascending: false});
-        if (data) { allProducts = data; render(data); }
+        await loadStoreData();
         document.getElementById('loadingOverlay').style.display = 'none';
     }
 
-    function render(list) {
+    // 2. DATA LOAD & REFRESH
+    async function loadStoreData() {
+        const { data, error } = await supabase.from('products').select('*').order('created_at', {ascending: false});
+        if (data) {
+            allProducts = data;
+            renderStore(data);
+        }
+    }
+
+    // 3. STORE RENDER ENGINE
+    function renderStore(list) {
         const grid = document.getElementById('productGrid');
         const empty = document.getElementById('emptyStore');
-        if (list.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+        
+        if (list.length === 0) {
+            grid.innerHTML = '';
+            empty.classList.remove('hidden');
+            return;
+        }
+        
         empty.classList.add('hidden');
         grid.innerHTML = list.map(p => `
-            <div class="product-card bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl group hover:-translate-y-2 transition-all duration-500">
-                <div onclick="openDetail('${p.id}')" class="h-44 md:h-72 overflow-hidden cursor-pointer">
-                    <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover">
+            <div class="product-card bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-xl group">
+                <div onclick="openDetail('${p.id}')" class="h-48 md:h-80 overflow-hidden cursor-pointer relative">
+                    <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandBlack/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-brandBlack px-6 py-2 rounded-full font-black uppercase text-[10px]">View Detail</span>
+                    </div>
                 </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-black uppercase text-[10px] md:text-sm truncate">${p.name}</h3>
-                    <p class="text-brandOrange font-black text-xs md:text-lg mt-2">₦${Number(p.price).toLocaleString()}</p>
-                    <button onclick="addToCart('${p.id}')" class="w-full bg-brandBlack text-white py-3 rounded-xl text-[9px] font-black uppercase mt-4 hover:bg-brandOrange transition-all">Add to Cart</button>
+                <div class="p-6 md:p-8 text-center">
+                    <p class="text-[9px] font-black text-brandOrange uppercase tracking-widest mb-2">${p.category}</p>
+                    <h3 class="font-black uppercase text-xs md:text-sm truncate mb-4">${p.name}</h3>
+                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-2xl">
+                        <span class="font-black text-brandBlack text-xs md:text-base">₦${Number(p.price).toLocaleString()}</span>
+                        <button onclick="addToCart('${p.id}')" class="bg-brandBlack text-white px-4 py-2 rounded-lg text-[9px] font-black uppercase hover:bg-brandOrange transition-all">Add to Cart</button>
+                    </div>
                 </div>
             </div>
         `).join('');
     }
 
-    // 4. CART & PAYMENT
-    function addToCart(id) { cart.push(allProducts.find(x => x.id === id)); updateCart(); toggleCart(true); }
-    function removeFromCart(i) { cart.splice(i, 1); updateCart(); }
-    function toggleCart(open = false) { document.getElementById('cartOverlay').style.display = open || document.getElementById('cartOverlay').style.display === 'none' ? 'block' : 'none'; }
-    
+    // 4. SEARCH & FILTERING
+    function searchProducts() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const results = allProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+        renderStore(results);
+    }
+
+    function filterProducts(cat, btn) {
+        currentFilter = cat;
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active'));
+        btn.classList.add('category-active');
+        const results = cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat);
+        renderStore(results);
+    }
+
+    // 5. CART ENGINE
+    function addToCart(id) {
+        const prod = allProducts.find(x => x.id === id);
+        cart.push(prod);
+        updateCart();
+        toggleCart(true);
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
+
     function updateCart() {
-        document.getElementById('cartCountBadge').innerText = cart.length;
-        let total = cart.reduce((s, i) => s + Number(i.price), 0);
-        document.getElementById('cartTotal').innerText = "₦" + total.toLocaleString();
-        document.getElementById('cartItems').innerHTML = cart.map((item, i) => `
-            <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-xl border">
-                <img src="${item.images[0]}" class="w-12 h-12 rounded-xl object-cover shadow-sm">
-                <div class="flex-1"><h4 class="font-black text-[10px] uppercase truncate">${item.name}</h4><p class="text-brandOrange font-black text-xs">₦${Number(item.price).toLocaleString()}</p></div>
-                <button onclick="removeFromCart(${i})" class="material-symbols-outlined text-slate-300">delete</button>
+        const list = document.getElementById('cartItemsList');
+        const badge = document.getElementById('cartCountBadge');
+        const countLabel = document.getElementById('cartItemsCountLabel');
+        const totalLabel = document.getElementById('cartTotal');
+
+        badge.innerText = cart.length;
+        countLabel.innerText = cart.length + " items added";
+        
+        let total = cart.reduce((sum, item) => sum + Number(item.price), 0);
+        totalLabel.innerText = "₦" + total.toLocaleString();
+
+        list.innerHTML = cart.map((item, i) => `
+            <div class="flex items-center gap-4 bg-white p-4 rounded-[1.5rem] border shadow-sm">
+                <img src="${item.images[0]}" class="w-16 h-16 rounded-xl object-cover">
+                <div class="flex-1">
+                    <h4 class="font-black uppercase text-[10px] leading-tight mb-1">${item.name}</h4>
+                    <p class="text-brandOrange font-black text-xs">₦${Number(item.price).toLocaleString()}</p>
+                </div>
+                <button onclick="removeFromCart(${i})" class="text-slate-300 hover:text-red-500 transition-colors">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
             </div>
         `).join('');
     }
 
-    function openPayment() { if(cart.length === 0) return; toggleCart(); document.getElementById('paymentModal').style.display = 'flex'; }
-    function closePayment() { document.getElementById('paymentModal').style.display = 'none'; }
+    function toggleCart(force = null) {
+        const over = document.getElementById('cartOverlay');
+        if (force === true) { document.body.classList.add('cart-open'); over.style.display = 'block'; }
+        else if (over.style.display === 'block') { document.body.classList.remove('cart-open'); over.style.display = 'none'; }
+        else { document.body.classList.add('cart-open'); over.style.display = 'block'; }
+    }
 
-    document.getElementById('checkoutForm').onsubmit = (e) => {
+    // 6. BILLING & WHATSAPP CHECKOUT
+    function openPaymentModal() {
+        if(cart.length === 0) return alert("Your cart is empty!");
+        toggleCart();
+        document.getElementById('paymentModal').style.display = 'flex';
+        
+        // Render Summary
+        const summary = document.getElementById('orderSummaryItems');
+        let total = cart.reduce((sum, item) => sum + Number(item.price), 0);
+        summary.innerHTML = cart.map(item => `
+            <div class="flex justify-between text-xs font-bold uppercase">
+                <span>${item.name}</span>
+                <span>₦${Number(item.price).toLocaleString()}</span>
+            </div>
+        `).join('');
+        document.getElementById('summarySubtotal').innerText = "₦" + total.toLocaleString();
+        document.getElementById('summaryTotal').innerText = "₦" + total.toLocaleString();
+    }
+
+    function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
+
+    document.getElementById('masterOrderForm').onsubmit = (e) => {
         e.preventDefault();
+        const f = document.getElementById;
         let itemsStr = cart.map(p => `- ${p.name} (₦${Number(p.price).toLocaleString()})`).join('%0A');
         let totalVal = cart.reduce((s, i) => s + Number(i.price), 0);
-        let user = `Name: ${fName.value} ${lName.value}%0ACompany: ${company.value}%0AAddress: ${address.value}, ${city.value}%0APhone: ${phone.value}`;
-        let msg = `*NEW HARWOSPRINTS ORDER*%0A%0A*Items:*%0A${itemsStr}%0A%0A*Total:* ₦${totalVal.toLocaleString()}%0A%0A*Billing:*%0A${user}%0A%0A*Note:* ${notes.value}%0A%0A*Payment:* Direct Bank Transfer`;
-        window.open(`https://wa.me/2349094576733?text=${msg}`, '_blank');
+        
+        let details = `*NEW ORDER REQUEST*%0A%0A*Items:*%0A${itemsStr}%0A%0A*Total:* ₦${totalVal.toLocaleString()}%0A%0A*Billing Info:*%0AName: ${f('billFName').value} ${f('billLName').value}%0ACompany: ${f('billCName').value}%0AAddress: ${f('billStreet1').value}, ${f('billCity').value}, ${f('billState').value}%0APhone: ${f('billPhone').value}%0A%0A*Payment Method:* Direct Bank Transfer%0A*Notes:* ${f('billNotes').value}`;
+        
+        window.open(`https://wa.me/2349094576733?text=${details}`, '_blank');
     };
 
-    // 5. DETAIL POPUP
+    // 7. PRODUCT DETAIL MODAL (GALLERY)
     function openDetail(id) {
         const p = allProducts.find(x => x.id === id);
-        document.getElementById('detailName').innerText = p.name;
-        document.getElementById('detailCat').innerText = p.category;
-        document.getElementById('detailDesc').innerText = p.description;
-        document.getElementById('priceOne').innerText = "₦" + Number(p.price).toLocaleString();
-        document.getElementById('priceBulk').innerText = "₦" + Number(p.bulk_price || 0).toLocaleString();
-        document.getElementById('detailMainImg').innerHTML = `<img src="${p.images[0]}" class="w-full h-full object-cover">`;
-        document.getElementById('detailThumbs').innerHTML = p.images.map(img => `<img src="${img}" onclick="document.querySelector('#detailMainImg img').src='${img}'" class="w-16 h-16 rounded-xl object-cover cursor-pointer border hover:border-brandOrange">`).join('');
-        document.getElementById('detailAddBtn').onclick = () => { addToCart(p.id); closeDetail(); };
-        document.getElementById('detailModal').style.display = 'flex';
-    }
-    function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+        document.getElementById('detName').innerText = p.name;
+        document.getElementById('detCat').innerText = p.category;
+        document.getElementById('detDesc').innerText = p.description || "Premium quality printing from Harwosprints.";
+        document.getElementById('detPrice1').innerText = "₦" + Number(p.price).toLocaleString();
+        document.getElementById('detPriceBulk').innerText = "₦" + Number(p.bulk_price || 0).toLocaleString();
+        
+        const mainView = document.getElementById('detailMainView');
+        mainView.innerHTML = `<img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover">`;
+        
+        const strip = document.getElementById('detailGalleryStrip');
+        strip.innerHTML = (p.images || []).map(img => `
+            <img src="${img}" onclick="document.querySelector('#detailMainView img').src='${img}'" class="w-20 h-20 rounded-2xl object-cover cursor-pointer border-2 border-transparent hover:border-brandOrange transition-all shrink-0">
+        `).join('');
 
-    // 6. ADMIN LOGIC
-    function openAdminPanel() { document.getElementById('adminPanel').style.display = 'flex'; loadAdminList(); }
+        document.getElementById('detAddBtn').onclick = () => { addToCart(p.id); closeDetail(); };
+        document.getElementById('detailModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetail() { document.getElementById('detailModal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+
+    // 8. ADMIN CRUD
+    function openAdminPanel() { document.getElementById('adminPanel').style.display = 'flex'; renderAdminList(); }
     function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; }
 
-    document.getElementById('adminForm').onsubmit = async (e) => {
+    document.getElementById('masterAdminForm').onsubmit = async (e) => {
         e.preventDefault();
         document.getElementById('loadingOverlay').style.display = 'flex';
+        
         const files = document.getElementById('adFiles').files;
-        const imageUrls = [];
+        const urls = [];
+
+        // Upload loop for up to 5 images
         for (let file of files) {
             const path = `store/${Date.now()}_${file.name}`;
             const { data } = await supabase.storage.from('product-images').upload(path, file);
             if (data) {
                 const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(path);
-                imageUrls.push(publicUrl);
+                urls.push(publicUrl);
             }
         }
+
         const product = {
-            name: adName.value,
-            price: adPrice.value,
-            bulk_price: adPriceBulk.value,
-            category: adCat.value,
-            description: adDesc.value,
-            images: imageUrls
+            name: document.getElementById('adName').value,
+            price: document.getElementById('adPrice1').value,
+            bulk_price: document.getElementById('adPriceBulk').value,
+            category: document.getElementById('adCat').value,
+            description: document.getElementById('adDesc').value,
+            images: urls
         };
-        await supabase.from('products').insert([product]);
-        alert("Product Uploaded Successfully!");
-        location.reload();
+
+        const { error } = await supabase.from('products').insert([product]);
+        if(error) alert(error.message);
+        else location.reload();
     };
 
-    function loadAdminList() {
-        document.getElementById('adminList').innerHTML = allProducts.map(p => `
-            <div class="flex justify-between bg-slate-50 p-4 rounded-2xl border">
-                <span class="font-black text-[10px] uppercase truncate w-40">${p.name}</span>
-                <button onclick="deleteP('${p.id}')" class="text-red-500 font-black text-[10px] uppercase hover:underline">Delete</button>
+    function renderAdminList() {
+        const list = document.getElementById('adminProductList');
+        list.innerHTML = allProducts.map(p => `
+            <div class="flex justify-between items-center bg-white p-5 rounded-[1.5rem] border shadow-sm">
+                <div class="flex items-center gap-4">
+                    <img src="${p.images?.[0]}" class="w-12 h-12 rounded-lg object-cover">
+                    <span class="font-black uppercase text-xs">${p.name}</span>
+                </div>
+                <button onclick="deleteProd('${p.id}')" class="bg-red-50 text-red-500 px-4 py-2 rounded-lg font-black text-[10px] hover:bg-red-500 hover:text-white transition-all">Delete</button>
             </div>
         `).join('');
     }
-    async function deleteP(id) { if(confirm("Delete this product?")) { await supabase.from('products').delete().eq('id', id); loadProducts(); loadAdminList(); } }
 
-    checkAuth();
-    loadProducts();
+    async function deleteProd(id) {
+        if(confirm("Permanently delete this product?")) {
+            await supabase.from('products').delete().eq('id', id);
+            loadStoreData();
+            renderAdminList();
+        }
+    }
+
+    init();
 </script>
 
 </body>

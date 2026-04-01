@@ -427,14 +427,28 @@ function updateDetQty(val) { const el = document.getElementById('detQty'); let n
 
 // --- FIXED CART LOGIC ---
 function addToCart(id, qty) {
-    const p = allProducts.find(x => x.id === id);
-    if(!p) return;
-    qty = parseInt(qty);
-    const existing = cart.find(x => x.id === id);
-    if(existing) existing.qty += qty; else cart.push({...p, qty});
+    const p = allProducts.find(x => String(x.id) === String(id));
+    if (!p) {
+        console.error("Product not found:", id);
+        return;
+    }
+
+    qty = parseInt(qty) || 1;
+
+    const existing = cart.find(x => String(x.id) === String(id));
+
+    if (existing) {
+        existing.qty += qty;
+    } else {
+        cart.push({ ...p, qty });
+    }
+
     localStorage.setItem("harwos_main_cart", JSON.stringify(cart));
+
     updateCartUI();
     toggleCart(true);
+
+    console.log("Cart updated:", cart);
 }
 
 function removeFromCart(i) {

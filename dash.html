@@ -39,14 +39,20 @@
     </script>
     
     <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
         .glass-panel {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(234, 88, 12, 0.1);
         }
+        
         .status-badge {
-            @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider;
+            @apply px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider whitespace-nowrap;
         }
+        
         .status-pending { @apply bg-yellow-100 text-yellow-700; }
         .status-design { @apply bg-blue-100 text-blue-700; }
         .status-printing { @apply bg-orange-100 text-orange-700; }
@@ -56,59 +62,82 @@
         .status-delivered { @apply bg-emerald-100 text-emerald-700; }
         
         .live-indicator {
-            @apply w-2 h-2 rounded-full bg-green-500 animate-pulse;
+            @apply w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0;
             box-shadow: 0 0 10px #22c55e;
         }
         
         .order-card {
             transition: all 0.3s ease;
         }
+        
         .order-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(234, 88, 12, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(234, 88, 12, 0.1);
         }
         
         .progress-bar {
             @apply h-2 rounded-full bg-slate-200 overflow-hidden;
         }
+        
         .progress-fill {
             @apply h-full bg-brandOrange rounded-full transition-all duration-1000;
             box-shadow: 0 0 10px rgba(234, 88, 12, 0.5);
         }
         
         .sidebar-item {
-            @apply flex items-center gap-3 p-3 rounded-xl font-bold transition-all cursor-pointer;
+            @apply flex items-center gap-3 p-3 rounded-xl font-bold transition-all cursor-pointer text-sm;
         }
+        
         .sidebar-item:hover { 
             @apply bg-brandOrange/10 text-brandOrange;
-            transform: translateX(8px);
         }
+        
         .active-nav { 
             @apply border-r-4 border-brandOrange text-brandOrange bg-brandOrange/5;
         }
         
         #chatWindow { display: none; }
-        .force-show { display: block !important; animation: slideUp 0.4s ease-out; }
+        
+        .force-show { 
+            display: block !important; 
+            animation: slideUp 0.4s ease-out; 
+        }
+        
         @keyframes slideUp { 
             from { opacity: 0; transform: translateY(20px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
         
         .empty-state {
-            @apply flex flex-col items-center justify-center py-12 text-slate-400;
+            @apply flex flex-col items-center justify-center py-8 text-slate-400 text-center px-4;
         }
         
-        .skeleton {
-            @apply bg-slate-200 animate-pulse rounded-lg;
-        }
-        
-        /* Live update animation */
         @keyframes highlightUpdate {
             0% { background-color: rgba(234, 88, 12, 0.2); }
             100% { background-color: transparent; }
         }
+        
         .live-update {
             animation: highlightUpdate 2s ease-out;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 1024px) {
+            .mobile-safe {
+                padding-bottom: 80px;
+            }
+        }
+        
+        /* Prevent text overflow */
+        .text-clip {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -116,406 +145,272 @@
 <body class="bg-slate-50 font-body text-slate-900 overflow-x-hidden flex flex-col min-h-screen">
 
 <!-- LOADING SCREEN -->
-<div id="loadingOverlay" class="fixed inset-0 bg-brandBlack z-[1000] flex flex-col items-center justify-center">
-    <div class="w-16 h-16 border-4 border-brandOrange border-t-transparent rounded-full animate-spin mb-6"></div>
-    <h2 class="text-white font-black text-xl uppercase tracking-widest mb-2">HARWOSPRINTS</h2>
-    <p class="text-slate-400 text-xs uppercase tracking-widest animate-pulse">Initializing Live Dashboard...</p>
+<div id="loadingOverlay" class="fixed inset-0 bg-brandBlack z-[1000] flex flex-col items-center justify-center px-4">
+    <div class="w-12 h-12 sm:w-16 sm:h-16 border-4 border-brandOrange border-t-transparent rounded-full animate-spin mb-4"></div>
+    <h2 class="text-white font-black text-lg sm:text-xl uppercase tracking-widest mb-2 text-center">HARWOSPRINTS</h2>
+    <p class="text-slate-400 text-xs uppercase tracking-widest animate-pulse text-center">Initializing Live Dashboard...</p>
     <div id="loadingError" class="hidden mt-6 text-center">
         <p class="text-red-400 text-sm mb-4">Connection failed</p>
-        <button onclick="location.reload()" class="bg-brandOrange text-white px-6 py-2 rounded-full text-xs font-black uppercase">Retry</button>
-        <button onclick="window.location.href='login.html'" class="ml-2 bg-slate-700 text-white px-6 py-2 rounded-full text-xs font-black uppercase">Back to Login</button>
+        <div class="flex gap-2 justify-center">
+            <button onclick="location.reload()" class="bg-brandOrange text-white px-4 py-2 rounded-full text-xs font-black uppercase">Retry</button>
+            <button onclick="window.location.href='login.html'" class="bg-slate-700 text-white px-4 py-2 rounded-full text-xs font-black uppercase">Login</button>
+        </div>
     </div>
 </div>
 
 <!-- DESKTOP SIDEBAR -->
-<aside class="hidden lg:flex flex-col w-72 fixed inset-y-0 left-0 bg-brandBlack border-r border-slate-800 z-50">
-    <div class="p-6 border-b border-slate-800">
+<aside class="hidden lg:flex flex-col w-64 xl:w-72 fixed inset-y-0 left-0 bg-brandBlack border-r border-slate-800 z-50">
+    <div class="p-4 xl:p-6 border-b border-slate-800">
         <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full border-2 border-brandOrange p-1 bg-white">
+            <div class="w-10 h-10 xl:w-12 xl:h-12 rounded-full border-2 border-brandOrange p-1 bg-white flex-shrink-0">
                 <img src="harwosprints.ng-logo.jpg" class="w-full h-full object-contain rounded-full">
             </div>
-            <div>
-                <div class="text-brandOrange font-black text-lg uppercase tracking-tighter">HARWOS</div>
-                <div class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Live Dashboard</div>
+            <div class="min-w-0">
+                <div class="text-brandOrange font-black text-base xl:text-lg uppercase tracking-tighter truncate">HARWOS</div>
+                <div class="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Dashboard</div>
             </div>
         </div>
     </div>
     
-    <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+    <nav class="flex-1 p-3 xl:p-4 space-y-1 overflow-y-auto">
         <div class="sidebar-item active-nav text-white" onclick="showSection('dashboard')">
-            <span class="material-symbols-outlined">dashboard</span> 
-            <span>Overview</span>
+            <span class="material-symbols-outlined text-lg">dashboard</span> 
+            <span class="truncate">Overview</span>
             <span id="liveBadge" class="ml-auto live-indicator"></span>
         </div>
         <div class="sidebar-item text-slate-400" onclick="showSection('orders')">
-            <span class="material-symbols-outlined">shopping_bag</span> 
-            <span>My Orders</span>
+            <span class="material-symbols-outlined text-lg">shopping_bag</span> 
+            <span class="truncate">My Orders</span>
             <span id="orderCount" class="ml-auto bg-brandOrange text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
         </div>
-        <div class="sidebar-item text-slate-400" onclick="showSection('transactions')">
-            <span class="material-symbols-outlined">receipt_long</span> 
-            <span>Payments</span>
-        </div>
         <div class="sidebar-item text-slate-400" onclick="showSection('tracking')">
-            <span class="material-symbols-outlined">local_shipping</span> 
-            <span>Track Delivery</span>
-        </div>
-        <div class="sidebar-item text-slate-400" onclick="showSection('messages')">
-            <span class="material-symbols-outlined">chat</span> 
-            <span>Messages</span>
-            <span id="msgCount" class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
-        </div>
-        <div class="sidebar-item text-slate-400" onclick="showSection('profile')">
-            <span class="material-symbols-outlined">person</span> 
-            <span>Profile</span>
+            <span class="material-symbols-outlined text-lg">local_shipping</span> 
+            <span class="truncate">Track Delivery</span>
         </div>
     </nav>
 
-    <div class="p-4 border-t border-slate-800">
-        <div class="bg-slate-900 rounded-xl p-4 mb-4">
-            <p class="text-slate-400 text-[10px] uppercase font-bold mb-1">Account Status</p>
-            <p class="text-green-400 text-xs font-black flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                Active
-            </p>
-        </div>
-        <button onclick="handleLogout()" class="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-red-600 text-white p-3 rounded-xl font-black uppercase text-xs transition-all">
-            <span class="material-symbols-outlined text-sm">logout</span> Sign Out
+    <div class="p-3 xl:p-4 border-t border-slate-800">
+        <button onclick="handleLogout()" class="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-red-600 text-white p-2.5 xl:p-3 rounded-xl font-black uppercase text-xs transition-all">
+            <span class="material-symbols-outlined text-sm">logout</span> 
+            <span>Sign Out</span>
         </button>
     </div>
 </aside>
 
 <!-- MOBILE HEADER -->
-<header class="lg:hidden fixed top-0 w-full bg-brandBlack border-b border-slate-800 z-50 px-4 py-3 flex justify-between items-center">
-    <div class="flex items-center gap-2">
-        <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5 bg-white">
+<header class="lg:hidden fixed top-0 w-full bg-brandBlack border-b border-slate-800 z-50 px-3 sm:px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-2 min-w-0">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-brandOrange p-0.5 bg-white flex-shrink-0">
             <img src="harwosprints.ng-logo.jpg" class="w-full h-full object-contain rounded-full">
         </div>
-        <div class="text-brandOrange font-black text-lg uppercase">HARWOS</div>
+        <div class="text-brandOrange font-black text-base sm:text-lg uppercase truncate">HARWOSPRINTS</div>
     </div>
-    <button onclick="handleLogout()" class="text-slate-400 hover:text-white">
-        <span class="material-symbols-outlined">logout</span>
+    <button onclick="handleLogout()" class="text-slate-400 hover:text-white flex-shrink-0 p-2">
+        <span class="material-symbols-outlined text-xl">logout</span>
     </button>
 </header>
 
 <!-- MAIN CONTENT -->
-<main class="flex-1 lg:ml-72 pt-20 lg:pt-0 pb-24 px-4 md:px-8">
+<main class="flex-1 lg:ml-64 xl:ml-72 pt-16 lg:pt-0 pb-20 lg:pb-8 px-3 sm:px-4 lg:px-6 xl:px-8 mobile-safe">
     
     <!-- DASHBOARD SECTION -->
-    <div id="dashboardSection" class="section max-w-7xl mx-auto py-8">
+    <div id="dashboardSection" class="section max-w-7xl mx-auto py-4 sm:py-6 lg:py-8">
         
         <!-- HEADER -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4" data-aos="fade-up">
-            <div>
-                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-1">Welcome Back</p>
-                <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tight text-brandBlack">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 lg:mb-8 gap-3" data-aos="fade-up">
+            <div class="min-w-0">
+                <p class="text-slate-500 text-[10px] sm:text-xs font-black uppercase tracking-widest mb-1">Welcome Back</p>
+                <h1 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black uppercase tracking-tight text-brandBlack truncate">
                     <span id="userName">Loading...</span>
                     <span class="text-brandOrange">.</span>
                 </h1>
             </div>
-            <div class="flex items-center gap-3">
-                <div class="bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm flex items-center gap-2">
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <div class="bg-white border border-slate-200 px-3 py-2 rounded-xl shadow-sm flex items-center gap-2 flex-1 sm:flex-none">
                     <span class="material-symbols-outlined text-brandOrange text-sm">calendar_today</span>
-                    <span id="currentDate" class="font-bold text-xs uppercase text-slate-600">--</span>
+                    <span id="currentDate" class="font-bold text-xs uppercase text-slate-600 truncate">--</span>
                 </div>
-                <a href="store.html" class="bg-brandOrange hover:bg-brandBlack text-white px-5 py-2 rounded-xl font-black text-xs uppercase transition-all shadow-lg flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">add</span> New Order
+                <a href="store.html" class="bg-brandOrange hover:bg-brandBlack text-white px-3 sm:px-4 py-2 rounded-xl font-black text-xs uppercase transition-all shadow-lg flex items-center gap-1 flex-shrink-0">
+                    <span class="material-symbols-outlined text-sm">add</span>
+                    <span class="hidden sm:inline">New Order</span>
+                    <span class="sm:hidden">Order</span>
                 </a>
             </div>
         </div>
 
         <!-- STATS CARDS -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" data-aos="fade-up" data-aos-delay="100">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <p class="text-slate-400 text-[10px] font-black uppercase mb-2">Active Orders</p>
-                <p id="statActive" class="text-2xl font-black text-brandBlack">0</p>
-                <p class="text-[10px] text-slate-400 mt-1">In production</p>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6 lg:mb-8" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-white p-3 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm">
+                <p class="text-slate-400 text-[10px] font-black uppercase mb-1 sm:mb-2">Active Orders</p>
+                <p id="statActive" class="text-xl sm:text-2xl font-black text-brandBlack">0</p>
+                <p class="text-[10px] text-slate-400 mt-1 hidden sm:block">In production</p>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <p class="text-slate-400 text-[10px] font-black uppercase mb-2">Completed</p>
-                <p id="statCompleted" class="text-2xl font-black text-green-600">0</p>
-                <p class="text-[10px] text-slate-400 mt-1">This month</p>
+            <div class="bg-white p-3 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm">
+                <p class="text-slate-400 text-[10px] font-black uppercase mb-1 sm:mb-2">Completed</p>
+                <p id="statCompleted" class="text-xl sm:text-2xl font-black text-green-600">0</p>
+                <p class="text-[10px] text-slate-400 mt-1 hidden sm:block">This month</p>
             </div>
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <p class="text-slate-400 text-[10px] font-black uppercase mb-2">Total Spent</p>
-                <p id="statSpent" class="text-2xl font-black text-brandOrange">₦0</p>
-                <p class="text-[10px] text-slate-400 mt-1">Lifetime</p>
+            <div class="bg-white p-3 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm">
+                <p class="text-slate-400 text-[10px] font-black uppercase mb-1 sm:mb-2">Total Spent</p>
+                <p id="statSpent" class="text-xl sm:text-2xl font-black text-brandOrange truncate">₦0</p>
+                <p class="text-[10px] text-slate-400 mt-1 hidden sm:block">Lifetime</p>
             </div>
-            <div class="bg-brandBlack p-5 rounded-2xl border border-slate-800 shadow-sm">
-                <p class="text-slate-400 text-[10px] font-black uppercase mb-2">Loyalty Points</p>
-                <p id="statPoints" class="text-2xl font-black text-brandOrange">0</p>
-                <p class="text-[10px] text-slate-500 mt-1">HARWOS Rewards</p>
+            <div class="bg-brandBlack p-3 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl border border-slate-800 shadow-sm">
+                <p class="text-slate-400 text-[10px] font-black uppercase mb-1 sm:mb-2">Loyalty Points</p>
+                <p id="statPoints" class="text-xl sm:text-2xl font-black text-brandOrange">0</p>
+                <p class="text-[10px] text-slate-500 mt-1 hidden sm:block">Rewards</p>
             </div>
         </div>
 
         <!-- LIVE ORDERS FEED -->
-        <div class="mb-8" data-aos="fade-up" data-aos-delay="200">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-black uppercase tracking-tighter text-xl flex items-center gap-2">
+        <div class="mb-4 sm:mb-6 lg:mb-8" data-aos="fade-up" data-aos-delay="200">
+            <div class="flex justify-between items-center mb-3 sm:mb-4">
+                <h3 class="font-black uppercase tracking-tighter text-base sm:text-lg lg:text-xl flex items-center gap-2">
                     Live Orders 
                     <span class="live-indicator"></span>
                 </h3>
                 <button onclick="showSection('orders')" class="text-xs font-black text-brandOrange hover:underline uppercase">View All</button>
             </div>
             
-            <div id="ordersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div id="ordersContainer" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
                 <!-- Orders injected here -->
-                <div class="empty-state col-span-full bg-white rounded-2xl border border-slate-200 py-16">
-                    <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">inbox</span>
-                    <p class="font-bold text-slate-400">No active orders</p>
-                    <p class="text-xs text-slate-400 mt-2">Place your first order to see live updates</p>
-                    <a href="store.html" class="mt-4 inline-block bg-brandOrange text-white px-6 py-2 rounded-full text-xs font-black uppercase">Browse Products</a>
+                <div class="empty-state col-span-full bg-white rounded-xl sm:rounded-2xl border border-slate-200 py-8 sm:py-12">
+                    <span class="material-symbols-outlined text-4xl sm:text-6xl text-slate-300 mb-3 sm:mb-4">inbox</span>
+                    <p class="font-bold text-slate-400 text-sm">No active orders</p>
+                    <p class="text-xs text-slate-400 mt-1 sm:mt-2">Place your first order to see live updates</p>
+                    <a href="store.html" class="mt-3 sm:mt-4 inline-block bg-brandOrange text-white px-4 sm:px-6 py-2 rounded-full text-xs font-black uppercase">Browse Products</a>
                 </div>
             </div>
         </div>
 
         <!-- RECENT ACTIVITY -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6" data-aos="fade-up" data-aos-delay="300">
-                <h3 class="font-black uppercase tracking-tighter text-lg mb-4 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-brandOrange">history</span>
-                    Recent Activity
-                </h3>
-                <div id="activityFeed" class="space-y-4 max-h-80 overflow-y-auto">
-                    <div class="empty-state py-8">
-                        <p class="text-xs text-slate-400">No recent activity</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-brandBlack rounded-2xl border border-slate-800 p-6 text-white" data-aos="fade-up" data-aos-delay="400">
-                <h3 class="font-black uppercase tracking-tighter text-lg mb-4 text-brandOrange">Quick Actions</h3>
-                <div class="space-y-3">
-                    <a href="https://wa.me/2349094576733" target="_blank" class="flex items-center gap-3 p-3 bg-slate-800 rounded-xl hover:bg-green-600 transition-all group">
-                        <span class="material-symbols-outlined text-green-400 group-hover:text-white">chat</span>
-                        <div>
-                            <p class="font-bold text-xs uppercase">WhatsApp Support</p>
-                            <p class="text-[10px] text-slate-400 group-hover:text-white/70">Fast response</p>
-                        </div>
-                    </a>
-                    <button onclick="showSection('tracking')" class="w-full flex items-center gap-3 p-3 bg-slate-800 rounded-xl hover:bg-brandOrange transition-all group text-left">
-                        <span class="material-symbols-outlined text-brandOrange group-hover:text-white">local_shipping</span>
-                        <div>
-                            <p class="font-bold text-xs uppercase">Track Delivery</p>
-                            <p class="text-[10px] text-slate-400 group-hover:text-white/70">Real-time updates</p>
-                        </div>
-                    </button>
-                    <button onclick="showSection('messages')" class="w-full flex items-center gap-3 p-3 bg-slate-800 rounded-xl hover:bg-blue-600 transition-all group text-left">
-                        <span class="material-symbols-outlined text-blue-400 group-hover:text-white">support_agent</span>
-                        <div>
-                            <p class="font-bold text-xs uppercase">Contact Team</p>
-                            <p class="text-[10px] text-slate-400 group-hover:text-white/70">Message staff</p>
-                        </div>
-                    </button>
+        <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-4 sm:p-6" data-aos="fade-up" data-aos-delay="300">
+            <h3 class="font-black uppercase tracking-tighter text-sm sm:text-base lg:text-lg mb-3 sm:mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-brandOrange text-lg">history</span>
+                Recent Activity
+            </h3>
+            <div id="activityFeed" class="space-y-3 max-h-60 sm:max-h-80 overflow-y-auto">
+                <div class="empty-state py-4 sm:py-8">
+                    <p class="text-xs text-slate-400">No recent activity</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- ORDERS SECTION -->
-    <div id="ordersSection" class="section hidden max-w-7xl mx-auto py-8">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-black uppercase tracking-tight">My Orders</h2>
-            <div class="flex gap-2">
-                <select id="orderFilter" onchange="filterOrders()" class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs font-bold uppercase">
-                    <option value="all">All Orders</option>
-                    <option value="active">Active</option>
-                    <option value="completed">Completed</option>
-                </select>
-            </div>
+    <div id="ordersSection" class="section hidden max-w-7xl mx-auto py-4 sm:py-6 lg:py-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3">
+            <h2 class="text-lg sm:text-xl lg:text-2xl font-black uppercase tracking-tight">My Orders</h2>
+            <select id="orderFilter" onchange="filterOrders()" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold uppercase w-full sm:w-auto">
+                <option value="all">All Orders</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+            </select>
         </div>
-        <div id="allOrdersList" class="space-y-4">
+        <div id="allOrdersList" class="space-y-3 sm:space-y-4">
             <!-- Full orders list -->
         </div>
     </div>
 
-    <!-- TRANSACTIONS SECTION -->
-    <div id="transactionsSection" class="section hidden max-w-7xl mx-auto py-8">
-        <h2 class="text-2xl font-black uppercase tracking-tight mb-6">Payment History</h2>
-        <div id="transactionsList" class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-            <div class="empty-state py-16">
-                <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">receipt_long</span>
-                <p class="font-bold text-slate-400">No transactions yet</p>
-                <p class="text-xs text-slate-400 mt-2">Your payment history will appear here</p>
-            </div>
-        </div>
-    </div>
-
     <!-- TRACKING SECTION -->
-    <div id="trackingSection" class="section hidden max-w-7xl mx-auto py-8">
-        <h2 class="text-2xl font-black uppercase tracking-tight mb-6">Track Delivery</h2>
-        <div id="trackingList" class="space-y-4">
-            <div class="empty-state bg-white rounded-2xl border border-slate-200 py-16">
-                <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">local_shipping</span>
-                <p class="font-bold text-slate-400">No active deliveries</p>
-                <p class="text-xs text-slate-400 mt-2">Track your shipments in real-time</p>
+    <div id="trackingSection" class="section hidden max-w-7xl mx-auto py-4 sm:py-6 lg:py-8">
+        <h2 class="text-lg sm:text-xl lg:text-2xl font-black uppercase tracking-tight mb-4 sm:mb-6">Track Delivery</h2>
+        <div id="trackingList" class="space-y-3 sm:space-y-4">
+            <div class="empty-state bg-white rounded-xl sm:rounded-2xl border border-slate-200 py-8 sm:py-16">
+                <span class="material-symbols-outlined text-4xl sm:text-6xl text-slate-300 mb-3 sm:mb-4">local_shipping</span>
+                <p class="font-bold text-slate-400 text-sm">No active deliveries</p>
+                <p class="text-xs text-slate-400 mt-1 sm:mt-2">Your tracking information will appear here</p>
             </div>
-        </div>
-    </div>
-
-    <!-- MESSAGES SECTION -->
-    <div id="messagesSection" class="section hidden max-w-7xl mx-auto py-8">
-        <h2 class="text-2xl font-black uppercase tracking-tight mb-6">Messages</h2>
-        <div class="bg-white rounded-2xl border border-slate-200 h-[600px] flex flex-col">
-            <div id="messagesList" class="flex-1 overflow-y-auto p-4 space-y-4">
-                <div class="empty-state py-16">
-                    <p class="text-slate-400">No messages yet</p>
-                </div>
-            </div>
-            <div class="border-t border-slate-200 p-4">
-                <div class="flex gap-2">
-                    <input type="text" id="messageInput" placeholder="Type your message..." 
-                        class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:border-brandOrange focus:outline-none">
-                    <button onclick="sendMessage()" class="bg-brandOrange text-white px-4 py-2 rounded-xl font-black uppercase text-xs">
-                        Send
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PROFILE SECTION -->
-    <div id="profileSection" class="section hidden max-w-2xl mx-auto py-8">
-        <h2 class="text-2xl font-black uppercase tracking-tight mb-6">My Profile</h2>
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 space-y-4">
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">Full Name</label>
-                <input type="text" id="profileName" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold focus:border-brandOrange focus:outline-none">
-            </div>
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">Email</label>
-                <input type="email" id="profileEmail" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 font-bold text-slate-500">
-            </div>
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">Phone</label>
-                <input type="tel" id="profilePhone" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold focus:border-brandOrange focus:outline-none">
-            </div>
-            <div>
-                <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">Company</label>
-                <input type="text" id="profileCompany" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-bold focus:border-brandOrange focus:outline-none">
-            </div>
-            <button onclick="updateProfile()" class="w-full bg-brandBlack text-white py-3 rounded-xl font-black uppercase text-xs hover:bg-brandOrange transition-all">
-                Save Changes
-            </button>
         </div>
     </div>
 
 </main>
 
 <!-- CHATBOT -->
-<div class="fixed bottom-6 right-6 z-[100]">
-    <div id="chatWindow" class="w-[320px] bg-white rounded-2xl border-4 border-brandBlack shadow-2xl overflow-hidden mb-4 flex flex-col">
-        <div class="bg-brandBlack p-4 text-white flex justify-between items-center">
+<div class="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-[100]">
+    <div id="chatWindow" class="w-[280px] sm:w-[320px] bg-white rounded-2xl border-2 sm:border-4 border-brandBlack shadow-2xl overflow-hidden mb-3 sm:mb-4 flex flex-col">
+        <div class="bg-brandBlack p-3 sm:p-4 text-white flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-brandOrange flex items-center justify-center">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-brandOrange flex items-center justify-center">
                     <span class="material-symbols-outlined text-sm">support_agent</span>
                 </div>
                 <span class="font-black uppercase text-xs">HARWOS Support</span>
             </div>
-            <button onclick="toggleChat()" class="text-white hover:text-brandOrange">&times;</button>
+            <button onclick="toggleChat()" class="text-white hover:text-brandOrange text-xl">&times;</button>
         </div>
-        <div class="p-4 h-80 overflow-y-auto space-y-3" id="chatMessages">
+        <div class="p-3 sm:p-4 h-60 sm:h-80 overflow-y-auto space-y-3" id="chatMessages">
             <div class="bg-slate-100 rounded-xl p-3 text-sm">
                 <p class="font-bold text-xs text-brandOrange mb-1">HARWOS Bot</p>
                 <p>Hello! How can I help you today?</p>
             </div>
         </div>
-        <div class="p-3 border-t border-slate-200">
+        <div class="p-2 sm:p-3 border-t border-slate-200">
             <div class="flex gap-2">
                 <input type="text" id="chatInput" placeholder="Ask something..." 
-                    class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:border-brandOrange focus:outline-none">
-                <button onclick="sendChat()" class="bg-brandOrange text-white p-2 rounded-lg">
+                    class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs sm:text-sm focus:border-brandOrange focus:outline-none">
+                <button onclick="sendChat()" class="bg-brandOrange text-white p-2 rounded-lg flex-shrink-0">
                     <span class="material-symbols-outlined text-sm">send</span>
                 </button>
             </div>
         </div>
     </div>
-    <button onclick="toggleChat()" class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform border-4 border-brandOrange">
-        <span class="material-symbols-outlined text-2xl">chat</span>
+    <button onclick="toggleChat()" class="w-12 h-12 sm:w-14 sm:h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform border-2 sm:border-4 border-brandOrange">
+        <span class="material-symbols-outlined text-xl sm:text-2xl">chat</span>
     </button>
 </div>
 
 <!-- MOBILE NAV -->
-<nav class="lg:hidden fixed bottom-0 w-full bg-white border-t border-slate-200 px-4 py-2 flex justify-around items-center z-50">
-    <button onclick="showSection('dashboard')" class="flex flex-col items-center gap-1 p-2 text-brandOrange">
-        <span class="material-symbols-outlined">dashboard</span>
-        <span class="text-[10px] font-bold uppercase">Home</span>
+<nav class="lg:hidden fixed bottom-0 w-full bg-white border-t border-slate-200 px-2 sm:px-4 py-2 flex justify-around items-center z-50 safe-area-pb">
+    <button onclick="showSection('dashboard')" class="flex flex-col items-center gap-1 p-2 text-brandOrange min-w-[60px]">
+        <span class="material-symbols-outlined text-xl sm:text-2xl">dashboard</span>
+        <span class="text-[9px] sm:text-[10px] font-bold uppercase">Home</span>
     </button>
-    <button onclick="showSection('orders')" class="flex flex-col items-center gap-1 p-2 text-slate-400">
-        <span class="material-symbols-outlined">shopping_bag</span>
-        <span class="text-[10px] font-bold uppercase">Orders</span>
+    <button onclick="showSection('orders')" class="flex flex-col items-center gap-1 p-2 text-slate-400 min-w-[60px]">
+        <span class="material-symbols-outlined text-xl sm:text-2xl">shopping_bag</span>
+        <span class="text-[9px] sm:text-[10px] font-bold uppercase">Orders</span>
     </button>
-    <button onclick="showSection('tracking')" class="flex flex-col items-center gap-1 p-2 text-slate-400">
-        <span class="material-symbols-outlined">local_shipping</span>
-        <span class="text-[10px] font-bold uppercase">Track</span>
-    </button>
-    <button onclick="showSection('messages')" class="flex flex-col items-center gap-1 p-2 text-slate-400">
-        <span class="material-symbols-outlined">chat</span>
-        <span class="text-[10px] font-bold uppercase">Chat</span>
+    <button onclick="showSection('tracking')" class="flex flex-col items-center gap-1 p-2 text-slate-400 min-w-[60px]">
+        <span class="material-symbols-outlined text-xl sm:text-2xl">local_shipping</span>
+        <span class="text-[9px] sm:text-[10px] font-bold uppercase">Track</span>
     </button>
 </nav>
 
 <!-- Scripts -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    // ==========================================
-    // HARWOSPRINTS LIVE DASHBOARD
-    // ==========================================
+    AOS.init({ duration: 800, once: true, disable: 'mobile' });
     
-    AOS.init({ duration: 800, once: true });
-    
-    // Supabase Configuration
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
     
     let supabaseClient;
     let currentUser = null;
     let userProfile = null;
-    let realtimeSubscription = null;
     
-    // Initialize Application
     async function initApp() {
         try {
-            console.log('🚀 HARWOSPRINTS Dashboard Initializing...');
-            
-            // Create Supabase client
             supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-            
-            // Check authentication
             const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
             
             if (sessionError) throw sessionError;
-            
             if (!session) {
-                console.log('❌ No session - redirecting to login');
                 window.location.replace('login.html');
                 return;
             }
             
             currentUser = session.user;
-            console.log('✅ User authenticated:', currentUser.email);
-            
-            // Load user profile
             await loadUserProfile();
-            
-            // Load dashboard data
             await loadDashboardData();
-            
-            // Setup realtime subscriptions
             setupRealtimeSubscriptions();
             
-            // Hide loading screen
             document.getElementById('loadingOverlay').style.display = 'none';
             
-            console.log('✅ Dashboard fully loaded');
-            
         } catch (error) {
-            console.error('❌ Initialization error:', error);
+            console.error('Initialization error:', error);
             document.getElementById('loadingError').classList.remove('hidden');
         }
     }
     
-    // Load User Profile
     async function loadUserProfile() {
         try {
             const { data: profile, error } = await supabaseClient
@@ -524,13 +419,7 @@
                 .eq('id', currentUser.id)
                 .single();
             
-            if (error && error.code !== 'PGRST116') {
-                console.warn('Profile fetch warning:', error.message);
-            }
-            
             userProfile = profile || {};
-            
-            // Set display name
             let displayName = userProfile.full_name || 
                              `${userProfile.first_name || ''} ${userProfile.last_name || ''}`.trim() ||
                              currentUser.email.split('@')[0];
@@ -540,29 +429,19 @@
                 weekday: 'short', month: 'short', day: 'numeric'
             });
             
-            // Fill profile form
-            document.getElementById('profileName').value = userProfile.full_name || '';
-            document.getElementById('profileEmail').value = currentUser.email;
-            document.getElementById('profilePhone').value = userProfile.phone || '';
-            document.getElementById('profileCompany').value = userProfile.company_name || '';
-            
         } catch (error) {
-            console.error('Profile load error:', error);
             document.getElementById('userName').textContent = currentUser.email.split('@')[0];
         }
     }
     
-    // Load Dashboard Data
     async function loadDashboardData() {
         await Promise.all([
             loadOrders(),
             loadStats(),
-            loadActivity(),
-            loadTransactions()
+            loadActivity()
         ]);
     }
     
-    // Load Orders
     async function loadOrders() {
         try {
             const { data: orders, error } = await supabaseClient
@@ -572,11 +451,9 @@
                 .order('created_at', { ascending: false });
             
             if (error) throw error;
-            
             renderOrders(orders || []);
             renderAllOrders(orders || []);
             
-            // Update order count badge
             const activeCount = (orders || []).filter(o => 
                 !['delivered', 'cancelled'].includes(o.status)
             ).length;
@@ -592,40 +469,39 @@
         }
     }
     
-    // Render Orders Cards
     function renderOrders(orders) {
         const container = document.getElementById('ordersContainer');
         
         if (!orders || orders.length === 0) {
             container.innerHTML = `
-                <div class="empty-state col-span-full bg-white rounded-2xl border border-slate-200 py-16">
-                    <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">inbox</span>
-                    <p class="font-bold text-slate-400">No active orders</p>
-                    <p class="text-xs text-slate-400 mt-2">Place your first order to see live updates</p>
-                    <a href="store.html" class="mt-4 inline-block bg-brandOrange text-white px-6 py-2 rounded-full text-xs font-black uppercase">Browse Products</a>
+                <div class="empty-state col-span-full bg-white rounded-xl sm:rounded-2xl border border-slate-200 py-8 sm:py-12">
+                    <span class="material-symbols-outlined text-4xl sm:text-6xl text-slate-300 mb-3 sm:mb-4">inbox</span>
+                    <p class="font-bold text-slate-400 text-sm">No active orders</p>
+                    <p class="text-xs text-slate-400 mt-1 sm:mt-2">Place your first order to see live updates</p>
+                    <a href="store.html" class="mt-3 sm:mt-4 inline-block bg-brandOrange text-white px-4 sm:px-6 py-2 rounded-full text-xs font-black uppercase">Browse Products</a>
                 </div>
             `;
             return;
         }
         
         const activeOrders = orders.filter(o => !['delivered', 'cancelled'].includes(o.status));
-        const displayOrders = activeOrders.slice(0, 3); // Show top 3
+        const displayOrders = activeOrders.slice(0, 3);
         
         container.innerHTML = displayOrders.map(order => {
             const progress = getOrderProgress(order.status);
             const statusClass = `status-${order.status}`;
             
             return `
-                <div class="order-card bg-white rounded-2xl border border-slate-200 p-5 relative overflow-hidden" data-order-id="${order.id}">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <p class="text-[10px] font-black uppercase text-slate-400 mb-1">Order #${order.order_number}</p>
-                            <h4 class="font-bold text-sm text-brandBlack line-clamp-1">${order.project_name}</h4>
+                <div class="order-card bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-5 relative overflow-hidden" data-order-id="${order.id}">
+                    <div class="flex justify-between items-start mb-2 sm:mb-3">
+                        <div class="min-w-0 flex-1">
+                            <p class="text-[10px] font-black uppercase text-slate-400 mb-0.5 sm:mb-1">#${order.order_number}</p>
+                            <h4 class="font-bold text-xs sm:text-sm text-brandBlack truncate">${order.project_name}</h4>
                         </div>
-                        <span class="status-badge ${statusClass}">${order.status}</span>
+                        <span class="status-badge ${statusClass} ml-2 flex-shrink-0">${order.status}</span>
                     </div>
                     
-                    <div class="mb-4">
+                    <div class="mb-3 sm:mb-4">
                         <div class="flex justify-between text-[10px] font-bold uppercase text-slate-400 mb-1">
                             <span>Progress</span>
                             <span>${progress}%</span>
@@ -636,14 +512,14 @@
                     </div>
                     
                     <div class="flex justify-between items-center text-xs">
-                        <span class="font-bold text-brandOrange">₦${Number(order.total_amount).toLocaleString()}</span>
-                        <span class="text-slate-400">${order.quantity} ${order.category || 'units'}</span>
+                        <span class="font-bold text-brandOrange truncate">₦${Number(order.total_amount).toLocaleString()}</span>
+                        <span class="text-slate-400 text-[10px]">${order.quantity} ${order.category || 'units'}</span>
                     </div>
                     
                     ${order.tracking_number ? `
-                    <div class="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-500">
+                    <div class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-slate-100 flex items-center gap-2 text-[10px] text-slate-500">
                         <span class="material-symbols-outlined text-sm">local_shipping</span>
-                        <span>Tracking: ${order.tracking_number}</span>
+                        <span class="truncate">Tracking: ${order.tracking_number}</span>
                     </div>
                     ` : ''}
                 </div>
@@ -651,28 +527,21 @@
         }).join('');
     }
     
-    // Get Progress Percentage
     function getOrderProgress(status) {
         const progressMap = {
-            'pending': 10,
-            'design': 25,
-            'printing': 50,
-            'finishing': 75,
-            'ready': 90,
-            'shipped': 95,
-            'delivered': 100,
-            'cancelled': 0
+            'pending': 10, 'design': 25, 'printing': 50,
+            'finishing': 75, 'ready': 90, 'shipped': 95,
+            'delivered': 100, 'cancelled': 0
         };
         return progressMap[status] || 10;
     }
     
-    // Render All Orders List
     function renderAllOrders(orders) {
         const container = document.getElementById('allOrdersList');
         
         if (!orders || orders.length === 0) {
             container.innerHTML = `
-                <div class="empty-state bg-white rounded-2xl border border-slate-200 py-16">
+                <div class="empty-state bg-white rounded-xl sm:rounded-2xl border border-slate-200 py-8 sm:py-16">
                     <p class="font-bold text-slate-400">No orders found</p>
                 </div>
             `;
@@ -680,27 +549,25 @@
         }
         
         container.innerHTML = orders.map(order => `
-            <div class="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
+            <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1 sm:mb-2">
                         <span class="text-[10px] font-black uppercase text-slate-400">#${order.order_number}</span>
                         <span class="status-badge status-${order.status}">${order.status}</span>
                     </div>
-                    <h4 class="font-bold text-brandBlack mb-1">${order.project_name}</h4>
-                    <p class="text-xs text-slate-500">${order.category || 'Print Job'} • ${order.quantity} units</p>
+                    <h4 class="font-bold text-sm text-brandBlack mb-0.5 sm:mb-1 truncate">${order.project_name}</h4>
+                    <p class="text-xs text-slate-500 truncate">${order.category || 'Print Job'} • ${order.quantity} units</p>
                 </div>
-                <div class="text-right">
-                    <p class="font-black text-brandOrange text-lg">₦${Number(order.total_amount).toLocaleString()}</p>
+                <div class="text-left sm:text-right w-full sm:w-auto">
+                    <p class="font-black text-brandOrange text-base sm:text-lg">₦${Number(order.total_amount).toLocaleString()}</p>
                     <p class="text-[10px] text-slate-400 uppercase">${order.payment_status}</p>
                 </div>
             </div>
         `).join('');
     }
     
-    // Load Stats
     async function loadStats() {
         try {
-            // Active orders count
             const { data: activeOrders } = await supabaseClient
                 .from('orders')
                 .select('id', { count: 'exact' })
@@ -709,7 +576,6 @@
             
             document.getElementById('statActive').textContent = activeOrders?.length || 0;
             
-            // Completed this month
             const startOfMonth = new Date();
             startOfMonth.setDate(1);
             
@@ -722,7 +588,6 @@
             
             document.getElementById('statCompleted').textContent = completedOrders?.length || 0;
             
-            // Total spent
             const { data: spent } = await supabaseClient
                 .from('orders')
                 .select('total_amount')
@@ -732,7 +597,6 @@
             const totalSpent = spent?.reduce((sum, o) => sum + Number(o.total_amount), 0) || 0;
             document.getElementById('statSpent').textContent = '₦' + totalSpent.toLocaleString();
             
-            // Loyalty points (1 point per ₦100 spent)
             const points = Math.floor(totalSpent / 100);
             document.getElementById('statPoints').textContent = points.toLocaleString();
             
@@ -741,7 +605,6 @@
         }
     }
     
-    // Load Activity Feed
     async function loadActivity() {
         try {
             const { data: history, error } = await supabaseClient
@@ -757,7 +620,7 @@
             
             if (!history || history.length === 0) {
                 container.innerHTML = `
-                    <div class="empty-state py-8">
+                    <div class="empty-state py-4 sm:py-8">
                         <p class="text-xs text-slate-400">No recent activity</p>
                     </div>
                 `;
@@ -765,18 +628,18 @@
             }
             
             container.innerHTML = history.map(item => `
-                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                    <div class="w-8 h-8 rounded-full bg-brandOrange/10 flex items-center justify-center flex-shrink-0">
-                        <span class="material-symbols-outlined text-brandOrange text-sm">update</span>
+                <div class="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 bg-slate-50 rounded-xl border border-slate-100">
+                    <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-brandOrange/10 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-brandOrange text-xs sm:text-sm">update</span>
                     </div>
-                    <div class="flex-1">
-                        <p class="text-xs font-bold text-brandBlack">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-bold text-brandBlack truncate">
                             ${item.orders.project_name}
                         </p>
                         <p class="text-[10px] text-slate-500 mt-0.5">
-                            Status updated to <span class="font-black text-brandOrange uppercase">${item.status}</span>
+                            Status: <span class="font-black text-brandOrange uppercase">${item.status}</span>
                         </p>
-                        <p class="text-[10px] text-slate-400 mt-1">
+                        <p class="text-[10px] text-slate-400 mt-0.5">
                             ${new Date(item.created_at).toLocaleString('en-US', {
                                 month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
                             })}
@@ -790,125 +653,47 @@
         }
     }
     
-    // Load Transactions
-    async function loadTransactions() {
-        try {
-            const { data: transactions, error } = await supabaseClient
-                .from('transactions')
-                .select('*')
-                .eq('user_id', currentUser.id)
-                .order('created_at', { ascending: false });
-            
-            if (error) throw error;
-            
-            const container = document.getElementById('transactionsList');
-            
-            if (!transactions || transactions.length === 0) return;
-            
-            container.innerHTML = `
-                <table class="w-full text-left">
-                    <thead class="bg-slate-50 border-b border-slate-200">
-                        <tr>
-                            <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400">Date</th>
-                            <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400">Description</th>
-                            <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400 text-right">Amount</th>
-                            <th class="px-6 py-4 text-[10px] font-black uppercase text-slate-400">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        ${transactions.map(t => `
-                            <tr class="hover:bg-slate-50">
-                                <td class="px-6 py-4 text-xs text-slate-600">
-                                    ${new Date(t.created_at).toLocaleDateString()}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <p class="text-xs font-bold text-brandBlack">${t.description || 'Payment'}</p>
-                                    <p class="text-[10px] text-slate-400">${t.reference_number || ''}</p>
-                                </td>
-                                <td class="px-6 py-4 text-right font-black text-brandBlack">
-                                    ₦${Number(t.amount).toLocaleString()}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="status-badge status-${t.status}">${t.status}</span>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-            
-        } catch (error) {
-            console.error('Transactions load error:', error);
-        }
-    }
-    
-    // Setup Realtime Subscriptions
     function setupRealtimeSubscriptions() {
-        console.log('🔴 Setting up realtime subscriptions...');
-        
-        // Subscribe to orders changes
         const ordersChannel = supabaseClient
             .channel('orders-channel')
             .on('postgres_changes', 
                 { event: '*', schema: 'public', table: 'orders', filter: `user_id=eq.${currentUser.id}` },
                 (payload) => {
-                    console.log('🔄 Order update received:', payload);
                     handleRealtimeUpdate('order', payload);
                 }
             )
             .subscribe();
         
-        // Subscribe to status history
         const historyChannel = supabaseClient
             .channel('history-channel')
             .on('postgres_changes',
                 { event: 'INSERT', schema: 'public', table: 'order_status_history' },
                 (payload) => {
-                    console.log('🔄 Status update received:', payload);
                     handleRealtimeUpdate('history', payload);
                 }
             )
             .subscribe();
-        
-        // Subscribe to messages
-        const messagesChannel = supabaseClient
-            .channel('messages-channel')
-            .on('postgres_changes',
-                { event: 'INSERT', schema: 'public', table: 'messages', filter: `user_id=eq.${currentUser.id}` },
-                (payload) => {
-                    console.log('🔄 New message received:', payload);
-                    handleRealtimeUpdate('message', payload);
-                }
-            )
-            .subscribe();
-        
-        console.log('✅ Realtime subscriptions active');
     }
     
-    // Handle Realtime Updates
     function handleRealtimeUpdate(type, payload) {
-        // Visual notification
         const badge = document.getElementById('liveBadge');
         badge.style.animation = 'none';
         setTimeout(() => badge.style.animation = '', 10);
         
-        // Refresh data
         if (type === 'order') {
             loadOrders();
             loadStats();
         } else if (type === 'history') {
             loadActivity();
-            loadOrders(); // Refresh order progress
+            loadOrders();
         }
         
-        // Show toast notification
         showToast(type === 'message' ? 'New message received' : 'Order updated live');
     }
     
-    // Show Toast Notification
     function showToast(message) {
         const toast = document.createElement('div');
-        toast.className = 'fixed top-4 right-4 bg-brandBlack text-white px-6 py-3 rounded-xl shadow-2xl z-[1001] flex items-center gap-3 animate-slideUp';
+        toast.className = 'fixed top-4 right-4 left-4 sm:left-auto bg-brandBlack text-white px-4 py-3 rounded-xl shadow-2xl z-[1001] flex items-center gap-3';
         toast.innerHTML = `
             <span class="live-indicator"></span>
             <span class="font-bold text-xs uppercase">${message}</span>
@@ -922,29 +707,33 @@
         }, 3000);
     }
     
-    // Navigation
     function showSection(sectionName) {
-        // Hide all sections
         document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-        
-        // Show selected
         document.getElementById(sectionName + 'Section').classList.remove('hidden');
         
-        // Update sidebar active state
         document.querySelectorAll('.sidebar-item').forEach(item => {
             item.classList.remove('active-nav', 'text-brandOrange');
             item.classList.add('text-slate-400');
         });
         
-        // Scroll to top
         window.scrollTo(0, 0);
         
-        // Load section-specific data
         if (sectionName === 'tracking') loadTracking();
-        if (sectionName === 'messages') loadMessages();
+        
+        // Update mobile nav active state
+        const mobileButtons = document.querySelectorAll('nav.lg\\\\:hidden button');
+        mobileButtons.forEach(btn => {
+            const onclick = btn.getAttribute('onclick');
+            if (onclick && onclick.includes(sectionName)) {
+                btn.classList.remove('text-slate-400');
+                btn.classList.add('text-brandOrange');
+            } else {
+                btn.classList.remove('text-brandOrange');
+                btn.classList.add('text-slate-400');
+            }
+        });
     }
     
-    // Load Tracking Data
     async function loadTracking() {
         try {
             const { data: orders, error } = await supabaseClient
@@ -960,43 +749,43 @@
             
             if (!orders || orders.length === 0) {
                 container.innerHTML = `
-                    <div class="empty-state bg-white rounded-2xl border border-slate-200 py-16">
-                        <span class="material-symbols-outlined text-6xl text-slate-300 mb-4">local_shipping</span>
-                        <p class="font-bold text-slate-400">No active deliveries</p>
-                        <p class="text-xs text-slate-400 mt-2">Your tracking information will appear here</p>
+                    <div class="empty-state bg-white rounded-xl sm:rounded-2xl border border-slate-200 py-8 sm:py-16">
+                        <span class="material-symbols-outlined text-4xl sm:text-6xl text-slate-300 mb-3 sm:mb-4">local_shipping</span>
+                        <p class="font-bold text-slate-400 text-sm">No active deliveries</p>
+                        <p class="text-xs text-slate-400 mt-1 sm:mt-2">Your tracking information will appear here</p>
                     </div>
                 `;
                 return;
             }
             
             container.innerHTML = orders.map(order => `
-                <div class="bg-white rounded-2xl border border-slate-200 p-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
+                <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-4 sm:p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-start gap-3 mb-3 sm:mb-4">
+                        <div class="min-w-0">
                             <p class="text-[10px] font-black uppercase text-slate-400 mb-1">#${order.order_number}</p>
-                            <h4 class="font-bold text-brandBlack">${order.project_name}</h4>
+                            <h4 class="font-bold text-sm sm:text-base text-brandBlack truncate">${order.project_name}</h4>
                         </div>
-                        <span class="status-badge status-${order.status}">${order.status}</span>
+                        <span class="status-badge status-${order.status} flex-shrink-0">${order.status}</span>
                     </div>
                     
-                    <div class="space-y-3 mb-4">
-                        <div class="flex items-center gap-3 text-sm">
-                            <span class="material-symbols-outlined text-slate-400">location_on</span>
-                            <span class="text-slate-600">${order.delivery_address || 'Pickup at Somolu office'}</span>
+                    <div class="space-y-2 sm:space-y-3 mb-3 sm:mb-4 text-sm">
+                        <div class="flex items-start gap-2 sm:gap-3">
+                            <span class="material-symbols-outlined text-slate-400 text-base mt-0.5">location_on</span>
+                            <span class="text-slate-600 text-xs sm:text-sm break-all">${order.delivery_address || 'Pickup at Somolu office'}</span>
                         </div>
-                        <div class="flex items-center gap-3 text-sm">
-                            <span class="material-symbols-outlined text-slate-400">phone</span>
-                            <span class="text-slate-600">${order.delivery_contact_phone || userProfile?.phone || 'N/A'}</span>
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <span class="material-symbols-outlined text-slate-400 text-base">phone</span>
+                            <span class="text-slate-600 text-xs sm:text-sm">${order.delivery_contact_phone || userProfile?.phone || 'N/A'}</span>
                         </div>
                     </div>
                     
                     ${order.tracking_number ? `
-                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <div class="bg-slate-50 rounded-xl p-3 sm:p-4 border border-slate-200">
                         <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Tracking Number</p>
-                        <div class="flex items-center justify-between">
-                            <p class="font-bold text-brandBlack text-lg">${order.tracking_number}</p>
-                            <button onclick="copyToClipboard('${order.tracking_number}')" class="text-brandOrange hover:text-brandBlack">
-                                <span class="material-symbols-outlined">content_copy</span>
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="font-bold text-brandBlack text-sm sm:text-base break-all">${order.tracking_number}</p>
+                            <button onclick="copyToClipboard('${order.tracking_number}')" class="text-brandOrange hover:text-brandBlack flex-shrink-0 p-1">
+                                <span class="material-symbols-outlined text-lg">content_copy</span>
                             </button>
                         </div>
                         <p class="text-[10px] text-slate-400 mt-2">via ${order.delivery_method || 'Standard Delivery'}</p>
@@ -1010,98 +799,6 @@
         }
     }
     
-    // Load Messages
-    async function loadMessages() {
-        try {
-            const { data: messages, error } = await supabaseClient
-                .from('messages')
-                .select('*')
-                .eq('user_id', currentUser.id)
-                .order('created_at', { ascending: true });
-            
-            if (error) throw error;
-            
-            const container = document.getElementById('messagesList');
-            
-            if (!messages || messages.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state py-16">
-                        <p class="text-slate-400">Start a conversation with our team</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = messages.map(m => `
-                <div class="flex ${m.sender_type === 'customer' ? 'justify-end' : 'justify-start'}">
-                    <div class="max-w-[80%] ${m.sender_type === 'customer' ? 'bg-brandOrange text-white' : 'bg-slate-100 text-slate-700'} rounded-2xl px-4 py-3">
-                        <p class="text-sm">${m.message}</p>
-                        <p class="text-[10px] opacity-70 mt-1">${new Date(m.created_at).toLocaleTimeString()}</p>
-                    </div>
-                </div>
-            `).join('');
-            
-            container.scrollTop = container.scrollHeight;
-            
-        } catch (error) {
-            console.error('Messages load error:', error);
-        }
-    }
-    
-    // Send Message
-    async function sendMessage() {
-        const input = document.getElementById('messageInput');
-        const message = input.value.trim();
-        
-        if (!message) return;
-        
-        try {
-            const { error } = await supabaseClient
-                .from('messages')
-                .insert({
-                    user_id: currentUser.id,
-                    sender_type: 'customer',
-                    message: message
-                });
-            
-            if (error) throw error;
-            
-            input.value = '';
-            loadMessages();
-            
-        } catch (error) {
-            console.error('Send message error:', error);
-            alert('Failed to send message');
-        }
-    }
-    
-    // Update Profile
-    async function updateProfile() {
-        try {
-            const updates = {
-                id: currentUser.id,
-                full_name: document.getElementById('profileName').value,
-                phone: document.getElementById('profilePhone').value,
-                company_name: document.getElementById('profileCompany').value,
-                updated_at: new Date()
-            };
-            
-            const { error } = await supabaseClient
-                .from('profiles')
-                .upsert(updates);
-            
-            if (error) throw error;
-            
-            showToast('Profile updated successfully');
-            loadUserProfile();
-            
-        } catch (error) {
-            console.error('Profile update error:', error);
-            alert('Failed to update profile');
-        }
-    }
-    
-    // Logout
     async function handleLogout() {
         try {
             await supabaseClient.auth.signOut();
@@ -1109,27 +806,23 @@
             sessionStorage.clear();
             window.location.replace('login.html');
         } catch (error) {
-            console.error('Logout error:', error);
             window.location.replace('login.html');
         }
     }
     
-    // Chatbot Toggle
     function toggleChat() {
         const chat = document.getElementById('chatWindow');
         chat.classList.toggle('force-show');
     }
     
-    // Send Chat (Bot)
     function sendChat() {
         const input = document.getElementById('chatInput');
         const message = input.value.trim();
         if (!message) return;
         
-        // Add user message
         const chatMessages = document.getElementById('chatMessages');
         chatMessages.innerHTML += `
-            <div class="bg-brandOrange/10 rounded-xl p-3 text-sm ml-8">
+            <div class="bg-brandOrange/10 rounded-xl p-3 text-sm ml-8 sm:ml-12">
                 <p class="font-bold text-xs text-brandOrange mb-1">You</p>
                 <p>${message}</p>
             </div>
@@ -1138,38 +831,30 @@
         input.value = '';
         chatMessages.scrollTop = chatMessages.scrollHeight;
         
-        // Auto-reply
         setTimeout(() => {
             chatMessages.innerHTML += `
-                <div class="bg-slate-100 rounded-xl p-3 text-sm mr-8">
+                <div class="bg-slate-100 rounded-xl p-3 text-sm mr-8 sm:mr-12">
                     <p class="font-bold text-xs text-brandOrange mb-1">HARWOS Bot</p>
-                    <p>Thanks for your message! Our team will respond shortly. For urgent matters, please WhatsApp us at +234 909 457 6733</p>
+                    <p>Thanks for your message! Our team will respond shortly. For urgent matters, WhatsApp us at +234 909 457 6733</p>
                 </div>
             `;
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }, 1000);
     }
     
-    // Filter Orders
     function filterOrders() {
-        const filter = document.getElementById('orderFilter').value;
-        // Reload with filter logic
         loadOrders();
     }
     
-    // Copy to Clipboard
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text);
         showToast('Tracking number copied');
     }
     
-    // Start the app
     document.addEventListener('DOMContentLoaded', initApp);
     
-    // Handle Enter key in message inputs
     document.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            if (document.activeElement.id === 'messageInput') sendMessage();
             if (document.activeElement.id === 'chatInput') sendChat();
         }
     });

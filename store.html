@@ -346,101 +346,91 @@
 
 <script>
 const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
+const supabaseKey = 'YOUR_KEY';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 let allProducts = [];
 let cart = JSON.parse(localStorage.getItem("harwos_main_cart")) || [];
 let isAdminMode = false;
 
-window.onload = async () => {
+/* ---------------- INIT ---------------- */
+window.addEventListener("load", async () => {
     await loadStoreData();
     updateCartUI();
-    document.getElementById('loadingOverlay').style.display = 'none';
-};
 
+    const loader = document.getElementById('loadingOverlay');
+    if (loader) loader.style.display = 'none';
+});
+
+/* ---------------- LOAD PRODUCTS ---------------- */
 async function loadStoreData() {
-    const { data, error } = await supabaseClient.from('products').select('*').order('created_at', { ascending: false });
-    if (!error) { allProducts = data; renderProducts(data); }
+    const { data, error } = await supabaseClient
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error("Supabase error:", error);
+        return;
+    }
+
+    allProducts = data || [];
+    renderProducts(allProducts);
 }
 
+/* ---------------- RENDER PRODUCTS ---------------- */
 function renderProducts(list) {
     const grid = document.getElementById('productGrid');
     grid.innerHTML = '';
-    if (list.length === 0) { document.getElementById('emptyStore').classList.remove('hidden'); return; }
+
+    if (!list || list.length === 0) {
+        document.getElementById('emptyStore').classList.remove('hidden');
+        return;
+    }
+
     document.getElementById('emptyStore').classList.add('hidden');
 
     list.forEach(p => {
         grid.innerHTML += `
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-slate-100 hover:shadow-2xl transition-all p-4 flex flex-col group">
-                <div class="relative h-44 overflow-hidden rounded-3xl mb-4 bg-slate-50">
-                    <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-700" onclick="openDetail('${p.id}')">
-                    <div class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[8px] font-black uppercase text-brandOrange">${p.category}</div>
-                </div>
-                <h3 class="font-black uppercase text-[10px] mb-1 truncate text-brandBlack">${p.name}</h3>
-                <p class="text-brandOrange font-black text-sm mb-4">₦${Number(p.price).toLocaleString()}</p>
-                <div class="flex items-center gap-2 mt-auto">
-                    <input type="number" id="qty-${p.id}" value="1" min="1" class="w-12 text-[10px] p-2 border-2 rounded-xl font-bold border-slate-100 focus:border-brandOrange">
-                    <button onclick="addToCart('${p.id}', document.getElementById('qty-${p.id}').value)" class="flex-1 bg-brandBlack text-white text-[9px] py-3 rounded-xl font-black uppercase tracking-widest hover:bg-brandOrange">Add</button>
-                </div>
-                ${isAdminMode ? `<div class="flex gap-2 mt-3 pt-3 border-t"><button onclick="editProduct('${p.id}')" class="flex-1 bg-blue-500 text-white text-[8px] py-2 rounded-lg">Edit</button><button onclick="deleteProduct('${p.id}')" class="flex-1 bg-red-500 text-white text-[8px] py-2 rounded-lg">Delete</button></div>` : ''}
-            </div>`;
+        <div class="bg-white rounded-[2rem] p-4 shadow-lg flex flex-col">
+            <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}"
+                class="h-40 object-cover rounded-xl cursor-pointer"
+                onclick="openDetail('${p.id}')">
+
+            <h3 class="text-xs font-bold mt-2">${p.name}</h3>
+            <p class="text-orange-600 font-bold">₦${Number(p.price).toLocaleString()}</p>
+
+            <div class="flex gap-2 mt-auto">
+                <input type="number" id="qty-${p.id}" value="1" min="1"
+                    class="w-12 border rounded text-center">
+
+                <button onclick="addToCart('${p.id}')"
+                    class="flex-1 bg-black text-white text-xs p-2 rounded">
+                    Add
+                </button>
+            </div>
+        </div>`;
     });
 }
 
-function openAdminPanel() {
-    const pass = prompt("Enter Password:");
-    if (pass === "harwosprint") {
-        document.getElementById('adminPanelTitle').innerText = "Upload New Product";
-        document.getElementById('adminPanel').style.display = 'flex';
-        document.body.classList.add('modal-active');
-    } else if (pass === "harwosprint1") {
-        isAdminMode = true;
-        renderProducts(allProducts);
-        alert("Admin mode: Edit/Delete enabled on cards.");
-    }
-}
+/* ---------------- FIXED CART ---------------- */
+function addToCart(id) {
+    const product = allProducts.find(p => String(p.id) === String(id));
 
-function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; document.body.classList.remove('modal-active'); }
-
-function openDetail(id) {
-    const p = allProducts.find(x => x.id === id);
-    if(!p) return;
-    document.body.classList.add('modal-active');
-    document.getElementById('detName').innerText = p.name;
-    document.getElementById('detCat').innerText = p.category;
-    document.getElementById('detDesc').innerText = p.description;
-    document.getElementById('detPrice').innerText = "₦" + Number(p.price).toLocaleString();
-    document.getElementById('detailMainImg').querySelector('img').src = p.images?.[0] || 'harwosprints.ng-logo.jpg';
-    
-    const thumbs = document.getElementById('detailThumbs');
-    thumbs.innerHTML = '';
-    p.images?.forEach(img => {
-        thumbs.innerHTML += `<img src="${img}" class="h-14 w-14 object-cover rounded-xl border cursor-pointer hover:border-brandOrange" onclick="document.getElementById('detailMainImg').querySelector('img').src='${img}'">`;
-    });
-    document.getElementById('detailAddBtn').onclick = () => { addToCart(p.id, document.getElementById('detQty').value); closeDetail(); };
-    document.getElementById('detailModal').style.display = 'flex';
-}
-
-function closeDetail() { document.getElementById('detailModal').style.display = 'none'; document.body.classList.remove('modal-active'); }
-function updateDetQty(val) { const el = document.getElementById('detQty'); let n = parseInt(el.value) + val; if(n < 1) n = 1; el.value = n; }
-
-// --- FIXED CART LOGIC ---
-function addToCart(id, qty) {
-    const p = allProducts.find(x => String(x.id) === String(id));
-    if (!p) {
+    if (!product) {
         console.error("Product not found:", id);
         return;
     }
 
-    qty = parseInt(qty) || 1;
+    const qtyInput = document.getElementById(`qty-${id}`);
+    const qty = parseInt(qtyInput?.value) || 1;
 
-    const existing = cart.find(x => String(x.id) === String(id));
+    const existing = cart.find(item => String(item.id) === String(id));
 
     if (existing) {
         existing.qty += qty;
     } else {
-        cart.push({ ...p, qty });
+        cart.push({ ...product, qty });
     }
 
     localStorage.setItem("harwos_main_cart", JSON.stringify(cart));
@@ -448,70 +438,86 @@ function addToCart(id, qty) {
     updateCartUI();
     toggleCart(true);
 
-    console.log("Cart updated:", cart);
+    console.log("Cart:", cart);
 }
 
-function removeFromCart(i) {
-    cart.splice(i, 1);
+/* ---------------- REMOVE ---------------- */
+function removeFromCart(index) {
+    cart.splice(index, 1);
     localStorage.setItem("harwos_main_cart", JSON.stringify(cart));
     updateCartUI();
 }
 
+/* ---------------- UI UPDATE ---------------- */
 function updateCartUI() {
-    document.getElementById('cartCountBadge').innerText = cart.length;
+    const badge = document.getElementById('cartCountBadge');
     const list = document.getElementById('cartItemsList');
+    const totalEl = document.getElementById('cartSubtotal');
+
+    if (!list || !badge || !totalEl) return;
+
     list.innerHTML = '';
     let total = 0;
+
     cart.forEach((item, i) => {
-        total += (item.price * item.qty);
-        list.innerHTML += `<div class="flex gap-4 items-center bg-white p-3 rounded-2xl border shadow-sm"><img src="${item.images?.[0]}" class="w-12 h-12 object-cover rounded-lg"><div><h4 class="text-[10px] font-black uppercase text-brandBlack">${item.name}</h4><p class="text-[10px] font-bold text-brandOrange">${item.qty} units x ₦${Number(item.price).toLocaleString()}</p></div><button onclick="removeFromCart(${i})" class="ml-auto material-symbols-outlined text-slate-300">delete</button></div>`;
+        total += item.price * item.qty;
+
+        list.innerHTML += `
+        <div class="flex gap-3 items-center">
+            <img src="${item.images?.[0]}" class="w-12 h-12 rounded">
+            <div>
+                <p class="text-xs font-bold">${item.name}</p>
+                <p class="text-xs">₦${item.price} x ${item.qty}</p>
+            </div>
+            <button onclick="removeFromCart(${i})">❌</button>
+        </div>`;
     });
-    document.getElementById('cartSubtotal').innerText = "₦" + total.toLocaleString();
+
+    badge.innerText = cart.length;
+    totalEl.innerText = "₦" + total.toLocaleString();
 }
 
-function toggleCart(show) { 
+/* ---------------- CART DRAWER ---------------- */
+function toggleCart(show) {
     const el = document.getElementById('cartOverlay');
-    if(show) { document.body.classList.add('cart-open'); el.style.display = 'block'; } 
-    else { document.body.classList.remove('cart-open'); el.style.display = 'none'; } 
-}
 
-function openPaymentModal() { toggleCart(false); document.getElementById('paymentModal').style.display = 'flex'; document.body.classList.add('modal-active'); }
-function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; document.body.classList.remove('modal-active'); }
-function toggleModal(id) { const el = document.getElementById(id); el.style.display = (el.style.display === 'flex' ? 'none' : 'flex'); }
+    if (!el) return;
 
-document.getElementById('masterOrderForm').onsubmit = (e) => {
-    e.preventDefault();
-    const items = cart.map(i => `• ${i.name} (Qty: ${i.qty}) - ₦${(i.price * i.qty).toLocaleString()}`).join('%0A');
-    const text = `*NEW ORDER FROM HARWOSPRINTS.NG*%0A${items}%0A*Total Sum:* ${document.getElementById('cartSubtotal').innerText}%0A%0A*Name:* ${document.getElementById('billFName').value} ${document.getElementById('billLName').value}%0A*Phone:* ${document.getElementById('billPhone').value}%0A*Address:* ${document.getElementById('billStreet1').value}`;
-    window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
-};
-
-document.getElementById('masterAdminForm').onsubmit = async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('uploadBtn'); btn.innerText = "Syncing..."; btn.disabled = true;
-    let urls = [];
-    const files = document.getElementById('adFiles').files;
-    for(let f of files) {
-        const path = `store/${Date.now()}_${f.name}`;
-        const { error: upErr } = await supabaseClient.storage.from('product-images').upload(path, f);
-        if(!upErr) urls.push(supabaseClient.storage.from('product-images').getPublicUrl(path).data.publicUrl);
+    if (show) {
+        el.style.display = 'block';
+        document.body.classList.add('cart-open');
+    } else {
+        el.style.display = 'none';
+        document.body.classList.remove('cart-open');
     }
-    const payload = { name: adName.value, price: adPrice1.value, bulk_price: adPriceBulk.value, category: adCat.value, description: adDesc.value };
-    if(urls.length > 0) payload.images = urls;
-    if(adEditId.value) await supabaseClient.from('products').update(payload).eq('id', adEditId.value);
-    else await supabaseClient.from('products').insert([payload]);
-    location.reload();
-};
-
-async function deleteProduct(id) { if(confirm("Remove product?")) { await supabaseClient.from('products').delete().eq('id', id); location.reload(); } }
-function editProduct(id) { 
-    const p = allProducts.find(x => x.id === id); 
-    adName.value = p.name; adPrice1.value = p.price; adPriceBulk.value = p.bulk_price; adCat.value = p.category; adDesc.value = p.description; adEditId.value = p.id; 
-    document.getElementById('adminPanel').style.display = 'flex'; 
-    document.body.classList.add('modal-active');
 }
-function searchProducts() { const q = document.getElementById('searchInput').value.toLowerCase(); renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(q))); }
-function filterProducts(cat, btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active')); btn.classList.add('category-active'); renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat)); }
+
+/* ---------------- SEARCH ---------------- */
+function searchProducts() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+
+    renderProducts(
+        allProducts.filter(p =>
+            p.name.toLowerCase().includes(q)
+        )
+    );
+}
+
+/* ---------------- FILTER ---------------- */
+function filterProducts(cat, btn) {
+    document.querySelectorAll('.cat-btn')
+        .forEach(b => b.classList.remove('category-active'));
+
+    btn.classList.add('category-active');
+
+    if (cat === 'all') {
+        renderProducts(allProducts);
+    } else {
+        renderProducts(
+            allProducts.filter(p => p.category === cat)
+        );
+    }
+}
 </script>
 </body>
 </html>

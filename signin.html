@@ -2,479 +2,280 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
-    
-    <title>Sign In - Harwosprints.ng</title>
-    <meta name="description" content="Sign in to your Harwosprints.ng dashboard to track orders and manage your print jobs."/>
-    
-    <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+     <!-- SEO KEYWORDS & DESCRIPTION -->
+    <meta name="description" content="Harwosprints.ng - Nigeria's premier partner for high-precision printing and tactical branding solutions. We design, print, brand and deliver nationwide."/>
+    <meta name="keywords" content="Harwosprints, Printing Nigeria, Branding Lagos, Custom Packaging, Business Cards Nigeria, Flyers, Branded Souvenirs, Promotional Items, Offset Printing, Digital Imaging, Direct Imaging, Harwos Prints, Printing in Somolu, Printing in Yaba"/>
+    <meta name="author" content="Harwosprints.ng"/>
 
-    <!-- Tailwind CSS -->
+    <!-- FAVICON (Using your logo) -->
+    <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
+    <link rel="apple-touch-icon" href="harwosprints.ng-logo.jpg">
+    <title>Login | Harwosprints.ng</title>
+    
+    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
       tailwind.config = {
         theme: {
           extend: {
-            colors: { 
-              brandOrange: "#ea580c", 
-              brandBlack: "#0f0f0f",
-              brandGray: "#1a1a1a"
-            },
-            fontFamily: { 
-              headline: ["Space Grotesk", "sans-serif"], 
-              body: ["Plus Jakarta Sans", "sans-serif"] 
-            },
+            colors: { brandOrange: "#ea580c", brandBlack: "#000000" },
+            fontFamily: { headline: ["Space Grotesk", "sans-serif"], body: ["Plus Jakarta Sans", "sans-serif"] },
           },
         },
       }
     </script>
-    
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(234, 88, 12, 0.1);
-        }
-        
-        .input-field {
-            @apply w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300;
-        }
-        
-        .input-field:focus {
-            @apply outline-none border-brandOrange bg-white;
-            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
-        }
-        
-        .btn-primary {
-            @apply w-full bg-brandOrange text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl transition-all duration-300;
-        }
-        
-        .btn-primary:hover:not(:disabled) {
-            @apply bg-brandBlack transform -translate-y-1;
-            box-shadow: 0 10px 25px rgba(234, 88, 12, 0.3);
-        }
-        
-        .btn-primary:disabled {
-            @apply opacity-50 cursor-not-allowed;
-        }
-        
-        .loading-spinner {
-            @apply w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin;
-        }
-        
-        /* Shake animation for errors */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-        
-        .shake {
-            animation: shake 0.5s ease-in-out;
-        }
-        
-        /* Success checkmark animation */
-        @keyframes checkmark {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
-        .success-icon {
-            animation: checkmark 0.5s ease-out;
-        }
+        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        #loadingOverlay { display: none; }
+        .policy-content p { margin-bottom: 1.5rem; }
+        input:focus { border-color: #ea580c !important; outline: none; box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.1); }
     </style>
 </head>
 
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-50 font-body text-slate-900 overflow-x-hidden">
 
-    <!-- LOADING OVERLAY -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-brandBlack z-50 flex flex-col items-center justify-center hidden">
-        <div class="w-12 h-12 border-4 border-brandOrange border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p class="text-white font-black uppercase text-sm tracking-widest">Signing you in...</p>
-    </div>
+<!-- LOADING SPINNER -->
+<div id="loadingOverlay" class="fixed inset-0 bg-black/50 z-[10000] flex items-center justify-center">
+    <div class="w-12 h-12 border-4 border-brandOrange border-t-transparent rounded-full animate-spin"></div>
+</div>
 
-    <!-- MAIN CONTAINER -->
-    <div class="w-full max-w-md">
-        
-        <!-- LOGO SECTION -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white border-4 border-brandOrange p-3 mb-4 shadow-lg">
-                <img src="harwosprints.ng-logo.jpg" alt="Harwosprints" class="w-full h-full object-contain rounded-full">
+<!-- NAVBAR -->
+<nav class="fixed top-0 w-full z-[100] glass-nav border-b border-slate-200 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5 bg-white overflow-hidden shadow-sm">
+                <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
             </div>
-            <h1 class="text-2xl font-black uppercase tracking-tight text-brandBlack mb-1">Harwosprints.ng</h1>
-            <p class="text-slate-500 text-sm font-medium">Sign in to your dashboard</p>
+            <div class="text-xl font-black text-brandOrange uppercase font-headline tracking-tighter">Harwosprints.ng</div>
         </div>
+        <a href="index.html" class="bg-brandBlack text-white px-5 py-2 rounded-full font-bold text-[10px] uppercase hover:bg-brandOrange transition-all">Home</a>
+    </div>
+</nav>
 
-        <!-- SIGN IN CARD -->
-        <div class="glass-panel rounded-[2rem] p-8 shadow-xl">
-            
-            <!-- ERROR MESSAGE -->
-            <div id="errorMessage" class="hidden bg-red-50 border-l-4 border-red-500 p-4 rounded-xl mb-6">
-                <div class="flex items-start gap-3">
-                    <span class="material-symbols-outlined text-red-500 text-lg mt-0.5">error</span>
-                    <div>
-                        <p class="text-red-700 font-bold text-sm">Authentication Failed</p>
-                        <p id="errorText" class="text-red-600 text-xs mt-1">Invalid email or password</p>
-                    </div>
-                </div>
+<!-- LOGIN & FORGOT PASSWORD CONTAINER -->
+<main class="min-h-screen pt-32 pb-20 px-4 flex flex-col items-center justify-center">
+    <div class="max-w-md w-full bg-white p-8 md:p-12 border-[3px] border-brandBlack rounded-[2.5rem] shadow-2xl transition-all duration-500">
+        
+        <!-- LOGIN FORM -->
+        <div id="loginFormContainer" style="display: block;">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-black uppercase text-brandBlack mb-2">Welcome <span class="text-brandOrange">Back.</span></h1>
+                <p class="text-slate-400 font-medium text-sm">Log in to manage your premium orders.</p>
             </div>
-
-            <!-- SUCCESS MESSAGE -->
-            <div id="successMessage" class="hidden bg-green-50 border-l-4 border-green-500 p-4 rounded-xl mb-6">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-green-500 text-lg success-icon">check_circle</span>
-                    <div>
-                        <p class="text-green-700 font-bold text-sm">Success!</p>
-                        <p class="text-green-600 text-xs mt-1">Redirecting to dashboard...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SIGN IN FORM -->
-            <form id="signinForm" class="space-y-5">
-                
-                <!-- EMAIL FIELD -->
+            <form id="loginForm" class="space-y-6">
                 <div>
-                    <label class="block text-xs font-black uppercase text-slate-500 mb-2 tracking-wider">Email Address</label>
-                    <div class="relative">
-                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">email</span>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            required 
-                            class="input-field pl-12" 
-                            placeholder="your@email.com"
-                            autocomplete="email"
-                        >
-                    </div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest mb-2 text-slate-500">Email Address</label>
+                    <input id="email" type="email" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold" placeholder="name@email.com">
                 </div>
-
-                <!-- PASSWORD FIELD -->
                 <div>
-                    <label class="block text-xs font-black uppercase text-slate-500 mb-2 tracking-wider">Password</label>
-                    <div class="relative">
-                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">lock</span>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            required 
-                            class="input-field pl-12 pr-12" 
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                        >
-                        <button 
-                            type="button" 
-                            onclick="togglePassword()" 
-                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brandOrange transition-colors"
-                        >
-                            <span id="passwordToggleIcon" class="material-symbols-outlined text-lg">visibility_off</span>
-                        </button>
+                    <div class="flex justify-between items-center mb-2 px-1">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500">Password</label>
+                        <button type="button" onclick="switchToForgot()" class="text-[10px] font-black text-brandOrange uppercase hover:underline">Forgot?</button>
                     </div>
+                    <input id="password" type="password" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold" placeholder="••••••••">
                 </div>
-
-                <!-- REMEMBER ME & FORGOT PASSWORD -->
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" id="rememberMe" class="w-4 h-4 accent-brandOrange rounded">
-                        <span class="text-xs font-bold text-slate-500">Remember me</span>
-                    </label>
-                    <a href="#" onclick="handleForgotPassword(event)" class="text-xs font-bold text-brandOrange hover:underline">
-                        Forgot password?
-                    </a>
-                </div>
-
-                <!-- SUBMIT BUTTON -->
-                <button type="submit" id="submitBtn" class="btn-primary flex items-center justify-center gap-2">
-                    <span id="btnText">Sign In</span>
-                    <span id="btnSpinner" class="loading-spinner hidden"></span>
-                </button>
+                <button type="submit" class="w-full bg-brandBlack text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandOrange transition-all active:scale-95">Sign In</button>
             </form>
-
-            <!-- DIVIDER -->
-            <div class="relative my-6">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-slate-200"></div>
-                </div>
-                <div class="relative flex justify-center">
-                    <span class="bg-white px-4 text-xs font-bold uppercase text-slate-400">Or</span>
-                </div>
+            <div class="mt-8 text-center border-t border-slate-100 pt-8">
+                <p class="text-sm font-bold uppercase tracking-tight">New customer? <a href="signup.html" class="text-brandOrange underline hover:text-brandBlack">Create Account</a></p>
             </div>
-
-            <!-- MAGIC LINK SIGN IN -->
-            <button onclick="sendMagicLink()" class="w-full bg-slate-100 hover:bg-slate-200 text-brandBlack font-bold uppercase tracking-widest text-xs py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
-                <span class="material-symbols-outlined text-lg">link</span>
-                Sign in with Magic Link
-            </button>
-
         </div>
 
-        <!-- FOOTER LINKS -->
-        <div class="mt-8 text-center space-y-3">
-            <p class="text-slate-500 text-xs">
-                Don't have an account? 
-                <a href="signup.html" class="font-bold text-brandOrange hover:underline">Create account</a>
-            </p>
-            <a href="index.html" class="inline-flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-brandOrange transition-colors">
-                <span class="material-symbols-outlined text-sm">arrow_back</span>
-                Back to homepage
-            </a>
+        <!-- FORGOT PASSWORD FORM -->
+        <div id="forgotFormContainer" style="display: none;">
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-black uppercase text-brandBlack mb-2">Reset <span class="text-brandOrange">Password.</span></h1>
+                <p class="text-slate-400 font-medium text-sm">We'll send a secure link from Supabase.</p>
+            </div>
+            <form id="forgotForm" class="space-y-6">
+                <div>
+                    <label class="block text-[10px] font-black uppercase tracking-widest mb-2 text-slate-500">Registered Email</label>
+                    <input id="resetEmail" type="email" required class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl font-bold" placeholder="your-email@gmail.com">
+                </div>
+                <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transition-all">Send Reset Link</button>
+                <button type="button" onclick="switchToLogin()" class="w-full text-center text-xs font-black uppercase tracking-widest text-slate-400 hover:text-brandBlack mt-4">Back to Sign In</button>
+            </form>
         </div>
 
     </div>
+</main>
 
-    <!-- FORGOT PASSWORD MODAL -->
-    <div id="forgotPasswordModal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-md rounded-[2rem] p-8 shadow-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-lg font-black uppercase">Reset Password</h3>
-                <button onclick="closeForgotPassword()" class="material-symbols-outlined hover:text-brandOrange">close</button>
+<!-- FOOTER (FULL RESTORATION) -->
+<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="space-y-6">
+            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
+            <p class="font-medium leading-relaxed">The premier partner for high-precision printing and tactical branding solutions.</p>
+            <div class="flex space-x-5 text-2xl">
+                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/harwosprintsltd" target="_blank" class="hover:text-brandOrange"><i class="fab fa-x-twitter"></i></a>
+                <a href="mailto:harwosprintsltd@gmail.com" class="hover:text-brandOrange"><i class="fas fa-envelope"></i></a>
+                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange"><i class="fab fa-whatsapp"></i></a>
             </div>
-            <p class="text-sm text-slate-500 mb-4">Enter your email and we'll send you a password reset link.</p>
-            <input type="email" id="resetEmail" class="input-field mb-4" placeholder="your@email.com">
-            <button onclick="sendResetLink()" class="btn-primary">Send Reset Link</button>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Solutions</h5>
+            <ul class="space-y-4 text-xs font-bold uppercase">
+                <li><a class="hover:text-brandOrange" href="#">Commercial Printing</a></li>
+                <li><a class="hover:text-brandOrange" href="#">Brand Identity</a></li>
+                <li><a class="hover:text-brandOrange" href="#">Custom Packaging</a></li>
+                <li><a class="hover:text-brandOrange" href="#">Wide Format</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Locations</h5>
+            <div class="space-y-4 text-[10px] uppercase font-bold leading-relaxed">
+                <p><span class="text-brandOrange">Head Office:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
+                <p><span class="text-brandOrange">Sales Office:</span> Abraham Adesanya Complex, Onipanu, Lagos.</p>
+                <p><span class="text-brandOrange">Branch Office:</span> 63, Tejuosho Road, Yaba, Lagos.</p>
+            </div>
+        </div>
+        <div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Newsletter</h5>
+            <div class="flex gap-2">
+                <input class="bg-slate-900 border-none rounded-lg text-white w-full px-4 text-sm" placeholder="Email Address" type="email"/>
+                <button class="bg-brandOrange text-white p-2 rounded-lg hover:brightness-110"><span class="material-symbols-outlined">send</span></button>
+            </div>
+            <div class="mt-8">
+                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg">Get a Business Website</a>
+            </div>
         </div>
     </div>
+    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase">
+        <p>© 2024 Harwosprints.ng. All rights reserved.</p>
+        <div class="flex gap-6">
+            <a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Privacy Policy</a>
+            <a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Terms & Conditions</a>
+        </div>
+    </div>
+</footer>
 
-    <script>
-        // SUPABASE CONFIGURATION - Same as your dashboard
-        const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
-        
-        // Initialize Supabase client
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+<!-- FULL LONG POLICY MODAL -->
+<div id="policyModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
+    <div class="bg-white w-full max-w-4xl h-[85vh] rounded-[2.5rem] overflow-hidden border-4 border-brandOrange shadow-2xl relative flex flex-col">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
+            <h3 class="text-xl font-black uppercase">Harwosprints Policies</h3>
+            <button onclick="toggleModal('policyModal')" class="material-symbols-outlined text-white">close</button>
+        </div>
+        <div class="p-8 overflow-y-auto text-sm font-medium space-y-8 leading-relaxed text-slate-700">
+            <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Shipping & Delivery</h4>
+                <p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. The cost may vary based on the distance from our office. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos unless otherwise arranged or stated by the customer/s. Products will be packed and protected for deliveries to QC standard assured. Refund or replaced product/s shipping to our office is at the expenses of customer/s, whatever is shipped from our office is paid by us.</p>
+            </div>
+            <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Quality of materials</h4>
+                <p>We are assuring you of our product quality which comes from other parts of the world known best manufacturing standard and practice like us. Sometimes, during transit and production in bulk few error occur and we regret to admit but trust us to do a perfect replacement of broken, torn or defective products. please always notify us by mail or chat immediately you receive order to correct such anomalies.</p>
+            </div>
+            <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Terms & Conditions</h4>
+                <p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can't offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Refunds are made after a replacement of perfect product has been exhausted. Complete return requires receipt or proof of purchase.</p>
+            </div>
+            <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Refunds & Exchanges</h4>
+                <p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprintsltd@gmail.com and return to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p>
+            </div>
+            <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Data Policy</h4>
+                <p>Website: https://harwosprint.ng. We collect comments data, IP addresses, and browser agent strings for spam detection. Cookies last for one year for convenience. We handle embedded content from other websites securely.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-        // DOM Elements
-        const form = document.getElementById('signinForm');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const errorText = document.getElementById('errorText');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-        const btnSpinner = document.getElementById('btnSpinner');
-        const loadingOverlay = document.getElementById('loadingOverlay');
+<!-- MATERIAL SYMBOLS ICON FONT -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
-        // CHECK IF ALREADY LOGGED IN (Redirect to dashboard if session exists)
-        async function checkExistingSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                // User is already logged in, redirect to dashboard
-                window.location.replace('dash.html');
-            }
+<script>
+    // Supabase Core
+    const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // =========================
+    // UI CONTROLS
+    // =========================
+    function switchToForgot() {
+        document.getElementById('loginFormContainer').style.display = 'none';
+        document.getElementById('forgotFormContainer').style.display = 'block';
+    }
+
+    function switchToLogin() {
+        document.getElementById('forgotFormContainer').style.display = 'none';
+        document.getElementById('loginFormContainer').style.display = 'block';
+    }
+
+    function toggleModal(id) {
+        const modal = document.getElementById(id);
+        modal.classList.toggle('hidden');
+        document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+    }
+
+    // Click outside modal to close
+    window.onclick = (e) => { 
+        if (e.target.id === 'policyModal') toggleModal('policyModal'); 
+    };
+
+    // =========================
+    // LOGIN FUNCTION (FIXED)
+    // =========================
+    document.getElementById('loginForm').onsubmit = async (e) => {
+        e.preventDefault();
+        document.getElementById('loadingOverlay').style.display = 'flex';
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            // Sign in with Supabase Auth
+            const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (authError) throw authError;
+
+            // Store session in localStorage (persists better than sessionStorage)
+            localStorage.setItem('harwos_access_token', authData.session.access_token);
+            localStorage.setItem('harwos_user_id', authData.user.id);
+            localStorage.setItem('harwos_user_email', authData.user.email);
+
+            // Redirect to dash.html (FIXED: using replace() instead of href)
+            window.location.replace("dash.html");
+
+        } catch (error) {
+            document.getElementById('loadingOverlay').style.display = 'none';
+            alert("Login Error: " + error.message);
         }
+    };
 
-        // Run on page load
-        checkExistingSession();
+    // =========================
+    // FORGOT PASSWORD FUNCTION
+    // =========================
+    document.getElementById('forgotForm').onsubmit = async (e) => {
+        e.preventDefault();
+        document.getElementById('loadingOverlay').style.display = 'flex';
 
-        // FORM SUBMISSION HANDLER
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
+        const email = document.getElementById('resetEmail').value;
 
-            // Hide previous messages
-            hideMessages();
-            
-            // Validate inputs
-            if (!email || !password) {
-                showError('Please enter both email and password');
-                return;
-            }
+        try {
+            const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + "/reset-password.html"
+            });
 
-            // Show loading state
-            setLoading(true);
+            if (error) throw error;
 
-            try {
-                // Attempt sign in with password
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password,
-                });
+            document.getElementById('loadingOverlay').style.display = 'none';
+            alert("A password reset link has been sent to your email!");
+            switchToLogin();
 
-                if (error) {
-                    throw error;
-                }
-
-                // SUCCESS - Show success message
-                showSuccess();
-                
-                // Store session preference if remember me is checked
-                if (rememberMe) {
-                    localStorage.setItem('harwos_remember_email', email);
-                }
-
-                // REDIRECT TO DASHBOARD after brief delay to show success
-                setTimeout(() => {
-                    window.location.replace('dash.html');
-                }, 1500);
-
-            } catch (error) {
-                console.error('Sign in error:', error);
-                showError(getErrorMessage(error));
-                setLoading(false);
-            }
-        });
-
-        // TOGGLE PASSWORD VISIBILITY
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const toggleIcon = document.getElementById('passwordToggleIcon');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIcon.textContent = 'visibility';
-            } else {
-                passwordInput.type = 'password';
-                toggleIcon.textContent = 'visibility_off';
-            }
+        } catch (error) {
+            document.getElementById('loadingOverlay').style.display = 'none';
+            alert("Reset Error: " + error.message);
         }
-
-        // ERROR HANDLING
-        function showError(message) {
-            errorText.textContent = message;
-            errorMessage.classList.remove('hidden');
-            errorMessage.classList.add('shake');
-            
-            // Remove shake animation after it completes
-            setTimeout(() => {
-                errorMessage.classList.remove('shake');
-            }, 500);
-        }
-
-        function showSuccess() {
-            successMessage.classList.remove('hidden');
-        }
-
-        function hideMessages() {
-            errorMessage.classList.add('hidden');
-            successMessage.classList.add('hidden');
-        }
-
-        function setLoading(isLoading) {
-            submitBtn.disabled = isLoading;
-            btnText.textContent = isLoading ? 'Signing In...' : 'Sign In';
-            btnSpinner.classList.toggle('hidden', !isLoading);
-            
-            if (isLoading) {
-                loadingOverlay.classList.remove('hidden');
-            } else {
-                loadingOverlay.classList.add('hidden');
-            }
-        }
-
-        function getErrorMessage(error) {
-            const errorMessages = {
-                'Invalid login credentials': 'Invalid email or password. Please try again.',
-                'Email not confirmed': 'Please confirm your email address before signing in.',
-                'User not found': 'No account found with this email address.',
-                'Invalid email': 'Please enter a valid email address.',
-                'Rate limit exceeded': 'Too many attempts. Please try again later.'
-            };
-            
-            return errorMessages[error.message] || error.message || 'An error occurred. Please try again.';
-        }
-
-        // MAGIC LINK SIGN IN
-        async function sendMagicLink() {
-            const email = document.getElementById('email').value.trim();
-            
-            if (!email) {
-                showError('Please enter your email address first');
-                document.getElementById('email').focus();
-                return;
-            }
-
-            setLoading(true);
-            hideMessages();
-
-            try {
-                const { error } = await supabase.auth.signInWithOtp({
-                    email: email,
-                    options: {
-                        emailRedirectTo: window.location.origin + '/dash.html'
-                    }
-                });
-
-                if (error) throw error;
-
-                alert('Magic link sent! Check your email and click the link to sign in.');
-                
-            } catch (error) {
-                showError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        // FORGOT PASSWORD HANDLER
-        function handleForgotPassword(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value.trim();
-            document.getElementById('resetEmail').value = email;
-            document.getElementById('forgotPasswordModal').classList.remove('hidden');
-            document.getElementById('forgotPasswordModal').classList.add('flex');
-        }
-
-        function closeForgotPassword() {
-            document.getElementById('forgotPasswordModal').classList.add('hidden');
-            document.getElementById('forgotPasswordModal').classList.remove('flex');
-        }
-
-        async function sendResetLink() {
-            const email = document.getElementById('resetEmail').value.trim();
-            
-            if (!email) {
-                alert('Please enter your email address');
-                return;
-            }
-
-            try {
-                const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/reset-password.html'
-                });
-
-                if (error) throw error;
-
-                alert('Password reset link sent to your email!');
-                closeForgotPassword();
-                
-            } catch (error) {
-                alert('Error: ' + error.message);
-            }
-        }
-
-        // PRE-FILL EMAIL IF REMEMBERED
-        window.addEventListener('load', () => {
-            const rememberedEmail = localStorage.getItem('harwos_remember_email');
-            if (rememberedEmail) {
-                document.getElementById('email').value = rememberedEmail;
-                document.getElementById('rememberMe').checked = true;
-            }
-        });
-
-        // CLOSE MODAL ON ESCAPE KEY
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeForgotPassword();
-            }
-        });
-
-        // CLOSE MODAL ON BACKDROP CLICK
-        document.getElementById('forgotPasswordModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) {
-                closeForgotPassword();
-            }
-        });
-    </script>
+    };
+</script>
 </body>
 </html>

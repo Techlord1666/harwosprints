@@ -7,13 +7,14 @@
     <!-- SEO KEYWORDS & DESCRIPTION -->
     <title>Shop - Harwosprints.ng | Premium Printing Store</title>
     <meta name="description" content="Browse Harwosprints.ng's premium printing collection. Order large format banners, stickers, apparel and more."/>
-    <meta name="keywords" content="Harwosprints Shop, Printing Lagos, Custom Stickers, Large Format Banners, Apparel Printing Nigeria"/>
-    
+    <meta name="keywords" content="Harwosprints Shop, Printing Lagos, Custom Stickers, Large Format Banners, Apparel Printing Nigeria, Souvenirs Lagos"/>
+    <meta name="author" content="Harwosprints.ng"/>
+
     <!-- FAVICON -->
     <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
     <link rel="apple-touch-icon" href="harwosprints.ng-logo.jpg">
 
-    <!-- External Resources -->
+    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Plus+Jakarta+Sans:wght@300;800&display=swap" rel="stylesheet"/>
@@ -36,16 +37,14 @@
       .product-card:hover { transform: translateY(-10px); }
       .cart-drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); }
       .cart-open .cart-drawer { transform: translateX(0); }
-      .admin-only { display: none !important; }
-      .is-admin .admin-only { display: flex !important; }
-      .is-admin .admin-only-block { display: block !important; }
-      .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .hidden { display: none !important; }
+      .category-active { background-color: #ea580c !important; color: white !important; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
 
 <!-- LOADER -->
-<div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[1000] flex items-center justify-center">
+<div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[1000] flex items-center justify-center backdrop-blur-sm">
     <div class="w-12 h-12 border-4 border-brandOrange border-t-transparent rounded-full animate-spin"></div>
 </div>
 
@@ -57,116 +56,152 @@
             <span class="text-xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints.ng</span>
         </div>
         
-        <div class="hidden lg:flex items-center gap-8 font-bold text-xs uppercase tracking-widest">
+        <div class="hidden lg:flex items-center gap-8 font-bold text-[10px] uppercase tracking-widest">
             <a href="index.html" class="hover:text-brandOrange">Home</a>
-            <a href="store.html" class="text-brandOrange">Shop</a>
+            <a href="store.html" class="text-brandOrange underline">Shop</a>
             <a href="about.html" class="hover:text-brandOrange">About</a>
             <a href="contact.html" class="hover:text-brandOrange">Contact</a>
         </div>
 
         <div class="flex items-center gap-4">
-            <!-- CART TRIGGER -->
             <button onclick="toggleCart()" class="relative p-2 bg-slate-100 rounded-full hover:bg-brandOrange hover:text-white transition-all">
                 <span class="material-symbols-outlined">shopping_cart</span>
                 <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brandOrange text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
             </button>
-            <a href="login.html" class="text-xs font-bold uppercase hover:text-brandOrange hidden md:block">Login</a>
-            <div id="adminLink" class="admin-only">
-                <button onclick="openAdminPanel()" class="bg-brandBlack text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest">Admin</button>
+            
+            <!-- Dynamic Login/Dash Button -->
+            <div id="authContainer">
+                <a href="signin.html" id="loginBtn" class="text-[10px] font-black uppercase hover:text-brandOrange border border-slate-200 px-4 py-2 rounded-lg">Login</a>
+                <a href="dash.html" id="dashBtn" class="hidden text-[10px] font-black uppercase bg-brandBlack text-white px-4 py-2 rounded-lg">Dashboard</a>
+            </div>
+
+            <div id="adminLink" class="hidden">
+                <button onclick="openAdminPanel()" class="bg-brandOrange text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase">Admin</button>
             </div>
         </div>
     </div>
 </nav>
 
 <main class="pt-20">
-    <!-- HERO SECTION -->
-    <section class="px-4 md:px-12 mb-16">
-        <div class="relative overflow-hidden rounded-[2.5rem] bg-brandBlack h-[350px] md:h-[500px] flex items-center">
-            <!-- Large Format Image -->
-            <img class="absolute inset-0 w-full h-full object-cover opacity-50" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop" alt="Large Format Printing"/>
-            <div class="relative z-10 px-8 md:px-20 max-w-3xl">
-                <h1 class="text-4xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter leading-none">
-                    Big Impact <br><span class="text-brandOrange italic">Printing.</span>
-                </h1>
-                <p class="text-slate-300 text-lg mb-8 max-w-md font-medium">Large scale banners, quality vinyl, and custom branding materials delivered to your doorstep.</p>
+    <!-- HERO SECTION: Large Format Focus -->
+    <section class="px-4 md:px-12 mb-10">
+        <div class="relative overflow-hidden rounded-[2rem] bg-brandBlack h-[300px] md:h-[450px] flex items-center">
+            <img class="absolute inset-0 w-full h-full object-cover opacity-60" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop" alt="Large Format Printing"/>
+            <div class="relative z-10 px-8 md:px-20">
+                <h1 class="text-3xl md:text-6xl font-black text-white mb-4 uppercase">Large Format <br><span class="text-brandOrange italic">Branding.</span></h1>
+                <p class="text-slate-300 text-sm md:text-lg mb-8 max-w-md">Quality Banners, Vinyl, and Corporate Branding.</p>
                 <div class="flex gap-4">
-                    <button onclick="scrollToProducts()" class="bg-brandOrange text-white px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest hover:brightness-110">Browse Store</button>
-                    <a href="https://wa.me/2349094576733" class="bg-white text-brandBlack px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest flex items-center gap-2">WhatsApp Help</a>
+                    <button onclick="scrollToProducts()" class="bg-brandOrange text-white px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest">Shop Now</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SHOPPING CORE -->
-    <section id="productsSection" class="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <!-- Sidebar Filter -->
-        <aside class="lg:col-span-3">
-            <h3 class="text-xl font-black uppercase mb-6 flex items-center gap-2">
-                <span class="material-symbols-outlined text-brandOrange">filter_alt</span> Categories
-            </h3>
-            <ul class="space-y-2" id="categoryMenu">
-                <li><button onclick="filter('all')" class="w-full text-left p-4 rounded-xl bg-brandOrange text-white font-bold text-sm">All Collections</button></li>
-                <li><button onclick="filter('Large Format Banners')" class="w-full text-left p-4 rounded-xl hover:bg-white border-2 border-transparent hover:border-slate-100 text-sm font-bold transition-all">Large Format Banners</button></li>
-                <li><button onclick="filter('Custom Stickers & Labels')" class="w-full text-left p-4 rounded-xl hover:bg-white border-2 border-transparent hover:border-slate-100 text-sm font-bold transition-all">Stickers & Labels</button></li>
-                <li><button onclick="filter('Apparel Printing')" class="w-full text-left p-4 rounded-xl hover:bg-white border-2 border-transparent hover:border-slate-100 text-sm font-bold transition-all">Apparel Printing</button></li>
-            </ul>
-        </aside>
-
-        <!-- Product Grid -->
-        <div class="lg:col-span-9">
-            <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-                <!-- Products load here dynamically -->
+    <!-- SEARCH & CATEGORIES -->
+    <section class="max-w-7xl mx-auto px-4 md:px-12 mb-12">
+        <div class="flex flex-col md:flex-row gap-6 items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+            <div class="relative flex-1 w-full">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search products..." class="w-full pl-12 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-brandOrange font-bold">
             </div>
+            <div class="flex overflow-x-auto gap-2 w-full md:w-auto no-scrollbar">
+                <button onclick="filter('all')" class="category-btn category-active shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase transition-all bg-slate-100">All Items</button>
+                <button onclick="filter('Brand Support')" class="category-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase transition-all bg-slate-100">Brand Support</button>
+                <button onclick="filter('Promo Items')" class="category-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase transition-all bg-slate-100">Promo Items</button>
+                <button onclick="filter('Souvenirs')" class="category-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase transition-all bg-slate-100">Souvenirs</button>
+                <button onclick="filter('Giftings')" class="category-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase transition-all bg-slate-100">Giftings</button>
+                <button onclick="filter('Formats')" class="category-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase transition-all bg-slate-100">Formats</button>
+                <button onclick="filter('Offset')" class="category-btn shrink-0 px-6 py-3 rounded-xl text-[10px] font-black uppercase transition-all bg-slate-100">Offset</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT GRID -->
+    <section id="productsSection" class="max-w-7xl mx-auto px-4 md:px-12 min-h-[400px]">
+        <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <!-- Dynamic Products -->
+        </div>
+        <div id="emptyState" class="hidden text-center py-20">
+            <span class="material-symbols-outlined text-6xl text-slate-200">inventory_2</span>
+            <p class="text-slate-400 font-bold mt-4 uppercase">The store is currently empty.</p>
         </div>
     </section>
 </main>
 
-<!-- CART SIDEBAR (DRAWER) -->
+<!-- CART DRAWER -->
 <div id="cartOverlay" class="fixed inset-0 bg-black/60 z-[200] hidden backdrop-blur-sm">
-    <div class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col p-8">
-        <div class="flex justify-between items-center mb-10">
-            <h3 class="text-2xl font-black uppercase">My Request Cart</h3>
+    <div class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col p-6">
+        <div class="flex justify-between items-center mb-8">
+            <h3 class="text-xl font-black uppercase">Your Request Cart</h3>
             <button onclick="toggleCart()" class="material-symbols-outlined">close</button>
         </div>
-        <div id="cartItemsContainer" class="flex-1 overflow-y-auto space-y-6">
-            <!-- Cart items here -->
-        </div>
-        <div class="border-t pt-8">
-            <div class="flex justify-between font-black uppercase mb-6">
-                <span>Total Items</span>
-                <span id="cartTotalCount">0</span>
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto space-y-4"></div>
+        <div class="border-t pt-6">
+            <div class="flex justify-between font-black text-lg mb-6">
+                <span>Total Amount</span>
+                <span id="cartTotalValue">₦0</span>
             </div>
-            <button onclick="sendOrderWhatsApp()" class="w-full bg-brandOrange text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transition-all">
-                Send Your Request (WhatsApp)
+            <button onclick="openPaymentModal()" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-xl">
+                Continue to Payment
             </button>
+        </div>
+    </div>
+</div>
+
+<!-- PAYMENT / BILLING MODAL -->
+<div id="paymentModal" class="fixed inset-0 z-[250] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="bg-white w-full max-w-3xl h-[90vh] rounded-[2rem] overflow-hidden flex flex-col shadow-2xl">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
+            <h3 class="text-xl font-black uppercase">Billing Details</h3>
+            <button onclick="closePaymentModal()" class="material-symbols-outlined">close</button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-8">
+            <p class="text-xs font-bold text-slate-400 mb-6 uppercase">Customer matched zone "National Delivery"</p>
+            <form id="orderForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="billFirstName" required placeholder="First Name *" class="border-2 p-3 rounded-xl">
+                <input type="text" id="billLastName" required placeholder="Last Name *" class="border-2 p-3 rounded-xl">
+                <input type="text" id="billCompany" placeholder="Company Name" class="border-2 p-3 rounded-xl md:col-span-2">
+                <select id="billCountry" class="border-2 p-3 rounded-xl md:col-span-2"><option>Nigeria</option></select>
+                <input type="text" id="billStreet" required placeholder="Street Address *" class="border-2 p-3 rounded-xl md:col-span-2">
+                <input type="text" id="billCity" required placeholder="Town / City *" class="border-2 p-3 rounded-xl">
+                <input type="text" id="billState" required placeholder="State *" class="border-2 p-3 rounded-xl">
+                <input type="text" id="billZip" placeholder="Postcode / ZIP" class="border-2 p-3 rounded-xl">
+                <input type="tel" id="billPhone" required placeholder="Phone *" class="border-2 p-3 rounded-xl">
+                <input type="email" id="billEmail" required placeholder="Email Address *" class="border-2 p-3 rounded-xl md:col-span-2">
+                <textarea id="orderNotes" placeholder="Order Notes (Optional)" class="border-2 p-3 rounded-xl md:col-span-2"></textarea>
+                
+                <div class="md:col-span-2 bg-slate-50 p-6 rounded-2xl border-2 border-brandOrange mt-6">
+                    <h4 class="font-black uppercase mb-4 text-brandOrange">Bank Transfer Info</h4>
+                    <p class="text-sm font-bold leading-relaxed mb-4">
+                        Acc Name: Harwos Print Nigeria Limited.<br>
+                        Bank: Access Bank | ACCT No: 0761264611
+                    </p>
+                    <p class="text-xs text-slate-500 italic">Delivery charges (#2500+) vary by distance. Add to payment after discussion.</p>
+                </div>
+                
+                <button type="submit" class="md:col-span-2 bg-brandBlack text-white py-5 rounded-2xl font-black uppercase tracking-widest mt-6">Place Order on WhatsApp</button>
+            </form>
         </div>
     </div>
 </div>
 
 <!-- PRODUCT DETAIL POPUP -->
 <div id="detailModal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-    <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row relative shadow-2xl">
+    <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2rem] overflow-hidden flex flex-col md:flex-row relative shadow-2xl">
         <button onclick="closeDetail()" class="absolute top-6 right-6 z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg"><span class="material-symbols-outlined">close</span></button>
-        <!-- Image Gallery Side -->
         <div class="w-full md:w-1/2 bg-slate-100">
-            <div id="detailImageMain" class="h-80 md:h-[500px]">
-                <img src="" class="w-full h-full object-cover">
-            </div>
-            <div id="detailThumbnails" class="flex gap-2 p-4 overflow-x-auto bg-white">
-                <!-- Thumbs -->
-            </div>
+            <div id="detailImageMain" class="h-64 md:h-[400px]"><img src="" class="w-full h-full object-cover"></div>
+            <div id="detailThumbnails" class="flex gap-2 p-4 overflow-x-auto bg-white"></div>
         </div>
-        <!-- Content Side -->
-        <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-            <h2 id="detailTitle" class="text-3xl font-black uppercase text-brandBlack mb-4"></h2>
-            <p id="detailCategory" class="text-xs font-black text-brandOrange uppercase mb-6 tracking-widest"></p>
-            <p id="detailDesc" class="text-slate-500 leading-relaxed mb-10"></p>
-            <div class="flex items-center justify-between mb-10">
-                <span id="detailPrice" class="text-3xl font-black"></span>
+        <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
+            <h2 id="detailTitle" class="text-2xl font-black uppercase mb-2"></h2>
+            <p id="detailCategory" class="text-[10px] font-black text-brandOrange uppercase mb-4"></p>
+            <p id="detailDesc" class="text-slate-500 text-sm leading-relaxed mb-8"></p>
+            <div class="flex flex-col gap-2 mb-8">
+                <span id="detailPriceOne" class="text-lg font-black text-brandBlack"></span>
+                <span id="detailPriceBulk" class="text-lg font-black text-brandOrange"></span>
             </div>
-            <button id="addToCartBtn" class="w-full bg-brandBlack text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-brandOrange transition-all">
-                Add to Cart
-            </button>
+            <button id="addToCartBtn" class="w-full bg-brandBlack text-white py-4 rounded-xl font-black uppercase hover:bg-brandOrange transition-all">Add to Request</button>
         </div>
     </div>
 </div>
@@ -175,67 +210,69 @@
 <div id="adminPanelModal" class="fixed inset-0 z-[300] hidden items-center justify-center p-4 bg-black/90">
     <div class="bg-white w-full max-w-2xl h-[90vh] rounded-3xl overflow-hidden flex flex-col">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
-            <h3 class="text-xl font-black uppercase">Admin Store Management</h3>
+            <h3 class="text-xl font-black uppercase italic">Admin Store Upload</h3>
             <button onclick="closeAdminPanel()" class="material-symbols-outlined">close</button>
         </div>
         <div class="flex-1 overflow-y-auto p-8">
             <form id="adminForm" class="space-y-6">
                 <input id="adminName" required placeholder="Product Name" class="w-full border-2 p-3 rounded-xl focus:border-brandOrange">
-                <div class="flex gap-4">
-                    <input id="adminPrice" type="number" required placeholder="Price" class="flex-1 border-2 p-3 rounded-xl">
-                    <select id="adminCat" class="flex-1 border-2 p-3 rounded-xl">
-                        <option>Large Format Banners</option>
-                        <option>Custom Stickers & Labels</option>
-                        <option>Apparel Printing</option>
-                    </select>
+                <div class="grid grid-cols-2 gap-4">
+                    <input id="adminPrice" type="number" required placeholder="Price Per 1" class="border-2 p-3 rounded-xl">
+                    <input id="adminBulk" type="number" required placeholder="Price in Bulk" class="border-2 p-3 rounded-xl">
                 </div>
-                <textarea id="adminDesc" rows="4" placeholder="Description" class="w-full border-2 p-3 rounded-xl"></textarea>
+                <select id="adminCat" class="w-full border-2 p-3 rounded-xl">
+                    <option>Brand Support</option>
+                    <option>Promo Items</option>
+                    <option>Souvenirs</option>
+                    <option>Giftings</option>
+                    <option>Formats</option>
+                    <option>Offset</option>
+                </select>
+                <textarea id="adminDesc" rows="3" placeholder="Description" class="w-full border-2 p-3 rounded-xl"></textarea>
                 <div>
-                    <label class="block text-xs font-black mb-2 uppercase">Images (Upload 5)</label>
+                    <label class="block text-[10px] font-black uppercase mb-2">Upload 5 Images (Select multiple)</label>
                     <input type="file" id="adminFiles" multiple accept="image/*" class="w-full border-2 p-3 rounded-xl">
                 </div>
-                <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase">Save Product</button>
+                <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest">Upload to Store</button>
             </form>
-            <div id="adminProductList" class="mt-12 space-y-4">
-                <!-- Manageable list -->
-            </div>
+            <div id="adminProductList" class="mt-12 space-y-3"></div>
         </div>
     </div>
 </div>
 
-<!-- FOOTER (Total Restoration) -->
-<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6 mt-20">
+<!-- FOOTER -->
+<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
         <div class="space-y-6">
             <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
-            <p class="text-sm">The premier partner for precision printing and tactical branding solutions.</p>
+            <p class="text-xs">Precision printing and tactical branding solutions in Nigeria.</p>
             <div class="flex justify-center md:justify-start space-x-5 text-xl">
-                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange transition-all"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange transition-all"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange transition-all"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
         <div class="text-[10px] uppercase font-bold space-y-4">
             <h5 class="text-white text-xs font-black">Locations</h5>
-            <p><span class="text-brandOrange">Head:</span> 50, Shipeolu Street, Somolu, Lagos.</p>
+            <p><span class="text-brandOrange">Head:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
             <p><span class="text-brandOrange">Sales:</span> Abraham Adesanya Complex, Onipanu.</p>
+            <p><span class="text-brandOrange">Branch:</span> 63, Tejuosho Road, Yaba.</p>
         </div>
         <div class="space-y-4">
-            <h5 class="text-white text-xs font-black uppercase">Company</h5>
+            <h5 class="text-white text-xs font-black uppercase">Support</h5>
             <ul class="space-y-2 text-[10px] font-black uppercase">
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Support</a></li>
+                <li><a href="about.html" class="hover:text-brandOrange">About Us</a></li>
+                <li><a href="contact.html" class="hover:text-brandOrange">Contact Support</a></li>
             </ul>
         </div>
-        <div class="pt-6">
-            <a href="https://wa.me/2349032473005" target="_blank" class="bg-brandOrange text-white px-5 py-3 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all inline-block">Get a Website</a>
+        <div>
+            <a href="https://wa.me/2349032473005" target="_blank" class="bg-brandOrange text-white px-5 py-3 rounded-lg font-black text-[9px] uppercase tracking-widest block text-center">Get a Business Website</a>
         </div>
     </div>
-    <div class="text-center mt-12 text-[10px] font-bold uppercase text-slate-500">© 2024 Harwosprints.ng. All rights reserved.</div>
+    <div class="text-center mt-12 text-[10px] font-black text-slate-500 uppercase">© 2024 Harwosprints.ng. All rights reserved.</div>
 </footer>
 
 <script>
-    // SUPABASE SETUP
     const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -244,20 +281,37 @@
     let cart = [];
     const admins = ['dben61168@gmail.com', 'harwosprints@gmail.com'];
 
-    // 1. INITIALIZE & ADMIN CHECK
+    // 1. INIT & AUTH SWITCH
     async function init() {
         const { data: { user } } = await supabase.auth.getUser();
-        if (user && admins.includes(user.email)) {
-            document.body.classList.add('is-admin');
-            document.getElementById('adminLink').style.display = 'block';
+        if (user) {
+            document.getElementById('loginBtn').classList.add('hidden');
+            document.getElementById('dashBtn').classList.remove('hidden');
+            if (admins.includes(user.email)) {
+                document.getElementById('adminLink').classList.remove('hidden');
+            }
         }
         await loadProducts();
     }
 
-    // 2. LOAD PRODUCTS
+    // 2. SEARCH & FILTER
+    function searchProducts() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
+        renderProducts(filtered);
+    }
+
+    function filter(cat) {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('category-active'));
+        event.target.classList.add('category-active');
+        const filtered = cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat);
+        renderProducts(filtered);
+    }
+
+    // 3. CORE LOGIC
     async function loadProducts() {
         document.getElementById('loadingOverlay').style.display = 'flex';
-        const { data, error } = await supabase.from('products').select('*');
+        const { data } = await supabase.from('products').select('*');
         if (data) {
             allProducts = data;
             renderProducts(data);
@@ -265,77 +319,62 @@
         document.getElementById('loadingOverlay').style.display = 'none';
     }
 
-    // 3. RENDER UI
     function renderProducts(list) {
         const grid = document.getElementById('productGrid');
+        const empty = document.getElementById('emptyState');
+        if (list.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+        empty.classList.add('hidden');
         grid.innerHTML = list.map(p => `
-            <div class="bg-white rounded-[2rem] overflow-hidden border-2 border-slate-50 shadow-lg group cursor-pointer hover:-translate-y-2 transition-all duration-500">
-                <div onclick="openDetail('${p.id}')" class="h-40 md:h-64 overflow-hidden relative">
-                    <img src="${p.images?.[0] || 'https://via.placeholder.com/400'}" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700">
-                    <div class="absolute inset-0 bg-brandBlack/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="product-card bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-xl transition-all duration-500">
+                <div onclick="openDetail('${p.id}')" class="h-44 md:h-72 overflow-hidden cursor-pointer">
+                    <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover">
                 </div>
-                <div class="p-4 md:p-6">
-                    <h3 class="font-black uppercase text-xs md:text-base mb-1 truncate">${p.name}</h3>
-                    <p class="text-[10px] font-bold text-brandOrange uppercase mb-4">${p.category}</p>
-                    <div class="flex justify-between items-center">
-                        <span class="font-black text-brandBlack">₦${Number(p.price).toLocaleString()}</span>
-                        <button onclick="addToCart('${p.id}')" class="bg-brandBlack text-white p-2 md:px-4 md:py-2 rounded-lg text-[10px] font-black uppercase hover:bg-brandOrange">Add</button>
-                    </div>
+                <div class="p-5">
+                    <h3 class="font-black uppercase text-[10px] md:text-sm truncate">${p.name}</h3>
+                    <p class="text-brandOrange font-black text-[12px] mt-2">₦${Number(p.price).toLocaleString()}</p>
+                    <button onclick="addToCart('${p.id}')" class="w-full bg-brandBlack text-white py-2 rounded-lg text-[9px] font-black uppercase mt-4 hover:bg-brandOrange transition-all">Add to Cart</button>
                 </div>
             </div>
         `).join('');
     }
 
-    // 4. CART LOGIC
+    // 4. CART & BILLING
     function addToCart(id) {
-        const item = allProducts.find(p => p.id === id);
-        cart.push(item);
-        updateCartUI();
+        const p = allProducts.find(x => x.id === id);
+        cart.push(p);
+        updateCart();
         toggleCart(true);
     }
 
-    function updateCartUI() {
+    function updateCart() {
         document.getElementById('cartCountBadge').innerText = cart.length;
         document.getElementById('cartTotalCount').innerText = cart.length;
-        const container = document.getElementById('cartItemsContainer');
-        container.innerHTML = cart.map((item, index) => `
-            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border">
-                <img src="${item.images[0]}" class="w-16 h-16 object-cover rounded-xl">
-                <div class="flex-1">
-                    <h4 class="font-black uppercase text-xs">${item.name}</h4>
-                    <p class="font-black text-brandOrange">₦${Number(item.price).toLocaleString()}</p>
-                </div>
-                <button onclick="removeFromCart(${index})" class="text-slate-300 hover:text-red-500"><span class="material-symbols-outlined">delete</span></button>
+        let total = cart.reduce((sum, item) => sum + Number(item.price), 0);
+        document.getElementById('cartTotalValue').innerText = "₦" + total.toLocaleString();
+        document.getElementById('cartItemsContainer').innerHTML = cart.map((item, i) => `
+            <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-xl">
+                <img src="${item.images[0]}" class="w-12 h-12 rounded-lg object-cover">
+                <div class="flex-1"><h4 class="font-black text-[10px] uppercase">${item.name}</h4><p class="text-brandOrange font-black text-xs">₦${Number(item.price).toLocaleString()}</p></div>
+                <button onclick="removeFromCart(${i})" class="material-symbols-outlined text-slate-300">delete</button>
             </div>
         `).join('');
     }
 
-    function removeFromCart(idx) {
-        cart.splice(idx, 1);
-        updateCartUI();
-    }
+    function removeFromCart(i) { cart.splice(i, 1); updateCart(); }
+    function toggleCart(force = false) { document.getElementById('cartOverlay').style.display = force || document.getElementById('cartOverlay').style.display === 'none' ? 'block' : 'none'; }
+    function openPaymentModal() { if(cart.length === 0) return alert("Cart empty"); toggleCart(); document.getElementById('paymentModal').style.display = 'flex'; }
+    function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
 
-    function toggleCart(forceOpen = false) {
-        const overlay = document.getElementById('cartOverlay');
-        if (forceOpen) {
-            document.body.classList.add('cart-open');
-            overlay.style.display = 'block';
-        } else {
-            document.body.classList.toggle('cart-open');
-            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
-        }
-    }
-
-    // 5. WHATSAPP CHECKOUT
-    function sendOrderWhatsApp() {
-        if (cart.length === 0) return alert("Cart is empty!");
-        let text = "Hello Harwosprints, I want to request a quote for:%0A%0A";
-        cart.forEach(item => {
-            text += `- ${item.name} (${item.category})%0A`;
-        });
-        text += "%0AOrganize my request and get back to me.";
+    // 5. ORDER SUBMIT (WHATSAPP)
+    document.getElementById('orderForm').onsubmit = (e) => {
+        e.preventDefault();
+        let total = cart.reduce((sum, item) => sum + Number(item.price), 0);
+        let itemsText = cart.map(p => `- ${p.name} (₦${Number(p.price).toLocaleString()})`).join('%0A');
+        let billing = `Name: ${document.getElementById('billFirstName').value} ${document.getElementById('billLastName').value}%0AAddress: ${document.getElementById('billStreet').value}, ${document.getElementById('billCity').value}%0APhone: ${document.getElementById('billPhone').value}`;
+        
+        let text = `*NEW ORDER REQUEST*%0A%0A*Items:*%0A${itemsText}%0A%0A*Total:* ₦${total.toLocaleString()}%0A%0A*Billing Info:*%0A${billing}%0A%0A*Payment Method:* Direct Bank Transfer`;
         window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
-    }
+    };
 
     // 6. DETAIL POPUP
     function openDetail(id) {
@@ -343,82 +382,62 @@
         document.getElementById('detailTitle').innerText = p.name;
         document.getElementById('detailCategory').innerText = p.category;
         document.getElementById('detailDesc').innerText = p.description;
-        document.getElementById('detailPrice').innerText = "₦" + Number(p.price).toLocaleString();
+        document.getElementById('detailPriceOne').innerText = "Unit Price: ₦" + Number(p.price).toLocaleString();
+        document.getElementById('detailPriceBulk').innerText = "Bulk Price: ₦" + Number(p.bulk_price || 0).toLocaleString();
         document.getElementById('detailImageMain').innerHTML = `<img src="${p.images[0]}" class="w-full h-full object-cover">`;
-        
-        document.getElementById('detailThumbnails').innerHTML = p.images.map(img => `
-            <img src="${img}" onclick="updateDetailMain('${img}')" class="w-20 h-20 object-cover rounded-xl cursor-pointer border-2 border-slate-100">
-        `).join('');
-
+        document.getElementById('detailThumbnails').innerHTML = p.images.map(img => `<img src="${img}" onclick="updateDetailMain('${img}')" class="w-16 h-16 object-cover rounded-lg cursor-pointer border">`).join('');
         document.getElementById('addToCartBtn').onclick = () => { addToCart(p.id); closeDetail(); };
         document.getElementById('detailModal').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
     }
+    function updateDetailMain(u) { document.querySelector('#detailImageMain img').src = u; }
+    function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
 
-    function updateDetailMain(url) {
-        document.querySelector('#detailImageMain img').src = url;
-    }
-
-    function closeDetail() {
-        document.getElementById('detailModal').style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-
-    // 7. ADMIN FUNCTIONS (CRUD)
+    // 7. ADMIN FUNCTIONS
     function openAdminPanel() { document.getElementById('adminPanelModal').style.display = 'flex'; loadAdminList(); }
     function closeAdminPanel() { document.getElementById('adminPanelModal').style.display = 'none'; }
-
-    async function handleAdminSubmit(e) {
+    
+    document.getElementById('adminForm').onsubmit = async (e) => {
         e.preventDefault();
+        document.getElementById('loadingOverlay').style.display = 'flex';
         const files = document.getElementById('adminFiles').files;
         const imageUrls = [];
-
         for (let file of files) {
             const path = `store/${Date.now()}_${file.name}`;
-            const { data, error } = await supabase.storage.from('product-images').upload(path, file);
+            const { data } = await supabase.storage.from('product-images').upload(path, file);
             if (data) {
                 const { data: { publicUrl } } = supabase.storage.from('product-images').getPublicUrl(path);
                 imageUrls.push(publicUrl);
             }
         }
-
-        const productData = {
+        const product = {
             name: document.getElementById('adminName').value,
             price: document.getElementById('adminPrice').value,
+            bulk_price: document.getElementById('adminBulk').value,
             category: document.getElementById('adminCat').value,
             description: document.getElementById('adminDesc').value,
             images: imageUrls
         };
-
-        await supabase.from('products').insert([productData]);
-        alert("Product Saved!");
+        await supabase.from('products').insert([product]);
+        alert("Uploaded!");
         location.reload();
-    }
+    };
 
     async function deleteProduct(id) {
-        if(confirm("Delete permanently?")) {
-            await supabase.from('products').delete().eq('id', id);
-            loadProducts();
-            loadAdminList();
-        }
+        if(confirm("Delete?")) { await supabase.from('products').delete().eq('id', id); loadProducts(); loadAdminList(); }
     }
 
     function loadAdminList() {
-        const container = document.getElementById('adminProductList');
-        container.innerHTML = allProducts.map(p => `
-            <div class="flex justify-between items-center bg-slate-50 p-4 rounded-xl border">
-                <span class="font-bold text-xs uppercase">${p.name}</span>
-                <button onclick="deleteProduct('${p.id}')" class="text-red-500 font-black uppercase text-[10px]">Delete</button>
+        document.getElementById('adminProductList').innerHTML = allProducts.map(p => `
+            <div class="flex justify-between bg-slate-50 p-3 rounded-xl border">
+                <span class="text-[10px] font-bold uppercase">${p.name}</span>
+                <button onclick="deleteProduct('${p.id}')" class="text-red-500 font-black text-[10px]">Delete</button>
             </div>
         `).join('');
     }
 
-    document.getElementById('adminForm').onsubmit = handleAdminSubmit;
     function scrollToProducts() { document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' }); }
-    
     init();
 </script>
 
 </body>
 </html>
-

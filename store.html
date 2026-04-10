@@ -84,6 +84,20 @@
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       }
       body.modal-active { overflow: hidden; }
+      
+      /* Floating WhatsApp Animation */
+      .float-whatsapp {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 150;
+        animation: float-pulse 2s infinite;
+      }
+      @keyframes float-pulse {
+        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+        70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
+        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+      }
     </style>
 </head>
 <body class="text-slate-900">
@@ -93,6 +107,11 @@
     <div class="w-16 h-16 border-4 border-slate-100 border-t-brandOrange rounded-full animate-spin mb-4"></div>
     <p class="text-[10px] font-black uppercase tracking-[0.3em] text-brandOrange animate-pulse">Syncing HARWOSPRINTS...</p>
 </div>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/2349094576733" target="_blank" class="float-whatsapp bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl">
+    <i class="fab fa-whatsapp text-3xl"></i>
+</a>
 
 <!-- NAVIGATION -->
 <nav class="fixed top-0 w-full z-[100] bg-white/95 backdrop-blur-md border-b border-slate-100 px-4 md:px-12 py-4">
@@ -119,17 +138,17 @@
 </nav>
 
 <main class="pt-24 pb-20">
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION (UPDATED IMAGE) -->
     <section class="px-4 md:px-12 mb-12">
         <div class="relative overflow-hidden rounded-[2.5rem] md:rounded-[4rem] bg-brandBlack h-[350px] md:h-[600px] flex items-center shadow-2xl">
-            <img class="absolute inset-0 w-full h-full object-cover opacity-50 scale-105" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop" alt="HARWOSPRINTS Store"/>
-            <div class="absolute inset-0 bg-gradient-to-r from-brandBlack via-brandBlack/40 to-transparent"></div>
+            <img class="absolute inset-0 w-full h-full object-cover opacity-60 scale-105" src="large format printing.png" alt="HARWOSPRINTS Store"/>
+            <div class="absolute inset-0 bg-gradient-to-r from-brandBlack via-brandBlack/40 to-transparent backdrop-blur-[2px]"></div>
             
             <div class="relative z-10 px-8 md:px-20 max-w-4xl">
                 <h1 class="text-4xl md:text-8xl font-black text-white mb-6 uppercase tracking-tighter leading-none">
                     HARWOSPRINTS <br><span class="text-brandOrange italic">Store.</span>
                 </h1>
-                <p class="text-slate-300 text-sm md:text-xl mb-10 max-w-lg font-medium leading-relaxed uppercase">Nigeria's premium destination for industrial printing and bespoke branding solutions.</p>
+                <p class="text-slate-100 text-sm md:text-xl mb-10 max-w-lg font-black leading-relaxed uppercase drop-shadow-lg">Nigeria's premium destination for industrial printing and bespoke branding solutions.</p>
                 <button onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})" class="bg-brandOrange text-white px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:brightness-110 shadow-2xl transition-all uppercase">Browse Catalog</button>
             </div>
         </div>
@@ -155,7 +174,7 @@
         </div>
     </section>
 
-    <!-- PRODUCT GRID (5 COL LAPTOP / 2 COL MOBILE) -->
+    <!-- PRODUCT GRID -->
     <section id="productsSection" class="max-w-[1440px] mx-auto px-4 md:px-12 min-h-[600px]">
         <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
             <!-- Dynamically Loaded from loadStoreData() -->
@@ -164,7 +183,7 @@
     </section>
 </main>
 
-<!-- CART DRAWER (RESTORED ORIGINAL LOGIC) -->
+<!-- CART DRAWER -->
 <div id="cartOverlay" class="fixed inset-0 bg-black/60 z-[200] hidden backdrop-blur-sm" onclick="toggleCart(false)">
     <div class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col" onclick="event.stopPropagation()">
         <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
@@ -184,7 +203,7 @@
     </div>
 </div>
 
-<!-- CHECKOUT MODAL (RESPONSIVE BANK BOX) -->
+<!-- CHECKOUT MODAL -->
 <div id="paymentModal" class="modal-container">
     <div class="modal-content overflow-hidden flex flex-col h-[90vh]">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
@@ -199,10 +218,9 @@
                 <input type="tel" id="billPhone" placeholder="Phone Number *" required class="border-2 p-4 rounded-xl font-bold bg-slate-50 text-sm">
                 <input type="email" id="billEmail" placeholder="Email Address *" required class="border-2 p-4 rounded-xl font-bold bg-slate-50 text-sm">
 
-                <!-- MOBILE OPTIMIZED BANK BOX -->
                 <div class="md:col-span-2 bg-brandBlack text-white p-5 md:p-10 rounded-[2.5rem] border-l-[12px] border-brandOrange space-y-6 shadow-2xl">
                     <h4 class="text-xl md:text-2xl font-black uppercase text-brandOrange tracking-widest">Bank Transfer</h4>
-                    <p class="text-[10px] md:text-[12px] font-bold text-slate-300 uppercase leading-relaxed italic">Make payment directly into our bank account. Use Order ID as reference. Order won't be processed until funds clear.</p>
+                    <p class="text-[10px] md:text-[12px] font-bold text-slate-300 uppercase leading-relaxed italic">Make payment directly into our bank account.</p>
                     <div class="bg-white/5 p-5 rounded-2xl border border-white/10 space-y-3">
                         <div>
                             <p class="text-[9px] md:text-xs font-black uppercase text-slate-400">Account Name:</p>
@@ -217,19 +235,11 @@
                             <p class="text-2xl md:text-4xl font-black tracking-widest text-brandOrange leading-none">0761264611</p>
                         </div>
                     </div>
-                    <div class="text-[9px] md:text-[10px] font-black uppercase text-slate-400 space-y-2 leading-relaxed italic uppercase font-bold">
-                        <p>• Send payment proof & job files (CDR/PDF/PNG) to harwosprintsltd@gmail.com</p>
-                        <p>• Jobs without designs will be charged a fee discussed on live chat.</p>
-                        <p>• Delivery Charges (₦2500+) apply based on distance.</p>
-                    </div>
                 </div>
 
                 <div class="md:col-span-2 flex items-start gap-4 py-4 border-t border-slate-100">
                     <input type="checkbox" required class="mt-1 w-6 h-6 rounded text-brandOrange">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase leading-relaxed">
-                        Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy. 
-                        <br><br>I have read and agree to the website <button type="button" onclick="toggleModal('policyPopup')" class="text-brandOrange underline">terms and conditions</button> *
-                    </p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase leading-relaxed">I have read and agree to the website <button type="button" onclick="toggleModal('policyPopup')" class="text-brandOrange underline">terms and conditions</button> *</p>
                 </div>
 
                 <button type="submit" class="md:col-span-2 bg-brandBlack text-white py-6 rounded-3xl font-black uppercase tracking-[0.3em] shadow-2xl hover:bg-brandOrange transition-all">Confirm Order on WhatsApp</button>
@@ -240,19 +250,16 @@
 
 <!-- PRODUCT DETAIL POPUP -->
 <div id="detailModal" class="modal-container">
-    <div class="modal-box flex flex-col md:flex-row overflow-hidden max-h-[95vh]">
+    <div class="modal-content flex flex-col md:flex-row overflow-hidden max-h-[95vh]">
         <button onclick="closeDetail()" class="absolute top-6 right-6 z-[160] w-12 h-12 bg-white rounded-full flex shadow-xl items-center justify-center hover:bg-brandOrange hover:text-white transition-all"><span class="material-symbols-outlined text-3xl font-bold">close</span></button>
-        
         <div class="w-full md:w-1/2 bg-slate-50 p-6 flex flex-col border-b md:border-b-0 md:border-r border-slate-100">
             <div id="detailMainImg" class="flex-1 flex items-center justify-center min-h-[300px]"><img src="" class="max-h-[450px] object-contain rounded-3xl"></div>
             <div id="detailThumbs" class="flex gap-3 mt-6 overflow-x-auto no-scrollbar pb-2"></div>
         </div>
-
         <div class="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center bg-white overflow-y-auto uppercase font-bold">
             <p id="detCat" class="text-[10px] font-black text-brandOrange uppercase mb-4 tracking-[0.3em]"></p>
             <h2 id="detName" class="text-3xl md:text-5xl font-black uppercase mb-6 text-brandBlack leading-tight tracking-tighter"></h2>
             <p id="detDesc" class="text-slate-500 text-sm md:text-base mb-10 leading-relaxed font-medium uppercase"></p>
-            
             <div class="flex items-center gap-8 mb-10">
                 <div class="flex items-center border-2 border-slate-100 rounded-[1.5rem] overflow-hidden bg-slate-50 shadow-sm">
                     <button onclick="updateDetQty(-1)" class="px-8 py-5 font-black hover:bg-brandOrange hover:text-white transition-all">-</button>
@@ -261,7 +268,6 @@
                 </div>
                 <div class="text-3xl font-black text-brandBlack" id="detPrice">₦0</div>
             </div>
-
             <button id="detailAddBtn" class="w-full bg-brandBlack text-white py-6 rounded-3xl font-black uppercase tracking-widest shadow-xl hover:bg-brandOrange transition-all">Add to My Order</button>
         </div>
     </div>
@@ -296,60 +302,77 @@
     </div>
 </div>
 
-<!-- POLICIES MODAL -->
-<div id="policyPopup" class="modal-container">
-    <div class="modal-content max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl">
-        <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
-            <h3 class="font-black uppercase tracking-widest">Harwosprints Policies</h3>
-            <button onclick="toggleModal('policyPopup')" class="material-symbols-outlined text-3xl font-bold">close</button>
-        </div>
-        <div class="p-10 md:p-16 overflow-y-auto space-y-12 text-sm leading-relaxed text-slate-700 font-medium uppercase font-bold">
-            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-4 mb-6">Shipping & Delivery</h4><p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. The cost may vary based on the distance from our office. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos unless otherwise arranged or stated by the customer/s. Products will be packed and protected for deliveries to QC standard assured. Refund or replaced product/s shipping to our office is at the expenses of customer/s, whatever is shipped from our office is paid by us.</p></section>
-            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-4 mb-6">Quality of materials</h4><p>We are assuring you of our product quality which comes from other parts of the world known best manufacturing standard and practice like us. Sometimes, during transit and production in bulk few error occur and we regret to admit but trust us to do a perfect replacement of broken, torn or defective products. please always notify us by mail or chat immediately you receive order to correct such anomalies.</p></section>
-            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-4 mb-6">Terms & Conditions</h4><p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can’t offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Refunds are made after a replacement of perfect product has been exhausted. Complete return requires receipt or proof of purchase.</p></section>
-            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-4 mb-6">Refunds & Exchanges</h4><p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprintsltd@gmail.com and return to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p></section>
-            <section><h4 class="font-black text-brandOrange uppercase text-lg border-b pb-4 mb-6">Data Policy</h4><p>Website: https://harwosprint.ng. We collect comments data, IP addresses, and browser agent strings for spam detection. Cookies last for one year for convenience. We handle embedded content from other websites securely.</p></section>
-        </div>
-    </div>
-</div>
+<!-- FOOTER (GLOBAL UPDATED) -->
+<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="space-y-8">
+            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
+            <p class="font-medium leading-relaxed">The Premium partner for high precision brand support backed by science of print technology & skills.</p>
+            
+            <div class="flex flex-wrap gap-2 text-white">
+                <a href="https://www.facebook.com/share/1FwAZw5Vcn/" target="_blank" class="bg-blue-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/harwos_print" target="_blank" class="bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/harwosprintsltd" target="_blank" class="bg-black border border-slate-800 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" class="bg-blue-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="bg-red-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="bg-black w-8 h-8 flex items-center justify-center rounded-md border border-slate-700"><i class="fab fa-tiktok"></i></a>
+            </div>
 
-<!-- FOOTER -->
-<footer class="bg-brandBlack text-slate-400 pt-20 pb-10 px-6 border-t border-slate-900 mt-20 font-black uppercase">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center md:text-left">
-        <div class="space-y-6">
-            <div class="text-brandOrange font-black text-3xl tracking-tighter">HARWOSPRINTS</div>
-            <p class="text-[10px] text-slate-500 leading-relaxed uppercase font-bold">The premier partner for high-precision printing and tactical branding solutions in Nigeria.</p>
+            <div class="space-y-3">
+                <p class="text-brandOrange font-bold text-xs uppercase tracking-widest">Chat with us on:</p>
+                <div class="flex gap-3">
+                    <a href="https://wa.me/2349094576733" target="_blank" class="bg-green-500 w-10 h-10 flex items-center justify-center rounded-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp text-white text-xl"></i></a>
+                    <a href="#" class="bg-blue-500 w-10 h-10 flex items-center justify-center rounded-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-messenger text-white text-xl"></i></a>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <p class="text-brandOrange font-bold text-xs uppercase tracking-widest">Delivery</p>
+                <div class="flex items-center gap-3 bg-black/40 p-2 rounded-xl border border-slate-800 w-fit">
+                    <div class="bg-green-600 px-2 py-1 rounded flex items-center gap-1"><span class="text-[10px] font-black italic text-white leading-none">KWIK</span></div>
+                    <span class="text-white font-bold text-xs">+</span>
+                    <div class="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center text-[8px] font-black text-white">Bolt</div>
+                    <span class="text-white font-bold text-xs">+</span>
+                    <div class="flex flex-col items-center">
+                        <span class="text-white font-black text-lg leading-none tracking-tighter italic">GIG</span>
+                        <span class="text-[6px] font-bold uppercase tracking-widest text-white">Logistics</span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div>
-            <h5 class="text-white mb-6 text-sm uppercase">Solutions</h5>
-            <ul class="space-y-4 text-[10px] text-slate-500 font-bold uppercase">
-                <li>Commercial Printing</li><li>Brand Identity</li><li>Custom Packaging</li><li>Wide Format</li>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Solutions</h5>
+            <ul class="space-y-4 text-xs font-bold uppercase">
+                <li><a class="hover:text-brandOrange" href="#">Branding & Brand Support</a></li>
+                <li><a class="hover:text-brandOrange" href="#">Commercial Printing</a></li>
+                <li><a class="hover:text-brandOrange" href="#">Large Format</a></li>
+                <li><a class="hover:text-brandOrange" href="#">UV Direct Printing</a></li>
             </ul>
         </div>
         <div>
-            <h5 class="text-white mb-6 text-sm uppercase font-bold text-brandOrange">Locations</h5>
-            <div class="space-y-6 text-[9px] leading-loose text-slate-500 font-bold uppercase">
-                <p><span class="text-brandOrange">Head Office:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
-                <p><span class="text-brandOrange">Sales Office:</span> Abraham Adesanya Complex, Onipanu, Lagos.</p>
-                <p><span class="text-brandOrange">Branch Office:</span> 63, Tejuosho Road, Yaba, Lagos.</p>
-            </div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Navigation</h5>
+            <ul class="space-y-4 text-xs font-bold uppercase">
+                <li><a href="index.html" class="hover:text-brandOrange">Home</a></li>
+                <li><a href="about.html" class="hover:text-brandOrange">About Us</a></li>
+                <li><a href="https://wa.me/2349094576733" class="hover:text-brandOrange">Support & FAQ</a></li>
+                <li><a href="#" onclick="toggleModal('policyPopup')" class="hover:text-brandOrange">Policies</a></li>
+            </ul>
         </div>
-        <div class="space-y-6">
-            <h5 class="text-white mb-4 text-sm uppercase font-bold">Newsletter</h5>
-            <div class="flex bg-slate-900 rounded-2xl overflow-hidden p-1.5 border border-slate-800">
-                <input type="email" placeholder="Email Address" class="bg-transparent border-none text-white text-xs flex-1 px-4 focus:ring-0 uppercase">
-                <button class="bg-brandOrange text-white p-3 rounded-xl hover:brightness-110"><span class="material-symbols-outlined text-sm">send</span></button>
+        <div>
+            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-brandOrange">Action</h5>
+            <div class="mt-4">
+                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg uppercase">start your brand Xperience</a>
             </div>
-            <a href="https://wa.me/2349032473005" target="_blank" class="block text-center bg-brandOrange text-white py-4 rounded-xl font-black text-[10px] shadow-lg hover:brightness-110 transition-all uppercase tracking-widest">Get a Business Website</a>
-            <button onclick="openAdminPanel()" class="w-full text-center text-[10px] text-slate-800 hover:text-brandOrange transition-all mt-4 uppercase font-bold">Admin Access</button>
+            <p class="mt-8 text-[10px] font-bold uppercase underline decoration-brandOrange decoration-2 tracking-widest">harwosprints@gmail.com</p>
+            <div class="mt-4 space-y-1 text-[10px] font-bold uppercase">
+                <p>Call: +234 916 8794 383</p>
+                <p>WhatsApp: +234 909 4576 733</p>
+            </div>
+            <button onclick="openAdminPanel()" class="mt-8 text-[10px] text-slate-800 hover:text-brandOrange font-bold uppercase">Admin Access</button>
         </div>
     </div>
-    <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase gap-6 text-center">
-        <p>© 2024 Harwosprints.ng. All rights reserved.</p>
-        <div class="flex gap-8">
-            <button onclick="toggleModal('policyPopup')" class="hover:text-brandOrange transition-all">Privacy Policy</button>
-            <button onclick="toggleModal('policyPopup')" class="hover:text-brandOrange transition-all">Terms & Conditions</button>
-        </div>
+    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase">
+        <p>© 2024 27.668grafix. All rights reserved.</p>
     </div>
 </footer>
 
@@ -364,11 +387,9 @@ let cart = JSON.parse(localStorage.getItem("harwos_main_stable_v2")) || [];
 let isAdminMode = false;
 
 window.onload = async () => {
-    // Reveal Page
     const loader = document.getElementById('loadingOverlay');
     loader.style.opacity = '0';
     setTimeout(() => loader.style.display = 'none', 500);
-
     await loadStoreData();
     updateCartUI();
 };
@@ -390,13 +411,12 @@ function renderProducts(list) {
     grid.innerHTML = '';
     if (list.length === 0) { document.getElementById('emptyStore').classList.remove('hidden'); return; }
     document.getElementById('emptyStore').classList.add('hidden');
-
     list.forEach(p => {
         grid.innerHTML += `
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-slate-50 hover:shadow-2xl transition-all p-4 flex flex-col group">
+            <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-slate-50 hover:shadow-2xl transition-all p-4 flex flex-col group uppercase font-bold">
                 <div class="relative h-44 md:h-52 overflow-hidden rounded-[1.5rem] mb-4 bg-slate-50">
                     <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-700" onclick="openDetail('${p.id}')">
-                    <div class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[8px] font-black uppercase text-brandOrange tracking-widest font-headline">${p.category}</div>
+                    <div class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[8px] font-black uppercase text-brandOrange tracking-widest">${p.category}</div>
                 </div>
                 <h3 class="font-black uppercase text-[10px] mb-1 truncate text-brandBlack">${p.name}</h3>
                 <p class="text-brandOrange font-black text-sm mb-4">₦${Number(p.price || 0).toLocaleString()}</p>
@@ -433,12 +453,9 @@ function openDetail(id) {
     document.getElementById('detDesc').innerText = p.description;
     document.getElementById('detPrice').innerText = "₦" + Number(p.price || 0).toLocaleString();
     document.getElementById('detailMainImg').querySelector('img').src = p.images?.[0] || 'harwosprints.ng-logo.jpg';
-    
     const thumbs = document.getElementById('detailThumbs');
     thumbs.innerHTML = '';
-    p.images?.forEach(img => {
-        thumbs.innerHTML += `<img src="${img}" class="h-16 w-16 object-cover rounded-xl border-2 border-transparent cursor-pointer hover:border-brandOrange transition-all" onclick="document.getElementById('detailMainImg').querySelector('img').src='${img}'">`;
-    });
+    p.images?.forEach(img => { thumbs.innerHTML += `<img src="${img}" class="h-16 w-16 object-cover rounded-xl border-2 border-transparent cursor-pointer hover:border-brandOrange transition-all" onclick="document.getElementById('detailMainImg').querySelector('img').src='${img}'">`; });
     document.getElementById('detailAddBtn').onclick = () => { addToCart(p.id, document.getElementById('detQty').value); closeDetail(); };
     document.getElementById('detailModal').style.display = 'flex';
 }
@@ -446,14 +463,12 @@ function openDetail(id) {
 function closeDetail() { document.getElementById('detailModal').style.display = 'none'; document.body.classList.remove('modal-active'); }
 function updateDetQty(val) { const el = document.getElementById('detQty'); let n = parseInt(el.value) + val; if(n < 1) n = 1; el.value = n; }
 
-// --- CART CORE ---
 function addToCart(id, qty) {
     const product = allProducts.find(p => p.id === id);
     if(!product) return;
     qty = parseInt(qty) || 1;
     const existing = cart.find(item => item.id === id);
     if(existing) existing.qty += qty; else cart.push({...product, qty: qty});
-    
     localStorage.setItem("harwos_main_stable_v2", JSON.stringify(cart));
     updateCartUI();
     toggleCart(true); 
@@ -471,8 +486,7 @@ function updateCartUI() {
     list.innerHTML = '';
     let total = 0;
     cart.forEach((item, i) => {
-        const itemTotal = (item.price || 0) * item.qty;
-        total += itemTotal;
+        total += (item.price || 0) * item.qty;
         list.innerHTML += `<div class="flex gap-4 items-center bg-white p-4 rounded-[1.5rem] border shadow-sm uppercase font-bold"><img src="${item.images?.[0]}" class="w-14 h-14 object-cover rounded-xl"><div><h4 class="text-[10px] text-brandBlack font-black">${item.name}</h4><p class="text-[10px] text-brandOrange">${item.qty} units x ₦${Number(item.price || 0).toLocaleString()}</p></div><button onclick="removeFromCart(${i})" class="ml-auto material-symbols-outlined text-slate-300 hover:text-red-500">delete</button></div>`;
     });
     document.getElementById('cartSubtotal').innerText = "₦" + total.toLocaleString();
@@ -482,15 +496,11 @@ function toggleCart(show) {
     const el = document.getElementById('cartOverlay');
     if(show === true) { document.body.classList.add('cart-open'); el.style.display = 'block'; } 
     else if(show === false) { document.body.classList.remove('cart-open'); el.style.display = 'none'; } 
-    else { 
-        document.body.classList.toggle('cart-open');
-        el.style.display = el.style.display === 'block' ? 'none' : 'block';
-    }
 }
 
 function openPaymentModal() { if(cart.length === 0) return alert("Cart is empty"); toggleCart(false); document.getElementById('paymentModal').style.display = 'flex'; document.body.classList.add('modal-active'); }
 function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; document.body.classList.remove('modal-active'); }
-function toggleModal(id) { const el = document.getElementById(id); el.style.display = (el.style.display === 'flex' ? 'none' : 'flex'); if(el.style.display==='flex') el.classList.remove('hidden'); }
+function toggleModal(id) { const el = document.getElementById(id); el.style.display = (el.style.display === 'flex' ? 'none' : 'flex'); }
 
 document.getElementById('masterOrderForm').onsubmit = (e) => {
     e.preventDefault();
@@ -505,7 +515,6 @@ document.getElementById('masterAdminForm').onsubmit = async (e) => {
     let urls = [];
     const files = document.getElementById('adFiles').files;
     for(let f of files) {
-        if(urls.length >= 5) break;
         const path = `store/${Date.now()}_${f.name}`;
         const { error: upErr } = await supabaseClient.storage.from('product-images').upload(path, f);
         if(!upErr) urls.push(supabaseClient.storage.from('product-images').getPublicUrl(path).data.publicUrl);
@@ -522,7 +531,6 @@ function editProduct(id) {
     const p = allProducts.find(x => x.id === id); 
     adName.value = p.name; adPrice1.value = p.price; adPriceBulk.value = p.bulk_price; adCat.value = p.category; adDesc.value = p.description; adEditId.value = p.id; 
     document.getElementById('adminPanel').style.display = 'flex'; 
-    document.body.classList.add('modal-active');
 }
 function searchProducts() { const q = document.getElementById('searchInput').value.toLowerCase(); renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(q))); }
 function filterProducts(cat, btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active')); btn.classList.add('category-active'); renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat)); }

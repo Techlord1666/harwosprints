@@ -4,25 +4,10 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     
-    <!-- SEO KEYWORDS & DESCRIPTION (RESTORED) -->
     <title>Store - HARWOSPRINTS | Premium Printing & Branding</title>
-    <meta name="description" content="HARWOSPRINTS - Nigeria's premier partner for high-precision printing and tactical branding solutions. We design, print, brand and deliver premium marketing materials nationwide."/>
-    <meta name="keywords" content="HARWOSPRINTS, Printing Nigeria, Branding Lagos, Custom Packaging, Business Cards Nigeria, Flyers, Branded Souvenirs, Promotional Items, Offset Printing, Digital Imaging, Direct Imaging, Harwos Prints, Printing in Somolu, Printing in Yaba, Brand Support, Promo Items, Souvenirs Lagos, Giftings Nigeria"/>
-    <meta name="author" content="HARWOSPRINTS"/>
+    <meta name="description" content="HARWOSPRINTS - Nigeria's premier partner for high-precision printing and tactical branding solutions."/>
 
-    <!-- SOCIAL MEDIA SHARING PREVIEW (OG TAGS RESTORED) -->
-    <meta property="og:title" content="Store - HARWOSPRINTS | Premium Printing & Branding"/>
-    <meta property="og:description" content="Nigeria's premier partner for high-precision printing and tactical branding solutions. Transform your brand today."/>
-    <meta property="og:image" content="harwosprints.ng-logo.jpg"/>
-    <meta property="og:url" content="https://harwosprints.ng/store.html"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:site_name" content="HARWOSPRINTS"/>
-
-    <!-- FAVICON (RESTORED) -->
     <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
-    <link rel="apple-touch-icon" href="harwosprints.ng-logo.jpg">
-
-    <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -35,8 +20,7 @@
           extend: {
             colors: {
                 brandOrange: "#ea580c",
-                brandBlack: "#0f0f0f",
-                slateLight: "#f8fafc"
+                brandBlack: "#0f0f0f"
             },
             fontFamily: {
                 headline: ["Space Grotesk", "sans-serif"],
@@ -50,18 +34,13 @@
     <style>
       body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background-color: #fdfdfd; }
       #loadingOverlay { display: flex; transition: opacity 0.5s ease; }
-      
-      /* ORIGINAL SLIDING CART LOGIC */
       .cart-drawer { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); }
       .cart-open .cart-drawer { transform: translateX(0); }
       #cartOverlay { display: none; }
       .cart-open #cartOverlay { display: block; }
-      
-      .category-active { background-color: #ea580c !important; color: white !important; transform: scale(1.05); }
       .no-scrollbar::-webkit-scrollbar { display: none; }
-      input:focus, select:focus, textarea:focus { border-color: #ea580c !important; outline: none; box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1); }
-
-      /* MODAL SYSTEM - FIXED MOBILE SCROLLING */
+      
+      /* MODAL SYSTEM */
       .modal-container {
         display: none;
         position: fixed;
@@ -71,7 +50,7 @@
         backdrop-filter: blur(10px);
         align-items: center;
         justify-content: center;
-        padding: 0.5rem;
+        padding: 1rem;
         overflow-y: auto;
       }
       .modal-content {
@@ -81,11 +60,9 @@
         border-radius: 2.5rem;
         position: relative;
         margin: auto;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       }
       body.modal-active { overflow: hidden; }
-      
-      /* Floating WhatsApp Animation */
+
       .float-whatsapp {
         position: fixed;
         bottom: 30px;
@@ -105,7 +82,7 @@
 <!-- GLOBAL LOADER -->
 <div id="loadingOverlay" class="fixed inset-0 bg-white z-[2000] flex flex-col items-center justify-center">
     <div class="w-16 h-16 border-4 border-slate-100 border-t-brandOrange rounded-full animate-spin mb-4"></div>
-    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-brandOrange animate-pulse">Syncing HARWOSPRINTS...</p>
+    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-brandOrange animate-pulse">Syncing Store...</p>
 </div>
 
 <!-- FLOATING WHATSAPP -->
@@ -122,14 +99,12 @@
             </div>
             <span class="text-xl md:text-2xl font-black text-brandOrange uppercase tracking-tighter font-headline">HARWOSPRINTS</span>
         </div>
-        
         <div class="hidden lg:flex items-center gap-8 font-bold text-[10px] uppercase tracking-widest text-slate-500">
             <a href="index.html" class="hover:text-brandOrange transition-all">Home</a>
             <a href="store.html" class="text-brandOrange underline underline-offset-8 decoration-2 font-black">Shop</a>
             <a href="about.html" class="hover:text-brandOrange transition-all">About</a>
-            <a href="contact.html" class="hover:text-brandOrange transition-all">Contact</a>
+            <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange transition-all">Contact</a>
         </div>
-
         <button onclick="toggleCart(true)" class="relative p-2.5 bg-slate-100 rounded-full hover:bg-brandOrange hover:text-white transition-all group">
             <span class="material-symbols-outlined">shopping_cart</span>
             <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brandOrange text-white text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-black">0</span>
@@ -138,18 +113,15 @@
 </nav>
 
 <main class="pt-24 pb-20">
-    <!-- HERO SECTION (UPDATED IMAGE) -->
+    <!-- HERO SECTION -->
     <section class="px-4 md:px-12 mb-12">
         <div class="relative overflow-hidden rounded-[2.5rem] md:rounded-[4rem] bg-brandBlack h-[350px] md:h-[600px] flex items-center shadow-2xl">
-            <img class="absolute inset-0 w-full h-full object-cover opacity-60 scale-105" src="large format printing.png" alt="HARWOSPRINTS Store"/>
-            <div class="absolute inset-0 bg-gradient-to-r from-brandBlack via-brandBlack/40 to-transparent backdrop-blur-[2px]"></div>
-            
+            <img class="absolute inset-0 w-full h-full object-cover opacity-60" src="large format printing.png" alt="Hero"/>
+            <div class="absolute inset-0 bg-gradient-to-r from-brandBlack via-brandBlack/40 to-transparent"></div>
             <div class="relative z-10 px-8 md:px-20 max-w-4xl">
-                <h1 class="text-4xl md:text-8xl font-black text-white mb-6 uppercase tracking-tighter leading-none">
-                    HARWOSPRINTS <br><span class="text-brandOrange italic">Store.</span>
-                </h1>
+                <h1 class="text-4xl md:text-8xl font-black text-white mb-6 uppercase tracking-tighter leading-none">HARWOSPRINTS <br><span class="text-brandOrange italic">Store.</span></h1>
                 <p class="text-slate-100 text-sm md:text-xl mb-10 max-w-lg font-black leading-relaxed uppercase drop-shadow-lg">Nigeria's premium destination for industrial printing and bespoke branding solutions.</p>
-                <button onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})" class="bg-brandOrange text-white px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:brightness-110 shadow-2xl transition-all uppercase">Browse Catalog</button>
+                <button onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})" class="bg-brandOrange text-white px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-2xl transition-all">Browse Catalog</button>
             </div>
         </div>
     </section>
@@ -159,90 +131,67 @@
         <div class="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col gap-8">
             <div class="relative w-full">
                 <span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 text-3xl font-black">search</span>
-                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search catalog..." class="w-full pl-16 pr-6 py-5 bg-slate-50 border-none rounded-[1.5rem] focus:ring-4 focus:ring-brandOrange/10 font-bold text-lg uppercase">
+                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search catalog..." class="w-full pl-16 pr-6 py-5 bg-slate-50 border-none rounded-[1.5rem] font-bold text-lg uppercase">
             </div>
-            
             <div class="flex overflow-x-auto gap-3 no-scrollbar pb-2 uppercase font-black text-[10px]">
                 <button onclick="filterProducts('all', this)" class="cat-btn category-active shrink-0 px-8 py-4 rounded-2xl transition-all bg-slate-50 border-2 border-transparent">All Items</button>
                 <button onclick="filterProducts('Brand Support', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl transition-all bg-slate-50 border-2 border-transparent">Brand Support</button>
                 <button onclick="filterProducts('Promo Items', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl transition-all bg-slate-50 border-2 border-transparent">Promo Items</button>
                 <button onclick="filterProducts('Souvenirs', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl transition-all bg-slate-50 border-2 border-transparent">Souvenirs</button>
                 <button onclick="filterProducts('Giftings', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl transition-all bg-slate-50 border-2 border-transparent">Giftings</button>
-                <button onclick="filterProducts('Formats', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl transition-all bg-slate-50 border-2 border-transparent">Formats</button>
-                <button onclick="filterProducts('Offset', this)" class="cat-btn shrink-0 px-8 py-4 rounded-2xl transition-all bg-slate-50 border-2 border-transparent">Offset</button>
             </div>
         </div>
     </section>
 
     <!-- PRODUCT GRID -->
     <section id="productsSection" class="max-w-[1440px] mx-auto px-4 md:px-12 min-h-[600px]">
-        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
-            <!-- Dynamically Loaded from loadStoreData() -->
-        </div>
-        <div id="emptyStore" class="hidden text-center py-32 font-black uppercase text-slate-400 text-2xl tracking-widest uppercase">The store is currently empty.</div>
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8"></div>
+        <div id="emptyStore" class="hidden text-center py-32 font-black uppercase text-slate-400 text-2xl tracking-widest">Store Empty.</div>
     </section>
 </main>
 
 <!-- CART DRAWER -->
 <div id="cartOverlay" class="fixed inset-0 bg-black/60 z-[200] hidden backdrop-blur-sm" onclick="toggleCart(false)">
     <div class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col" onclick="event.stopPropagation()">
-        <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
-            <h3 class="text-2xl font-black uppercase tracking-tighter">My Request Cart</h3>
-            <button onclick="toggleCart(false)" class="material-symbols-outlined text-3xl font-bold">close</button>
+        <div class="bg-brandBlack p-8 text-white flex justify-between items-center">
+            <h3 class="text-2xl font-black uppercase tracking-tighter">My Cart</h3>
+            <button onclick="toggleCart(false)" class="material-symbols-outlined text-3xl">close</button>
         </div>
         <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50"></div>
         <div class="p-8 border-t bg-white">
             <div class="flex justify-between items-end mb-8 font-black">
-                <span class="text-xs uppercase text-slate-400">Total Sum Estimated</span>
+                <span class="text-xs uppercase text-slate-400">Estimated Total</span>
                 <span id="cartSubtotal" class="text-3xl text-brandBlack">₦0</span>
             </div>
-            <button onclick="openPaymentModal()" class="w-full bg-brandOrange text-white py-6 rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transition-all">
-                Continue to Payment
-            </button>
+            <button onclick="openPaymentModal()" class="w-full bg-brandOrange text-white py-6 rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl">Payment Details</button>
         </div>
     </div>
 </div>
 
-<!-- CHECKOUT MODAL -->
+<!-- PAYMENT MODAL -->
 <div id="paymentModal" class="modal-container">
     <div class="modal-content overflow-hidden flex flex-col h-[90vh]">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
-            <h3 class="text-xl font-black uppercase tracking-widest">Billing & Order Info</h3>
-            <button onclick="closePaymentModal()" class="material-symbols-outlined text-3xl font-bold">close</button>
+            <h3 class="text-xl font-black uppercase tracking-widest">Order Details</h3>
+            <button onclick="toggleModal('paymentModal')" class="material-symbols-outlined text-3xl">close</button>
         </div>
-        <div class="flex-1 overflow-y-auto p-6 md:p-12 space-y-10">
+        <div class="flex-1 overflow-y-auto p-6 md:p-12 space-y-8">
             <form id="masterOrderForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input type="text" id="billFName" placeholder="First Name *" required class="border-2 p-4 rounded-xl font-bold bg-slate-50 uppercase text-sm">
                 <input type="text" id="billLName" placeholder="Last Name *" required class="border-2 p-4 rounded-xl font-bold bg-slate-50 uppercase text-sm">
-                <input type="text" id="billStreet1" placeholder="Delivery Address *" required class="md:col-span-2 border-2 p-4 rounded-xl font-bold bg-slate-50 uppercase text-sm">
-                <input type="tel" id="billPhone" placeholder="Phone Number *" required class="border-2 p-4 rounded-xl font-bold bg-slate-50 text-sm">
-                <input type="email" id="billEmail" placeholder="Email Address *" required class="border-2 p-4 rounded-xl font-bold bg-slate-50 text-sm">
-
-                <div class="md:col-span-2 bg-brandBlack text-white p-5 md:p-10 rounded-[2.5rem] border-l-[12px] border-brandOrange space-y-6 shadow-2xl">
-                    <h4 class="text-xl md:text-2xl font-black uppercase text-brandOrange tracking-widest">Bank Transfer</h4>
-                    <p class="text-[10px] md:text-[12px] font-bold text-slate-300 uppercase leading-relaxed italic">Make payment directly into our bank account.</p>
-                    <div class="bg-white/5 p-5 rounded-2xl border border-white/10 space-y-3">
-                        <div>
-                            <p class="text-[9px] md:text-xs font-black uppercase text-slate-400">Account Name:</p>
-                            <p class="text-xs md:text-sm font-black uppercase text-white font-bold">Harwos Print Nigeria Limited</p>
-                        </div>
-                        <div>
-                            <p class="text-[9px] md:text-xs font-black uppercase text-slate-400">Bank Name:</p>
-                            <p class="text-xs md:text-sm font-black uppercase text-white font-bold">Access Bank</p>
-                        </div>
-                        <div>
-                            <p class="text-[9px] md:text-xs font-black uppercase text-slate-400">Account Number:</p>
-                            <p class="text-2xl md:text-4xl font-black tracking-widest text-brandOrange leading-none">0761264611</p>
-                        </div>
-                    </div>
+                <input type="text" id="billStreet1" placeholder="Address *" required class="md:col-span-2 border-2 p-4 rounded-xl font-bold bg-slate-50 uppercase text-sm">
+                <input type="tel" id="billPhone" placeholder="Phone *" required class="border-2 p-4 rounded-xl font-bold bg-slate-50 text-sm">
+                <input type="email" id="billEmail" placeholder="Email *" required class="border-2 p-4 rounded-xl font-bold bg-slate-50 text-sm">
+                <div class="md:col-span-2 bg-brandBlack text-white p-8 rounded-[2.5rem] border-l-[12px] border-brandOrange">
+                    <p class="text-xl font-black uppercase text-brandOrange mb-4">Access Bank Transfer</p>
+                    <p class="text-[12px] font-bold text-white mb-2 uppercase">Account: Harwos Print Nigeria Limited</p>
+                    <p class="text-3xl font-black text-white tracking-widest">0761264611</p>
                 </div>
-
-                <div class="md:col-span-2 flex items-start gap-4 py-4 border-t border-slate-100">
+                <div class="md:col-span-2 flex items-start gap-4">
                     <input type="checkbox" required class="mt-1 w-6 h-6 rounded text-brandOrange">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase leading-relaxed">I have read and agree to the website <button type="button" onclick="toggleModal('policyPopup')" class="text-brandOrange underline">terms and conditions</button> *</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase">I agree to the <button type="button" onclick="toggleModal('policyPopup')" class="text-brandOrange underline">policies</button> *</p>
                 </div>
-
-                <button type="submit" class="md:col-span-2 bg-brandBlack text-white py-6 rounded-3xl font-black uppercase tracking-[0.3em] shadow-2xl hover:bg-brandOrange transition-all">Confirm Order on WhatsApp</button>
+                <button type="submit" class="md:col-span-2 bg-brandBlack text-white py-6 rounded-3xl font-black uppercase">Send to WhatsApp</button>
             </form>
         </div>
     </div>
@@ -251,216 +200,143 @@
 <!-- PRODUCT DETAIL POPUP -->
 <div id="detailModal" class="modal-container">
     <div class="modal-content flex flex-col md:flex-row overflow-hidden max-h-[95vh]">
-        <button onclick="closeDetail()" class="absolute top-6 right-6 z-[160] w-12 h-12 bg-white rounded-full flex shadow-xl items-center justify-center hover:bg-brandOrange hover:text-white transition-all"><span class="material-symbols-outlined text-3xl font-bold">close</span></button>
-        <div class="w-full md:w-1/2 bg-slate-50 p-6 flex flex-col border-b md:border-b-0 md:border-r border-slate-100">
-            <div id="detailMainImg" class="flex-1 flex items-center justify-center min-h-[300px]"><img src="" class="max-h-[450px] object-contain rounded-3xl"></div>
-            <div id="detailThumbs" class="flex gap-3 mt-6 overflow-x-auto no-scrollbar pb-2"></div>
-        </div>
-        <div class="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center bg-white overflow-y-auto uppercase font-bold">
-            <p id="detCat" class="text-[10px] font-black text-brandOrange uppercase mb-4 tracking-[0.3em]"></p>
-            <h2 id="detName" class="text-3xl md:text-5xl font-black uppercase mb-6 text-brandBlack leading-tight tracking-tighter"></h2>
-            <p id="detDesc" class="text-slate-500 text-sm md:text-base mb-10 leading-relaxed font-medium uppercase"></p>
+        <button onclick="toggleModal('detailModal')" class="absolute top-6 right-6 z-[160] w-12 h-12 bg-white rounded-full flex shadow-xl items-center justify-center"><span class="material-symbols-outlined text-3xl">close</span></button>
+        <div class="w-full md:w-1/2 bg-slate-50 p-6 flex items-center justify-center"><img id="detailMainImg" src="" class="max-h-[450px] object-contain rounded-3xl"></div>
+        <div class="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-center bg-white">
+            <p id="detCat" class="text-[10px] font-black text-brandOrange uppercase mb-4 tracking-widest"></p>
+            <h2 id="detName" class="text-3xl md:text-5xl font-black uppercase mb-6 leading-tight"></h2>
+            <p id="detDesc" class="text-slate-500 text-sm mb-10 leading-relaxed font-bold uppercase"></p>
             <div class="flex items-center gap-8 mb-10">
-                <div class="flex items-center border-2 border-slate-100 rounded-[1.5rem] overflow-hidden bg-slate-50 shadow-sm">
+                <div class="flex items-center border-2 border-slate-100 rounded-[1.5rem] overflow-hidden bg-slate-50">
                     <button onclick="updateDetQty(-1)" class="px-8 py-5 font-black hover:bg-brandOrange hover:text-white transition-all">-</button>
                     <input type="number" id="detQty" value="1" min="1" class="w-16 text-center border-none bg-transparent font-black text-2xl">
                     <button onclick="updateDetQty(1)" class="px-8 py-5 font-black hover:bg-brandOrange hover:text-white transition-all">+</button>
                 </div>
                 <div class="text-3xl font-black text-brandBlack" id="detPrice">₦0</div>
             </div>
-            <button id="detailAddBtn" class="w-full bg-brandBlack text-white py-6 rounded-3xl font-black uppercase tracking-widest shadow-xl hover:bg-brandOrange transition-all">Add to My Order</button>
+            <button id="detailAddBtn" class="w-full bg-brandBlack text-white py-6 rounded-3xl font-black uppercase shadow-xl hover:bg-brandOrange transition-all">Add to My Order</button>
         </div>
     </div>
 </div>
 
-<!-- ADMIN MODAL -->
-<div id="adminPanel" class="modal-container">
-    <div class="modal-content overflow-hidden flex flex-col max-w-2xl h-[90vh]">
-        <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
-            <h3 class="font-black uppercase italic tracking-tighter" id="adminPanelTitle">Master Admin</h3>
-            <button onclick="closeAdminPanel()" class="material-symbols-outlined text-3xl font-bold">close</button>
+<!-- POLICY MODAL (FIXED) -->
+<div id="policyPopup" class="modal-container">
+    <div class="modal-content max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
+            <h3 class="font-black uppercase tracking-widest">Harwosprints Policies</h3>
+            <button onclick="toggleModal('policyPopup')" class="material-symbols-outlined text-3xl font-bold">close</button>
         </div>
-        <div class="p-10 space-y-8 overflow-y-auto">
-            <form id="masterAdminForm" class="space-y-6">
-                <input type="hidden" id="adEditId">
-                <input id="adName" required placeholder="Product Title" class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50">
-                <div class="grid grid-cols-2 gap-4">
-                    <input id="adPrice1" type="number" required placeholder="Unit Price (₦)" class="border-2 p-5 rounded-xl font-bold bg-slate-50">
-                    <input id="adPriceBulk" type="number" required placeholder="Bulk Price (₦)" class="border-2 p-5 rounded-xl font-bold bg-slate-50">
-                </div>
-                <select id="adCat" class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50 uppercase">
-                    <option>Brand Support</option><option>Promo Items</option><option>Souvenirs</option><option>Giftings</option><option>Formats</option><option>Offset</option>
-                </select>
-                <textarea id="adDesc" rows="4" placeholder="Quality specs and details..." class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50"></textarea>
-                <div class="p-8 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 text-center">
-                    <p class="text-xs font-black uppercase text-brandOrange mb-4">Upload Product Images (Max 5)</p>
-                    <input id="adFiles" type="file" multiple accept="image/*" class="w-full text-xs font-bold text-slate-400">
-                </div>
-                <button type="submit" id="uploadBtn" class="w-full bg-brandOrange text-white py-6 rounded-2xl font-black uppercase tracking-widest shadow-xl">Process to Store</button>
-            </form>
+        <div class="p-10 md:p-16 overflow-y-auto space-y-12 text-sm leading-relaxed text-slate-700 font-black uppercase">
+            <section><h4 class="font-black text-brandOrange text-lg border-b pb-4 mb-6 uppercase">Shipping & Delivery</h4><p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos.</p></section>
+            <section><h4 class="font-black text-brandOrange text-lg border-b pb-4 mb-6 uppercase">Quality of materials</h4><p>We are assuring you of our product quality. Sometimes, during transit and production in bulk few error occur and we trust us to do a perfect replacement of broken or defective products. Please notify us immediately.</p></section>
+            <section><h4 class="font-black text-brandOrange text-lg border-b pb-4 mb-6 uppercase">Terms & Conditions</h4><p>Our refund and returns policy lasts 30 days. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging.</p></section>
         </div>
     </div>
 </div>
 
-<!-- FOOTER (GLOBAL UPDATED) -->
+<!-- FOOTER -->
 <footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 font-black uppercase">
         <div class="space-y-8">
             <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
-            <p class="font-medium leading-relaxed">The Premium partner for high precision brand support backed by science of print technology & skills.</p>
-            
+            <p class="font-medium leading-relaxed text-[10px]">The Premium partner for high precision brand support backed by science of print technology & skills.</p>
             <div class="flex flex-wrap gap-2 text-white">
                 <a href="https://www.facebook.com/share/1FwAZw5Vcn/" target="_blank" class="bg-blue-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-facebook-f"></i></a>
                 <a href="https://www.instagram.com/harwos_print" target="_blank" class="bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-instagram"></i></a>
                 <a href="https://x.com/harwosprintsltd" target="_blank" class="bg-black border border-slate-800 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-x-twitter"></i></a>
-                <a href="#" class="bg-blue-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" class="bg-red-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="bg-black w-8 h-8 flex items-center justify-center rounded-md border border-slate-700"><i class="fab fa-tiktok"></i></a>
+                <a href="https://wa.me/2349094576733" target="_blank" class="bg-green-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-whatsapp"></i></a>
             </div>
-
-            <div class="space-y-3">
-                <p class="text-brandOrange font-bold text-xs uppercase tracking-widest">Chat with us on:</p>
-                <div class="flex gap-3">
-                    <a href="https://wa.me/2349094576733" target="_blank" class="bg-green-500 w-10 h-10 flex items-center justify-center rounded-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp text-white text-xl"></i></a>
-                    <a href="#" class="bg-blue-500 w-10 h-10 flex items-center justify-center rounded-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-messenger text-white text-xl"></i></a>
-                </div>
-            </div>
-
             <div class="space-y-4">
-                <p class="text-brandOrange font-bold text-xs uppercase tracking-widest">Delivery</p>
+                <p class="text-brandOrange font-bold text-xs">Delivery Partners</p>
                 <div class="flex items-center gap-3 bg-black/40 p-2 rounded-xl border border-slate-800 w-fit">
-                    <div class="bg-green-600 px-2 py-1 rounded flex items-center gap-1"><span class="text-[10px] font-black italic text-white leading-none">KWIK</span></div>
+                    <div class="bg-green-600 px-2 py-1 rounded text-white text-[10px]">KWIK</div>
                     <span class="text-white font-bold text-xs">+</span>
-                    <div class="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center text-[8px] font-black text-white">Bolt</div>
+                    <div class="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center text-[8px] text-white">Bolt</div>
                     <span class="text-white font-bold text-xs">+</span>
-                    <div class="flex flex-col items-center">
-                        <span class="text-white font-black text-lg leading-none tracking-tighter italic">GIG</span>
-                        <span class="text-[6px] font-bold uppercase tracking-widest text-white">Logistics</span>
-                    </div>
+                    <div class="text-white font-black text-lg italic leading-none">GIG</div>
                 </div>
             </div>
         </div>
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Solutions</h5>
-            <ul class="space-y-4 text-xs font-bold uppercase">
-                <li><a class="hover:text-brandOrange" href="#">Branding & Brand Support</a></li>
-                <li><a class="hover:text-brandOrange" href="#">Commercial Printing</a></li>
-                <li><a class="hover:text-brandOrange" href="#">Large Format</a></li>
-                <li><a class="hover:text-brandOrange" href="#">UV Direct Printing</a></li>
+            <h5 class="text-white mb-6 text-sm">Solutions</h5>
+            <ul class="space-y-4 text-[10px] text-slate-500">
+                <li>Branding & Brand Support</li><li>Large Format</li><li>UV Direct Printing</li><li>Custom Packaging</li>
             </ul>
         </div>
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Navigation</h5>
-            <ul class="space-y-4 text-xs font-bold uppercase">
-                <li><a href="index.html" class="hover:text-brandOrange">Home</a></li>
-                <li><a href="about.html" class="hover:text-brandOrange">About Us</a></li>
-                <li><a href="https://wa.me/2349094576733" class="hover:text-brandOrange">Support & FAQ</a></li>
-                <li><a href="#" onclick="toggleModal('policyPopup')" class="hover:text-brandOrange">Policies</a></li>
+            <h5 class="text-white mb-6 text-sm">Policies</h5>
+            <ul class="space-y-4 text-[10px] text-slate-500">
+                <li><button onclick="toggleModal('policyPopup')">Privacy Policy</button></li>
+                <li><button onclick="toggleModal('policyPopup')">Terms & Conditions</button></li>
+                <li><button onclick="toggleModal('policyPopup')">Shipping Info</button></li>
             </ul>
         </div>
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm text-brandOrange">Action</h5>
-            <div class="mt-4">
-                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg uppercase">start your brand Xperience</a>
-            </div>
-            <p class="mt-8 text-[10px] font-bold uppercase underline decoration-brandOrange decoration-2 tracking-widest">harwosprints@gmail.com</p>
-            <div class="mt-4 space-y-1 text-[10px] font-bold uppercase">
+            <h5 class="text-white mb-6 text-sm text-brandOrange">Contact</h5>
+            <div class="space-y-4 text-[10px] font-bold text-slate-500">
                 <p>Call: +234 916 8794 383</p>
                 <p>WhatsApp: +234 909 4576 733</p>
+                <p>harwosprints@gmail.com</p>
             </div>
-            <button onclick="openAdminPanel()" class="mt-8 text-[10px] text-slate-800 hover:text-brandOrange font-bold uppercase">Admin Access</button>
         </div>
-    </div>
-    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase">
-        <p>© 2024 27.668grafix. All rights reserved.</p>
     </div>
 </footer>
 
 <script>
-// SUPABASE CONFIG
 const supabaseUrl = 'https://eicmwdhsxzondsxepegu.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpY213ZGhzeHpvbmRzeGVwZWd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDQ3NDksImV4cCI6MjA5MDUyMDc0OX0.ACleGiVT5vLfnI7sgmgHkuzVavKSFMCjthAVCXecoeY';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 let allProducts = [];
 let cart = JSON.parse(localStorage.getItem("harwos_main_stable_v2")) || [];
-let isAdminMode = false;
 
 window.onload = async () => {
-    const loader = document.getElementById('loadingOverlay');
-    loader.style.opacity = '0';
-    setTimeout(() => loader.style.display = 'none', 500);
+    document.getElementById('loadingOverlay').style.opacity = '0';
+    setTimeout(() => document.getElementById('loadingOverlay').style.display = 'none', 500);
     await loadStoreData();
     updateCartUI();
 };
 
 async function loadStoreData() {
-    try {
-        const { data, error } = await supabaseClient.from('products').select('*').order('created_at', { ascending: false });
-        if (error) throw error;
-        allProducts = data || [];
-        renderProducts(allProducts);
-    } catch (err) {
-        console.error("Load Error:", err);
-        document.getElementById('emptyStore').classList.remove('hidden');
-    }
+    const { data, error } = await supabaseClient.from('products').select('*').order('created_at', { ascending: false });
+    if (!error) { allProducts = data || []; renderProducts(allProducts); }
 }
 
 function renderProducts(list) {
     const grid = document.getElementById('productGrid');
     grid.innerHTML = '';
-    if (list.length === 0) { document.getElementById('emptyStore').classList.remove('hidden'); return; }
-    document.getElementById('emptyStore').classList.add('hidden');
     list.forEach(p => {
         grid.innerHTML += `
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-slate-50 hover:shadow-2xl transition-all p-4 flex flex-col group uppercase font-bold">
+            <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg border border-slate-50 p-4 flex flex-col group uppercase font-black">
                 <div class="relative h-44 md:h-52 overflow-hidden rounded-[1.5rem] mb-4 bg-slate-50">
-                    <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover cursor-pointer group-hover:scale-110 transition-transform duration-700" onclick="openDetail('${p.id}')">
-                    <div class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[8px] font-black uppercase text-brandOrange tracking-widest">${p.category}</div>
+                    <img src="${p.images?.[0] || 'harwosprints.ng-logo.jpg'}" class="w-full h-full object-cover cursor-pointer hover:scale-110 transition-all" onclick="openDetail('${p.id}')">
                 </div>
-                <h3 class="font-black uppercase text-[10px] mb-1 truncate text-brandBlack">${p.name}</h3>
-                <p class="text-brandOrange font-black text-sm mb-4">₦${Number(p.price || 0).toLocaleString()}</p>
-                <div class="flex items-center gap-2 mt-auto">
-                    <input type="number" id="qty-${p.id}" value="1" min="1" class="w-12 text-[10px] p-2 border-2 rounded-xl font-bold bg-slate-50 border-slate-100">
-                    <button onclick="addToCart('${p.id}', document.getElementById('qty-${p.id}').value)" class="flex-1 bg-brandBlack text-white text-[9px] py-3 rounded-xl font-black uppercase tracking-widest hover:bg-brandOrange transition-all">Add</button>
-                </div>
-                ${isAdminMode ? `<div class="flex gap-2 mt-3 pt-3 border-t"><button onclick="editProduct('${p.id}')" class="flex-1 bg-blue-500 text-white text-[8px] py-2 rounded-lg font-black uppercase">Edit</button><button onclick="deleteProduct('${p.id}')" class="flex-1 bg-red-500 text-white text-[8px] py-2 rounded-lg font-black uppercase">Del</button></div>` : ''}
+                <h3 class="text-[10px] mb-1 truncate">${p.name}</h3>
+                <p class="text-brandOrange text-sm mb-4">₦${Number(p.price || 0).toLocaleString()}</p>
+                <button onclick="addToCart('${p.id}', 1)" class="w-full bg-brandBlack text-white text-[9px] py-3 rounded-xl hover:bg-brandOrange">Add to Order</button>
             </div>`;
     });
 }
 
-function openAdminPanel() {
-    const pass = prompt("Enter Master Access Key:");
-    if (pass === "harwosprint") {
-        document.getElementById('adminPanelTitle').innerText = "Upload New Product";
-        document.getElementById('adminPanel').style.display = 'flex';
-        document.body.classList.add('modal-active');
-    } else if (pass === "harwosprint1") {
-        isAdminMode = true;
-        renderProducts(allProducts);
-        alert("Management mode active: Edit/Delete enabled on cards.");
-    }
-}
-
-function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; document.body.classList.remove('modal-active'); }
-
 function openDetail(id) {
     const p = allProducts.find(x => x.id === id);
     if(!p) return;
-    document.body.classList.add('modal-active');
     document.getElementById('detName').innerText = p.name;
     document.getElementById('detCat').innerText = p.category;
     document.getElementById('detDesc').innerText = p.description;
     document.getElementById('detPrice').innerText = "₦" + Number(p.price || 0).toLocaleString();
-    document.getElementById('detailMainImg').querySelector('img').src = p.images?.[0] || 'harwosprints.ng-logo.jpg';
-    const thumbs = document.getElementById('detailThumbs');
-    thumbs.innerHTML = '';
-    p.images?.forEach(img => { thumbs.innerHTML += `<img src="${img}" class="h-16 w-16 object-cover rounded-xl border-2 border-transparent cursor-pointer hover:border-brandOrange transition-all" onclick="document.getElementById('detailMainImg').querySelector('img').src='${img}'">`; });
-    document.getElementById('detailAddBtn').onclick = () => { addToCart(p.id, document.getElementById('detQty').value); closeDetail(); };
-    document.getElementById('detailModal').style.display = 'flex';
+    document.getElementById('detailMainImg').src = p.images?.[0] || 'harwosprints.ng-logo.jpg';
+    document.getElementById('detailAddBtn').onclick = () => { addToCart(p.id, document.getElementById('detQty').value); toggleModal('detailModal'); };
+    toggleModal('detailModal');
 }
 
-function closeDetail() { document.getElementById('detailModal').style.display = 'none'; document.body.classList.remove('modal-active'); }
+function toggleModal(id) { 
+    const el = document.getElementById(id);
+    const isShowing = el.style.display === 'flex';
+    el.style.display = isShowing ? 'none' : 'flex';
+    document.body.classList.toggle('modal-active', !isShowing);
+}
+
 function updateDetQty(val) { const el = document.getElementById('detQty'); let n = parseInt(el.value) + val; if(n < 1) n = 1; el.value = n; }
 
 function addToCart(id, qty) {
@@ -474,64 +350,31 @@ function addToCart(id, qty) {
     toggleCart(true); 
 }
 
-function removeFromCart(i) {
-    cart.splice(i, 1);
-    localStorage.setItem("harwos_main_stable_v2", JSON.stringify(cart));
-    updateCartUI();
-}
-
 function updateCartUI() {
     document.getElementById('cartCountBadge').innerText = cart.length;
+    let total = 0;
     const list = document.getElementById('cartItemsList');
     list.innerHTML = '';
-    let total = 0;
     cart.forEach((item, i) => {
         total += (item.price || 0) * item.qty;
-        list.innerHTML += `<div class="flex gap-4 items-center bg-white p-4 rounded-[1.5rem] border shadow-sm uppercase font-bold"><img src="${item.images?.[0]}" class="w-14 h-14 object-cover rounded-xl"><div><h4 class="text-[10px] text-brandBlack font-black">${item.name}</h4><p class="text-[10px] text-brandOrange">${item.qty} units x ₦${Number(item.price || 0).toLocaleString()}</p></div><button onclick="removeFromCart(${i})" class="ml-auto material-symbols-outlined text-slate-300 hover:text-red-500">delete</button></div>`;
+        list.innerHTML += `<div class="flex gap-4 items-center bg-white p-4 rounded-xl shadow-sm uppercase font-black text-[9px] border">
+            <img src="${item.images?.[0]}" class="w-12 h-12 object-cover rounded-lg">
+            <div><h4>${item.name}</h4><p class="text-brandOrange">${item.qty} x ₦${item.price.toLocaleString()}</p></div>
+        </div>`;
     });
     document.getElementById('cartSubtotal').innerText = "₦" + total.toLocaleString();
 }
 
-function toggleCart(show) { 
-    const el = document.getElementById('cartOverlay');
-    if(show === true) { document.body.classList.add('cart-open'); el.style.display = 'block'; } 
-    else if(show === false) { document.body.classList.remove('cart-open'); el.style.display = 'none'; } 
-}
-
-function openPaymentModal() { if(cart.length === 0) return alert("Cart is empty"); toggleCart(false); document.getElementById('paymentModal').style.display = 'flex'; document.body.classList.add('modal-active'); }
-function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; document.body.classList.remove('modal-active'); }
-function toggleModal(id) { const el = document.getElementById(id); el.style.display = (el.style.display === 'flex' ? 'none' : 'flex'); }
+function toggleCart(show) { document.body.classList.toggle('cart-open', show); document.getElementById('cartOverlay').style.display = show ? 'block' : 'none'; }
+function openPaymentModal() { toggleCart(false); toggleModal('paymentModal'); }
 
 document.getElementById('masterOrderForm').onsubmit = (e) => {
     e.preventDefault();
-    const items = cart.map(i => `• ${i.name} (Qty: ${i.qty}) - ₦${((i.price || 0) * i.qty).toLocaleString()}`).join('%0A');
-    const text = `*NEW ORDER - HARWOSPRINTS*%0A------------------%0A${items}%0A------------------%0A*Total Sum:* ${document.getElementById('cartSubtotal').innerText}%0A%0A*Name:* ${document.getElementById('billFName').value} ${document.getElementById('billLName').value}%0A*Phone:* ${document.getElementById('billPhone').value}%0A*Address:* ${document.getElementById('billStreet1').value}`;
+    const items = cart.map(i => `${i.name} (x${i.qty})`).join('%0A');
+    const text = `*NEW ORDER*%0A${items}%0A%0A*Name:* ${document.getElementById('billFName').value} ${document.getElementById('billLName').value}`;
     window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
 };
 
-document.getElementById('masterAdminForm').onsubmit = async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('uploadBtn'); btn.innerText = "Syncing..."; btn.disabled = true;
-    let urls = [];
-    const files = document.getElementById('adFiles').files;
-    for(let f of files) {
-        const path = `store/${Date.now()}_${f.name}`;
-        const { error: upErr } = await supabaseClient.storage.from('product-images').upload(path, f);
-        if(!upErr) urls.push(supabaseClient.storage.from('product-images').getPublicUrl(path).data.publicUrl);
-    }
-    const payload = { name: adName.value, price: adPrice1.value, bulk_price: adPriceBulk.value, category: adCat.value, description: adDesc.value };
-    if(urls.length > 0) payload.images = urls;
-    if(adEditId.value) await supabaseClient.from('products').update(payload).eq('id', adEditId.value);
-    else await supabaseClient.from('products').insert([payload]);
-    location.reload();
-};
-
-async function deleteProduct(id) { if(confirm("Remove product?")) { await supabaseClient.from('products').delete().eq('id', id); location.reload(); } }
-function editProduct(id) { 
-    const p = allProducts.find(x => x.id === id); 
-    adName.value = p.name; adPrice1.value = p.price; adPriceBulk.value = p.bulk_price; adCat.value = p.category; adDesc.value = p.description; adEditId.value = p.id; 
-    document.getElementById('adminPanel').style.display = 'flex'; 
-}
 function searchProducts() { const q = document.getElementById('searchInput').value.toLowerCase(); renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(q))); }
 function filterProducts(cat, btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active')); btn.classList.add('category-active'); renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat)); }
 </script>

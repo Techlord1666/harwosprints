@@ -4,13 +4,13 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
      <!-- SEO KEYWORDS & DESCRIPTION -->
-    <title>Harwosprints.ng | We Design, Print, Brand & we Deliver</title>
+    <title>Harwosprints.ng | ...we Print, we Brand, we Deliver</title>
     <meta name="description" content="Harwosprints.ng - Nigeria's premier partner for high-precision printing and tactical branding solutions. We design, print, brand and deliver premium marketing materials nationwide."/>
     <meta name="keywords" content="Harwosprints, Printing Nigeria, Branding Lagos, Custom Packaging, Business Cards Nigeria, Flyers, Branded Souvenirs, Promotional Items, Offset Printing, Digital Imaging, Direct Imaging, Harwos Prints, Printing in Somolu, Printing in Yaba"/>
     <meta name="author" content="Harwosprints.ng"/>
 
     <!-- SOCIAL MEDIA SHARING PREVIEW (Open Graph) -->
-    <meta property="og:title" content="Harwosprints.ng | We Design, Print, Brand & Deliver"/>
+    <meta property="og:title" content="Harwosprints.ng | ...we Print, we Brand, we Deliver"/>
     <meta property="og:description" content="High-precision printing and tactical branding solutions. Transform your brand today."/>
     <meta property="og:image" content="harwosprints.ng-logo.jpg"/>
     <meta property="og:url" content="https://harwosprints.ng"/>
@@ -21,7 +21,6 @@
     <!-- FAVICON (Using your logo) -->
     <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
     <link rel="apple-touch-icon" href="harwosprints.ng-logo.jpg">
-    <title>Harwosprints.ng | We Design, Print, Brand & Deliver</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -49,6 +48,11 @@
         #mobileMenu { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .menu-open { transform: translateX(0) !important; }
         .timeline-line { position: absolute; left: 24px; top: 40px; bottom: 40px; width: 2px; background: repeating-linear-gradient(to bottom, #ea580c 0, #ea580c 5px, transparent 5px, transparent 10px); }
+        
+        /* Slider Styles */
+        .header-slider { display: flex; overflow: hidden; position: relative; width: 100%; height: 400px; border-radius: 2rem; }
+        .slide { min-width: 100%; transition: 0.5s ease-in-out; }
+        .slide img { width: 100%; height: 400px; object-fit: cover; }
     </style>
 </head>
 
@@ -97,7 +101,7 @@
                     <span class="flex h-2 w-2 rounded-full bg-brandOrange animate-pulse"></span>
                     <span class="text-xs font-bold uppercase tracking-widest text-slate-600">Premium Print Solutions</span>
                 </div>
-                <h1 class="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">We Design, <span class="text-brandOrange">Print</span>, Brand & Deliver</h1>
+                <h1 class="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">...we <span class="text-brandOrange">Print</span>, we Brand, we Deliver</h1>
                 <p class="text-base md:text-xl text-slate-600 font-medium leading-relaxed">Transforming concepts into high-fidelity physical reality. From avant-garde brand identities to precision-engineered marketing materials.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <a href="https://wa.me/2349094576733" target="_blank" class="bg-brandBlack text-white px-8 py-4 rounded-xl font-bold text-lg text-center hover:bg-brandOrange transition-all flex items-center justify-center gap-2">Get Started <span class="material-symbols-outlined">arrow_forward</span></a>
@@ -105,6 +109,17 @@
                 </div>
             </div>
             <div class="lg:col-span-5 px-4" data-aos="zoom-in"><img src="Home_page-1-scaled-e1669721721219.jpg" class="rounded-[2.5rem] shadow-2xl border-8 border-white hover:scale-105 transition-transform duration-700"></div>
+        </div>
+    </section>
+
+    <!-- IMAGE SLIDER SECTION (NEW) -->
+    <section class="py-12 bg-white px-4">
+        <div class="max-w-7xl mx-auto" data-aos="fade-up">
+            <div class="header-slider shadow-2xl border-4 border-slate-100" id="mainSlider">
+                <div class="slide"><img src="llargef.jpg" alt="Large Format Printing"></div>
+                <div class="slide"><img src="largeformart.jpg" alt="Branding Services"></div>
+                <div class="slide"><img src="large format printing.png" alt="High Quality Prints"></div>
+            </div>
         </div>
     </section>
 
@@ -137,9 +152,9 @@
             <div class="bg-brandOrange rounded-[40px] p-8 md:p-12 relative min-h-fit md:min-h-[500px] flex flex-col justify-between overflow-hidden shadow-xl" data-aos="fade-right">
                 <div class="relative z-10 space-y-6">
                     <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-white/80">Creative, Unique, Sharp Prints 🌲</p>
-                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-tight text-brandBlack uppercase max-w-sm">Direct Imaging or Offset by MO for Bulk Runs</h2>
+                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-tight text-brandBlack uppercase max-w-sm">Direct prints by Large Format, UV, Borderless for Branding</h2>
                     <div class="flex flex-col gap-4 pt-4">
-                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">High Grammes Cards</span></div>
+                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">High quality Flex, Vinyl & films</span></div>
                         <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float" style="animation-delay: 1s;"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">Sharp Prints</span></div>
                     </div>
                 </div>
@@ -203,10 +218,10 @@
         </div>
     </section>
 
-    <!-- GALLERY (10 IMAGES) -->
+    <!-- GALLERY (Trending Souvenirs & Promo Gifting) -->
     <section class="py-16 md:py-24 bg-white border-t px-4">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl md:text-6xl font-black italic text-brandBlack uppercase mb-12" data-aos="fade-up">GALLERY OF WORK DONE</h2>
+            <h2 class="text-3xl md:text-6xl font-black italic text-brandBlack uppercase mb-12" data-aos="fade-up">Trending Souvenirs & Promo Gifting</h2>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
                 <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in"><img src="Branded cap.png" class="h-64 w-full object-cover group-hover:scale-110 transition-all duration-700"></div>
                 <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in"><img src="Branded cloth.jpeg" class="h-64 w-full object-cover group-hover:scale-110 transition-all duration-700"></div>
@@ -229,7 +244,7 @@
                 <h2 class="text-4xl md:text-6xl font-black italic text-brandBlack uppercase mb-6">Contact Us</h2>
                 <p class="text-slate-500 font-medium text-lg mb-10 leading-relaxed">Have a custom project in mind? Fill out the form and our team will get back to you within 24 hours.</p>
                 <div class="space-y-6">
-                    <div class="flex items-center gap-4 font-black text-lg"><span class="material-symbols-outlined text-brandOrange">call</span> +234 09094576733</div>
+                    <div class="flex items-center gap-4 font-black text-lg"><span class="material-symbols-outlined text-brandOrange">call</span> +234 916 8794 383</div>
                  <a href="https://wa.me/2349094576733" class="flex items-center gap-2 text-slate-400 hover:text-brandOrange transition-colors">
     <i class="fab fa-whatsapp text-sm"></i>
     <span class="font-bold text-slate-900">+234 909 4576 733</span>
@@ -270,17 +285,17 @@
     </section>
 </main>
 
-<!-- FOOTER (FULL RESTORATION) -->
+<!-- FOOTER -->
 <footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         <div class="space-y-6">
             <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
-            <p class="font-medium leading-relaxed">The premier partner for high-precision printing and tactical branding solutions.</p>
+            <p class="font-medium leading-relaxed">The Premium partner for high precision brand support backed by science of print technology & skills.</p>
             <div class="flex space-x-5 text-2xl">
                 <a href="https://www.facebook.com/share/1FwAZw5Vcn/?mibextid=wwXIfr" target="_blank" class="hover:text-brandOrange"><i class="fab fa-facebook"></i></a>
                 <a href="https://www.instagram.com/harwos_print?igsh=cm05bG5vaWNzdjly" target="_blank" class="hover:text-brandOrange"><i class="fab fa-instagram"></i></a>
                 <a href="https://x.com/harwosprintsltd" target="_blank" class="hover:text-brandOrange"><i class="fab fa-x-twitter"></i></a>
-                <a href="mailto:harwosprintsltd@gmail.com" class="hover:text-brandOrange"><i class="fas fa-envelope"></i></a>
+                <a href="mailto:harwosprints@gmail.com" class="hover:text-brandOrange"><i class="fas fa-envelope"></i></a>
                 <a href="https://wa.me/2349094576733" target="_blank" class="hover:text-brandOrange"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
@@ -290,7 +305,7 @@
                 <li><a class="hover:text-brandOrange" href="#">Commercial Printing</a></li>
                 <li><a class="hover:text-brandOrange" href="#">Brand Identity</a></li>
                 <li><a class="hover:text-brandOrange" href="#">Custom Packaging</a></li>
-                <li><a class="hover:text-brandOrange" href="#">Wide Format</a></li>
+                <li><a class="hover:text-brandOrange" href="#">Large Format</a></li>
             </ul>
         </div>
         <div>
@@ -308,12 +323,12 @@
                 <button class="bg-brandOrange text-white p-2 rounded-lg hover:brightness-110"><span class="material-symbols-outlined">send</span></button>
             </div>
             <div class="mt-8">
-                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg">Get a Business Website</a>
+                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg">start your brand Xperience</a>
             </div>
         </div>
     </div>
     <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase">
-        <p>© 2024 Harwosprints.ng. All rights reserved.</p>
+        <p>© 2024 27.668grafix. All rights reserved.</p>
         <div class="flex gap-6">
             <a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Privacy Policy</a>
             <a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Terms & Conditions</a>
@@ -339,7 +354,7 @@
                 <p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can’t offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Refunds are made after a replacement of perfect product has been exhausted. Complete return requires receipt or proof of purchase.</p>
             </div>
             <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Refunds & Exchanges</h4>
-                <p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprintsltd@gmail.com and return to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p>
+                <p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprints@gmail.com and return to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p>
             </div>
             <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Data Policy</h4>
                 <p>Website: https://harwosprint.ng. We collect comments data, IP addresses, and browser agent strings for spam detection. Cookies last for one year for convenience. We handle embedded content from other websites securely.</p>
@@ -348,7 +363,7 @@
     </div>
 </div>
 
-<!-- DETAILED QUOTE MODAL (RESORED) -->
+<!-- DETAILED QUOTE MODAL -->
 <div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
     <div class="bg-white w-full max-w-lg rounded-[2rem] overflow-hidden border-4 border-brandBlack shadow-2xl relative">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center"><h3 class="text-xl font-black uppercase tracking-tighter">Request a Quote</h3><button onclick="toggleModal('quoteModal')" class="material-symbols-outlined">close</button></div>
@@ -364,7 +379,21 @@
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  window.addEventListener('load', () => AOS.init({ duration: 1200, once: true, offset: 20, easing: 'ease-out-back' }));
+  window.addEventListener('load', () => {
+      AOS.init({ duration: 1200, once: true, offset: 20, easing: 'ease-out-back' });
+      
+      // Auto Slider Logic
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.slide');
+      function showNextSlide() {
+          currentSlide = (currentSlide + 1) % slides.length;
+          slides.forEach((slide, index) => {
+              slide.style.transform = `translateX(-${currentSlide * 100}%)`;
+          });
+      }
+      setInterval(showNextSlide, 3500);
+  });
+
   function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
       const backdrop = document.getElementById('menuBackdrop');

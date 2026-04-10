@@ -143,23 +143,30 @@
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="relative pt-24 pb-16 lg:pt-32 lg:pb-24 bg-brandBlack overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
+    <section class="relative pt-24 pb-16 lg:pt-32 lg:pb-24 bg-brandBlack min-h-[60vh] flex items-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="uv.jpg" alt="UV Printer" class="w-full h-full object-cover opacity-60">
+        </div>
+        
+        <div class="absolute inset-0 opacity-20 z-10">
             <div class="absolute top-0 right-0 w-96 h-96 bg-brandOrange rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-72 h-72 bg-brandOrange rounded-full blur-3xl"></div>
         </div>
         
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="inline-block px-4 py-1 rounded-full bg-brandOrange/20 text-brandOrange font-bold text-xs mb-6 tracking-widest uppercase border border-brandOrange/30">
-                About HARWOSPRINTS
-            </span>
-            <h1 class="font-headline text-4xl sm:text-5xl lg:text-7xl font-black text-white mb-6 leading-tight">
-                We Print <span class="text-brandOrange">Excellence</span>,<br>
-                We Brand <span class="text-brandOrange">Success</span>
-            </h1>
-            <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-                From conventional offset to cutting-edge UV direct prints, we've evolved with technology to deliver premium printing solutions across Nigeria.
-            </p>
+        <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-block backdrop-blur-md bg-black/40 p-8 md:p-12 rounded-[2rem] border border-white/10">
+                <span class="inline-block px-4 py-1 rounded-full bg-brandOrange text-white font-bold text-xs mb-6 tracking-widest uppercase border border-brandOrange/30">
+                    About HARWOSPRINTS
+                </span>
+                <h1 class="font-headline text-4xl sm:text-5xl lg:text-7xl font-black text-white mb-6 leading-tight">
+                    We Print <span class="text-brandOrange">Excellence</span>,<br>
+                    We Brand <span class="text-brandOrange">Success</span>
+                </h1>
+                <p class="text-white text-lg max-w-2xl mx-auto leading-relaxed font-medium">
+                    From conventional offset to cutting-edge UV direct prints, we've evolved with technology to deliver premium printing solutions across Nigeria.
+                </p>
+            </div>
         </div>
     </section>
 
@@ -167,7 +174,7 @@
     <section class="py-16 lg:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                <div class="order-2 lg:order-1">
+                <div class="order-2 lg:order-1" data-aos="fade-right">
                     <h2 class="font-headline text-3xl lg:text-5xl font-black text-brandBlack mb-6">
                         Our <span class="text-brandOrange">Story</span>
                     </h2>
@@ -189,13 +196,14 @@
                     </div>
                 </div>
                 
-                <div class="order-1 lg:order-2 grid grid-cols-2 gap-4">
+                <div class="order-1 lg:order-2 grid grid-cols-2 gap-4" data-aos="fade-left">
                     <div class="space-y-4">
                         <div class="relative rounded-2xl overflow-hidden h-48 lg:h-64 group">
-                            <img src="large format printing.png" alt="Large Format Printing" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <!-- UV Printer Machine Image -->
+                            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop" alt="UV Printer Machine" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <div class="absolute inset-0 image-overlay"></div>
                             <div class="absolute bottom-4 left-4 text-white">
-                                <p class="font-bold text-sm">Large Format</p>
+                                <p class="font-bold text-sm">UV & Borderless</p>
                             </div>
                         </div>
                         <div class="relative rounded-2xl overflow-hidden h-32 lg:h-40 bg-brandOrange flex items-center justify-center">
@@ -295,202 +303,60 @@
         </div>
     </section>
 
-    <!-- GALLERY SECTION (10 IMAGES) -->
+    <!-- GALLERY SECTION -->
     <section class="py-16 md:py-24 bg-white border-t px-4">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black italic text-brandBlack uppercase mb-8 md:mb-12" data-aos="fade-up">Trending Souvenirs & Promo Gifting</h2>
+            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black italic text-brandBlack uppercase mb-8 md:mb-12">Trending Souvenirs & Promo Gifting</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-6">
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="Branded cap.png" alt="Branded Cap" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="Branded cloth.jpeg" alt="Branded Cloth" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="Branded cups.jpeg" alt="Branded Cups" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="Customized items.jpeg" alt="Customized Items" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="Enamel pins.jpeg" alt="Enamel Pins" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="Pillow .jpeg" alt="Pillow" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="Roll up banners .jpeg" alt="Roll Up Banners" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="customized phone pouch.jpeg" alt="Customized Phone Pouch" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="customized shirts.jpeg" alt="Customized Shirts" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
-                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group" data-aos="zoom-in">
+                <div class="border-4 border-brandBlack rounded-2xl overflow-hidden group">
                     <img src="water bottles.jpeg" alt="Water Bottles" class="h-48 sm:h-56 md:h-64 w-full object-cover group-hover:scale-110 transition-all duration-700">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CLIENTS MARQUEE (Right to Left) -->
+    <!-- CLIENTS MARQUEE -->
     <section class="py-8 md:py-12 bg-white overflow-hidden border-y">
         <div class="marquee-container relative">
             <div class="animate-marquee-right flex items-center gap-8 md:gap-16 lg:gap-32 w-max">
-                <!-- First set -->
                 <img src="Pepsi_bi_2006svg.png" alt="Pepsi" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
                 <img src="aje-logo.png" alt="Aje" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
                 <img src="harwosprints.ng_bigi_logo-300x166.jpg" alt="Bigi" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
                 <img src="7up-Logo-300x169.png" alt="7up" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
                 <img src="logo-fp-c-1.png" alt="HARWOSPRINTS" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
-                <!-- Duplicate set for seamless loop -->
+                <!-- Duplicate -->
                 <img src="Pepsi_bi_2006svg.png" alt="Pepsi" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
                 <img src="aje-logo.png" alt="Aje" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
                 <img src="harwosprints.ng_bigi_logo-300x166.jpg" alt="Bigi" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
                 <img src="7up-Logo-300x169.png" alt="7up" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
                 <img src="logo-fp-c-1.png" alt="HARWOSPRINTS" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
-                <!-- Third set for extra smoothness -->
-                <img src="Pepsi_bi_2006svg.png" alt="Pepsi" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
-                <img src="aje-logo.png" alt="Aje" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
-                <img src="harwosprints.ng_bigi_logo-300x166.jpg" alt="Bigi" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
-                <img src="7up-Logo-300x169.png" alt="7up" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
-                <img src="logo-fp-c-1.png" alt="HARWOSPRINTS" class="h-8 sm:h-10 md:h-12 lg:h-16 object-contain grayscale hover:grayscale-0 transition-all">
-            </div>
-        </div>
-    </section>
-
-    <!-- TESTIMONIALS (Right to Left) -->
-    <section class="py-12 md:py-16 bg-brandBlack overflow-hidden relative">
-        <h2 class="text-center text-white text-2xl md:text-3xl lg:text-4xl font-black uppercase mb-8 md:mb-12 tracking-widest px-4">Happy Clients</h2>
-        <div class="marquee-container relative">
-            <div class="animate-marquee-right flex items-stretch gap-4 md:gap-6 lg:gap-8 w-max px-4">
-                <!-- Testimonial 1 -->
-                <div class="w-[280px] sm:w-[320px] md:w-[380px] lg:w-[400px] bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl shrink-0 border-b-4 md:border-b-8 border-brandOrange">
-                    <div class="flex items-center gap-1 mb-4">
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                    </div>
-                    <p class="text-slate-600 font-bold italic mb-4 md:mb-6 text-sm md:text-base">"Harwosprints delivered 5000 branded bags for our gala. The quality was elite and the colors were spot on!"</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brandOrange/20 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-brandOrange">person</span>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-brandBlack uppercase text-xs md:text-sm">Chioma Adeleke</h4>
-                            <p class="text-[10px] font-bold text-brandOrange">CEO, Fashion Hub</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Testimonial 2 -->
-                <div class="w-[280px] sm:w-[320px] md:w-[380px] lg:w-[400px] bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl shrink-0 border-b-4 md:border-b-8 border-brandOrange">
-                    <div class="flex items-center gap-1 mb-4">
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                    </div>
-                    <p class="text-slate-600 font-bold italic mb-4 md:mb-6 text-sm md:text-base">"Fastest delivery in Lagos. I ordered roll-up banners on Tuesday and got them Thursday. Incredible!"</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brandOrange/20 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-brandOrange">person</span>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-brandBlack uppercase text-xs md:text-sm">Olawale Hassan</h4>
-                            <p class="text-[10px] font-bold text-brandOrange">Event Planner</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Testimonial 3 -->
-                <div class="w-[280px] sm:w-[320px] md:w-[380px] lg:w-[400px] bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl shrink-0 border-b-4 md:border-b-8 border-brandOrange">
-                    <div class="flex items-center gap-1 mb-4">
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                    </div>
-                    <p class="text-slate-600 font-bold italic mb-4 md:mb-6 text-sm md:text-base">"Our restaurant menus have never looked this good. Premium card stock and very sharp imaging."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brandOrange/20 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-brandOrange">person</span>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-brandBlack uppercase text-xs md:text-sm">Ngozi Okoro</h4>
-                            <p class="text-[10px] font-bold text-brandOrange">Restaurateur</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Duplicate set for seamless loop -->
-                <!-- Testimonial 1 -->
-                <div class="w-[280px] sm:w-[320px] md:w-[380px] lg:w-[400px] bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl shrink-0 border-b-4 md:border-b-8 border-brandOrange">
-                    <div class="flex items-center gap-1 mb-4">
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                    </div>
-                    <p class="text-slate-600 font-bold italic mb-4 md:mb-6 text-sm md:text-base">"Harwosprints delivered 5000 branded bags for our gala. The quality was elite and the colors were spot on!"</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brandOrange/20 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-brandOrange">person</span>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-brandBlack uppercase text-xs md:text-sm">Chioma Adeleke</h4>
-                            <p class="text-[10px] font-bold text-brandOrange">CEO, Fashion Hub</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Testimonial 2 -->
-                <div class="w-[280px] sm:w-[320px] md:w-[380px] lg:w-[400px] bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl shrink-0 border-b-4 md:border-b-8 border-brandOrange">
-                    <div class="flex items-center gap-1 mb-4">
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                    </div>
-                    <p class="text-slate-600 font-bold italic mb-4 md:mb-6 text-sm md:text-base">"Fastest delivery in Lagos. I ordered roll-up banners on Tuesday and got them Thursday. Incredible!"</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brandOrange/20 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-brandOrange">person</span>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-brandBlack uppercase text-xs md:text-sm">Olawale Hassan</h4>
-                            <p class="text-[10px] font-bold text-brandOrange">Event Planner</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Testimonial 3 -->
-                <div class="w-[280px] sm:w-[320px] md:w-[380px] lg:w-[400px] bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl shrink-0 border-b-4 md:border-b-8 border-brandOrange">
-                    <div class="flex items-center gap-1 mb-4">
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                        <span class="material-symbols-outlined text-brandOrange text-sm">star</span>
-                    </div>
-                    <p class="text-slate-600 font-bold italic mb-4 md:mb-6 text-sm md:text-base">"Our restaurant menus have never looked this good. Premium card stock and very sharp imaging."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brandOrange/20 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-brandOrange">person</span>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-brandBlack uppercase text-xs md:text-sm">Ngozi Okoro</h4>
-                            <p class="text-[10px] font-bold text-brandOrange">Restaurateur</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -512,17 +378,13 @@
                         <span class="material-symbols-outlined text-white text-2xl">location_on</span>
                     </div>
                     <h3 class="font-headline font-bold text-xl mb-2 text-brandOrange">Head Office</h3>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
-                        50, Shipeolu Street,<br>Somolu, Lagos
-                    </p>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">50, Shipeolu Street, Somolu, Lagos</p>
                     <div class="space-y-2 text-sm">
                         <a href="tel:+2349168794383" class="flex items-center gap-2 text-slate-400 hover:text-brandOrange transition-colors">
-                            <span class="material-symbols-outlined text-sm">phone</span>
-                            +234 90168794383
+                            <span class="material-symbols-outlined text-sm">phone</span> +234 916 8794 383
                         </a>
                         <a href="https://wa.me/2349094576733" class="flex items-center gap-2 text-slate-400 hover:text-brandOrange transition-colors">
-                            <i class="fab fa-whatsapp text-sm"></i>
-                            +234 909 4576 733
+                            <i class="fab fa-whatsapp text-sm"></i> +234 909 4576 733
                         </a>
                     </div>
                 </div>
@@ -533,17 +395,10 @@
                         <span class="material-symbols-outlined text-white text-2xl">store</span>
                     </div>
                     <h3 class="font-headline font-bold text-xl mb-2 text-brandOrange">Sales Office</h3>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
-                        Shop C6, Abraham Adesanya Shopping Complex,<br>Onipanu, Lagos
-                    </p>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">Shop C6, Abraham Adesanya Shopping Complex, Onipanu, Lagos</p>
                     <div class="space-y-2 text-sm">
                         <a href="tel:+2349168794383" class="flex items-center gap-2 text-slate-400 hover:text-brandOrange transition-colors">
-                            <span class="material-symbols-outlined text-sm">phone</span>
-                            +234 90168794383
-                        </a>
-                        <a href="https://wa.me/2349094576733" class="flex items-center gap-2 text-slate-400 hover:text-brandOrange transition-colors">
-                            <i class="fab fa-whatsapp text-sm"></i>
-                            +234 909 4576 733
+                            <span class="material-symbols-outlined text-sm">phone</span> +234 916 8794 383
                         </a>
                     </div>
                 </div>
@@ -554,41 +409,13 @@
                         <span class="material-symbols-outlined text-white text-2xl">apartment</span>
                     </div>
                     <h3 class="font-headline font-bold text-xl mb-2 text-brandOrange">Branch Office</h3>
-                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
-                        63, Tejuosho Road,<br>Yaba, Lagos
-                    </p>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">63, Tejuosho Road, Yaba, Lagos</p>
                     <div class="space-y-2 text-sm">
                         <a href="tel:+2349168794383" class="flex items-center gap-2 text-slate-400 hover:text-brandOrange transition-colors">
-                            <span class="material-symbols-outlined text-sm">phone</span>
-                            +234 90168794383
-                        </a>
-                        <a href="https://wa.me/2349094576733" class="flex items-center gap-2 text-slate-400 hover:text-brandOrange transition-colors">
-                            <i class="fab fa-whatsapp text-sm"></i>
-                            +234 909 4576 733
+                            <span class="material-symbols-outlined text-sm">phone</span> +234 916 8794 383
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA SECTION -->
-    <section class="py-16 lg:py-24 bg-brandOrange">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="font-headline text-3xl lg:text-5xl font-black text-white mb-6">
-                Ready to Start Your Project?
-            </h2>
-            <p class="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-                Let's bring your vision to life with premium printing and branding solutions.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="store.html" class="bg-white text-brandOrange px-8 py-4 rounded-full font-black text-sm uppercase hover:bg-brandBlack hover:text-white transition-all shadow-xl">
-                    Browse Products
-                </a>
-                <a href="https://wa.me/2349094576733" class="bg-brandBlack text-white px-8 py-4 rounded-full font-black text-sm uppercase hover:bg-white hover:text-brandBlack transition-all shadow-xl flex items-center justify-center gap-2">
-                    <i class="fab fa-whatsapp"></i>
-                    Chat on WhatsApp
-                </a>
             </div>
         </div>
     </section>
@@ -597,44 +424,61 @@
     <footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-                <!-- Brand -->
-                <div class="lg:col-span-1">
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5 bg-white">
-                            <img src="logo-fp-c-1.png" alt="HARWOSPRINTS Logo" class="w-full h-full object-contain rounded-full">
+                <!-- Brand & Delivery -->
+                <div class="lg:col-span-1 space-y-8">
+                    <div>
+                        <div class="flex items-center gap-2 mb-6">
+                            <div class="w-10 h-10 rounded-full border-2 border-brandOrange p-0.5 bg-white">
+                                <img src="harwosprints.ng-logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
+                            </div>
+                            <span class="font-headline font-black text-xl uppercase text-white">HARWOS<span class="text-brandOrange">PRINTS</span></span>
                         </div>
-                        <span class="font-headline font-black text-xl uppercase text-white">
-                            HARWOS<span class="text-brandOrange">PRINTS</span>
-                        </span>
+                        <p class="text-sm leading-relaxed text-slate-500">The Premium partner for high precision brand support backed by science of print technology & skills.</p>
                     </div>
-                    <p class="text-sm leading-relaxed mb-6 text-slate-500">
-                        Elevating the standard of printing in Nigeria through technology, precision, and an unwavering commitment to creative excellence.
-                    </p>
-                    <div class="flex space-x-3">
-                        <a href="https://www.facebook.com/share/1FwAZw5Vcn/" target="_blank" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brandOrange transition-colors group">
-                            <i class="fab fa-facebook-f text-white"></i>
-                        </a>
-                        <a href="https://www.instagram.com/harwos_print" target="_blank" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brandOrange transition-colors group">
-                            <i class="fab fa-instagram text-white"></i>
-                        </a>
-                        <a href="https://x.com/harwosprintsltd" target="_blank" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brandOrange transition-colors group">
-                            <i class="fab fa-x-twitter text-white"></i>
-                        </a>
-                        <a href="mailto:harwosprints@gmail.com" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brandOrange transition-colors group">
-                            <i class="fas fa-envelope text-white"></i>
-                        </a>
+
+                    <!-- SOCIAL ICONS -->
+                    <div class="flex flex-wrap gap-2 text-white">
+                        <a href="#" class="bg-blue-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="bg-black border border-slate-800 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" class="bg-blue-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="bg-red-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="bg-black w-8 h-8 flex items-center justify-center rounded-md border border-slate-700"><i class="fab fa-tiktok"></i></a>
+                    </div>
+
+                    <!-- CHAT WITH US -->
+                    <div class="space-y-3">
+                        <p class="text-brandOrange font-bold text-xs uppercase tracking-widest">Chat with us on:</p>
+                        <div class="flex gap-3">
+                            <a href="https://wa.me/2349094576733" target="_blank" class="bg-green-500 w-10 h-10 flex items-center justify-center rounded-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp text-white text-xl"></i></a>
+                            <a href="#" class="bg-blue-500 w-10 h-10 flex items-center justify-center rounded-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-messenger text-white text-xl"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- DELIVERY -->
+                    <div class="space-y-4">
+                        <p class="text-brandOrange font-bold text-xs uppercase tracking-widest">Delivery</p>
+                        <div class="flex items-center gap-3 bg-black/40 p-2 rounded-xl border border-slate-800 w-fit">
+                            <div class="bg-green-600 px-2 py-1 rounded flex items-center gap-1"><span class="text-[10px] font-black italic text-white leading-none">KWIK</span></div>
+                            <span class="text-white font-bold text-xs">+</span>
+                            <div class="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center text-[8px] font-black text-white">Bolt</div>
+                            <span class="text-white font-bold text-xs">+</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-white font-black text-lg leading-none tracking-tighter italic">GIG</span>
+                                <span class="text-[6px] font-bold uppercase tracking-widest text-white">Logistics</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
+                <!-- Navigation -->
                 <div>
                     <h4 class="text-white font-bold mb-6 font-headline uppercase tracking-widest text-sm">Navigation</h4>
                     <ul class="space-y-3 text-sm">
                         <li><a href="index.html" class="hover:text-brandOrange transition-colors">Home</a></li>
-                        <li><a href="about.html" class="hover:text-brandOrange transition-colors text-brandOrange">About Us</a></li>
+                        <li><a href="about.html" class="text-brandOrange">About Us</a></li>
                         <li><a href="store.html" class="hover:text-brandOrange transition-colors">Products</a></li>
                         <li><a href="contact.html" class="hover:text-brandOrange transition-colors">Contact</a></li>
-                        <li><a href="login.html" class="hover:text-brandOrange transition-colors">My Account</a></li>
                     </ul>
                 </div>
 
@@ -642,15 +486,14 @@
                 <div>
                     <h4 class="text-white font-bold mb-6 font-headline uppercase tracking-widest text-sm">Services</h4>
                     <ul class="space-y-3 text-sm">
-                        <li><a href="store.html" class="hover:text-brandOrange transition-colors">Large Format Printing</a></li>
+                        <li><a href="store.html" class="hover:text-brandOrange transition-colors">Large Format</a></li>
                         <li><a href="store.html" class="hover:text-brandOrange transition-colors">Offset Printing</a></li>
                         <li><a href="store.html" class="hover:text-brandOrange transition-colors">Branding & Identity</a></li>
-                        <li><a href="store.html" class="hover:text-brandOrange transition-colors">Custom Packaging</a></li>
                         <li><a href="store.html" class="hover:text-brandOrange transition-colors">UV Direct Printing</a></li>
                     </ul>
                 </div>
 
-                <!-- Contact -->
+                <!-- Contact Info -->
                 <div>
                     <h4 class="text-white font-bold mb-6 font-headline uppercase tracking-widest text-sm">Contact Us</h4>
                     <div class="space-y-4 text-sm">
@@ -660,11 +503,7 @@
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-brandOrange text-sm">phone</span>
-                            <a href="tel:+2349168794383" class="hover:text-brandOrange transition-colors">+234 90168794383</a>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <i class="fab fa-whatsapp text-brandOrange text-sm"></i>
-                            <a href="https://wa.me/2349094576733" class="hover:text-brandOrange transition-colors">+234 909 4576 733</a>
+                            <a href="tel:+2349168794383" class="hover:text-brandOrange transition-colors">+234 916 8794 383</a>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-brandOrange text-sm">email</span>
@@ -676,37 +515,27 @@
 
             <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-xs text-slate-500">© 2024 HARWOSPRINTS. All rights reserved.</p>
-                <div class="flex gap-6 text-xs">
-                    <a href="#" class="hover:text-brandOrange transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-brandOrange transition-colors">Terms of Service</a>
-                    <a href="#" class="hover:text-brandOrange transition-colors">FAQ</a>
+                <div class="flex gap-6 text-xs text-slate-500">
+                    <a href="#" class="hover:text-brandOrange">Privacy Policy</a>
+                    <a href="#" class="hover:text-brandOrange">Terms</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Mobile Bottom Nav -->
+    <!-- Mobile Nav -->
     <nav class="md:hidden fixed bottom-0 w-full bg-white border-t border-slate-200 px-4 py-2 flex justify-around items-center z-50">
-        <a href="index.html" class="flex flex-col items-center gap-1 p-2 text-slate-400">
-            <span class="material-symbols-outlined">home</span>
-            <span class="text-[10px] font-bold uppercase">Home</span>
-        </a>
-        <a href="store.html" class="flex flex-col items-center gap-1 p-2 text-slate-400">
-            <span class="material-symbols-outlined">shopping_bag</span>
-            <span class="text-[10px] font-bold uppercase">Shop</span>
-        </a>
-        <a href="about.html" class="flex flex-col items-center gap-1 p-2 text-brandOrange">
-            <span class="material-symbols-outlined">info</span>
-            <span class="text-[10px] font-bold uppercase">About</span>
-        </a>
-        <a href="login.html" class="flex flex-col items-center gap-1 p-2 text-slate-400">
-            <span class="material-symbols-outlined">person</span>
-            <span class="text-[10px] font-bold uppercase">Account</span>
-        </a>
+        <a href="index.html" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span class="material-symbols-outlined">home</span><span class="text-[10px] font-bold uppercase">Home</span></a>
+        <a href="store.html" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span class="material-symbols-outlined">shopping_bag</span><span class="text-[10px] font-bold uppercase">Shop</span></a>
+        <a href="about.html" class="flex flex-col items-center gap-1 p-2 text-brandOrange"><span class="material-symbols-outlined">info</span><span class="text-[10px] font-bold uppercase">About</span></a>
+        <a href="login.html" class="flex flex-col items-center gap-1 p-2 text-slate-400"><span class="material-symbols-outlined">person</span><span class="text-[10px] font-bold uppercase">Account</span></a>
     </nav>
 
-    <!-- Mobile Padding -->
     <div class="md:hidden h-20"></div>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
 </body>
 </html>

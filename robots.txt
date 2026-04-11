@@ -1,0 +1,13 @@
+User-agent: *
+# Allow Google to see these
+Allow: /index.html
+Allow: /store.html
+Allow: /about.html
+
+# DO NOT INDEX (Hide these from Google Search)
+Disallow: /dash.html
+Disallow: /custom.html
+Disallow: /reset-password.html
+
+# Link to your sitemap
+Sitemap: https://harwosprints.ng/sitemap.xml

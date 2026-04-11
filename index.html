@@ -15,10 +15,8 @@
     <meta property="og:image" content="harwosprints.ng-logo.jpg"/>
     <meta property="og:url" content="https://harwosprints.ng"/>
     <meta property="og:type" content="website"/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:image" content="harwosprints.ng-logo.jpg"/>
 
-    <!-- FAVICON (Using your logo) -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/jpeg" href="harwosprints.ng-logo.jpg">
     <link rel="apple-touch-icon" href="harwosprints.ng-logo.jpg">
     
@@ -50,7 +48,7 @@
         .timeline-line { position: absolute; left: 24px; top: 40px; bottom: 40px; width: 2px; background: repeating-linear-gradient(to bottom, #ea580c 0, #ea580c 5px, transparent 5px, transparent 10px); }
         
         /* Slider Styles */
-        .header-slider { display: flex; overflow: hidden; position: relative; width: 100%; height: 300px; md:height: 500px; border-radius: 2rem; }
+        .header-slider { display: flex; overflow: hidden; position: relative; width: 100%; height: 350px; md:height: 550px; border-radius: 2.5rem; }
         .slide { min-width: 100%; transition: 0.5s ease-in-out; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
     </style>
@@ -67,7 +65,7 @@
             </div>
             <div class="text-xl font-black text-brandOrange uppercase tracking-tighter font-headline">Harwosprints.ng</div>
         </div>
-        <div class="hidden lg:flex items-center space-x-6 font-bold uppercase text-[10px] tracking-widest">
+        <div class="hidden lg:flex items-center space-x-6 font-bold uppercase text-[10px] tracking-widest text-slate-500">
             <a class="text-brandOrange hover:text-brandBlack transition-colors" href="#">Home</a>
             <a class="hover:text-brandOrange transition-colors" href="store.html">Shop</a>
             <a class="hover:text-brandOrange transition-colors" href="about.html">About us</a>
@@ -99,11 +97,12 @@
             <div class="lg:col-span-7 space-y-8" data-aos="fade-right">
                 <div class="inline-flex items-center space-x-2 bg-white px-4 py-1.5 rounded-full border border-orange-100 shadow-sm">
                     <span class="flex h-2 w-2 rounded-full bg-brandOrange animate-pulse"></span>
-                    <span class="text-xs font-bold uppercase tracking-widest text-slate-600">Premium Print Solutions</span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-600 italic">...we Print, we Brand, we Deliver</span>
                 </div>
-                <h1 class="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">...we <span class="text-brandOrange">Print</span>, we Brand, we Deliver</h1>
-                <p class="text-base md:text-xl text-slate-600 font-medium leading-relaxed">Transforming concepts into high-fidelity physical reality. From avant-garde brand identities to precision-engineered marketing materials.</p>
+                <h1 class="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">We Design, <span class="text-brandOrange">Print</span>, Brand & Deliver</h1>
+                <p class="text-base md:text-xl text-slate-600 font-medium leading-relaxed italic">Transforming concepts into high-fidelity physical reality. From avant-garde brand identities to precision-engineered marketing materials.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- FIXED GET STARTED LINK -->
                     <a href="https://wa.me/2349094576733" target="_blank" class="bg-brandBlack text-white px-8 py-4 rounded-xl font-bold text-lg text-center hover:bg-brandOrange transition-all flex items-center justify-center gap-2">Get Started <span class="material-symbols-outlined">arrow_forward</span></a>
                     <button onclick="toggleModal('quoteModal')" class="bg-white text-brandBlack px-8 py-4 rounded-xl font-bold border-2 border-brandBlack hover:bg-slate-50 transition-all">Order Prints</button>
                 </div>
@@ -112,8 +111,8 @@
         </div>
     </section>
 
-    <!-- HEADER IMAGE SLIDER -->
-    <section class="py-8 bg-white px-4">
+    <!-- IMAGE SLIDER SECTION -->
+    <section class="py-12 bg-white px-4">
         <div class="max-w-7xl mx-auto" data-aos="fade-up">
             <div class="header-slider shadow-2xl border-4 border-slate-100" id="mainSlider">
                 <div class="slide"><img src="llargef.jpg" alt="Large Format Printing"></div>
@@ -124,16 +123,15 @@
     </section>
 
     <!-- VISIBILITY SECTION -->
-    <section class="py-16 md:py-24 bg-white border-t px-4 overflow-hidden">
+    <section class="py-16 md:py-24 bg-white border-t px-4 overflow-hidden italic">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div class="space-y-8 order-2 lg:order-1" data-aos="fade-up">
                 <h2 class="text-3xl md:text-6xl font-black text-brandBlack uppercase tracking-tighter">We Design, Print, Brand<br/><span class="text-slate-800">giving your Brand <span class="text-brandOrange italic">visibility</span></span></h2>
-                <p class="text-lg text-slate-500 max-w-lg border-l-4 border-brandOrange pl-6">Get your business more visibility, by custom branding, prints, stickers for party souvenirs & promotional gifting items.</p>
+                <p class="text-lg text-slate-500 max-w-lg border-l-4 border-brandOrange pl-6 font-bold">Get your business more visibility, by custom branding, prints, stickers for party souvenirs & promotional gifting items.</p>
                 <ul class="space-y-6">
                     <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Verified source of quality print materials</li>
                     <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Proudly & meticulously produced in Nigeria</li>
-                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Delivery in <span class="text-brandOrange underline underline-offset-8 font-black">3 TO 5 WORK DAYS</span></li>
-                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Designers supports on the Journey</li>
+                    <li class="flex items-center gap-4 text-lg font-bold"><span class="material-symbols-outlined text-brandOrange font-bold">check_circle</span> Delivery in <span class="text-brandOrange underline underline-offset-8 font-black uppercase">3 TO 5 WORK DAYS</span></li>
                 </ul>
                 <button onclick="toggleModal('quoteModal')" class="bg-brandOrange text-white px-10 py-5 rounded-lg font-black text-xl uppercase shadow-xl hover:scale-105 transition-all">START PRINTING</button>
             </div>
@@ -148,14 +146,14 @@
 
     <!-- BULK RUN BOXES -->
     <section class="py-12 md:py-24 bg-slate-50 overflow-hidden px-4">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 font-black italic">
             <div class="bg-brandOrange rounded-[40px] p-8 md:p-12 relative min-h-fit md:min-h-[500px] flex flex-col justify-between overflow-hidden shadow-xl" data-aos="fade-right">
                 <div class="relative z-10 space-y-6">
                     <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-white/80">Creative, Unique, Sharp Prints 🌲</p>
                     <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-tight text-brandBlack uppercase max-w-sm">Direct prints by Large Format, UV, Borderless for Branding</h2>
                     <div class="flex flex-col gap-4 pt-4">
-                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">High quality Flex, Vinlyn & films</span></div>
-                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float" style="animation-delay: 1s;"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold">Sharp Prints</span></div>
+                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold uppercase">High quality Vinyl & films</span></div>
+                        <div class="bg-white px-6 py-3 rounded-full shadow-lg self-start flex items-center gap-3 animate-float" style="animation-delay: 1s;"><span class="material-symbols-outlined text-green-600 font-bold">check_circle</span><span class="text-sm font-bold uppercase">Sharp Prints</span></div>
                     </div>
                 </div>
                 <img src="harwosprints.ng-logo.jpg" class="absolute bottom-0 right-0 w-1/2 md:w-3/4 opacity-20 mix-blend-overlay translate-x-10 translate-y-10">
@@ -163,11 +161,10 @@
             <div class="bg-brandBlack rounded-[40px] p-8 md:p-12 min-h-fit md:min-h-[500px] flex flex-col justify-between shadow-2xl text-white" data-aos="fade-left">
                 <div class="space-y-8">
                     <p class="text-[10px] md:text-xs font-black uppercase tracking-widest text-brandOrange">3-5 Working Days, Ready to Ship 🔥</p>
-                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-tight uppercase">We Print. We Brand. We Deliver to your doorstep!</h2>
+                    <h2 class="text-3xl md:text-5xl font-black italic tracking-tighter leading-tight uppercase italic underline decoration-brandOrange decoration-2 underline-offset-8">We Print. We Brand. We Deliver to your doorstep!</h2>
                     <ul class="space-y-4 pt-4">
-                        <li class="flex items-center gap-4 text-lg font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> Save cost & time</li>
-                        <li class="flex items-center gap-4 text-lg font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> More brand impact</li>
-                        <li class="flex items-center gap-4 text-lg font-bold"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> Become sustainable</li>
+                        <li class="flex items-center gap-4 text-lg font-bold uppercase italic"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> Save cost & time</li>
+                        <li class="flex items-center gap-4 text-lg font-bold uppercase italic"><div class="bg-brandOrange p-2 rounded-full flex items-center justify-center font-bold text-white"><span class="material-symbols-outlined text-sm">arrow_forward</span></div> More brand impact</li>
                     </ul>
                 </div>
                 <div class="pt-8"><a href="store.html" class="inline-flex items-center gap-6 bg-brandOrange text-white px-10 py-5 rounded-2xl font-black text-lg uppercase shadow-xl hover:scale-105 transition-all text-center">Customize Now</a></div>
@@ -183,42 +180,7 @@
         </div>
     </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="py-16 md:py-24 bg-[#FFFBF7] px-4 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="space-y-12" data-aos="fade-right">
-                <h2 class="text-4xl md:text-6xl font-black italic tracking-tighter text-brandBlack uppercase">HOW IT WORKS</h2>
-                <div class="relative space-y-12">
-                    <div class="timeline-line hidden md:block"></div>
-                    <div class="flex items-start gap-6 relative group">
-                        <div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg">1</div>
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-black uppercase text-brandBlack">CUSTOMIZE YOUR PRINTS OR BRANDING</h3>
-                            <p class="text-slate-500 font-medium max-w-md">Choose from 412 custom products, customize your design with graphics, text or your own uploaded images.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-6 relative group">
-                        <div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg">2</div>
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-black uppercase text-brandBlack">SET UP SHIPPING INSTRUCTIONS</h3>
-                            <p class="text-slate-500 font-medium max-w-md">Get your custom packaging when you need it, with delivery in as little as 7 days for some products.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-6 relative group">
-                        <div class="w-14 h-14 bg-brandBlack text-brandOrange rounded-full flex items-center justify-center font-black text-xl z-10 shadow-lg">3</div>
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-black uppercase text-brandBlack">TRACK THE PROGRESS OF ORDERS</h3>
-                            <p class="text-slate-500 font-medium max-w-md">Track your orders in real time online or off line. Design. Production. Ready for dispatch. Delivered. Or feel free to WhatsApp Chat.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-6"><button onclick="toggleModal('quoteModal')" class="bg-brandBlack text-brandOrange px-10 py-5 rounded-full font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all">START PRINTING</button></div>
-            </div>
-            <div class="relative animate-float lg:block hidden" data-aos="zoom-in"><img src="harwosprints.ng-logo.jpg" class="rounded-[3rem] border-8 border-brandBlack shadow-2xl"></div>
-        </div>
-    </section>
-
-    <!-- TRENDING SOUVENIRS -->
+    <!-- GALLERY (Trending Souvenirs & Promo Gifting) -->
     <section class="py-16 md:py-24 bg-white border-t px-4">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl md:text-6xl font-black italic text-brandBlack uppercase mb-12" data-aos="fade-up">Trending Souvenirs & Promo Gifting</h2>
@@ -237,41 +199,37 @@
         </div>
     </section>
 
-    <!-- CONTACT FORM -->
-    <!-- CONTACT FORM SECTION -->
-<!-- CONTACT FORM SECTION -->
-<section id="contact-section" class="py-16 md:py-24 bg-slate-50 px-4">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div data-aos="fade-right">
-            <h2 class="text-4xl md:text-6xl font-black italic text-brandBlack uppercase mb-6">Contact Us</h2>
-            <p class="text-slate-500 font-medium text-lg mb-10 leading-relaxed">Have a custom project in mind? Fill out the form and it will send your request directly to our WhatsApp.</p>
-            <div class="space-y-6">
-                <div class="flex items-center gap-4 font-black text-lg"><span class="material-symbols-outlined text-brandOrange">call</span> +234 916 8794 383</div>
-                <div class="flex items-center gap-4 font-black text-lg underline decoration-brandOrange decoration-4"><span class="material-symbols-outlined text-brandOrange">mail</span> harwosprints@gmail.com</div>
+    <!-- CONTACT FORM (WHATSAPP INTEGRATED) -->
+    <section id="contact-section" class="py-16 md:py-24 bg-slate-50 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right">
+                <h2 class="text-4xl md:text-6xl font-black italic text-brandBlack uppercase mb-6 italic">Contact Us</h2>
+                <p class="text-slate-500 font-medium text-lg mb-10 leading-relaxed font-bold uppercase italic">Have a custom project in mind? Fill out the form and it will be sent to our WhatsApp instantly.</p>
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4 font-black text-lg"><span class="material-symbols-outlined text-brandOrange">call</span> +234 916 8794 383</div>
+                    <div class="flex items-center gap-4 font-black text-lg underline decoration-brandOrange decoration-4 italic uppercase tracking-widest"><span class="material-symbols-outlined text-brandOrange">mail</span> harwosprints@gmail.com</div>
+                </div>
             </div>
-        </div>
-
-        <!-- WHATSAPP CONTACT FORM -->
-        <form id="whatsappForm" class="bg-white p-8 md:p-12 rounded-[2.5rem] border-4 border-brandBlack shadow-2xl" data-aos="fade-left">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <input type="text" id="waName" required placeholder="Full Name" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold">
-                <input type="email" id="waEmail" required placeholder="Email Address" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold">
-            </div>
-            <textarea id="waMessage" rows="4" required placeholder="Describe your project (Quantity, size, type of print...)" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold mb-6"></textarea>
             
-            <button type="submit" class="w-full bg-brandBlack text-white py-5 rounded-xl font-black uppercase tracking-widest hover:bg-green-600 transition-all shadow-xl flex items-center justify-center gap-3">
-                <i class="fab fa-whatsapp text-2xl"></i>
-                Send to WhatsApp
-            </button>
-        </form>
-    </div>
-</section>
+            <!-- WHATSAPP CONTACT FORM -->
+            <form id="bottomContactForm" class="bg-white p-8 md:p-12 rounded-[2.5rem] border-4 border-brandBlack shadow-2xl" data-aos="fade-left">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <input type="text" id="waFormName" required placeholder="Full Name" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold uppercase italic">
+                    <input type="email" id="waFormEmail" required placeholder="Email Address" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold uppercase italic">
+                </div>
+                <textarea id="waFormMessage" rows="4" required placeholder="Describe your job details here..." class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold mb-6 uppercase italic"></textarea>
+                <button type="submit" class="w-full bg-brandBlack text-white py-5 rounded-xl font-black uppercase tracking-widest hover:bg-green-600 transition-all shadow-xl flex items-center justify-center gap-3">
+                    <i class="fab fa-whatsapp text-2xl"></i> Send to WhatsApp
+                </button>
+            </form>
+        </div>
+    </section>
 
     <!-- TESTIMONIALS -->
-    <section class="py-16 bg-brandBlack overflow-hidden relative">
-        <h2 class="text-center text-white text-3xl font-black uppercase mb-12 tracking-widest">Happy Clients</h2>
+    <section class="py-16 bg-brandBlack overflow-hidden relative italic">
+        <h2 class="text-center text-white text-3xl font-black uppercase mb-12 tracking-widest italic underline decoration-brandOrange decoration-4 underline-offset-8">Happy Clients</h2>
         <div class="flex overflow-x-hidden">
-            <div class="animate-marquee whitespace-nowrap flex items-center gap-8 py-4">
+            <div class="animate-marquee whitespace-nowrap flex items-center gap-8 py-4 uppercase font-black">
                 <div class="w-[300px] md:w-[400px] bg-white p-8 rounded-3xl shrink-0 border-b-8 border-brandOrange whitespace-normal">
                     <p class="text-slate-600 font-bold italic mb-6">"Harwosprints delivered 5000 branded bags for our gala. The quality was elite and the colors were spot on!"</p>
                     <h4 class="font-black text-brandBlack uppercase text-sm">Chioma Adeleke</h4><p class="text-[10px] font-bold text-brandOrange">CEO, Fashion Hub</p>
@@ -290,117 +248,109 @@
 </main>
 
 <!-- FOOTER -->
-<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6">
+<footer class="bg-brandBlack text-slate-400 pt-16 pb-8 border-t border-slate-900 px-6 uppercase font-bold italic">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-        <div class="space-y-6">
-            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter">Harwosprints.ng</div>
-            <p class="font-medium leading-relaxed">The Premium partner for high precision brand support backed by science of print technology & skills.</p>
+        <div class="space-y-8">
+            <div class="text-brandOrange font-black text-2xl uppercase tracking-tighter italic">Harwosprints.ng</div>
+            <p class="font-medium leading-relaxed text-[10px]">The Premium partner for high precision brand support backed by science of print technology & skills.</p>
             
-            <!-- SOCIAL MEDIA ICONS (MATCHING IMAGE) -->
             <div class="flex flex-wrap gap-2 text-white">
-                <a href="#" class="bg-blue-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="bg-black border border-slate-800 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-x-twitter"></i></a>
-                <a href="#" class="bg-blue-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" class="bg-red-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="bg-black w-8 h-8 flex items-center justify-center rounded-md border border-slate-700"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.facebook.com/share/1FwAZw5Vcn/" target="_blank" class="bg-blue-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/harwos_print" target="_blank" class="bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/harwosprintsltd" target="_blank" class="bg-black border border-slate-800 w-8 h-8 flex items-center justify-center rounded-md"><i class="fab fa-x-twitter"></i></a>
+                <a href="mailto:harwosprints@gmail.com" class="bg-red-600 w-8 h-8 flex items-center justify-center rounded-md"><i class="fas fa-envelope"></i></a>
             </div>
 
-            <!-- CHAT WITH US ON (MATCHING IMAGE) -->
-            <div class="space-y-3 pt-4">
-                <p class="text-brandOrange font-bold text-xs uppercase tracking-widest">Chat with us on:</p>
-                <div class="flex gap-3">
-                    <a href="https://wa.me/2349094576733" target="_blank" class="bg-green-500 w-10 h-10 flex items-center justify-center rounded-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-whatsapp text-white text-xl"></i></a>
-                    <a href="#" class="bg-blue-500 w-10 h-10 flex items-center justify-center rounded-lg shadow-lg hover:scale-110 transition-transform"><i class="fab fa-facebook-messenger text-white text-xl"></i></a>
-                </div>
-            </div>
-
-            <!-- DELIVERY SECTION (MATCHING IMAGE) -->
-            <div class="space-y-4 pt-4">
-                <p class="text-brandOrange font-bold text-xs uppercase tracking-widest">Delivery</p>
+            <div class="space-y-4">
+                <p class="text-brandOrange font-bold text-xs uppercase italic underline underline-offset-4 decoration-2">Delivery Partners</p>
                 <div class="flex items-center gap-3 bg-black/40 p-2 rounded-xl border border-slate-800 w-fit">
-                    <!-- Kwik Logo Placeholder -->
-                    <div class="bg-green-600 px-2 py-1 rounded flex items-center gap-1">
-                        <span class="text-[10px] font-black italic text-white leading-none">KWIK</span>
-                    </div>
+                    <div class="bg-green-600 px-2 py-1 rounded text-white text-[10px] font-black uppercase">KWIK</div>
                     <span class="text-white font-bold text-xs">+</span>
-                    <!-- Bolt Logo Placeholder -->
-                    <div class="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center text-[8px] font-black text-white">Bolt</div>
+                    <div class="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center text-[8px] text-white font-black uppercase">Bolt</div>
                     <span class="text-white font-bold text-xs">+</span>
-                    <!-- GIG Logo Placeholder -->
-                    <div class="flex flex-col items-center">
-                        <span class="text-white font-black text-lg leading-none tracking-tighter italic">GIG</span>
-                        <span class="text-[6px] font-bold uppercase tracking-widest text-white">Logistics</span>
-                    </div>
+                    <div class="text-white font-black text-lg italic leading-none uppercase tracking-tighter">GIG</div>
                 </div>
             </div>
         </div>
-
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Solutions</h5>
-            <ul class="space-y-4 text-xs font-bold uppercase">
-                <li><a class="hover:text-brandOrange" href="#">Commercial Printing</a></li>
-                <li><a class="hover:text-brandOrange" href="#">Branding and brand support</a></li>
-                <li><a class="hover:text-brandOrange" href="#">Custom Packaging</a></li>
-                <li><a class="hover:text-brandOrange" href="#">Large Format</a></li>
+            <h5 class="text-white mb-6 text-sm uppercase italic">Solutions</h5>
+            <ul class="space-y-4 text-[10px] text-slate-500 italic uppercase">
+                <li><a class="hover:text-brandOrange" href="store.html">Large Format</a></li>
+                <li><a class="hover:text-brandOrange" href="store.html">Branding & Support</a></li>
+                <li><a class="hover:text-brandOrange" href="store.html">Custom Packaging</a></li>
+                <li><a class="hover:text-brandOrange" href="store.html">UV Printing</a></li>
             </ul>
         </div>
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Locations</h5>
-            <div class="space-y-4 text-[10px] uppercase font-bold leading-relaxed">
-                <p><span class="text-brandOrange">Head Office:</span> 50, Shipeolu Street, Somolu, Lagos. Call: +234 916 8794 383</p>
-                <p><span class="text-brandOrange">Sales Office:</span> Abraham Adesanya Complex, Onipanu, Lagos.</p>
-                <p><span class="text-brandOrange">Branch Office:</span> 63, Tejuosho Road, Yaba, Lagos.</p>
-            </div>
+            <h5 class="text-white mb-6 text-sm uppercase italic">Quick Links</h5>
+            <ul class="space-y-4 text-[10px] text-slate-500 italic uppercase">
+                <li><a href="index.html" class="hover:text-brandOrange">Home</a></li>
+                <li><a href="about.html" class="hover:text-brandOrange">About Us</a></li>
+                <li><a href="store.html" class="hover:text-brandOrange">Shop Now</a></li>
+                <li><button onclick="toggleModal('policyModal')" class="hover:text-brandOrange">Policies</button></li>
+            </ul>
         </div>
         <div>
-            <h5 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Newsletter</h5>
-            <div class="flex gap-2">
-                <input class="bg-slate-900 border-none rounded-lg text-white w-full px-4 text-sm" placeholder="Email Address" type="email"/>
-                <button class="bg-brandOrange text-white p-2 rounded-lg hover:brightness-110"><span class="material-symbols-outlined">send</span></button>
+            <h5 class="text-white mb-6 text-sm text-brandOrange uppercase italic font-black">Contact</h5>
+            <div class="space-y-4 text-[10px] font-bold text-slate-500 uppercase">
+                <p>Call: +234 916 8794 383</p>
+                <p>WhatsApp: +234 909 4576 733</p>
+                <p>harwosprints@gmail.com</p>
             </div>
             <div class="mt-8">
-                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg">start your brand Xperience</a>
+                <a href="https://wa.me/2349032473005" target="_blank" class="inline-block bg-brandOrange text-white px-4 py-2 rounded-lg font-black text-[9px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg uppercase italic">start your brand Xperience</a>
             </div>
         </div>
     </div>
-    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase">
+    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 text-center text-[10px] font-bold uppercase text-slate-600">
         <p>© 2024 27.668grafix. All rights reserved.</p>
-        <div class="flex gap-6">
-            <a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Privacy Policy</a>
-            <a onclick="toggleModal('policyModal')" class="hover:text-brandOrange cursor-pointer">Terms & Conditions</a>
-        </div>
     </div>
 </footer>
 
-<!-- POLICY MODAL -->
+<!-- FULL LONG POLICY MODAL -->
 <div id="policyModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
-    <div class="bg-white w-full max-w-4xl h-[85vh] rounded-[2.5rem] overflow-hidden border-4 border-brandOrange shadow-2xl relative flex flex-col">
+    <div class="bg-white w-full max-w-4xl h-[85vh] rounded-[2.5rem] overflow-hidden border-4 border-brandOrange shadow-2xl relative flex flex-col font-bold uppercase italic">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center">
             <h3 class="text-xl font-black uppercase">Harwosprints Policies</h3>
             <button onclick="toggleModal('policyModal')" class="material-symbols-outlined text-white">close</button>
         </div>
         <div class="p-8 overflow-y-auto text-sm font-medium space-y-8 leading-relaxed text-slate-700">
             <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Shipping & Delivery</h4>
-                <p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. The cost may vary based on the distance from our office. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos unless otherwise arranged or stated by the customer/s.</p>
+                <p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. The cost may vary based on the distance from our office. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos unless otherwise arranged or stated by the customer/s. Products will be packed and protected for deliveries to QC standard assured. Refund or replaced product/s shipping to our office is at the expenses of customer/s, whatever is shipped from our office is paid by us.</p>
+            </div>
+            <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Quality of materials</h4>
+                <p>We are assuring you of our product quality which comes from other parts of the world known best manufacturing standard and practice like us. Sometimes, during transit and production in bulk few error occur and we regret to admit but trust us to do a perfect replacement of broken, torn or defective products. please always notify us by mail or chat immediately you receive order to correct such anomalies.</p>
+            </div>
+            <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Terms & Conditions</h4>
+                <p>Our refund and returns policy lasts 30 days. If 30 days have passed since your purchase, we can’t offer you a full refund or exchange. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging. Refunds are made after a replacement of perfect product has been exhausted. Complete return requires receipt or proof of purchase.</p>
             </div>
             <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Refunds & Exchanges</h4>
-                <p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprints@gmail.com.</p>
+                <p>Once your return is received and inspected, we will send you an email to notify you. We replace items if they are defective or damaged. Send email to harwosprintsltd@gmail.com and return to: harwosprint.ng – 63, Tejuosho Road, Lagos.</p>
+            </div>
+            <div><h4 class="font-black text-brandOrange uppercase text-lg mb-4">Data Policy</h4>
+                <p>Website: https://harwosprint.ng. We collect comments data, IP addresses, and browser agent strings for spam detection. Cookies last for one year for convenience. We handle embedded content from other websites securely.</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- QUOTE MODAL -->
+<!-- ORDER PRINTS / QUOTE MODAL (WHATSAPP INTEGRATED) -->
 <div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-lg rounded-[2rem] overflow-hidden border-4 border-brandBlack shadow-2xl relative">
-        <div class="bg-brandBlack p-6 text-white flex justify-between items-center"><h3 class="text-xl font-black uppercase tracking-tighter">Request a Quote</h3><button onclick="toggleModal('quoteModal')" class="material-symbols-outlined">close</button></div>
-        <form action="https://formspree.io/f/harwosprintsltd@gmail.com" method="POST" class="p-8 space-y-4">
-            <div><label class="block text-xs font-bold uppercase text-slate-500 mb-1">Full Name</label><input type="text" name="name" required class="w-full border-2 p-3 rounded-xl focus:border-brandOrange outline-none font-bold"></div>
-            <div><label class="block text-xs font-bold uppercase text-slate-500 mb-1">Email Address</label><input type="email" name="email" required class="w-full border-2 p-3 rounded-xl focus:border-brandOrange outline-none font-bold"></div>
-            <div><label class="block text-xs font-bold uppercase text-slate-500 mb-1">Service Type</label><select name="service" class="w-full border-2 p-3 rounded-xl font-bold bg-white"><option>Business Cards</option><option>Large Format Printing</option><option>Branded Souvenirs</option><option>Other</option></select></div>
-            <div><label class="block text-xs font-bold uppercase text-slate-500 mb-1">Quantity / Message</label><textarea name="message" rows="3" required class="w-full border-2 p-3 rounded-xl focus:border-brandOrange outline-none font-bold"></textarea></div>
-            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase shadow-xl hover:bg-brandBlack transition-all">Send Request</button>
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] overflow-hidden border-4 border-brandBlack shadow-2xl relative uppercase font-black italic">
+        <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0 border-b-4 border-brandOrange">
+            <h3 class="text-xl font-black uppercase tracking-widest italic">Order Details</h3>
+            <button onclick="toggleModal('quoteModal')" class="material-symbols-outlined text-3xl">close</button>
+        </div>
+        <form id="quoteWaForm" class="p-8 space-y-4 overflow-y-auto">
+            <input type="text" id="qName" required placeholder="Full Name *" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
+            <input type="email" id="qEmail" required placeholder="Email Address *" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
+            <select id="qService" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
+                <option>Business Cards</option><option>Large Format Printing</option><option>Branded Souvenirs</option><option>Custom Packaging</option>
+            </select>
+            <textarea id="qMessage" rows="3" required placeholder="Job Details (Quantity, Size...)" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic"></textarea>
+            <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transition-all flex items-center justify-center gap-3 italic">
+                <i class="fab fa-whatsapp"></i> Send Job to WhatsApp
+            </button>
         </form>
     </div>
 </div>
@@ -413,14 +363,12 @@
       // Auto Slider Logic
       let currentSlide = 0;
       const slides = document.querySelectorAll('.slide');
-      if(slides.length > 0) {
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides.forEach((slide) => {
-                slide.style.transform = `translateX(-${currentSlide * 100}%)`;
-            });
-        }, 3500);
-      }
+      setInterval(() => {
+          currentSlide = (currentSlide + 1) % slides.length;
+          slides.forEach((slide) => {
+              slide.style.transform = `translateX(-${currentSlide * 100}%)`;
+          });
+      }, 3500);
   });
 
   function toggleMobileMenu() {
@@ -430,41 +378,36 @@
       backdrop.classList.toggle('hidden');
       document.body.style.overflow = menu.classList.contains('menu-open') ? 'hidden' : 'auto';
   }
+
   function toggleModal(id) {
       const modal = document.getElementById(id);
       modal.classList.toggle('hidden');
       document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
   }
 
-  
-    document.getElementById('whatsappForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+  // --- WHATSAPP LOGIC FOR ORDER PRINTS MODAL ---
+  document.getElementById('quoteWaForm').onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('qName').value;
+      const email = document.getElementById('qEmail').value;
+      const service = document.getElementById('qService').value;
+      const msg = document.getElementById('qMessage').value;
+      const text = `*NEW JOB ORDER - HARWOSPRINTS*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Service:* ${service}%0A*Job Details:* ${msg}`;
+      window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
+      toggleModal('quoteModal');
+      this.reset();
+  };
 
-        // 1. Get Form Values
-        const name = document.getElementById('waName').value;
-        const email = document.getElementById('waEmail').value;
-        const message = document.getElementById('waMessage').value;
-        const phone = "2349094576733"; // Your WhatsApp Number
-
-        // 2. Format the message for WhatsApp
-        // %0A is a line break in URLs
-        const formattedMessage = `*NEW PROJECT INQUIRY - HARWOSPRINTS*%0A` +
-                                 `------------------------------%0A` +
-                                 `*Name:* ${name}%0A` +
-                                 `*Email:* ${email}%0A` +
-                                 `*Message:* ${message}%0A` +
-                                 `------------------------------%0A` +
-                                 `Sent from: harwosprints.ng`;
-
-        // 3. Create the WhatsApp URL
-        const whatsappUrl = `https://wa.me/${phone}?text=${formattedMessage}`;
-
-        // 4. Open in new tab and reset form
-        window.open(whatsappUrl, '_blank');
-        this.reset();
-    });
-
-
+  // --- WHATSAPP LOGIC FOR BOTTOM CONTACT FORM ---
+  document.getElementById('bottomContactForm').onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('waFormName').value;
+      const email = document.getElementById('waFormEmail').value;
+      const msg = document.getElementById('waFormMessage').value;
+      const text = `*NEW WEBSITE INQUIRY*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Message:* ${msg}`;
+      window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
+      this.reset();
+  };
 </script>
 
 </body>

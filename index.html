@@ -102,7 +102,6 @@
                 <h1 class="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-brandBlack uppercase">We Design, <span class="text-brandOrange">Print</span>, Brand & Deliver</h1>
                 <p class="text-base md:text-xl text-slate-600 font-medium leading-relaxed italic">Transforming concepts into high-fidelity physical reality. From avant-garde brand identities to precision-engineered marketing materials.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <!-- FIXED GET STARTED LINK -->
                     <a href="https://wa.me/2349094576733" target="_blank" class="bg-brandBlack text-white px-8 py-4 rounded-xl font-bold text-lg text-center hover:bg-brandOrange transition-all flex items-center justify-center gap-2">Get Started <span class="material-symbols-outlined">arrow_forward</span></a>
                     <button onclick="toggleModal('quoteModal')" class="bg-white text-brandBlack px-8 py-4 rounded-xl font-bold border-2 border-brandBlack hover:bg-slate-50 transition-all">Order Prints</button>
                 </div>
@@ -211,7 +210,6 @@
                 </div>
             </div>
             
-            <!-- WHATSAPP CONTACT FORM -->
             <form id="bottomContactForm" class="bg-white p-8 md:p-12 rounded-[2.5rem] border-4 border-brandBlack shadow-2xl" data-aos="fade-left">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <input type="text" id="waFormName" required placeholder="Full Name" class="w-full p-4 rounded-xl border-2 focus:border-brandOrange outline-none font-bold uppercase italic">
@@ -334,22 +332,34 @@
     </div>
 </div>
 
-<!-- ORDER PRINTS / QUOTE MODAL (WHATSAPP INTEGRATED) -->
+<!-- FIXED QUOTE MODAL (ADJUSTED FOR MOBILE) -->
 <div id="quoteModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-lg rounded-[2.5rem] overflow-hidden border-4 border-brandBlack shadow-2xl relative uppercase font-black italic">
+    <div class="bg-white w-full max-w-lg rounded-[2.5rem] overflow-hidden border-4 border-brandBlack shadow-2xl relative uppercase font-black italic flex flex-col max-h-[90vh]">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0 border-b-4 border-brandOrange">
-            <h3 class="text-xl font-black uppercase tracking-widest italic">Order Details</h3>
+            <h3 class="text-xl font-black uppercase tracking-widest italic leading-none">Job Request</h3>
             <button onclick="toggleModal('quoteModal')" class="material-symbols-outlined text-3xl">close</button>
         </div>
-        <form id="quoteWaForm" class="p-8 space-y-4 overflow-y-auto">
-            <input type="text" id="qName" required placeholder="Full Name *" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
-            <input type="email" id="qEmail" required placeholder="Email Address *" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
-            <select id="qService" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
-                <option>Business Cards</option><option>Large Format Printing</option><option>Branded Souvenirs</option><option>Custom Packaging</option>
-            </select>
-            <textarea id="qMessage" rows="3" required placeholder="Job Details (Quantity, Size...)" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic"></textarea>
+        <form id="quoteWaForm" class="p-6 md:p-8 space-y-4 overflow-y-auto">
+            <div>
+                <label class="text-[9px] text-slate-400 block mb-1">Full Name</label>
+                <input type="text" id="qName" required placeholder="Full Name *" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
+            </div>
+            <div>
+                <label class="text-[9px] text-slate-400 block mb-1">Email Address</label>
+                <input type="email" id="qEmail" required placeholder="Email Address *" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
+            </div>
+            <div>
+                <label class="text-[9px] text-slate-400 block mb-1">Service Required</label>
+                <select id="qService" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic">
+                    <option>Business Cards</option><option>Large Format Printing</option><option>Branded Souvenirs</option><option>Custom Packaging</option>
+                </select>
+            </div>
+            <div>
+                <label class="text-[9px] text-slate-400 block mb-1">Job Description</label>
+                <textarea id="qMessage" rows="3" required placeholder="Job Details (Quantity, Size...)" class="w-full border-2 p-3 rounded-xl font-bold bg-slate-50 uppercase italic"></textarea>
+            </div>
             <button type="submit" class="w-full bg-brandOrange text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-xl hover:bg-brandBlack transition-all flex items-center justify-center gap-3 italic">
-                <i class="fab fa-whatsapp"></i> Send Job to WhatsApp
+                <i class="fab fa-whatsapp"></i> Send to WhatsApp
             </button>
         </form>
     </div>

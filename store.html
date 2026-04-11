@@ -60,6 +60,7 @@
         border-radius: 2.5rem;
         position: relative;
         margin: auto;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       }
       body.modal-active { overflow: hidden; }
 
@@ -219,7 +220,36 @@
     </div>
 </div>
 
-<!-- POLICY MODAL (FIXED) -->
+<!-- ADMIN MODAL (RESTORED) -->
+<div id="adminPanel" class="modal-container">
+    <div class="modal-content overflow-hidden flex flex-col max-w-2xl h-[90vh]">
+        <div class="bg-brandBlack p-8 text-white flex justify-between items-center shrink-0">
+            <h3 class="font-black uppercase italic tracking-tighter" id="adminPanelTitle">Master Admin</h3>
+            <button onclick="closeAdminPanel()" class="material-symbols-outlined text-3xl font-bold">close</button>
+        </div>
+        <div class="p-10 space-y-8 overflow-y-auto">
+            <form id="masterAdminForm" class="space-y-6">
+                <input type="hidden" id="adEditId">
+                <input id="adName" required placeholder="Product Title" class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50">
+                <div class="grid grid-cols-2 gap-4">
+                    <input id="adPrice1" type="number" required placeholder="Unit Price (₦)" class="border-2 p-5 rounded-xl font-bold bg-slate-50">
+                    <input id="adPriceBulk" type="number" required placeholder="Bulk Price (₦)" class="border-2 p-5 rounded-xl font-bold bg-slate-50">
+                </div>
+                <select id="adCat" class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50 uppercase">
+                    <option>Brand Support</option><option>Promo Items</option><option>Souvenirs</option><option>Giftings</option><option>Formats</option><option>Offset</option>
+                </select>
+                <textarea id="adDesc" rows="4" placeholder="Quality specs and details..." class="w-full border-2 p-5 rounded-2xl font-bold bg-slate-50"></textarea>
+                <div class="p-8 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 text-center">
+                    <p class="text-xs font-black uppercase text-brandOrange mb-4">Upload Product Images (Max 5)</p>
+                    <input id="adFiles" type="file" multiple accept="image/*" class="w-full text-xs font-bold text-slate-400">
+                </div>
+                <button type="submit" id="uploadBtn" class="w-full bg-brandOrange text-white py-6 rounded-2xl font-black uppercase tracking-widest shadow-xl">Process to Store</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- POLICY MODAL -->
 <div id="policyPopup" class="modal-container">
     <div class="modal-content max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl">
         <div class="bg-brandBlack p-6 text-white flex justify-between items-center shrink-0">
@@ -228,7 +258,7 @@
         </div>
         <div class="p-10 md:p-16 overflow-y-auto space-y-12 text-sm leading-relaxed text-slate-700 font-black uppercase">
             <section><h4 class="font-black text-brandOrange text-lg border-b pb-4 mb-6 uppercase">Shipping & Delivery</h4><p>The cost of shipping is charged separate from product/s but added to payment which is borne by customer kindly always fill up your delivery address properly in the space provided. We are partnered with delivery companies Kwik.com.ng Deliveries for deliveries within Lagos & DHL for outside Lagos.</p></section>
-            <section><h4 class="font-black text-brandOrange text-lg border-b pb-4 mb-6 uppercase">Quality of materials</h4><p>We are assuring you of our product quality. Sometimes, during transit and production in bulk few error occur and we trust us to do a perfect replacement of broken or defective products. Please notify us immediately.</p></section>
+            <section><h4 class="font-black text-brandOrange text-lg border-b pb-4 mb-6 uppercase">Quality of materials</h4><p>We are assuring you of our product quality. Sometimes, during transit and production in bulk few error occur and we trust us to do a perfect replacement.</p></section>
             <section><h4 class="font-black text-brandOrange text-lg border-b pb-4 mb-6 uppercase">Terms & Conditions</h4><p>Our refund and returns policy lasts 30 days. To be eligible for a return, your item/s must be unused and in the same condition that you received it. It must also be in the original packaging.</p></section>
         </div>
     </div>
@@ -278,7 +308,12 @@
                 <p>WhatsApp: +234 909 4576 733</p>
                 <p>harwosprints@gmail.com</p>
             </div>
+            <!-- ADMIN ACCESS BUTTON (RESTORED) -->
+            <button onclick="openAdminPanel()" class="mt-8 text-[10px] text-slate-800 hover:text-brandOrange font-bold uppercase">Admin Access</button>
         </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-[10px] font-bold uppercase text-center">
+        <p>© 2024 27.668grafix. All rights reserved.</p>
     </div>
 </footer>
 
@@ -289,6 +324,7 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 let allProducts = [];
 let cart = JSON.parse(localStorage.getItem("harwos_main_stable_v2")) || [];
+let isAdminMode = false;
 
 window.onload = async () => {
     document.getElementById('loadingOverlay').style.opacity = '0';
@@ -314,9 +350,25 @@ function renderProducts(list) {
                 <h3 class="text-[10px] mb-1 truncate">${p.name}</h3>
                 <p class="text-brandOrange text-sm mb-4">₦${Number(p.price || 0).toLocaleString()}</p>
                 <button onclick="addToCart('${p.id}', 1)" class="w-full bg-brandBlack text-white text-[9px] py-3 rounded-xl hover:bg-brandOrange">Add to Order</button>
+                ${isAdminMode ? `<div class="flex gap-2 mt-3 pt-3 border-t"><button onclick="editProduct('${p.id}')" class="flex-1 bg-blue-500 text-white text-[8px] py-2 rounded-lg font-black uppercase">Edit</button><button onclick="deleteProduct('${p.id}')" class="flex-1 bg-red-500 text-white text-[8px] py-2 rounded-lg font-black uppercase">Del</button></div>` : ''}
             </div>`;
     });
 }
+
+function openAdminPanel() {
+    const pass = prompt("Enter Master Access Key:");
+    if (pass === "harwosprint") {
+        document.getElementById('adminPanelTitle').innerText = "Upload New Product";
+        document.getElementById('adminPanel').style.display = 'flex';
+        document.body.classList.add('modal-active');
+    } else if (pass === "harwosprint1") {
+        isAdminMode = true;
+        renderProducts(allProducts);
+        alert("Management mode active: Edit/Delete enabled on cards.");
+    }
+}
+
+function closeAdminPanel() { document.getElementById('adminPanel').style.display = 'none'; document.body.classList.remove('modal-active'); }
 
 function openDetail(id) {
     const p = allProducts.find(x => x.id === id);
@@ -350,6 +402,12 @@ function addToCart(id, qty) {
     toggleCart(true); 
 }
 
+function removeFromCart(i) {
+    cart.splice(i, 1);
+    localStorage.setItem("harwos_main_stable_v2", JSON.stringify(cart));
+    updateCartUI();
+}
+
 function updateCartUI() {
     document.getElementById('cartCountBadge').innerText = cart.length;
     let total = 0;
@@ -360,13 +418,14 @@ function updateCartUI() {
         list.innerHTML += `<div class="flex gap-4 items-center bg-white p-4 rounded-xl shadow-sm uppercase font-black text-[9px] border">
             <img src="${item.images?.[0]}" class="w-12 h-12 object-cover rounded-lg">
             <div><h4>${item.name}</h4><p class="text-brandOrange">${item.qty} x ₦${item.price.toLocaleString()}</p></div>
+            <button onclick="removeFromCart(${i})" class="ml-auto material-symbols-outlined text-slate-300 hover:text-red-500">delete</button>
         </div>`;
     });
     document.getElementById('cartSubtotal').innerText = "₦" + total.toLocaleString();
 }
 
 function toggleCart(show) { document.body.classList.toggle('cart-open', show); document.getElementById('cartOverlay').style.display = show ? 'block' : 'none'; }
-function openPaymentModal() { toggleCart(false); toggleModal('paymentModal'); }
+function openPaymentModal() { if(cart.length === 0) return alert("Cart is empty"); toggleCart(false); toggleModal('paymentModal'); }
 
 document.getElementById('masterOrderForm').onsubmit = (e) => {
     e.preventDefault();
@@ -374,6 +433,30 @@ document.getElementById('masterOrderForm').onsubmit = (e) => {
     const text = `*NEW ORDER*%0A${items}%0A%0A*Name:* ${document.getElementById('billFName').value} ${document.getElementById('billLName').value}`;
     window.open(`https://wa.me/2349094576733?text=${text}`, '_blank');
 };
+
+document.getElementById('masterAdminForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('uploadBtn'); btn.innerText = "Syncing..."; btn.disabled = true;
+    let urls = [];
+    const files = document.getElementById('adFiles').files;
+    for(let f of files) {
+        const path = `store/${Date.now()}_${f.name}`;
+        const { error: upErr } = await supabaseClient.storage.from('product-images').upload(path, f);
+        if(!upErr) urls.push(supabaseClient.storage.from('product-images').getPublicUrl(path).data.publicUrl);
+    }
+    const payload = { name: adName.value, price: adPrice1.value, bulk_price: adPriceBulk.value, category: adCat.value, description: adDesc.value };
+    if(urls.length > 0) payload.images = urls;
+    if(adEditId.value) await supabaseClient.from('products').update(payload).eq('id', adEditId.value);
+    else await supabaseClient.from('products').insert([payload]);
+    location.reload();
+};
+
+async function deleteProduct(id) { if(confirm("Remove product?")) { await supabaseClient.from('products').delete().eq('id', id); location.reload(); } }
+function editProduct(id) { 
+    const p = allProducts.find(x => x.id === id); 
+    adName.value = p.name; adPrice1.value = p.price; adPriceBulk.value = p.bulk_price; adCat.value = p.category; adDesc.value = p.description; adEditId.value = p.id; 
+    document.getElementById('adminPanel').style.display = 'flex'; 
+}
 
 function searchProducts() { const q = document.getElementById('searchInput').value.toLowerCase(); renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(q))); }
 function filterProducts(cat, btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('category-active')); btn.classList.add('category-active'); renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat)); }

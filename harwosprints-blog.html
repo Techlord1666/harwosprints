@@ -77,7 +77,6 @@
   .eyebrow{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--signal-deep); display:inline-flex; align-items:center; gap:8px;}
   h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; line-height:1.12; letter-spacing:-.01em;}
 
-  /* ---------- reticle signature element (tactical/precision) ---------- */
   .reticle{position:relative;}
   .reticle::before, .reticle::after{
     content:""; position:absolute; width:14px; height:14px;
@@ -116,24 +115,30 @@
   .meta-row{font-family:'IBM Plex Mono', monospace; font-size:12px; color:#9B978D; display:flex; gap:16px;}
   .read-link{margin-top:20px; display:inline-flex; align-items:center; gap:8px; color:var(--signal); font-weight:600; font-size:14px;}
 
-  .section-head{padding:36px 24px 20px; display:flex; align-items:center; justify-content:space-between;}
+  .section-head{padding:36px 24px 20px;}
   .section-head h3{font-size:20px;}
 
   .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; padding:0 24px 20px;}
-  .card{background:#fff; border:1px solid var(--line); display:flex; flex-direction:column; position:relative;}
-  .card-media{height:160px; background-size:cover; background-position:center; position:relative;}
+  .card{background:#fff; border:1px solid var(--line); display:flex; flex-direction:column; position:relative; transition:border-color .15s, transform .15s;}
+  .card:hover{border-color:var(--signal);}
+  .card-media{height:160px; background-size:cover; background-position:center; position:relative; background-color:var(--paper-warm);}
   .card-cat{position:absolute; bottom:10px; left:10px; font-family:'IBM Plex Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:.08em; background:var(--paper); padding:4px 8px; border:1px solid var(--ink);}
   .card-body{padding:20px; display:flex; flex-direction:column; gap:10px; flex:1;}
   .card-body h4{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:17px; line-height:1.3;}
   .card-body p{font-size:14px; color:var(--grey); flex:1;}
   .card-meta{font-family:'IBM Plex Mono', monospace; font-size:11px; color:#8B887E; display:flex; gap:12px;}
-  .card-footer-row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
-  .card-body a.more, .card-body button.more{font-size:13px; font-weight:600; color:var(--signal-deep); background:none; border:none; cursor:pointer; font-family:inherit; padding:0;}
-  .card-edit-btn{font-family:'IBM Plex Mono', monospace; font-size:10px; color:#B4B0A6; background:none; border:1px solid var(--line); border-radius:2px; padding:3px 7px; cursor:pointer;}
-  .card-edit-btn:hover{color:var(--signal-deep); border-color:var(--signal-deep);}
+  .card-body a.more{font-size:13px; font-weight:600; color:var(--signal-deep); cursor:pointer;}
+  .card-actions{display:flex; align-items:center; gap:14px;}
+  .card-body a.edit-link{font-size:12px; font-weight:600; color:var(--grey); opacity:.7; cursor:pointer;}
+  .card-body a.edit-link:hover{opacity:1; color:var(--ink);}
   .card-upcoming{opacity:.55;}
   .card-upcoming .card-media{filter:grayscale(.45);}
   .card-upcoming .card-meta span:first-child{font-style:italic;}
+  .card-user-badge{
+    position:absolute; top:10px; right:10px;
+    font-family:'IBM Plex Mono', monospace; font-size:9px; letter-spacing:.06em; text-transform:uppercase;
+    background:var(--ink); color:var(--paper); padding:4px 7px;
+  }
 
   .cta-strip{margin:56px 0 0; padding:52px 24px; background:var(--paper-warm); border-top:1px solid var(--line); border-bottom:1px solid var(--line); text-align:center;}
   .cta-strip h3{font-size:clamp(22px,3vw,28px); max-width:560px; margin:0 auto 12px;}
@@ -144,6 +149,12 @@
   footer{padding:36px 24px 30px; text-align:center;}
   footer p{font-size:13px; color:var(--grey);}
   footer .links{display:flex; gap:18px; justify-content:center; margin-top:12px; font-size:13px; align-items:center;}
+  .staff-trigger{
+    background:none; border:none; padding:0; margin:0;
+    font-family:'Inter', sans-serif; font-size:13px; color:var(--grey);
+    opacity:.5; cursor:pointer;
+  }
+  .staff-trigger:hover{ opacity:.85; }
 
   @media (max-width:860px){
     .featured-card{grid-template-columns:1fr;}
@@ -155,56 +166,59 @@
     .featured-body{padding:26px;}
   }
 
-  /* ---------- Admin: hidden trigger ---------- */
-  .admin-trigger{
-    font-size:9px;
-    color:#DCDAD3;
-    opacity:.35;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    cursor:pointer;
-    border:none;
-    background:none;
-    font-family:'IBM Plex Mono', monospace;
-    padding:2px 4px;
-    transition:opacity .15s, color .15s;
-  }
-  .admin-trigger:hover{opacity:1; color:var(--signal-deep);}
-
-  /* ---------- Modal system ---------- */
-  .modal-overlay{
-    position:fixed; inset:0; background:rgba(27,30,31,.72);
+  /* ---------- modals (posting / editing / reading) ---------- */
+  .hw-modal-overlay{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(27,30,31,.68);
     display:none; align-items:center; justify-content:center;
-    z-index:200; padding:24px;
+    padding:20px;
   }
-  .modal-overlay.open{display:flex;}
-  .modal-box{
-    background:#fff; max-width:560px; width:100%; max-height:86vh;
-    overflow-y:auto; border-radius:3px; padding:32px;
-    position:relative;
+  .hw-modal-overlay.open{display:flex;}
+  .hw-modal-box{
+    background:var(--paper); border:1px solid var(--line);
+    width:100%; max-width:520px;
+    padding:34px; position:relative;
+    max-height:90vh; overflow-y:auto;
   }
-  .modal-box.wide{max-width:720px;}
-  .modal-close{
-    position:absolute; top:14px; right:16px; background:none; border:none;
-    font-size:22px; line-height:1; cursor:pointer; color:var(--grey);
+  .hw-modal-box.wide{max-width:680px;}
+  .hw-modal-box h3{font-size:22px; margin-bottom:6px;}
+  .hw-modal-box p.sub{color:var(--grey); font-size:14px; margin-bottom:22px;}
+  .hw-close{
+    position:absolute; top:18px; right:18px;
+    background:none; border:none; cursor:pointer;
+    font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--grey);
   }
-  .modal-close:hover{color:var(--signal-deep);}
-  .modal-box h3{font-size:20px; margin-bottom:18px;}
-  .modal-box label{display:block; font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--grey); margin:16px 0 6px;}
-  .modal-box input[type=text], .modal-box input[type=password], .modal-box input[type=url], .modal-box textarea, .modal-box select{
-    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:2px;
-    font-family:'Inter', sans-serif; font-size:14px; background:var(--paper);
+  .hw-field{margin-bottom:18px;}
+  .hw-field label{
+    display:block; font-family:'IBM Plex Mono', monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:.08em; color:var(--grey); margin-bottom:8px;
   }
-  .modal-box textarea{min-height:140px; resize:vertical; font-family:'Inter', sans-serif;}
-  .modal-actions{display:flex; gap:10px; margin-top:24px;}
-  .modal-btn-primary{background:var(--ink); color:#fff; border:1px solid var(--ink); padding:11px 20px; font-weight:600; font-size:14px; border-radius:2px; cursor:pointer;}
-  .modal-btn-primary:hover{background:var(--signal); border-color:var(--signal); color:var(--ink);}
-  .modal-btn-secondary{background:none; color:var(--grey); border:1px solid var(--line); padding:11px 20px; font-weight:600; font-size:14px; border-radius:2px; cursor:pointer;}
-  .modal-btn-danger{background:none; color:#B4300F; border:1px solid #E2C4B8; padding:11px 20px; font-weight:600; font-size:13px; border-radius:2px; cursor:pointer; margin-left:auto;}
-  .modal-error{color:#B4300F; font-size:13px; margin-top:10px; display:none;}
-  .modal-error.show{display:block;}
-  .read-more-content{font-size:15px; color:#26292A; line-height:1.7; white-space:pre-wrap;}
-  .read-more-content img{margin:16px 0; border:1px solid var(--line);}
+  .hw-field input[type="text"], .hw-field input[type="password"], .hw-field textarea{
+    width:100%; padding:12px 14px; border:1px solid var(--line); background:#fff;
+    font-family:'Inter', sans-serif; font-size:14.5px; color:var(--ink);
+  }
+  .hw-field input:focus, .hw-field textarea:focus{ outline:none; border-color:var(--signal); }
+  .hw-field textarea{min-height:150px; resize:vertical;}
+  .hw-field input[type="file"]{
+    padding:10px; border:1px dashed var(--line); background:var(--paper-warm); cursor:pointer; width:100%;
+  }
+  .hw-img-preview{width:100%; height:170px; object-fit:cover; margin-top:10px; display:none; border:1px solid var(--line);}
+  .hw-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; background:var(--ink); color:var(--paper);
+    padding:13px 22px; font-weight:600; font-size:14px; border:1px solid var(--ink);
+    cursor:pointer; border-radius:2px;
+  }
+  .hw-btn:hover{background:var(--signal); border-color:var(--signal); color:var(--ink);}
+  .hw-status{font-family:'IBM Plex Mono', monospace; font-size:12.5px; margin-top:12px; display:none;}
+  .hw-status.ok{color:#3f7a4b; display:block;}
+  .hw-status.err{color:#a33b2d; display:block;}
+
+  .read-modal-media{width:100%; height:280px; object-fit:cover; margin-bottom:20px; display:none;}
+  .read-modal-eyebrow{margin-bottom:10px;}
+  .read-modal-body h2{font-size:clamp(22px,3vw,30px); margin-bottom:10px;}
+  .read-modal-meta{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--grey); margin-bottom:20px;}
+  .read-modal-content{white-space:pre-line; font-size:15px; color:#26292A;}
 </style>
 </head>
 <body>
@@ -252,11 +266,34 @@
     <h3>Latest articles</h3>
   </div>
 
-  <!-- Dynamic, password-managed posts render here -->
-  <div class="grid wrap" id="dynamicGrid"></div>
-
-  <!-- Static "coming soon" placeholders — left untouched -->
   <div class="grid wrap">
+
+    <!-- New posts render here, newest first. The two real articles and the "coming soon" cards below are untouched. -->
+    <div id="dynamic-posts" style="display:contents;"></div>
+
+    <article class="card">
+      <div class="card-media" style="background-image:url('https://www.harwosprints.ng/largeformart.jpg')">
+        <span class="card-cat">Print Production</span>
+      </div>
+      <div class="card-body">
+        <h4>UV &amp; Direct Imaging: Getting Sharper Prints on Branded Merchandise</h4>
+        <p>Why UV printing holds detail on curved and non-paper surfaces better than standard methods, and when to specify it on your next order.</p>
+        <div class="card-meta"><span>7 min read</span><span>UV Printing</span></div>
+        <a class="more" href="blog-uv-direct-imaging-branded-merchandise.html">Read article &rarr;</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-media" style="background-image:url('https://www.harwosprints.ng/customized%20phone%20pouch.jpeg')">
+        <span class="card-cat">Souvenirs</span>
+      </div>
+      <div class="card-body">
+        <h4>Branded Souvenirs Nigerian Companies Keep Reordering</h4>
+        <p>From enamel pins to branded water bottles — the promo items with the best cost-per-impression for launches, offices and gala events.</p>
+        <div class="card-meta"><span>6 min read</span><span>Souvenirs</span></div>
+        <a class="more" href="blog-branded-souvenirs-nigeria.html">Read article &rarr;</a>
+      </div>
+    </article>
 
     <article class="card card-upcoming">
       <div class="card-media" style="background-image:url('https://www.harwosprints.ng/Roll%20up%20banners%20.jpeg')">
@@ -313,306 +350,276 @@
 </main>
 
 <footer>
-  <p>Harwosprints.ng &ndash; 50, Shipeolu Street, Shomolu, Lagos.</p>
+  <p>Harwosprints.com &ndash; 50, Shipeolu Street, Shomolu, Lagos.</p>
   <div class="links">
     <a href="https://www.harwosprints.ng/index.html">Home</a>
     <a href="https://www.harwosprints.ng/store.html">Shop</a>
     <a href="https://www.harwosprints.ng/about.html">About us</a>
     <a href="https://www.instagram.com/harwos_print">Instagram</a>
-    <button type="button" class="admin-trigger" id="adminTrigger" title="Site admin">manage</button>
+    <button class="staff-trigger" id="hw-upload-trigger" type="button">Staff</button>
   </div>
 </footer>
 
-<!-- ===================== MODALS ===================== -->
-
-<!-- Password modal -->
-<div class="modal-overlay" id="passwordModal">
-  <div class="modal-box">
-    <button class="modal-close" data-close="passwordModal">&times;</button>
-    <h3>Admin access</h3>
-    <label for="pwInput">Enter password</label>
-    <input type="password" id="pwInput" autocomplete="off">
-    <p class="modal-error" id="pwError">Incorrect password. Try again.</p>
-    <div class="modal-actions">
-      <button class="modal-btn-primary" id="pwSubmit">Unlock</button>
-      <button class="modal-btn-secondary" data-close="passwordModal">Cancel</button>
+<!-- ================= PASSWORD MODAL ================= -->
+<div class="hw-modal-overlay" id="hw-password-modal">
+  <div class="hw-modal-box">
+    <button class="hw-close" id="hw-password-close">CLOSE ✕</button>
+    <h3>Studio access</h3>
+    <p class="sub">Enter the posting password to continue.</p>
+    <div class="hw-field">
+      <label for="hw-password-input">Password</label>
+      <input type="password" id="hw-password-input" placeholder="••••••••••">
     </div>
+    <button class="hw-btn" id="hw-password-submit">Continue</button>
+    <p id="hw-password-status" class="hw-status"></p>
   </div>
 </div>
 
-<!-- Add / Edit post modal -->
-<div class="modal-overlay" id="postModal">
-  <div class="modal-box wide">
-    <button class="modal-close" data-close="postModal">&times;</button>
-    <h3 id="postModalTitle">Add new post</h3>
-    <input type="hidden" id="postId">
-    <label for="postTitle">Title</label>
-    <input type="text" id="postTitle" placeholder="e.g. Business Cards Still Close Deals">
-    <label for="postExcerpt">Short excerpt (shows on the card)</label>
-    <textarea id="postExcerpt" style="min-height:70px;" placeholder="One or two sentences summarising the post"></textarea>
-    <label for="postImage">Image URL</label>
-    <input type="url" id="postImage" placeholder="https://www.harwosprints.ng/your-image.jpg">
-    <p style="font-size:12px;color:var(--grey);margin-top:6px;">This site can't store uploaded image files directly &mdash; host the image (e.g. in your existing image folder) and paste its link here.</p>
-    <label for="postCategory">Category tag</label>
-    <input type="text" id="postCategory" placeholder="e.g. Identity">
-    <label for="postReadTime">Read time label</label>
-    <input type="text" id="postReadTime" placeholder="e.g. 5 min read">
-    <label for="postContent">Full post content (shown when a visitor clicks Read More)</label>
-    <textarea id="postContent" placeholder="Write the full article text here..."></textarea>
-    <p class="modal-error" id="postError">Please fill in the title and excerpt at least.</p>
-    <div class="modal-actions">
-      <button class="modal-btn-primary" id="postSubmit">Save post</button>
-      <button class="modal-btn-secondary" data-close="postModal">Cancel</button>
-      <button class="modal-btn-danger" id="postDelete" style="display:none;">Delete post</button>
-    </div>
+<!-- ================= COMPOSER MODAL (create + edit) ================= -->
+<div class="hw-modal-overlay" id="hw-post-modal">
+  <div class="hw-modal-box">
+    <button class="hw-close" id="hw-post-close">CLOSE ✕</button>
+    <h3 id="hw-post-modal-title">New article</h3>
+    <p class="sub">This publishes straight to the blog grid, above the existing articles.</p>
+    <form id="hw-post-form">
+      <input type="hidden" id="hw-post-editing-id" value="">
+      <div class="hw-field">
+        <label for="hw-post-category">Category label</label>
+        <input type="text" id="hw-post-category" placeholder="e.g. Printing, Souvenirs, Studio Update">
+      </div>
+      <div class="hw-field">
+        <label for="hw-post-title">Title</label>
+        <input type="text" id="hw-post-title" required placeholder="e.g. 5 Print Finishes That Make Business Cards Feel Premium">
+      </div>
+      <div class="hw-field">
+        <label for="hw-post-content">Write the article</label>
+        <textarea id="hw-post-content" required placeholder="Write the full article here..."></textarea>
+      </div>
+      <div class="hw-field">
+        <label for="hw-post-image">Cover image (optional)</label>
+        <input type="file" id="hw-post-image" accept="image/*">
+        <img id="hw-post-image-preview" class="hw-img-preview" alt="Preview">
+      </div>
+      <button type="submit" class="hw-btn" id="hw-post-submit-btn">Publish</button>
+      <p id="hw-post-status" class="hw-status"></p>
+    </form>
   </div>
 </div>
 
-<!-- Read more modal -->
-<div class="modal-overlay" id="readModal">
-  <div class="modal-box wide">
-    <button class="modal-close" data-close="readModal">&times;</button>
-    <div id="readModalMedia" style="margin:-32px -32px 20px; height:220px; background-size:cover; background-position:center;"></div>
-    <span class="eyebrow" id="readModalCat"></span>
-    <h3 id="readModalTitle" style="margin-top:10px;"></h3>
-    <div class="read-more-content" id="readModalBody"></div>
+<!-- ================= READ MODAL (public, no password) ================= -->
+<div class="hw-modal-overlay" id="hw-read-modal">
+  <div class="hw-modal-box wide">
+    <button class="hw-close" id="hw-read-close">CLOSE ✕</button>
+    <img id="hw-read-media" class="read-modal-media" alt="">
+    <div class="read-modal-body">
+      <span class="eyebrow read-modal-eyebrow" id="hw-read-category">Studio Update</span>
+      <h2 id="hw-read-title"></h2>
+      <div class="read-modal-meta" id="hw-read-meta"></div>
+      <div class="read-modal-content" id="hw-read-content"></div>
+    </div>
   </div>
 </div>
 
 <script>
-(function(){
-  var STORAGE_KEY = 'harwos_blog_posts_v1';
-  var ADMIN_PASSWORD = 'Harwosprints';
-  var isAdmin = false;
-  var pendingAction = null; // function to run once unlocked
+/* =========================================================
+   Harwosprints blog — posting flow.
+   Posts are stored in this browser's localStorage. Creating
+   and editing both require the password below. The existing
+   hardcoded articles and "coming soon" cards above are
+   untouched by this script.
+   ========================================================= */
+(function () {
+  const STORAGE_KEY = 'harwos_blog_posts';
+  const PASSWORD = 'Harwosprints';
 
-  var seedPosts = [
-    {
-      id: 'uv-direct-imaging',
-      title: 'UV & Direct Imaging: Getting Sharper Prints on Branded Merchandise',
-      excerpt: 'Why UV printing holds detail on curved and non-paper surfaces better than standard methods, and when to specify it on your next order.',
-      image: 'https://www.harwosprints.ng/largeformart.jpg',
-      category: 'Print Production',
-      readTime: '7 min read',
-      link: 'blog-uv-direct-imaging-branded-merchandise.html',
-      content: '',
-      dateAdded: '2026-07-01T00:00:00'
-    },
-    {
-      id: 'branded-souvenirs',
-      title: 'Branded Souvenirs Nigerian Companies Keep Reordering',
-      excerpt: 'From enamel pins to branded water bottles — the promo items with the best cost-per-impression for launches, offices and gala events.',
-      image: 'https://www.harwosprints.ng/customized%20phone%20pouch.jpeg',
-      category: 'Souvenirs',
-      readTime: '6 min read',
-      link: 'blog-branded-souvenirs-nigeria.html',
-      content: '',
-      dateAdded: '2026-07-26T00:00:00'
-    }
-  ];
+  const el = (id) => document.getElementById(id);
+  const passwordModal = el('hw-password-modal');
+  const postModal = el('hw-post-modal');
+  const readModal = el('hw-read-modal');
 
-  function getPosts(){
-    var raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(seedPosts));
-      return seedPosts.slice();
-    }
-    try{
-      return JSON.parse(raw);
-    }catch(e){
-      return seedPosts.slice();
-    }
+  function openModal(m) { m.classList.add('open'); }
+  function closeModal(m) { m.classList.remove('open'); }
+
+  function loadPosts() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function savePosts(posts) { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
+
+  function formatDate(iso) {
+    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+  function excerpt(str, len) {
+    const clean = (str || '').trim();
+    return clean.length > len ? clean.slice(0, len).trim() + '…' : clean;
   }
 
-  function savePosts(posts){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-  }
+  function renderPosts() {
+    const wrap = el('dynamic-posts');
+    const posts = loadPosts();
+    wrap.innerHTML = posts.map((p) => `
+      <article class="card">
+        <span class="card-user-badge">New</span>
+        <div class="card-media" style="${p.image ? `background-image:url('${p.image}')` : ''}">
+          <span class="card-cat">${escapeHtml(p.category || 'Studio Update')}</span>
+        </div>
+        <div class="card-body">
+          <h4>${escapeHtml(p.title)}</h4>
+          <p>${escapeHtml(excerpt(p.content, 130))}</p>
+          <div class="card-meta"><span>${formatDate(p.date)}</span></div>
+          <div class="card-actions">
+            <a class="more" data-read="${p.id}">Read More &rarr;</a>
+            <a class="edit-link" data-edit="${p.id}">Edit</a>
+          </div>
+        </div>
+      </article>
+    `).join('');
 
-  function escapeHtml(str){
-    var d = document.createElement('div');
-    d.innerText = str || '';
-    return d.innerHTML;
-  }
-
-  function renderPosts(){
-    var posts = getPosts().slice().sort(function(a,b){
-      return new Date(b.dateAdded) - new Date(a.dateAdded);
+    wrap.querySelectorAll('[data-read]').forEach((btn) => {
+      btn.addEventListener('click', () => openReadModal(btn.getAttribute('data-read')));
     });
-    var grid = document.getElementById('dynamicGrid');
-    grid.innerHTML = '';
-    posts.forEach(function(post){
-      var card = document.createElement('article');
-      card.className = 'card';
-
-      var readControl;
-      if(post.link){
-        readControl = '<a class="more" href="' + escapeHtml(post.link) + '">Read More &rarr;</a>';
-      } else {
-        readControl = '<button type="button" class="more" data-read="' + post.id + '">Read More &rarr;</button>';
-      }
-
-      card.innerHTML =
-        '<div class="card-media" style="background-image:url(\'' + escapeHtml(post.image) + '\')">' +
-          '<span class="card-cat">' + escapeHtml(post.category) + '</span>' +
-        '</div>' +
-        '<div class="card-body">' +
-          '<h4>' + escapeHtml(post.title) + '</h4>' +
-          '<p>' + escapeHtml(post.excerpt) + '</p>' +
-          '<div class="card-meta"><span>' + escapeHtml(post.readTime) + '</span></div>' +
-          '<div class="card-footer-row">' + readControl +
-            '<button type="button" class="card-edit-btn" data-edit="' + post.id + '">Edit</button>' +
-          '</div>' +
-        '</div>';
-      grid.appendChild(card);
-    });
-
-    // wire up read more buttons
-    grid.querySelectorAll('[data-read]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        openReadMore(btn.getAttribute('data-read'));
-      });
-    });
-    // wire up edit buttons
-    grid.querySelectorAll('[data-edit]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var id = btn.getAttribute('data-edit');
-        requireAdmin(function(){ openEditPost(id); });
-      });
+    wrap.querySelectorAll('[data-edit]').forEach((btn) => {
+      btn.addEventListener('click', () => requestPassword(() => openEditor(btn.getAttribute('data-edit'))));
     });
   }
 
-  function openReadMore(id){
-    var posts = getPosts();
-    var post = posts.filter(function(p){ return p.id === id; })[0];
-    if(!post) return;
-    document.getElementById('readModalMedia').style.backgroundImage = "url('" + post.image + "')";
-    document.getElementById('readModalCat').textContent = post.category;
-    document.getElementById('readModalTitle').textContent = post.title;
-    document.getElementById('readModalBody').textContent = post.content || post.excerpt;
-    openModal('readModal');
+  function openReadModal(id) {
+    const posts = loadPosts();
+    const p = posts.find((x) => x.id === id);
+    if (!p) return;
+    el('hw-read-category').textContent = p.category || 'Studio Update';
+    el('hw-read-title').textContent = p.title;
+    el('hw-read-meta').textContent = formatDate(p.date);
+    el('hw-read-content').textContent = p.content;
+    const media = el('hw-read-media');
+    if (p.image) { media.src = p.image; media.style.display = 'block'; }
+    else { media.style.display = 'none'; }
+    openModal(readModal);
   }
+  el('hw-read-close').addEventListener('click', () => closeModal(readModal));
+  readModal.addEventListener('click', (e) => { if (e.target === readModal) closeModal(readModal); });
 
-  function openModal(id){ document.getElementById(id).classList.add('open'); }
-  function closeModal(id){ document.getElementById(id).classList.remove('open'); }
-
-  document.querySelectorAll('[data-close]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      closeModal(btn.getAttribute('data-close'));
-    });
-  });
-  document.querySelectorAll('.modal-overlay').forEach(function(ov){
-    ov.addEventListener('click', function(e){
-      if(e.target === ov) ov.classList.remove('open');
-    });
-  });
-
-  function requireAdmin(action){
-    if(isAdmin){
-      action();
-      return;
-    }
+  /* ---- Password gate ---- */
+  let pendingAction = null;
+  function requestPassword(action) {
     pendingAction = action;
-    document.getElementById('pwInput').value = '';
-    document.getElementById('pwError').classList.remove('show');
-    openModal('passwordModal');
-    setTimeout(function(){ document.getElementById('pwInput').focus(); }, 50);
+    el('hw-password-input').value = '';
+    el('hw-password-status').className = 'hw-status';
+    openModal(passwordModal);
+    setTimeout(() => el('hw-password-input').focus(), 50);
   }
-
-  document.getElementById('pwSubmit').addEventListener('click', submitPassword);
-  document.getElementById('pwInput').addEventListener('keydown', function(e){
-    if(e.key === 'Enter') submitPassword();
+  el('hw-upload-trigger').addEventListener('click', () => {
+    requestPassword(() => openEditor(null));
   });
+  el('hw-password-close').addEventListener('click', () => closeModal(passwordModal));
+  passwordModal.addEventListener('click', (e) => { if (e.target === passwordModal) closeModal(passwordModal); });
 
-  function submitPassword(){
-    var val = document.getElementById('pwInput').value;
-    if(val === ADMIN_PASSWORD){
-      isAdmin = true;
-      closeModal('passwordModal');
-      if(pendingAction){ pendingAction(); pendingAction = null; }
+  function submitPassword() {
+    const val = el('hw-password-input').value;
+    const status = el('hw-password-status');
+    if (val === PASSWORD) {
+      closeModal(passwordModal);
+      const action = pendingAction;
+      pendingAction = null;
+      if (action) action();
     } else {
-      document.getElementById('pwError').classList.add('show');
+      status.textContent = 'Incorrect password. Try again.';
+      status.className = 'hw-status err';
     }
   }
+  el('hw-password-submit').addEventListener('click', submitPassword);
+  el('hw-password-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') submitPassword(); });
 
-  document.getElementById('adminTrigger').addEventListener('click', function(){
-    requireAdmin(function(){ openAddPost(); });
+  /* ---- Composer (create / edit) ---- */
+  let selectedImageDataUrl = null;
+
+  function openEditor(id) {
+    const form = el('hw-post-form');
+    form.reset();
+    el('hw-post-image-preview').style.display = 'none';
+    el('hw-post-status').className = 'hw-status';
+    selectedImageDataUrl = null;
+    el('hw-post-editing-id').value = '';
+
+    if (id) {
+      const posts = loadPosts();
+      const p = posts.find((x) => x.id === id);
+      if (p) {
+        el('hw-post-modal-title').textContent = 'Edit article';
+        el('hw-post-submit-btn').textContent = 'Save changes';
+        el('hw-post-editing-id').value = p.id;
+        el('hw-post-category').value = p.category || '';
+        el('hw-post-title').value = p.title;
+        el('hw-post-content').value = p.content;
+        if (p.image) {
+          selectedImageDataUrl = p.image;
+          const prev = el('hw-post-image-preview');
+          prev.src = p.image;
+          prev.style.display = 'block';
+        }
+      }
+    } else {
+      el('hw-post-modal-title').textContent = 'New article';
+      el('hw-post-submit-btn').textContent = 'Publish';
+    }
+    openModal(postModal);
+  }
+
+  el('hw-post-close').addEventListener('click', () => closeModal(postModal));
+  postModal.addEventListener('click', (e) => { if (e.target === postModal) closeModal(postModal); });
+
+  el('hw-post-image').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    const preview = el('hw-post-image-preview');
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      selectedImageDataUrl = ev.target.result;
+      preview.src = selectedImageDataUrl;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
   });
 
-  function openAddPost(){
-    document.getElementById('postModalTitle').textContent = 'Add new post';
-    document.getElementById('postId').value = '';
-    document.getElementById('postTitle').value = '';
-    document.getElementById('postExcerpt').value = '';
-    document.getElementById('postImage').value = '';
-    document.getElementById('postCategory').value = '';
-    document.getElementById('postReadTime').value = '';
-    document.getElementById('postContent').value = '';
-    document.getElementById('postError').classList.remove('show');
-    document.getElementById('postDelete').style.display = 'none';
-    openModal('postModal');
-  }
+  el('hw-post-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = el('hw-post-title').value.trim();
+    const content = el('hw-post-content').value.trim();
+    const category = el('hw-post-category').value.trim();
+    const editingId = el('hw-post-editing-id').value;
+    const status = el('hw-post-status');
 
-  function openEditPost(id){
-    var posts = getPosts();
-    var post = posts.filter(function(p){ return p.id === id; })[0];
-    if(!post) return;
-    document.getElementById('postModalTitle').textContent = 'Edit post';
-    document.getElementById('postId').value = post.id;
-    document.getElementById('postTitle').value = post.title;
-    document.getElementById('postExcerpt').value = post.excerpt;
-    document.getElementById('postImage').value = post.image;
-    document.getElementById('postCategory').value = post.category;
-    document.getElementById('postReadTime').value = post.readTime;
-    document.getElementById('postContent').value = post.content || '';
-    document.getElementById('postError').classList.remove('show');
-    document.getElementById('postDelete').style.display = 'inline-block';
-    openModal('postModal');
-  }
-
-  document.getElementById('postSubmit').addEventListener('click', function(){
-    var title = document.getElementById('postTitle').value.trim();
-    var excerpt = document.getElementById('postExcerpt').value.trim();
-    if(!title || !excerpt){
-      document.getElementById('postError').classList.add('show');
+    if (!title || !content) {
+      status.textContent = 'Please add a title and article content.';
+      status.className = 'hw-status err';
       return;
     }
-    var posts = getPosts();
-    var id = document.getElementById('postId').value;
-    var data = {
-      title: title,
-      excerpt: excerpt,
-      image: document.getElementById('postImage').value.trim() || 'https://www.harwosprints.ng/harwosprints.ng-logo.jpg',
-      category: document.getElementById('postCategory').value.trim() || 'General',
-      readTime: document.getElementById('postReadTime').value.trim() || '5 min read',
-      content: document.getElementById('postContent').value.trim()
-    };
-    if(id){
-      posts = posts.map(function(p){
-        if(p.id === id){
-          var merged = Object.assign({}, p, data);
-          return merged;
-        }
-        return p;
-      });
+
+    let posts = loadPosts();
+    if (editingId) {
+      posts = posts.map((p) => p.id === editingId
+        ? { ...p, title, content, category, image: selectedImageDataUrl }
+        : p);
+      status.textContent = 'Changes saved.';
     } else {
-      data.id = 'post-' + Date.now();
-      data.dateAdded = new Date().toISOString();
-      data.link = ''; // new posts use the in-page Read More modal
-      posts.push(data);
+      posts.unshift({
+        id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+        title, content, category,
+        image: selectedImageDataUrl,
+        date: new Date().toISOString(),
+      });
+      status.textContent = 'Article published.';
     }
     savePosts(posts);
     renderPosts();
-    closeModal('postModal');
-  });
+    status.className = 'hw-status ok';
 
-  document.getElementById('postDelete').addEventListener('click', function(){
-    var id = document.getElementById('postId').value;
-    if(!id) return;
-    if(!confirm('Delete this post? This cannot be undone.')) return;
-    var posts = getPosts().filter(function(p){ return p.id !== id; });
-    savePosts(posts);
-    renderPosts();
-    closeModal('postModal');
+    setTimeout(() => closeModal(postModal), 900);
   });
 
   renderPosts();

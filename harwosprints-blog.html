@@ -39,7 +39,7 @@
     "@type": "Organization",
     "name": "Harwosprints",
     "logo": {"@type": "ImageObject", "url": "https://www.harwosprints.ng/harwosprints.ng-logo.jpg"},
-    "address": {"@type": "PostalAddress", "streetAddress": "63, Tejuosho Road", "addressLocality": "Lagos", "addressCountry": "NG"}
+    "address": {"@type": "PostalAddress", "streetAddress": "50, Shipeolu Street, Shomolu", "addressLocality": "Lagos", "addressCountry": "NG"}
   }
 }
 </script>
@@ -116,18 +116,21 @@
   .meta-row{font-family:'IBM Plex Mono', monospace; font-size:12px; color:#9B978D; display:flex; gap:16px;}
   .read-link{margin-top:20px; display:inline-flex; align-items:center; gap:8px; color:var(--signal); font-weight:600; font-size:14px;}
 
-  .section-head{padding:36px 24px 20px;}
+  .section-head{padding:36px 24px 20px; display:flex; align-items:center; justify-content:space-between;}
   .section-head h3{font-size:20px;}
 
   .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; padding:0 24px 20px;}
-  .card{background:#fff; border:1px solid var(--line); display:flex; flex-direction:column;}
+  .card{background:#fff; border:1px solid var(--line); display:flex; flex-direction:column; position:relative;}
   .card-media{height:160px; background-size:cover; background-position:center; position:relative;}
   .card-cat{position:absolute; bottom:10px; left:10px; font-family:'IBM Plex Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:.08em; background:var(--paper); padding:4px 8px; border:1px solid var(--ink);}
   .card-body{padding:20px; display:flex; flex-direction:column; gap:10px; flex:1;}
   .card-body h4{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:17px; line-height:1.3;}
   .card-body p{font-size:14px; color:var(--grey); flex:1;}
   .card-meta{font-family:'IBM Plex Mono', monospace; font-size:11px; color:#8B887E; display:flex; gap:12px;}
-  .card-body a.more{font-size:13px; font-weight:600; color:var(--signal-deep);}
+  .card-footer-row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .card-body a.more, .card-body button.more{font-size:13px; font-weight:600; color:var(--signal-deep); background:none; border:none; cursor:pointer; font-family:inherit; padding:0;}
+  .card-edit-btn{font-family:'IBM Plex Mono', monospace; font-size:10px; color:#B4B0A6; background:none; border:1px solid var(--line); border-radius:2px; padding:3px 7px; cursor:pointer;}
+  .card-edit-btn:hover{color:var(--signal-deep); border-color:var(--signal-deep);}
   .card-upcoming{opacity:.55;}
   .card-upcoming .card-media{filter:grayscale(.45);}
   .card-upcoming .card-meta span:first-child{font-style:italic;}
@@ -140,7 +143,7 @@
 
   footer{padding:36px 24px 30px; text-align:center;}
   footer p{font-size:13px; color:var(--grey);}
-  footer .links{display:flex; gap:18px; justify-content:center; margin-top:12px; font-size:13px;}
+  footer .links{display:flex; gap:18px; justify-content:center; margin-top:12px; font-size:13px; align-items:center;}
 
   @media (max-width:860px){
     .featured-card{grid-template-columns:1fr;}
@@ -151,6 +154,57 @@
     .grid{grid-template-columns:1fr;}
     .featured-body{padding:26px;}
   }
+
+  /* ---------- Admin: hidden trigger ---------- */
+  .admin-trigger{
+    font-size:9px;
+    color:#DCDAD3;
+    opacity:.35;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border:none;
+    background:none;
+    font-family:'IBM Plex Mono', monospace;
+    padding:2px 4px;
+    transition:opacity .15s, color .15s;
+  }
+  .admin-trigger:hover{opacity:1; color:var(--signal-deep);}
+
+  /* ---------- Modal system ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(27,30,31,.72);
+    display:none; align-items:center; justify-content:center;
+    z-index:200; padding:24px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:#fff; max-width:560px; width:100%; max-height:86vh;
+    overflow-y:auto; border-radius:3px; padding:32px;
+    position:relative;
+  }
+  .modal-box.wide{max-width:720px;}
+  .modal-close{
+    position:absolute; top:14px; right:16px; background:none; border:none;
+    font-size:22px; line-height:1; cursor:pointer; color:var(--grey);
+  }
+  .modal-close:hover{color:var(--signal-deep);}
+  .modal-box h3{font-size:20px; margin-bottom:18px;}
+  .modal-box label{display:block; font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--grey); margin:16px 0 6px;}
+  .modal-box input[type=text], .modal-box input[type=password], .modal-box input[type=url], .modal-box textarea, .modal-box select{
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:2px;
+    font-family:'Inter', sans-serif; font-size:14px; background:var(--paper);
+  }
+  .modal-box textarea{min-height:140px; resize:vertical; font-family:'Inter', sans-serif;}
+  .modal-actions{display:flex; gap:10px; margin-top:24px;}
+  .modal-btn-primary{background:var(--ink); color:#fff; border:1px solid var(--ink); padding:11px 20px; font-weight:600; font-size:14px; border-radius:2px; cursor:pointer;}
+  .modal-btn-primary:hover{background:var(--signal); border-color:var(--signal); color:var(--ink);}
+  .modal-btn-secondary{background:none; color:var(--grey); border:1px solid var(--line); padding:11px 20px; font-weight:600; font-size:14px; border-radius:2px; cursor:pointer;}
+  .modal-btn-danger{background:none; color:#B4300F; border:1px solid #E2C4B8; padding:11px 20px; font-weight:600; font-size:13px; border-radius:2px; cursor:pointer; margin-left:auto;}
+  .modal-error{color:#B4300F; font-size:13px; margin-top:10px; display:none;}
+  .modal-error.show{display:block;}
+  .read-more-content{font-size:15px; color:#26292A; line-height:1.7; white-space:pre-wrap;}
+  .read-more-content img{margin:16px 0; border:1px solid var(--line);}
 </style>
 </head>
 <body>
@@ -194,33 +248,15 @@
     </a>
   </section>
 
-  <div class="section-head wrap"><h3>Latest articles</h3></div>
+  <div class="section-head wrap">
+    <h3>Latest articles</h3>
+  </div>
 
+  <!-- Dynamic, password-managed posts render here -->
+  <div class="grid wrap" id="dynamicGrid"></div>
+
+  <!-- Static "coming soon" placeholders — left untouched -->
   <div class="grid wrap">
-
-    <article class="card">
-      <div class="card-media" style="background-image:url('https://www.harwosprints.ng/largeformart.jpg')">
-        <span class="card-cat">Print Production</span>
-      </div>
-      <div class="card-body">
-        <h4>UV &amp; Direct Imaging: Getting Sharper Prints on Branded Merchandise</h4>
-        <p>Why UV printing holds detail on curved and non-paper surfaces better than standard methods, and when to specify it on your next order.</p>
-        <div class="card-meta"><span>7 min read</span><span>UV Printing</span></div>
-        <a class="more" href="blog-uv-direct-imaging-branded-merchandise.html">Read article &rarr;</a>
-      </div>
-    </article>
-
-    <article class="card">
-      <div class="card-media" style="background-image:url('https://www.harwosprints.ng/customized%20phone%20pouch.jpeg')">
-        <span class="card-cat">Souvenirs</span>
-      </div>
-      <div class="card-body">
-        <h4>Branded Souvenirs Nigerian Companies Keep Reordering</h4>
-        <p>From enamel pins to branded water bottles — the promo items with the best cost-per-impression for launches, offices and gala events.</p>
-        <div class="card-meta"><span>6 min read</span><span>Souvenirs</span></div>
-        <a class="more" href="blog-branded-souvenirs-nigeria.html">Read article &rarr;</a>
-      </div>
-    </article>
 
     <article class="card card-upcoming">
       <div class="card-media" style="background-image:url('https://www.harwosprints.ng/Roll%20up%20banners%20.jpeg')">
@@ -277,14 +313,311 @@
 </main>
 
 <footer>
-  <p>&copy; Harwosprints 2026. 63, Tejuosho Road, Lagos.</p>
+  <p>Harwosprints.com &ndash; 50, Shipeolu Street, Shomolu, Lagos.</p>
   <div class="links">
     <a href="https://www.harwosprints.ng/index.html">Home</a>
     <a href="https://www.harwosprints.ng/store.html">Shop</a>
     <a href="https://www.harwosprints.ng/about.html">About us</a>
     <a href="https://www.instagram.com/harwos_print">Instagram</a>
+    <button type="button" class="admin-trigger" id="adminTrigger" title="Site admin">manage</button>
   </div>
 </footer>
+
+<!-- ===================== MODALS ===================== -->
+
+<!-- Password modal -->
+<div class="modal-overlay" id="passwordModal">
+  <div class="modal-box">
+    <button class="modal-close" data-close="passwordModal">&times;</button>
+    <h3>Admin access</h3>
+    <label for="pwInput">Enter password</label>
+    <input type="password" id="pwInput" autocomplete="off">
+    <p class="modal-error" id="pwError">Incorrect password. Try again.</p>
+    <div class="modal-actions">
+      <button class="modal-btn-primary" id="pwSubmit">Unlock</button>
+      <button class="modal-btn-secondary" data-close="passwordModal">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit post modal -->
+<div class="modal-overlay" id="postModal">
+  <div class="modal-box wide">
+    <button class="modal-close" data-close="postModal">&times;</button>
+    <h3 id="postModalTitle">Add new post</h3>
+    <input type="hidden" id="postId">
+    <label for="postTitle">Title</label>
+    <input type="text" id="postTitle" placeholder="e.g. Business Cards Still Close Deals">
+    <label for="postExcerpt">Short excerpt (shows on the card)</label>
+    <textarea id="postExcerpt" style="min-height:70px;" placeholder="One or two sentences summarising the post"></textarea>
+    <label for="postImage">Image URL</label>
+    <input type="url" id="postImage" placeholder="https://www.harwosprints.ng/your-image.jpg">
+    <p style="font-size:12px;color:var(--grey);margin-top:6px;">This site can't store uploaded image files directly &mdash; host the image (e.g. in your existing image folder) and paste its link here.</p>
+    <label for="postCategory">Category tag</label>
+    <input type="text" id="postCategory" placeholder="e.g. Identity">
+    <label for="postReadTime">Read time label</label>
+    <input type="text" id="postReadTime" placeholder="e.g. 5 min read">
+    <label for="postContent">Full post content (shown when a visitor clicks Read More)</label>
+    <textarea id="postContent" placeholder="Write the full article text here..."></textarea>
+    <p class="modal-error" id="postError">Please fill in the title and excerpt at least.</p>
+    <div class="modal-actions">
+      <button class="modal-btn-primary" id="postSubmit">Save post</button>
+      <button class="modal-btn-secondary" data-close="postModal">Cancel</button>
+      <button class="modal-btn-danger" id="postDelete" style="display:none;">Delete post</button>
+    </div>
+  </div>
+</div>
+
+<!-- Read more modal -->
+<div class="modal-overlay" id="readModal">
+  <div class="modal-box wide">
+    <button class="modal-close" data-close="readModal">&times;</button>
+    <div id="readModalMedia" style="margin:-32px -32px 20px; height:220px; background-size:cover; background-position:center;"></div>
+    <span class="eyebrow" id="readModalCat"></span>
+    <h3 id="readModalTitle" style="margin-top:10px;"></h3>
+    <div class="read-more-content" id="readModalBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'harwos_blog_posts_v1';
+  var ADMIN_PASSWORD = 'Harwosprints';
+  var isAdmin = false;
+  var pendingAction = null; // function to run once unlocked
+
+  var seedPosts = [
+    {
+      id: 'uv-direct-imaging',
+      title: 'UV & Direct Imaging: Getting Sharper Prints on Branded Merchandise',
+      excerpt: 'Why UV printing holds detail on curved and non-paper surfaces better than standard methods, and when to specify it on your next order.',
+      image: 'https://www.harwosprints.ng/largeformart.jpg',
+      category: 'Print Production',
+      readTime: '7 min read',
+      link: 'blog-uv-direct-imaging-branded-merchandise.html',
+      content: '',
+      dateAdded: '2026-07-01T00:00:00'
+    },
+    {
+      id: 'branded-souvenirs',
+      title: 'Branded Souvenirs Nigerian Companies Keep Reordering',
+      excerpt: 'From enamel pins to branded water bottles — the promo items with the best cost-per-impression for launches, offices and gala events.',
+      image: 'https://www.harwosprints.ng/customized%20phone%20pouch.jpeg',
+      category: 'Souvenirs',
+      readTime: '6 min read',
+      link: 'blog-branded-souvenirs-nigeria.html',
+      content: '',
+      dateAdded: '2026-07-26T00:00:00'
+    }
+  ];
+
+  function getPosts(){
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(seedPosts));
+      return seedPosts.slice();
+    }
+    try{
+      return JSON.parse(raw);
+    }catch(e){
+      return seedPosts.slice();
+    }
+  }
+
+  function savePosts(posts){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+  }
+
+  function escapeHtml(str){
+    var d = document.createElement('div');
+    d.innerText = str || '';
+    return d.innerHTML;
+  }
+
+  function renderPosts(){
+    var posts = getPosts().slice().sort(function(a,b){
+      return new Date(b.dateAdded) - new Date(a.dateAdded);
+    });
+    var grid = document.getElementById('dynamicGrid');
+    grid.innerHTML = '';
+    posts.forEach(function(post){
+      var card = document.createElement('article');
+      card.className = 'card';
+
+      var readControl;
+      if(post.link){
+        readControl = '<a class="more" href="' + escapeHtml(post.link) + '">Read More &rarr;</a>';
+      } else {
+        readControl = '<button type="button" class="more" data-read="' + post.id + '">Read More &rarr;</button>';
+      }
+
+      card.innerHTML =
+        '<div class="card-media" style="background-image:url(\'' + escapeHtml(post.image) + '\')">' +
+          '<span class="card-cat">' + escapeHtml(post.category) + '</span>' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<h4>' + escapeHtml(post.title) + '</h4>' +
+          '<p>' + escapeHtml(post.excerpt) + '</p>' +
+          '<div class="card-meta"><span>' + escapeHtml(post.readTime) + '</span></div>' +
+          '<div class="card-footer-row">' + readControl +
+            '<button type="button" class="card-edit-btn" data-edit="' + post.id + '">Edit</button>' +
+          '</div>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+
+    // wire up read more buttons
+    grid.querySelectorAll('[data-read]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        openReadMore(btn.getAttribute('data-read'));
+      });
+    });
+    // wire up edit buttons
+    grid.querySelectorAll('[data-edit]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-edit');
+        requireAdmin(function(){ openEditPost(id); });
+      });
+    });
+  }
+
+  function openReadMore(id){
+    var posts = getPosts();
+    var post = posts.filter(function(p){ return p.id === id; })[0];
+    if(!post) return;
+    document.getElementById('readModalMedia').style.backgroundImage = "url('" + post.image + "')";
+    document.getElementById('readModalCat').textContent = post.category;
+    document.getElementById('readModalTitle').textContent = post.title;
+    document.getElementById('readModalBody').textContent = post.content || post.excerpt;
+    openModal('readModal');
+  }
+
+  function openModal(id){ document.getElementById(id).classList.add('open'); }
+  function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+  document.querySelectorAll('[data-close]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      closeModal(btn.getAttribute('data-close'));
+    });
+  });
+  document.querySelectorAll('.modal-overlay').forEach(function(ov){
+    ov.addEventListener('click', function(e){
+      if(e.target === ov) ov.classList.remove('open');
+    });
+  });
+
+  function requireAdmin(action){
+    if(isAdmin){
+      action();
+      return;
+    }
+    pendingAction = action;
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwError').classList.remove('show');
+    openModal('passwordModal');
+    setTimeout(function(){ document.getElementById('pwInput').focus(); }, 50);
+  }
+
+  document.getElementById('pwSubmit').addEventListener('click', submitPassword);
+  document.getElementById('pwInput').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') submitPassword();
+  });
+
+  function submitPassword(){
+    var val = document.getElementById('pwInput').value;
+    if(val === ADMIN_PASSWORD){
+      isAdmin = true;
+      closeModal('passwordModal');
+      if(pendingAction){ pendingAction(); pendingAction = null; }
+    } else {
+      document.getElementById('pwError').classList.add('show');
+    }
+  }
+
+  document.getElementById('adminTrigger').addEventListener('click', function(){
+    requireAdmin(function(){ openAddPost(); });
+  });
+
+  function openAddPost(){
+    document.getElementById('postModalTitle').textContent = 'Add new post';
+    document.getElementById('postId').value = '';
+    document.getElementById('postTitle').value = '';
+    document.getElementById('postExcerpt').value = '';
+    document.getElementById('postImage').value = '';
+    document.getElementById('postCategory').value = '';
+    document.getElementById('postReadTime').value = '';
+    document.getElementById('postContent').value = '';
+    document.getElementById('postError').classList.remove('show');
+    document.getElementById('postDelete').style.display = 'none';
+    openModal('postModal');
+  }
+
+  function openEditPost(id){
+    var posts = getPosts();
+    var post = posts.filter(function(p){ return p.id === id; })[0];
+    if(!post) return;
+    document.getElementById('postModalTitle').textContent = 'Edit post';
+    document.getElementById('postId').value = post.id;
+    document.getElementById('postTitle').value = post.title;
+    document.getElementById('postExcerpt').value = post.excerpt;
+    document.getElementById('postImage').value = post.image;
+    document.getElementById('postCategory').value = post.category;
+    document.getElementById('postReadTime').value = post.readTime;
+    document.getElementById('postContent').value = post.content || '';
+    document.getElementById('postError').classList.remove('show');
+    document.getElementById('postDelete').style.display = 'inline-block';
+    openModal('postModal');
+  }
+
+  document.getElementById('postSubmit').addEventListener('click', function(){
+    var title = document.getElementById('postTitle').value.trim();
+    var excerpt = document.getElementById('postExcerpt').value.trim();
+    if(!title || !excerpt){
+      document.getElementById('postError').classList.add('show');
+      return;
+    }
+    var posts = getPosts();
+    var id = document.getElementById('postId').value;
+    var data = {
+      title: title,
+      excerpt: excerpt,
+      image: document.getElementById('postImage').value.trim() || 'https://www.harwosprints.ng/harwosprints.ng-logo.jpg',
+      category: document.getElementById('postCategory').value.trim() || 'General',
+      readTime: document.getElementById('postReadTime').value.trim() || '5 min read',
+      content: document.getElementById('postContent').value.trim()
+    };
+    if(id){
+      posts = posts.map(function(p){
+        if(p.id === id){
+          var merged = Object.assign({}, p, data);
+          return merged;
+        }
+        return p;
+      });
+    } else {
+      data.id = 'post-' + Date.now();
+      data.dateAdded = new Date().toISOString();
+      data.link = ''; // new posts use the in-page Read More modal
+      posts.push(data);
+    }
+    savePosts(posts);
+    renderPosts();
+    closeModal('postModal');
+  });
+
+  document.getElementById('postDelete').addEventListener('click', function(){
+    var id = document.getElementById('postId').value;
+    if(!id) return;
+    if(!confirm('Delete this post? This cannot be undone.')) return;
+    var posts = getPosts().filter(function(p){ return p.id !== id; });
+    savePosts(posts);
+    renderPosts();
+    closeModal('postModal');
+  });
+
+  renderPosts();
+})();
+</script>
 
 </body>
 </html>
